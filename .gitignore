@@ -6,8 +6,10 @@ build/
 .flutter-plugins-dependencies
 pubspec.lock
 
-# fvm
-.fvm/flutter_sdk
+# fvm — .fvmrc at the repo root is the committed source of truth for the
+# pinned SDK version; everything under .fvm/ is a machine-local symlink/cache
+# (fvm use --force also creates .fvm/versions/<ver>, not just .fvm/flutter_sdk)
+.fvm/
 
 # IDE
 .idea/
