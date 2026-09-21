@@ -13,9 +13,21 @@ Day 2 of an internal Flutter bootcamp for new joiners, fresh out of college. The
 and Go. They are beginners in Flutter only.
 
 Day 1 covered: Dart basics, what/why Flutter, building UI, `StatefulWidget` vs
-`StatelessWidget`, navigation. **Assumed Day 1 homework:** build a photo list/grid screen
-backed by a hardcoded `List<Photo>`. The whole of Day 2 is the act of deleting that
-hardcoded list.
+`StatelessWidget`, navigation.
+
+**Day 1 homework (confirmed):** a multi-screen Flutter app — navigation between screens,
+stateful and stateless widgets, a reusable widget rendered through `ListView`/`GridView`,
+fed by a **hardcoded list of models**.
+
+That shape drives everything below. They arrive on Day 2 holding a **list screen and a
+detail screen**, both backed by the same hardcoded list. So Day 2 maps onto their own code
+exactly:
+
+- list screen  -> `GET /photos`
+- detail screen -> `GET /photos/:id`
+- their reusable row/tile widget -> the thing the API contract has to feed (§9)
+
+The whole of Day 2 is the act of deleting that hardcoded list from both screens.
 
 Day 2 topic: **State Management & Architecture.**
 Coach: Harsh Sharma. Assistant coaches: Harsh, Abhas.
@@ -48,6 +60,8 @@ Two sessions, ~2 hours each, with a break between.
 | DI | `Provider` **is** the DI container | Zero new packages — they already learn Provider for state. Maps 1:1 to Hilt `@Module` / Koin `module {}` / Spring `@Bean`. Avoids a second mental model (get_it's global registry). |
 | Auth | Teach generic OAuth2, then show Unsplash's reality | Unsplash's public API takes a static `Client-ID` header — no refresh, no expiry. Teaching refresh-with-Unsplash would be teaching a fiction. Animate the real-world flow they will meet at work, then contrast it with what today actually needs. The contrast *is* the lesson. |
 | Hands-on screen | Rebuild the real GoPay "Select payment method" screen | It is their own product; recognition value is high, and payment rows vary richly (title styles, description states, CTA types, action maps) in a way photo rows do not. |
+| Deck identity | "GoPay · Flutter Bootcamp" on the title slide and footer | User decision. |
+| Section orientation | flutter_deck's built-in per-slide header + a roadmap chip, **no divider slides** | Decided (open question 3). Rationale in §8.1 — orientation without spending slides. |
 | Theme | Near-black slate + GoPay blue + Gojek green | Accents carry **semantic** roles, not decoration: blue = Flutter/new, green = what you already know. Two-tone correlation panels are therefore readable at a glance, and every other slide stays monochrome and quiet. |
 
 ## 5. Prerequisites
@@ -175,11 +189,26 @@ coding script hidden in speaker notes. Actual reading matter is ~24 slides.
 
 Animation IDs (`A1`–`A37`) refer to §9.
 
+### 8.1 Section orientation — no divider slides
+
+A 58-slide deck needs the audience to know where they are, especially after a 20-minute
+live-coding block. Spending three slides on dividers would fight the "minimal" goal, so
+instead:
+
+- **Every slide sets `FlutterDeckHeaderConfiguration(title: '<section name>')`.** Built
+  into flutter_deck, costs nothing, and the section name is on screen permanently.
+- **Section-opening slides carry a small roadmap chip** (a minimised A2 with the current
+  node lit) in the top-right.
+- The footer already shows slide numbers and the gradient progress indicator runs along
+  the bottom.
+
+Net effect: continuous orientation, zero extra slides. Slide count stays at 58.
+
 | # | Route | Content | Anim | Steps |
 |---|---|---|---|---|
 | **§0 Open** |
 | 1 | `/title` | Day 2 — Making It Real. Coach + assistant coaches | — | — |
-| 2 | `/beautiful-lie` | Yesterday you built a beautiful lie | A1 | 3 |
+| 2 | `/beautiful-lie` | Yesterday you built a beautiful lie (list + detail) | A1 | 3 |
 | 3 | `/roadmap` | Today's arc | A2 | 5 |
 | 4 | `/homework` | (LIVE) Day 1 homework review | — | — |
 | **§1 Folder structure** |
@@ -204,8 +233,8 @@ Animation IDs (`A1`–`A37`) refer to §9.
 | 20 | `/json-to-dart` | JSON morphs into a Dart object | A14 | 5 |
 | 21 | `/from-json-code` | fromJson anatomy + factory callout | — | 3 |
 | 22 | `/serialization-correlation` | Gson/Codable/Jackson/encoding-json -> fromJson | A15 | 1 |
-| 23 | `/live-map-model` | (LIVE) map the response to the Day-1 model | — | — |
-| 24 | `/delete-hardcoded` | **Delete the hardcoded list** | A16 | 3 |
+| 23 | `/live-map-model` | (LIVE) map the response onto their Day-1 model | — | — |
+| 24 | `/delete-hardcoded` | **Delete the hardcoded list** (both screens) | A16 | 3 |
 | 25 | `/codegen` | build_runner payoff (skippable) | A17 | 2 |
 | **Break** |
 | 26 | `/break` | Break | — | — |
@@ -227,7 +256,7 @@ Animation IDs (`A1`–`A37`) refer to §9.
 | 40 | `/provider-fusion` | Provider = the two, married | A27 | 3 |
 | 41 | `/watch-read-consumer` | (LIVE) rebuild scope, interactive | A28 | — |
 | 42 | `/state-decision` | When to use which | A29 | 4 |
-| 43 | `/live-convert-provider` | (LIVE) convert the photo screen | — | — |
+| 43 | `/live-convert-provider` | (LIVE) convert list + detail to Provider | — | — |
 | **§7 DI** |
 | 44 | `/di-problem` | main.dart spaghetti | A30 | 3 |
 | 45 | `/di-multiprovider` | MultiProvider collapse | A31 | 2 |
@@ -258,8 +287,10 @@ All 37. `(LIVE)` = real, tappable widgets rather than a step animation.
 Stars mark load-bearing animations — the ones where the animation *is* the explanation.
 
 ### §0 Open
-- **A1 — The beautiful lie** (3). Polished photo grid tilts up to reveal the hardcoded
-  `List<Photo>` underneath; a strikethrough animates across it.
+- **A1 — The beautiful lie** (3). Their Day-1 app: a polished list screen and the detail
+  screen it navigates to, side by side. Both tilt up to reveal **the same hardcoded
+  `List<Photo>` feeding both**, and a strikethrough animates across it. The shared source
+  is the point — it is why one change fixes both screens later (A16).
 - **A2 — Roadmap spine** (5). Five nodes light in sequence; reused dimmed on section
   dividers as "you are here".
 
@@ -309,8 +340,9 @@ Stars mark load-bearing animations — the ones where the animation *is* the exp
   Answers the "why isn't this automatic?" question before it is asked.
 - **A16 (**) — Deleting the hardcoded list** (3). The 12-line hardcoded list
   **character-morphs** into `await repo.getPhotos()` using `FlutterDeckCodeHighlight`'s
-  real code-diff animation (`animateCodeUpdate`), and the phone beside it swaps grey
-  placeholders for live Unsplash images. The peak of session 1.
+  real code-diff animation (`animateCodeUpdate`), and **both phones** beside it — list and
+  detail — swap grey placeholders for live Unsplash images from the one change. The peak of
+  session 1.
 - **A17 — Codegen payoff** (2). 40 hand-written lines collapse into `part 'photo.g.dart';`;
   a terminal panel types `dart run build_runner build`; the generated file expands back out.
 
@@ -469,9 +501,20 @@ and its animation, e.g. `feat: add InheritedWidget tree-traversal slide (A24)`.
 | `google_fonts` fetches at runtime by default | Bundle the TTFs as assets and declare them in `pubspec.yaml`. |
 | 58 slides may still be more than "minimal" | Cut list identified in §8; user will review and cut after seeing it built. |
 
-## 15. Open questions
+## 15. Resolved questions
 
-1. **Day 1 homework brief** — the spine assumes "photo list from a hardcoded
-   `List<Photo>`". If it was something else, slides 2, 23, 24 and 43 need re-hanging.
-2. **Company name** for the title slide and footer social handle.
-3. Whether to add three section-divider slides reusing A2 (would take 58 -> 61).
+All three open questions are closed as of 2026-09-22:
+
+1. **Day 1 homework** — confirmed as a multi-screen app (list + detail, reusable widget in
+   a ListView/GridView, hardcoded models). Spine re-hung in §1; slides 2, 23, 24, 43 and
+   animations A1 and A16 updated to work across both screens.
+2. **Deck identity** — "GoPay · Flutter Bootcamp", on the title slide and footer.
+3. **Section dividers** — decided: none. Built-in per-slide headers plus a roadmap chip on
+   section-opening slides give the same orientation for zero extra slides (§8.1).
+
+## 16. Open questions
+
+None blocking. Two judgement calls deferred until the deck can be seen running:
+
+- Final cut down from 58 (candidate list in §8).
+- Whether A11 stays at 9 steps or compresses to 6.
