@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_deck/flutter_deck.dart';
+import 'package:gopay_flutter_deck/theme/deck_theme.dart';
 
 void main() => runApp(const GoPayDeckApp());
 
@@ -9,6 +10,9 @@ class GoPayDeckApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FlutterDeckApp(
+      lightTheme: deckLightTheme,
+      darkTheme: deckDarkTheme,
+      themeMode: ThemeMode.dark,
       configuration: FlutterDeckConfiguration(
         transition: FlutterDeckTransition.fade(),
         slideSize: FlutterDeckSlideSize.fromAspectRatio(
