@@ -24,7 +24,7 @@ class AnimatedArrow extends StatelessWidget {
     required this.from,
     required this.to,
     required this.atStep,
-    this.color = Palette.amber,
+    this.color = Palette.textSecondary,
     this.curved = false,
     super.key,
   });
@@ -160,7 +160,7 @@ class DashedBox extends StatelessWidget {
   const DashedBox({
     required this.atStep,
     required this.child,
-    this.color = Palette.amber,
+    this.color = Palette.textSecondary,
     super.key,
   });
 
@@ -232,7 +232,7 @@ class Callout extends StatelessWidget {
   const Callout({
     required this.atStep,
     required this.text,
-    this.color = Palette.amber,
+    this.color = Palette.textSecondary,
     super.key,
   });
 
