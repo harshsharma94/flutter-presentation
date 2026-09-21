@@ -66,8 +66,25 @@ Two sessions, ~2 hours each, with a break between.
 
 ## 5. Prerequisites
 
-`flutter_deck` 0.29.0 requires **Flutter >= 3.32.0 / Dart >= 3.8.0**.
-The local `fvm` cache tops out at 3.27.2, so:
+`flutter_deck` 0.29.0 requires **Flutter >= 3.32.0 / Dart >= 3.8.0**. The local `fvm`
+cache tops out at 3.27.2 (Dart 3.6.1), so a newer Flutter must be installed.
+
+**Why not just pin an older flutter_deck?** 0.19.0 (May 2025) is the last release that runs
+on 3.27.2 — 0.20.0 onward requires 3.32.0. The cost of staying on 0.19.0 is specific:
+**0.28.0 is the release that reworked `FlutterDeckCodeHighlight`**, adding
+`highlightedLines` and *exact code-piece cross-fading on dynamic code updates* via
+`diff_match_patch`. That cross-fade **is** A16's character-morph (the peak of session 1)
+and A33's; `highlightedLines` drives A12 and the code steps on slides 14 and 21. On 0.19.0
+those degrade to plain swaps, or I hand-roll a diff animation the library now ships.
+Upgrading Flutter is the cheaper side of that trade.
+
+**Why 3.47.5 specifically?** No strong reason — any >= 3.32.0 works and the download is the
+same size, so latest stable is simply the default. Two mitigations worth recording:
+`fvm use` writes `.fvmrc` in this directory only, so other projects and the system `dart`
+are untouched; and if 3.47.5 (2026-09-18) disagrees with flutter_deck 0.29.0 (2026-07-01),
+dropping to a stable nearer the package's release date is a one-command fix.
+
+Install:
 
 ```
 fvm install 3.47.5      # latest stable, released 2026-09-18, ~1GB, one-time
@@ -183,7 +200,7 @@ small "offline fixture" chip. The deck must never die on stage because of confer
 
 ## 8. Slide outline
 
-58 slides. ~20 are single-visual animation frames with under 10 words on them; 7 are
+51 slides. ~20 are single-visual animation frames with under 10 words on them; 7 are
 `(LIVE)` handoff slides that are nearly empty by design — a title, the goal, and the
 coding script hidden in speaker notes. Actual reading matter is ~24 slides.
 
@@ -202,7 +219,7 @@ instead:
 - The footer already shows slide numbers and the gradient progress indicator runs along
   the bottom.
 
-Net effect: continuous orientation, zero extra slides. Slide count stays at 58.
+Net effect: continuous orientation, zero extra slides.
 
 | # | Route | Content | Anim | Steps |
 |---|---|---|---|---|
@@ -212,74 +229,76 @@ Net effect: continuous orientation, zero extra slides. Slide count stays at 58.
 | 3 | `/roadmap` | Today's arc | A2 | 5 |
 | 4 | `/homework` | (LIVE) Day 1 homework review | — | — |
 | **§1 Folder structure** |
-| 5 | `/structure` | lib/ layout + Android equivalent | A3 | 6 |
-| 6 | `/structure-rules` | 3 rules for where code goes | — | 3 |
+| 5 | `/structure` | lib/ layout, Android equivalent, 3 rules for where code goes | A3 | 9 |
 | **§2 API integration** |
-| 7 | `/api-gap` | UI <- ? -> Internet | A4 | 3 |
-| 8 | `/http-clients` | Correlation: Retrofit/URLSession/RestTemplate/net-http -> Dio | A5 | 4 |
-| 9 | `/live-first-request` | (LIVE) first GET, print the JSON | — | — |
-| 10 | `/async-await` | The frozen frame | A6 | 4 |
-| 11 | `/future-states` | Future<T>: pending / data / error | A7 | 3 |
-| 12 | `/loading-state` | (LIVE) three-state switch, interactive | A8 | — |
-| 13 | `/error-swallowed` | What an empty catch block costs the user | A9 | 3 |
-| 14 | `/three-states-code` | The switch, in code | — | 3 |
-| 15 | `/when-it-breaks` | INTERNET permission, macOS entitlement, CORS | — | 3 |
+| 6 | `/api-gap` | UI <- ? -> Internet | A4 | 3 |
+| 7 | `/http-clients` | Correlation: Retrofit/URLSession/RestTemplate/net-http -> Dio | A5 | 4 |
+| 8 | `/live-first-request` | (LIVE) first GET, print the JSON | — | — |
+| 9 | `/async-await` | The frozen frame | A6 | 4 |
+| 10 | `/future-states` | Future<T>: pending / data / error | A7 | 3 |
+| 11 | `/loading-state` | (LIVE) three-state switch, interactive | A8 | — |
+| 12 | `/error-swallowed` | What an empty catch block costs the user | A9 | 3 |
+| 13 | `/three-states-code` | The switch, in code | — | 3 |
+| 14 | `/when-it-breaks` | INTERNET permission, macOS entitlement, CORS | — | 3 |
 | **§3 Auth** |
-| 16 | `/auth-401` | Why auth exists | A10 | 3 |
-| 17 | `/oauth-flow` | OAuth2 sequence diagram | A11 | 9 |
-| 18 | `/auth-interceptor` | Dio interceptor, annotated | A12 | 4 |
-| 19 | `/unsplash-reality` | What Unsplash actually needs + key hygiene | A13 | 2 |
+| 15 | `/auth-401` | Why auth exists | A10 | 3 |
+| 16 | `/oauth-flow` | OAuth2 sequence diagram | A11 | 9 |
+| 17 | `/auth-interceptor` | Dio interceptor, annotated | A12 | 4 |
+| 18 | `/unsplash-reality` | What Unsplash actually needs + key hygiene | A13 | 2 |
 | **§4 Data -> UI** |
-| 20 | `/json-to-dart` | JSON morphs into a Dart object | A14 | 5 |
-| 21 | `/from-json-code` | fromJson anatomy + factory callout | — | 3 |
-| 22 | `/serialization-correlation` | Gson/Codable/Jackson/encoding-json -> fromJson | A15 | 1 |
-| 23 | `/live-map-model` | (LIVE) map the response onto their Day-1 model | — | — |
-| 24 | `/delete-hardcoded` | **Delete the hardcoded list** (both screens) | A16 | 3 |
-| 25 | `/codegen` | build_runner payoff (skippable) | A17 | 2 |
+| 19 | `/json-to-dart` | JSON morphs into a Dart object; +serialization correlation | A14 | 6 |
+| 20 | `/from-json-code` | fromJson anatomy; factory constructors taught here | — | 5 |
+| 21 | `/live-map-model` | (LIVE) map the response onto their Day-1 model | — | — |
+| 22 | `/delete-hardcoded` | **Delete the hardcoded list** (both screens) | A16 | 3 |
+| 23 | `/codegen` | build_runner payoff (skippable) | A17 | 2 |
 | **Break** |
-| 26 | `/break` | Break | — | — |
+| 24 | `/break` | Break | — | — |
 | **§5 Architecture** |
-| 27 | `/god-file` | The 600-line widget file | A18 | 4 |
-| 28 | `/three-layers` | Presentation / Domain / Data assemble | A19 | 5 |
-| 29 | `/layers-correlation` | MVVM+UseCase / VIPER / Controller-Service-Repository | — | 3 |
-| 30 | `/dependency-rule` | Point inward, or burn | A20 | 4 |
-| 31 | `/testability` | Swap the data layer, 2400ms -> 3ms | A21 | 3 |
-| 32 | `/repository` | One door, two sources | A22 | 3 |
-| 33 | `/live-extract-repo` | (LIVE) extract the repository | — | — |
+| 25 | `/god-file` | The 600-line widget file | A18 | 4 |
+| 26 | `/three-layers` | Presentation/Domain/Data assemble; +MVVM/VIPER/Spring correlation | A19 | 8 |
+| 27 | `/dependency-rule` | Point inward, or burn | A20 | 4 |
+| 28 | `/testability` | Swap the data layer, 2400ms -> 3ms | A21 | 3 |
+| 29 | `/repository` | One door, two sources | A22 | 3 |
+| 30 | `/live-extract-repo` | (LIVE) extract the repository | — | — |
 | **§6 State management** — one continuous tree |
-| 34 | `/state-problem` | Prop drilling + callback hell | A23 | 5 |
-| 35 | `/inherited-widget` | Reaching up the tree | A24 | 5 |
-| 36 | `/inherited-correlation` | CompositionLocal / @Environment / React Context | — | 3 |
-| 37 | `/inherited-limits` | It's immutable — so what changes it? | A25 | 2 |
-| 38 | `/change-notifier` | The pulse, annotated with method calls | A26 | 6 |
-| 39 | `/notifier-correlation` | LiveData/StateFlow / @Published | — | 3 |
-| 40 | `/provider-fusion` | Provider = the two, married | A27 | 3 |
-| 41 | `/watch-read-consumer` | (LIVE) rebuild scope, interactive | A28 | — |
-| 42 | `/state-decision` | When to use which | A29 | 4 |
-| 43 | `/live-convert-provider` | (LIVE) convert list + detail to Provider | — | — |
+| 31 | `/state-problem` | Prop drilling + callback hell | A23 | 5 |
+| 32 | `/inherited-widget` | Reaching up the tree; +CompositionLocal/@Environment correlation | A24 | 8 |
+| 33 | `/inherited-limits` | It's immutable — so what changes it? | A25 | 2 |
+| 34 | `/change-notifier` | The pulse, annotated; +LiveData/StateFlow/@Published correlation | A26 | 9 |
+| 35 | `/provider-fusion` | Provider = the two, married | A27 | 3 |
+| 36 | `/watch-read-consumer` | (LIVE) rebuild scope, interactive | A28 | — |
+| 37 | `/state-decision` | When to use which | A29 | 4 |
+| 38 | `/live-convert-provider` | (LIVE) convert list + detail to Provider | — | — |
 | **§7 DI** |
-| 44 | `/di-problem` | main.dart spaghetti | A30 | 3 |
-| 45 | `/di-multiprovider` | MultiProvider collapse | A31 | 2 |
-| 46 | `/di-correlation` | Hilt / Koin / Spring @Bean / wire | — | 3 |
-| 47 | `/di-testing` | One line, and the tree is under test | A32 | 2 |
+| 39 | `/di-problem` | main.dart spaghetti | A30 | 3 |
+| 40 | `/di-multiprovider` | MultiProvider collapse; +Hilt/Koin/@Bean/wire correlation | A31 | 5 |
+| 41 | `/di-testing` | One line, and the tree is under test | A32 | 2 |
 | **§8 Dart bits** |
-| 48 | `/named-params` | Which string was which? | A33 | 3 |
-| 49 | `/cascade-spread` | `..` and `...` | A34 | 2 |
-| 50 | `/factory-ctor` | You've already been using one | — | 2 |
+| 42 | `/named-params` | Which string was which? | A33 | 3 |
+| 43 | `/cascade-spread` | `..` and `...` | A34 | 2 |
 | **§9 Hands-on** |
-| 51 | `/design-to-tree` | GoPay screen -> widget tree, grows on tap | A35 | 7 |
-| 52 | `/bff-row-plain` | Contract reveal: plain row | A36a | 4 |
-| 53 | `/bff-row-warning` | Contract reveal: warning + info CTA | A36b | 4 |
-| 54 | `/bff-row-error` | Contract reveal: error + disabled + deep link | A36c | 4 |
-| 55 | `/bff-vs-nonbff` | Where the business logic lands | A37 | 4 |
-| 56 | `/assignment` | Tonight's homework | — | 3 |
+| 44 | `/design-to-tree` | GoPay screen -> widget tree, grows on tap | A35 | 7 |
+| 45 | `/bff-row-plain` | Contract reveal: plain row | A36a | 4 |
+| 46 | `/bff-row-warning` | Contract reveal: warning + info CTA | A36b | 4 |
+| 47 | `/bff-row-error` | Contract reveal: error + disabled + deep link | A36c | 4 |
+| 48 | `/bff-vs-nonbff` | Where the business logic lands | A37 | 4 |
+| 49 | `/assignment` | Tonight's homework | — | 3 |
 | **§10 Close** |
-| 57 | `/references` | Official + best community resource per concept | — | 6 |
-| 58 | `/thanks` | Thank you / Q&A | — | — |
+| 50 | `/references` | Official + best community resource per concept | — | 6 |
+| 51 | `/thanks` | Thank you / Q&A | — | — |
 
-**First cut candidates if the deck runs long:** 25 (codegen), 55 (non-BFF contrast),
-50 (factory constructors — can be a callout on 21 instead), 36/39 (correlation chips can
-merge into their parent slides).
+**Governing principle (applied 2026-09-22, 58 -> 51 slides):**
+
+> Correlation is the **final step of the concept slide**, never a slide of its own.
+
+The Android/iOS/BE analogy lands harder while the diagram it explains is still on screen,
+and a separate slide forces the audience to rebuild the context they just lost. Seven
+standalone correlation/rules slides were folded into their parents as extra steps
+(5, 20, 28, 35, 38, 45), and factory constructors became a callout on slide 21 where the
+bootcampers actually meet one (`Photo.fromJson`). Same content, better placement.
+
+**First cut candidates if the deck still runs long:** 23 (codegen payoff),
+48 (non-BFF contrast), 13 (three-states code — slide 11 already shows it running live).
 
 ## 9. Animation catalogue
 
@@ -295,8 +314,9 @@ Stars mark load-bearing animations — the ones where the animation *is* the exp
   dividers as "you are here".
 
 ### §1 Folder structure
-- **A3 — Tree assembly** (6). Folders dock one by one with role labels; the Android
-  equivalent column fades in beside them, joined by faint lines.
+- **A3 — Tree assembly** (9). Folders dock one by one with role labels; the Android
+  equivalent column fades in beside them, joined by faint lines. Folded-in final steps: the
+  three rules for deciding where a new file goes.
 
 ### §2 API integration
 - **A4 — The gap** (3). Phone, cloud, nothing between. A dashed line fails. Then
@@ -335,9 +355,10 @@ Stars mark load-bearing animations — the ones where the animation *is* the exp
 - **A14 (*) — JSON morphs into Dart** (5). Each JSON key-value lifts out of the raw block,
   travels a curved path, and lands as a named argument in the `Photo(` constructor; the
   source line dims once consumed. The final step reverses briefly to show `toJson`.
-- **A15 — Correlation: serialization** (1). Gson/Moshi, Codable, Jackson, `encoding/json`
-  -> `fromJson`, plus: *"Dart has no runtime reflection — that's why this is manual."*
-  Answers the "why isn't this automatic?" question before it is asked.
+- **A15 — Correlation: serialization** (1). *Final step of slide 19, not a slide of its
+  own (§8).* Gson/Moshi, Codable, Jackson, `encoding/json` -> `fromJson`, plus: *"Dart has
+  no runtime reflection — that's why this is manual."* Answers the "why isn't this
+  automatic?" question before it is asked, while the morph diagram is still on screen.
 - **A16 (**) — Deleting the hardcoded list** (3). The 12-line hardcoded list
   **character-morphs** into `await repo.getPhotos()` using `FlutterDeckCodeHighlight`'s
   real code-diff animation (`animateCodeUpdate`), and **both phones** beside it — list and
@@ -351,7 +372,8 @@ Stars mark load-bearing animations — the ones where the animation *is* the exp
   (UI / network / parsing / rules) interleave and tangle; a bug icon lands.
 - **A19 (*) — Three layers assemble** (5). *The same bands from A18* separate and sort
   themselves into Presentation / Domain / Data slabs. Visual continuity from the previous
-  slide is the point — it is the same code, reorganised.
+  slide is the point — it is the same code, reorganised. Folded-in final steps: correlation
+  with MVVM+UseCase, VIPER, and Controller-Service-Repository.
 - **A20 — The dependency rule** (4). Arrows point inward, green. Then one flips outward
   (Domain -> Data) and turns red; the Domain slab catches fire; the test panel beside it
   goes red: "to test one rule you now need a network."
@@ -372,8 +394,8 @@ The tree widget persists and evolves; they watch the same tree get better.
   parameters** — they visibly fall away. A leaf fires
   `dependOnInheritedWidgetOfExactType<PhotoScope>()` and **a traversal pulse travels up the
   ancestor chain, node by node**, until it locks onto the scope. A second leaf subscribes;
-  a third does not. On change, only the subscribers flash. Correlation chips:
-  `CompositionLocal`, `@Environment`, React Context.
+  a third does not. On change, only the subscribers flash. Folded-in final steps:
+  correlation chips for `CompositionLocal`, `@Environment`, React Context.
 - **A25 — What InheritedWidget can't do** (2). The scope node highlights: it is immutable,
   so something else must rebuild it. An awkward `setState` wrapper appears around it. This
   slide exists so that ChangeNotifier looks necessary rather than arbitrary.
@@ -382,7 +404,8 @@ The tree widget persists and evolves; they watch the same tree get better.
   method name flashes on the model box. `notifyListeners()` **pulses a ring outward along
   every registered line**; connected leaves flash and tick up, unconnected stay dark. One
   leaf `dispose()`s, its line snaps, and the next pulse skips it. Every arrow is labelled
-  with its real method name. Correlation: `LiveData`/`StateFlow`, `@Published`.
+  with its real method name. Folded-in final steps: correlation chips for
+  `LiveData`/`StateFlow` and `ObservableObject`/`@Published`.
 - **A27 — Provider = the two, married** (3). The InheritedWidget and ChangeNotifier boxes
   slide together and **fuse** into `ChangeNotifierProvider`; surrounding boilerplate
   collapses and vanishes; a line counter reads `38 -> 6`.
@@ -401,8 +424,8 @@ The tree widget persists and evolves; they watch the same tree get better.
   the next and threaded four levels down; lines cross. Add one more dependency: six more
   lines and worse crossing.
 - **A31 — MultiProvider collapse** (2). The spaghetti collapses into a clean provider list
-  and the crossing lines straighten. Correlation: Hilt `@Module`, Koin `module {}`,
-  Spring `@Bean`, Go `wire`.
+  and the crossing lines straighten. Folded-in final steps: correlation with Hilt
+  `@Module`, Koin `module {}`, Spring `@Bean`, Go `wire`.
 - **A32 — Swap for tests** (2). One line swaps `PhotoRepository` for `FakePhotoRepository`;
   the whole subtree turns green "under test"; nothing else changes. Deliberate callback
   to A21 — the same idea, now at the wiring level.
@@ -499,7 +522,7 @@ and its animation, e.g. `feat: add InheritedWidget tree-traversal slide (A24)`.
 | Flutter 3.47.5 download is ~1GB | Start it first, before any other work. |
 | Live Unsplash request fails on stage | Fixture fallback with an "offline fixture" chip (§7.5). |
 | `google_fonts` fetches at runtime by default | Bundle the TTFs as assets and declare them in `pubspec.yaml`. |
-| 58 slides may still be more than "minimal" | Cut list identified in §8; user will review and cut after seeing it built. |
+| 51 slides may still be more than "minimal" | Cut list identified in §8; the slide list in `main.dart` is grouped by section so a cut is a one-line deletion. |
 
 ## 15. Resolved questions
 
@@ -514,7 +537,9 @@ All three open questions are closed as of 2026-09-22:
 
 ## 16. Open questions
 
-None blocking. Two judgement calls deferred until the deck can be seen running:
+**None.** Both deferred judgement calls are now closed:
 
-- Final cut down from 58 (candidate list in §8).
-- Whether A11 stays at 9 steps or compresses to 6.
+- **Slide count: 51.** Decided by the correlation-folding principle in §8, not by trimming
+  content. Further cuts stay available but are no longer planned.
+- **A11 stays at 9 steps.** The full OAuth hop-by-hop is kept; compress later if it drags
+  in rehearsal.
