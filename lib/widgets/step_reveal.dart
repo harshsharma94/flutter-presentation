@@ -8,6 +8,12 @@ import 'package:gopay_flutter_deck/widgets/step_scope.dart';
 /// This is the deck's only animation primitive. Because visibility is derived
 /// purely from the ambient step, every animation is presenter-paced and
 /// reversible — stepping backward re-hides things correctly with no state.
+///
+/// `until`'s interaction with dimming has two idioms:
+/// - `until` alone: the child dims to [Tokens.dimmed] once the deck moves
+///   past [atStep], then hides once the step passes [until].
+/// - `until` with `dimWhenPast: false`: the child stays at full opacity for
+///   its whole `[atStep, until]` window, then hides.
 class StepReveal extends StatelessWidget {
   const StepReveal({
     required this.atStep,

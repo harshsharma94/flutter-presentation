@@ -5,6 +5,9 @@ void main() {
   testWidgets('deck boots and shows the title slide', (tester) async {
     await tester.pumpWidget(const GoPayDeckApp());
     await tester.pumpAndSettle();
-    expect(find.text('GoPay · Flutter Bootcamp'), findsOneWidget);
+    // The section name doubles as the slide's persistent header (see
+    // `DeckSlide`), so the title slide legitimately renders this text twice:
+    // once in the header, once in the slide body.
+    expect(find.text('GoPay · Flutter Bootcamp'), findsWidgets);
   });
 }
