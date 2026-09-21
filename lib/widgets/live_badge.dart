@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:gopay_flutter_deck/theme/palette.dart';
 import 'package:gopay_flutter_deck/theme/tokens.dart';
 
+/// A static "LIVE" indicator: a solid red dot next to red, letter-spaced
+/// text. Deliberately not animated — a pulsing element on the near-empty
+/// [LiveSlideBody] would pull the audience's eye back to the screen exactly
+/// when it should be on the presenter's IDE.
 class LiveBadge extends StatelessWidget {
   const LiveBadge({super.key});
 
