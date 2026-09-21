@@ -20,3 +20,6 @@ pubspec.lock
 # Secrets — the Unsplash key is passed via --dart-define, never committed
 *.env
 .env.*
+
+# SDD scratch
+.superpowers/
