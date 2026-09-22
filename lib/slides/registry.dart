@@ -13,7 +13,9 @@ import 'package:gopay_flutter_deck/slides/s02_api/loading_state_slide.dart';
 import 'package:gopay_flutter_deck/slides/s02_api/three_states_code_slide.dart';
 import 'package:gopay_flutter_deck/slides/s02_api/when_it_breaks_slide.dart';
 import 'package:gopay_flutter_deck/slides/s03_auth/auth_401_slide.dart';
+import 'package:gopay_flutter_deck/slides/s03_auth/interceptor_slide.dart';
 import 'package:gopay_flutter_deck/slides/s03_auth/oauth_flow_slide.dart';
+import 'package:gopay_flutter_deck/slides/s03_auth/unsplash_reality_slide.dart';
 import 'package:gopay_flutter_deck/slides/slide_spec.dart';
 
 /// The ordered list of every slide in the deck. This is the single source of
@@ -195,5 +197,25 @@ final List<SlideSpec> slideRegistry = [
     speakerNotes: 'Step 7 is the whole point — nobody logged in again. The '
         'user saw nothing. Ask them where this lives in their Android app; '
         'answer is OkHttp Authenticator, which is slide 17.',
+  ),
+  SlideSpec(
+    route: '/auth-interceptor',
+    section: '§3 Auth',
+    steps: 4,
+    body: (step) => AuthInterceptorBody(step: step),
+    speakerNotes: 'This is slide 16\'s steps 7 through 9, automated. Every '
+        'platform has this exact shape — an interceptor sitting between '
+        'the app and the network, watching for a 401 it can fix by itself. '
+        'Walk the four highlighted lines, then land on the correlation: '
+        'they already have this pattern under a different name.',
+  ),
+  SlideSpec(
+    route: '/unsplash-reality',
+    section: '§3 Auth',
+    steps: 2,
+    body: (step) => UnsplashRealityBody(step: step),
+    speakerNotes: 'Say plainly: we taught you the full flow because that\'s '
+        'what production looks like. Today\'s API needs one header. '
+        'Knowing the difference is the skill.',
   ),
 ];
