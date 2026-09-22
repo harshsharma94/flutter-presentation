@@ -22,10 +22,14 @@
 /// position map does not take flags as input at all), and the result still
 /// reads as a tree rather than a stack of boxes.
 ///
-/// All motion here is implicit — [AnimatedContainer] reacting to changed
-/// `flashing`/`subscribed`/`traversalTo` inputs — so there is no
-/// `AnimationController` and no timer, and stepping the presentation
-/// backward simply re-targets each animation, which reverses it correctly.
+/// All motion here is implicit — [AnimatedContainer]/[TweenAnimationBuilder]
+/// reacting to changed `flashing`/`subscribed`/`traversalTo` inputs — so
+/// there is no `AnimationController` and no timer, and stepping the
+/// presentation backward simply re-targets each animation, which reverses
+/// it correctly. A24's traversal pulse lights both the ancestor nodes *and*
+/// the edges connecting them, timed to land together, so it reads as one
+/// movement travelling up the chain rather than a sequence of independent
+/// node flashes — see [WidgetTreeView]'s own doc for exactly how.
 library;
 
 import 'package:flutter/material.dart';
@@ -197,7 +201,7 @@ Map<String, Offset> treeNodePositions(TreeNode root, Size size) {
 
 /// Renders [root] inside a [treeCanvasSize] [Stack]: one bordered box per
 /// node, [Positioned] at its [treeNodePositions] anchor, with parent-child
-/// edges painted beneath them by [_TreeEdgePainter]. See the library doc for
+/// edges painted beneath them by [TreeEdgePainter]. See the library doc for
 /// the determinism guarantee this layout is built around.
 ///
 /// - [flashing] / [subscribed] retarget which node ids are lit or marked for
@@ -208,7 +212,14 @@ Map<String, Offset> treeNodePositions(TreeNode root, Size size) {
 ///   [traversalTo] — so although every one of them starts animating at the
 ///   same instant, the node closest to [traversalTo] reaches "lit" first and
 ///   [root] (furthest away) arrives last, reading as a pulse travelling up
-///   the chain node by node with no timer involved.
+///   the chain node by node with no timer involved. The edges along that
+///   same ancestor path light up too — via one `TweenAnimationBuilder`
+///   feeding a single 0-to-1 progress value into [TreeEdgePainter] (the
+///   same technique `AnimatedArrow` in `annotate.dart` uses to draw itself)
+///   — timed so edge `d` (the one leading into the node at distance `d+1`
+///   from [traversalTo]) finishes lighting at the same instant that node's
+///   own border finishes arriving. Node and edge are meant to read as one
+///   continuous movement up the chain, not two independent effects.
 /// - [showParams] reveals each node's [TreeNode.params] as small chips.
 class WidgetTreeView extends StatelessWidget {
   const WidgetTreeView({
@@ -229,7 +240,12 @@ class WidgetTreeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final positions = treeNodePositions(root, treeCanvasSize);
-    final pulseDelays = _pulseDelaysTo(root, traversalTo);
+    final path = traversalTo == null ? null : _pathTo(root, traversalTo!);
+    assert(
+      traversalTo == null || path != null,
+      'WidgetTreeView.traversalTo "$traversalTo" is not a node in this tree.',
+    );
+    final pulseDelays = _pulseDelaysFor(path);
     final nodes = _levelsOf(root).expand((level) => level);
 
     return SizedBox.fromSize(
@@ -238,8 +254,20 @@ class WidgetTreeView extends StatelessWidget {
         clipBehavior: Clip.none,
         children: [
           Positioned.fill(
-            child: CustomPaint(
-              painter: _TreeEdgePainter(root: root, positions: positions),
+            child: TweenAnimationBuilder<double>(
+              tween: Tween(begin: 0.0, end: path == null ? 0.0 : 1.0),
+              duration:
+                  path == null ? Tokens.fade : Tokens.travel * path.length,
+              curve: Tokens.curve,
+              builder: (context, progress, child) => CustomPaint(
+                key: const ValueKey('tree-edges'),
+                painter: TreeEdgePainter(
+                  root: root,
+                  positions: positions,
+                  pathIds: path ?? const [],
+                  progress: progress,
+                ),
+              ),
             ),
           ),
           for (final node in nodes)
@@ -284,17 +312,12 @@ List<String>? _pathTo(TreeNode node, String targetId) {
   return null;
 }
 
-/// Maps every node id on the ancestor path from [root] to [targetId] onto
-/// its distance from [targetId] (0 at the target itself, increasing toward
-/// [root]). Empty when [targetId] is null. See [WidgetTreeView.traversalTo]
-/// for how this distance drives the staggered-duration pulse illusion.
-Map<String, int> _pulseDelaysTo(TreeNode root, String? targetId) {
-  if (targetId == null) return const {};
-  final path = _pathTo(root, targetId);
-  assert(
-    path != null,
-    'WidgetTreeView.traversalTo "$targetId" is not a node in this tree.',
-  );
+/// Maps every node id on [path] (root-to-target order, or `null` when no
+/// traversal is active) onto its distance from the target (0 at the target
+/// itself, increasing toward the root). See [WidgetTreeView.traversalTo]
+/// for how this distance drives the staggered-duration pulse illusion, and
+/// [TreeEdgePainter] for how the same distance times the edges.
+Map<String, int> _pulseDelaysFor(List<String>? path) {
   if (path == null) return const {};
   return {
     for (var i = 0; i < path.length; i++) path[i]: path.length - 1 - i,
@@ -304,40 +327,121 @@ Map<String, int> _pulseDelaysTo(TreeNode root, String? targetId) {
 /// Paints every parent-child edge of [root] as a straight line between the
 /// two nodes' [positions] — laid beneath the node boxes in the [Stack], so
 /// the (opaque) boxes visually occlude each line down to touching their own
-/// border. This is the sole thing that makes [WidgetTreeView] read as a
-/// tree rather than a stack of independently placed boxes.
-class _TreeEdgePainter extends CustomPainter {
-  const _TreeEdgePainter({required this.root, required this.positions});
+/// border. This is what makes [WidgetTreeView] read as a tree rather than a
+/// stack of independently placed boxes.
+///
+/// Edges that lie on [pathIds] (the current A24 traversal chain, in
+/// root-to-target order — see [WidgetTreeView.traversalTo]) are additionally
+/// drawn in [Palette.blue] up to a per-edge fraction from [edgeProgress],
+/// growing from the target end toward the root end as [progress] runs 0 to
+/// 1 — the same partial-line-reveal technique `ArrowPainter` in
+/// `annotate.dart` uses, just applied to one segment of a multi-segment
+/// chain instead of a single arrow. Edge `d` (the one arriving at the node
+/// `d` steps from the target) starts growing exactly when that node's own
+/// [_NodeBox] border finishes its own arrival, and finishes growing exactly
+/// when the *next* node's border finishes arriving — see [edgeProgress].
+///
+/// Public (like `ArrowPainter`) so a test can find this painter via its
+/// `ValueKey('tree-edges')`, cast to this type, and inspect [pathIds] /
+/// [progress] / [edgeProgress] directly, the same way `annotate_test.dart`
+/// inspects `ArrowPainter.progress` — far more robust than asserting on the
+/// exact sequence of canvas draw calls.
+class TreeEdgePainter extends CustomPainter {
+  const TreeEdgePainter({
+    required this.root,
+    required this.positions,
+    required this.pathIds,
+    required this.progress,
+  });
 
   final TreeNode root;
   final Map<String, Offset> positions;
 
+  /// The current traversal path, root-to-target order (empty when no pulse
+  /// is active). Consecutive ids here are guaranteed to be parent/child,
+  /// since this is exactly the ancestor chain [WidgetTreeView.traversalTo]
+  /// walks.
+  final List<String> pathIds;
+
+  /// How far the A24 pulse has travelled overall, from 0 (nothing lit) to 1
+  /// (every edge on [pathIds] fully lit, in sync with the root node's own
+  /// arrival — see [WidgetTreeView.traversalTo]). Individual edges reach
+  /// their own fully-lit state well before [progress] reaches 1; see
+  /// [edgeProgress].
+  final double progress;
+
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
+    final basePaint = Paint()
       ..color = Palette.textSecondary
       ..strokeWidth = Tokens.strokeWidth
       ..style = PaintingStyle.stroke;
-    _paintEdges(canvas, root, paint);
+    final litPaint = Paint()
+      ..color = Palette.blue
+      ..strokeWidth = Tokens.strokeWidth
+      ..style = PaintingStyle.stroke;
+    _paintEdges(canvas, root, basePaint, litPaint);
   }
 
-  void _paintEdges(Canvas canvas, TreeNode node, Paint paint) {
+  void _paintEdges(
+    Canvas canvas,
+    TreeNode node,
+    Paint basePaint,
+    Paint litPaint,
+  ) {
     final from = positions[node.id];
     if (from == null) return;
     for (final child in node.children) {
       final to = positions[child.id];
-      if (to != null) canvas.drawLine(from, to, paint);
-      _paintEdges(canvas, child, paint);
+      if (to != null) {
+        final lit = edgeProgress(node.id, child.id);
+        // Draw the unlit remainder and the lit portion as two non-
+        // overlapping segments (rather than a full grey line under a full
+        // blue one) so a fully-lit edge paints once, not twice.
+        if (lit < 1) {
+          canvas.drawLine(
+            lit <= 0 ? from : Offset.lerp(from, to, lit)!,
+            to,
+            basePaint,
+          );
+        }
+        if (lit > 0) {
+          canvas.drawLine(from, Offset.lerp(from, to, lit)!, litPaint);
+        }
+      }
+      _paintEdges(canvas, child, basePaint, litPaint);
     }
   }
 
-  // The tree's shape (and therefore `positions`) is static for the lifetime
-  // of a slide's `demoTree`; repainting unconditionally is cheap for the
-  // handful of edges this tree ever has and avoids depending on Map
-  // equality (a freshly computed Map is never `==` its predecessor even
-  // when every entry matches).
+  /// 0 when the edge from [parentId] to [childId] is not on [pathIds], or
+  /// the pulse has not yet reached it; grows to 1 as [progress] advances,
+  /// timed against [pathIds]' node-distance-from-target exactly the way
+  /// [_pulseDelaysFor] times each node's own border: with `duration =
+  /// Tokens.travel * pathIds.length` driving [progress], scaling it back up
+  /// by `pathIds.length` recovers the same node-count units [_NodeBox] uses,
+  /// so this edge's `[d+1, d+2]` window lands on the same instants the
+  /// child's, then the parent's, own border finishes arriving.
+  double edgeProgress(String parentId, String childId) {
+    if (pathIds.length < 2) return 0;
+    final parentIndex = pathIds.indexOf(parentId);
+    final childIndex = parentIndex + 1;
+    if (parentIndex == -1 ||
+        childIndex >= pathIds.length ||
+        pathIds[childIndex] != childId) {
+      return 0;
+    }
+    final childDistanceFromTarget = pathIds.length - 1 - childIndex;
+    final scaled = progress * pathIds.length;
+    return (scaled - (childDistanceFromTarget + 1)).clamp(0.0, 1.0);
+  }
+
+  // `positions` is static for the lifetime of a slide's `demoTree` and
+  // `progress`/`pathIds` change every animated frame; repainting
+  // unconditionally is cheap for the handful of edges this tree ever has
+  // and avoids depending on Map/List equality (freshly computed collections
+  // are never `==` their predecessor even when every entry matches).
   @override
-  bool shouldRepaint(covariant _TreeEdgePainter oldDelegate) => true;
+  bool shouldRepaint(covariant TreeEdgePainter oldDelegate) => true;
 }
 
 class _NodeBox extends StatelessWidget {
