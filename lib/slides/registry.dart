@@ -28,6 +28,12 @@ import 'package:flutter_bootcamp_deck/slides/s05_architecture/live_extract_repo_
 import 'package:flutter_bootcamp_deck/slides/s05_architecture/repository_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s05_architecture/testability_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s05_architecture/three_layers_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s06_state/change_notifier_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s06_state/inherited_limits_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s06_state/inherited_widget_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s06_state/provider_fusion_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s06_state/state_problem_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s06_state/watch_read_consumer_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/slide_spec.dart';
 
 /// The ordered list of every slide in the deck. This is the single source of
@@ -356,5 +362,71 @@ final List<SlideSpec> slideRegistry = [
     speakerNotes: 'Do it as a refactor, not a rewrite. Cut the dio.get out '
         'of build(), paste it into PhotoRepository, inject it. Then ask '
         'what just got easier to test — let them answer.',
+  ),
+
+  // §6 State
+  SlideSpec(
+    route: '/state-problem',
+    section: '§6 State',
+    steps: 5,
+    body: (step) => StateProblemBody(step: step),
+    speakerNotes: 'This is the tree for the next five slides — it never '
+        'jumps, so they can keep their bearings. Step 2 is the one to sit '
+        'on: point at HomeScreen and PhotoGrid and say they do not use '
+        'photos at all, they just carry it. Step 5 is the second cost — '
+        'setState at the root rebuilds everything below it.',
+  ),
+  SlideSpec(
+    route: '/inherited-widget',
+    section: '§6 State',
+    steps: 8,
+    body: (step) => InheritedWidgetBody(step: step),
+    speakerNotes: 'Step 3 is the one they will remember — let the pulse '
+        'finish travelling before you talk. Then say it out loud: the '
+        'lookup is O(1), not a tree walk at runtime, because Flutter '
+        'caches it per element. The animation shows the conceptual walk, '
+        'not the runtime cost. Step 5 is the payoff over slide 31: only '
+        'subscribers rebuild.',
+  ),
+  SlideSpec(
+    route: '/inherited-limits',
+    section: '§6 State',
+    steps: 2,
+    body: (step) => InheritedLimitsBody(step: step),
+    speakerNotes: 'This slide exists so ChangeNotifier looks necessary '
+        'instead of arbitrary. Do not skip it. The field is final — it has '
+        'to be, that is what makes the lookup safe — so changing the data '
+        'means rebuilding the whole scope from above.',
+  ),
+  SlideSpec(
+    route: '/change-notifier',
+    section: '§6 State',
+    steps: 9,
+    body: (step) => ChangeNotifierBody(step: step),
+    speakerNotes: 'Let them tap it several times — it is a real '
+        'ChangeNotifier, not a drawing of one. Every arrow is labelled with '
+        'the real method name; point at each as you say it. Step 6 is the '
+        'one people forget in production: dispose, or the listener outlives '
+        'the widget and you leak.',
+  ),
+  SlideSpec(
+    route: '/provider-fusion',
+    section: '§6 State',
+    steps: 3,
+    body: (step) => ProviderFusionBody(step: step),
+    speakerNotes: 'Say it as arithmetic: InheritedWidget solves reach, '
+        'ChangeNotifier solves change, and neither solves the other. '
+        'Provider is not a new concept — it is the two they just learned, '
+        'wired together so they stop writing the wrapper from slide 33.',
+  ),
+  SlideSpec(
+    route: '/watch-read-consumer',
+    section: '§6 State',
+    body: (step) => WatchReadConsumerBody(step: step),
+    speakerNotes: 'Hand over the keyboard. Do not assert that Consumer is '
+        'better — make them watch the flash region shrink and the counter '
+        'drop. Then ask which one they would reach for by default. The '
+        'read() mode is the trap worth showing: the number never moves '
+        'because read never subscribes.',
   ),
 ];

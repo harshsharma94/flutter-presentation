@@ -1,0 +1,212 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bootcamp_deck/theme/palette.dart';
+import 'package:flutter_bootcamp_deck/theme/tokens.dart';
+import 'package:flutter_bootcamp_deck/widgets/annotate.dart';
+import 'package:flutter_bootcamp_deck/widgets/correlation_panel.dart';
+import 'package:flutter_bootcamp_deck/widgets/step_reveal.dart';
+import 'package:flutter_bootcamp_deck/widgets/widget_tree.dart';
+
+/// The scope box is drawn *beside* the root rather than inserted into
+/// [demoTree] itself. Inserting a node would add a level, which changes
+/// `treeNodePositions`' row height and shifts every node — and slides 31-35
+/// depend on the tree never jumping across a slide boundary.
+const _scopeWidth = 170.0;
+const _scopeHeight = 68.0;
+
+/// Slide 32 — `/inherited-widget` (8 steps, A24). The same tree as slide 31,
+/// with the chips falling away and an ancestor-chain lookup travelling up to
+/// a scope that sits at the root.
+class InheritedWidgetBody extends StatelessWidget {
+  const InheritedWidgetBody({required this.step, super.key});
+
+  final int step;
+
+  @override
+  Widget build(BuildContext context) {
+    final positions = treeNodePositions(demoTree, treeCanvasSize);
+    final rootAt = positions['photo-app']!;
+    final scopeLeft = rootAt.dx + 100;
+    final scopeTop = rootAt.dy - _scopeHeight / 2;
+
+    // Step 4: a second leaf subscribes; the third node deliberately does not.
+    final subscribed = <String>{
+      if (step >= 3) 'like-1',
+      if (step >= 4) 'like-2',
+    };
+
+    // Step 5: the data changes and only subscribers rebuild.
+    final flashing = <String>{if (step >= 5) ...subscribed};
+
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(Tokens.gapMd),
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox.fromSize(
+                size: treeCanvasSize,
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    WidgetTreeView(
+                      root: demoTree,
+                      // Step 2 is the chips falling away: showParams goes
+                      // false and StepReveal's own downward slide carries
+                      // them out rather than cutting them.
+                      showParams: step < 2,
+                      subscribed: subscribed,
+                      flashing: flashing,
+                      traversalTo: step >= 3 ? 'like-1' : null,
+                    ),
+                    Positioned(
+                      left: scopeLeft,
+                      top: scopeTop,
+                      child: StepReveal(
+                        atStep: 1,
+                        dimWhenPast: false,
+                        slideFrom: const Offset(0.4, 0),
+                        child: const _ScopeBox(),
+                      ),
+                    ),
+                    Positioned.fill(
+                      child: AnimatedArrow(
+                        from: Offset(rootAt.dx + 30, rootAt.dy),
+                        to: Offset(scopeLeft, scopeTop + _scopeHeight / 2),
+                        atStep: 3,
+                        color: Palette.blue,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: Tokens.gapLg),
+              SizedBox(
+                width: 440,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const _Note(
+                      atStep: 1,
+                      text: 'Put the data in a scope at the top of the tree.',
+                    ),
+                    const _Note(
+                      atStep: 2,
+                      text: 'The middle widgets stop carrying it. Their '
+                          'constructors shrink back to what they actually use.',
+                      color: Palette.green,
+                    ),
+                    StepReveal(
+                      atStep: 3,
+                      child: Container(
+                        padding: const EdgeInsets.all(Tokens.gapSm),
+                        margin: const EdgeInsets.only(bottom: Tokens.gapSm),
+                        decoration: BoxDecoration(
+                          color: Palette.base,
+                          border: Border.all(color: Palette.blue, width: 1),
+                          borderRadius: BorderRadius.circular(Tokens.radius),
+                        ),
+                        child: const Text(
+                          'context.dependOnInheritedWidgetOfExactType\n'
+                          '    <PhotoScope>()',
+                          style: TextStyle(
+                            fontFamily: 'JetBrainsMono',
+                            fontSize: 15,
+                            color: Palette.blue,
+                            height: 1.4,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const _Note(
+                      atStep: 4,
+                      text: 'Any descendant can ask. The one that never asks '
+                          'never subscribes.',
+                    ),
+                    const _Note(
+                      atStep: 5,
+                      text: 'Data changes: only the widgets that asked '
+                          'rebuild. The rest stay dark.',
+                      color: Palette.green,
+                    ),
+                    const SizedBox(height: Tokens.gapXs),
+                    const CorrelationPanel(
+                      flutterLabel: 'InheritedWidget',
+                      firstStep: 6,
+                      rows: [
+                        CorrelationRow(platform: 'Android', concept: 'CompositionLocal'),
+                        CorrelationRow(platform: 'iOS', concept: '@Environment'),
+                        CorrelationRow(platform: 'Web', concept: 'React Context'),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _ScopeBox extends StatelessWidget {
+  const _ScopeBox();
+
+  @override
+  Widget build(BuildContext context) => Container(
+        width: _scopeWidth,
+        height: _scopeHeight,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: Palette.surface,
+          border: Border.all(color: Palette.blue, width: Tokens.strokeWidth),
+          borderRadius: BorderRadius.circular(Tokens.radius),
+        ),
+        child: const Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'PhotoScope',
+              style: TextStyle(
+                color: Palette.blue,
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            Text(
+              'InheritedWidget',
+              style: TextStyle(color: Palette.textSecondary, fontSize: 12),
+            ),
+          ],
+        ),
+      );
+}
+
+class _Note extends StatelessWidget {
+  const _Note({
+    required this.atStep,
+    required this.text,
+    this.color = Palette.textPrimary,
+  });
+
+  final int atStep;
+  final String text;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.only(bottom: Tokens.gapSm),
+        child: StepReveal(
+          atStep: atStep,
+          slideFrom: const Offset(0.06, 0),
+          child: Text(
+            text,
+            style: TextStyle(color: color, fontSize: 18, height: 1.35),
+          ),
+        ),
+      );
+}
