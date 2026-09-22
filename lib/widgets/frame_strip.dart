@@ -30,19 +30,19 @@ class FrameStrip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SizedBox(
-        height: height,
-        width: double.infinity,
-        child: CustomPaint(
-          key: const ValueKey('frame-strip-painter'),
-          size: Size.infinite,
-          painter: FrameStripPainter(
-            frameCount: frameCount,
-            stalledFrom: stalledFrom,
-            stalledTo: stalledTo,
-            stalled: stalled,
-          ),
-        ),
-      );
+    height: height,
+    width: double.infinity,
+    child: CustomPaint(
+      key: const ValueKey('frame-strip-painter'),
+      size: Size.infinite,
+      painter: FrameStripPainter(
+        frameCount: frameCount,
+        stalledFrom: stalledFrom,
+        stalledTo: stalledTo,
+        stalled: stalled,
+      ),
+    ),
+  );
 }
 
 /// Tick geometry, in logical pixels. Ticks are thin vertical bars with a
@@ -70,8 +70,8 @@ class FrameStripPainter extends CustomPainter {
   /// and [index] falls inside `[stalledFrom, stalledTo)`; green otherwise.
   Color colorAt(int index) =>
       stalled && index >= stalledFrom && index < stalledTo
-          ? Palette.red
-          : Palette.green;
+      ? Palette.red
+      : Palette.green;
 
   @override
   void paint(Canvas canvas, Size size) {

@@ -5,7 +5,7 @@ import 'package:flutter_bootcamp_deck/widgets/annotate.dart';
 import 'package:flutter_bootcamp_deck/widgets/sequence_diagram.dart';
 import 'package:flutter_bootcamp_deck/widgets/step_reveal.dart';
 
-/// Public (not file-private) because slide 16 (`/unsplash-reality`) reuses
+/// Public (not file-private) because slide 15 (`/unsplash-reality`) reuses
 /// this exact configuration for its "the whole flow, shrunk" beat — the
 /// point there only lands if it is visibly the same diagram, not a redrawn
 /// approximation of it.
@@ -26,15 +26,20 @@ final oauthHops = [
   SequenceHop(from: 'browser', to: 'browser', label: 'user logs in', atStep: 2),
   SequenceHop(from: 'auth', to: 'app', label: 'code', atStep: 3),
   SequenceHop(
-      from: 'app', to: 'auth', label: 'exchange code + secret', atStep: 4),
+    from: 'app',
+    to: 'auth',
+    label: 'exchange code + secret',
+    atStep: 4,
+  ),
   SequenceHop(from: 'auth', to: 'app', label: 'tokens issued', atStep: 5),
   SequenceHop(from: 'app', to: 'api', label: 'GET /photos', atStep: 6),
   SequenceHop(
-      from: 'app',
-      to: 'api',
-      label: 'GET /photos -> 401',
-      atStep: 8,
-      color: Palette.red),
+    from: 'app',
+    to: 'api',
+    label: 'GET /photos -> 401',
+    atStep: 8,
+    color: Palette.red,
+  ),
   SequenceHop(from: 'app', to: 'auth', label: 'refresh', atStep: 9),
   SequenceHop(
     from: 'app',
@@ -53,12 +58,13 @@ const _tokenColumnWidth = 190.0;
 /// see `SequenceDiagram._rows`. The token column aligns its pills to that
 /// row's vertical centre so they read as the payload of that specific hop
 /// rather than floating detached beside the diagram.
-const _tokenRowCenter = SequenceDiagram.laneHeaderHeight +
+const _tokenRowCenter =
+    SequenceDiagram.laneHeaderHeight +
     4 * SequenceDiagram.rowHeight +
     SequenceDiagram.rowHeight / 2;
 const _tokenColumnTop = _tokenRowCenter - 32;
 
-/// Slide 14 — `/oauth-flow` (9 steps, A11) ⭐⭐. The deck's longest
+/// Slide 13 — `/oauth-flow` (9 steps, A11) ⭐⭐. The deck's longest
 /// animation: the full OAuth2 authorization-code round trip, hop by hop,
 /// across four lanes. Step 7 is the one the slide exists for — no hop, no
 /// interaction, just an hour passing and the access token quietly expiring
@@ -73,51 +79,56 @@ class OauthFlowBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-              horizontal: Tokens.gapLg, vertical: Tokens.gapMd),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SequenceDiagram(
-                  lanes: oauthLanes, hops: oauthHops, width: _diagramWidth),
-              const SizedBox(width: Tokens.gapLg),
-              SizedBox(
-                width: _tokenColumnWidth,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: _tokenColumnTop),
-                  child: StepReveal(
-                    atStep: 5,
-                    dimWhenPast: false,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        TokenPill(
-                          key: const ValueKey('pill-access'),
-                          label: 'abc123',
-                          widthFactor: 0.35,
-                          color: Palette.blue,
-                          expired: _accessExpired,
-                        ),
-                        const SizedBox(height: Tokens.gapXs),
-                        TokenPill(
-                          key: ValueKey('pill-refresh'),
-                          label: 'eyJhbG...',
-                          widthFactor: 0.9,
-                          color: Palette.green,
-                          expired: false,
-                        ),
-                        const SizedBox(height: Tokens.gapMd),
-                        const Callout(atStep: 7, text: '1 hour later.'),
-                      ],
+    child: Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: Tokens.gapLg,
+        vertical: Tokens.gapMd,
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SequenceDiagram(
+            lanes: oauthLanes,
+            hops: oauthHops,
+            width: _diagramWidth,
+          ),
+          const SizedBox(width: Tokens.gapLg),
+          SizedBox(
+            width: _tokenColumnWidth,
+            child: Padding(
+              padding: const EdgeInsets.only(top: _tokenColumnTop),
+              child: StepReveal(
+                atStep: 5,
+                dimWhenPast: false,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TokenPill(
+                      key: const ValueKey('pill-access'),
+                      label: 'abc123',
+                      widthFactor: 0.35,
+                      color: Palette.blue,
+                      expired: _accessExpired,
                     ),
-                  ),
+                    const SizedBox(height: Tokens.gapXs),
+                    TokenPill(
+                      key: ValueKey('pill-refresh'),
+                      label: 'eyJhbG...',
+                      widthFactor: 0.9,
+                      color: Palette.green,
+                      expired: false,
+                    ),
+                    const SizedBox(height: Tokens.gapMd),
+                    const Callout(atStep: 7, text: '1 hour later.'),
+                  ],
                 ),
               ),
-            ],
+            ),
           ),
-        ),
-      );
+        ],
+      ),
+    ),
+  );
 }

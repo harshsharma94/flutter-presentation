@@ -4,7 +4,7 @@ import 'package:flutter_bootcamp_deck/theme/tokens.dart';
 import 'package:flutter_bootcamp_deck/widgets/layer_slab.dart';
 import 'package:flutter_bootcamp_deck/widgets/step_reveal.dart';
 
-/// Slide 26 — `/testability` (3 steps, A21). Data slides out, a fake slides
+/// Slide 25 — `/testability` (3 steps, A21). Data slides out, a fake slides
 /// in, and **Domain does not move**. If the Domain slab shifts by a pixel
 /// the animation is lying about what swapping an implementation costs, so
 /// it is laid out in a fixed-width slot that never changes size.
@@ -80,8 +80,10 @@ class TestabilityBody extends StatelessWidget {
               StepReveal(
                 atStep: 1,
                 dimWhenPast: false,
-                child:
-                    _Timer(millis: swapped ? '3ms' : '2400ms', fast: swapped),
+                child: _Timer(
+                  millis: swapped ? '3ms' : '2400ms',
+                  fast: swapped,
+                ),
               ),
               SizedBox(height: Tokens.gapMd),
               StepReveal(

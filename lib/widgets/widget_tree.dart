@@ -1,4 +1,4 @@
-/// The shared widget tree for §5 State (slides 29-34): the same tree, built once,
+/// The shared widget tree for §5 State (slides 28–33): the same tree, built once,
 /// that the audience watches evolve across nine consecutive slides — first
 /// drowning in prop-drilled parameters, then shedding them as an
 /// `InheritedWidget` arrives, then pulsing with `ChangeNotifier` listeners,
@@ -75,7 +75,7 @@ class TreeNode {
   final bool subscribed;
 }
 
-/// The canonical 5-level tree reused across slide 28-37:
+/// The canonical 5-level tree reused across slides 28–33:
 /// `PhotoApp -> HomeScreen -> PhotoGrid -> PhotoTile x2 -> LikeButton`.
 ///
 /// `photos` (and the `onLike` callback threaded back up) is the state A23
@@ -257,8 +257,9 @@ class WidgetTreeView extends StatelessWidget {
           Positioned.fill(
             child: TweenAnimationBuilder<double>(
               tween: Tween(begin: 0.0, end: path == null ? 0.0 : 1.0),
-              duration:
-                  path == null ? Tokens.fade : Tokens.travel * path.length,
+              duration: path == null
+                  ? Tokens.fade
+                  : Tokens.travel * path.length,
               // Deliberately linear, not Tokens.curve: this progress is a
               // raw elapsed-time fraction that TreeEdgePainter.edgeProgress
               // re-windows per edge and curves *locally* (see its doc).
@@ -327,9 +328,7 @@ List<String>? _pathTo(TreeNode node, String targetId) {
 /// [TreeEdgePainter] for how the same distance times the edges.
 Map<String, int> _pulseDelaysFor(List<String>? path) {
   if (path == null) return const {};
-  return {
-    for (var i = 0; i < path.length; i++) path[i]: path.length - 1 - i,
-  };
+  return {for (var i = 0; i < path.length; i++) path[i]: path.length - 1 - i};
 }
 
 /// Paints every parent-child edge of [root] as a straight line between the
@@ -599,18 +598,12 @@ class _ParamChip extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         color: pal.base,
-        border: Border.all(
-          color: pal.textSecondary,
-          width: _chipBorderWidth,
-        ),
+        border: Border.all(color: pal.textSecondary, width: _chipBorderWidth),
         borderRadius: BorderRadius.circular(_chipRadius),
       ),
       child: Text(
         text,
-        style: TextStyle(
-          color: pal.textSecondary,
-          fontSize: _chipFontSize,
-        ),
+        style: TextStyle(color: pal.textSecondary, fontSize: _chipFontSize),
       ),
     );
   }

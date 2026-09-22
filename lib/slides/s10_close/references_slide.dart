@@ -20,7 +20,7 @@ const _groups = [
       (label: 'pub.dev/packages/dio', note: 'official docs + interceptors'),
       (
         label: 'docs.flutter.dev/cookbook/networking',
-        note: 'the short version'
+        note: 'the short version',
       ),
     ],
   ),
@@ -33,7 +33,7 @@ const _groups = [
       ),
       (
         label: 'pub.dev/packages/json_serializable',
-        note: 'when hand-writing hurts'
+        note: 'when hand-writing hurts',
       ),
     ],
   ),
@@ -43,11 +43,11 @@ const _groups = [
       (label: 'docs.flutter.dev/app-architecture', note: "Flutter's own guide"),
       (
         label: 'blog.cleancoder.com — The Clean Architecture',
-        note: 'the source'
+        note: 'the source',
       ),
       (
         label: 'samnewman.io/patterns/architectural/bff',
-        note: 'BFF, first-hand'
+        note: 'BFF, first-hand',
       ),
     ],
   ),
@@ -61,7 +61,7 @@ const _groups = [
       (label: 'pub.dev/packages/provider', note: 'what we used'),
       (
         label: 'Flutter Widget of the Week — InheritedWidget',
-        note: '3 minutes'
+        note: '3 minutes',
       ),
     ],
   ),
@@ -72,13 +72,13 @@ const _groups = [
       (label: 'unsplash.com/documentation', note: "today's API"),
       (
         label: 'github.com/mkobuolys/flutter_deck',
-        note: 'this deck is built with it'
+        note: 'this deck is built with it',
       ),
     ],
   ),
 ];
 
-/// Slide 49 — `/references` (6 steps).
+/// Slide 48 — `/references` (6 steps).
 class ReferencesBody extends StatelessWidget {
   const ReferencesBody({required this.step, super.key});
 
@@ -86,34 +86,34 @@ class ReferencesBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Center(
-        child: Padding(
-          padding: EdgeInsets.all(Tokens.gapMd),
-          child: FittedBox(
-            fit: BoxFit.scaleDown,
-            child: SizedBox(
-              width: 1180,
-              child: Wrap(
-                spacing: Tokens.gapLg,
-                runSpacing: Tokens.gapMd,
-                children: [
-                  for (var i = 0; i < _groups.length; i++)
-                    StepReveal(
-                      atStep: i + 1,
-                      dimWhenPast: false,
-                      child: SizedBox(
-                        width: 550,
-                        child: _Group(
-                          title: _groups[i].title,
-                          links: _groups[i].links,
-                        ),
-                      ),
+    child: Padding(
+      padding: EdgeInsets.all(Tokens.gapMd),
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: SizedBox(
+          width: 1180,
+          child: Wrap(
+            spacing: Tokens.gapLg,
+            runSpacing: Tokens.gapMd,
+            children: [
+              for (var i = 0; i < _groups.length; i++)
+                StepReveal(
+                  atStep: i + 1,
+                  dimWhenPast: false,
+                  child: SizedBox(
+                    width: 550,
+                    child: _Group(
+                      title: _groups[i].title,
+                      links: _groups[i].links,
                     ),
-                ],
-              ),
-            ),
+                  ),
+                ),
+            ],
           ),
         ),
-      );
+      ),
+    ),
+  );
 }
 
 class _Group extends StatelessWidget {
@@ -161,10 +161,7 @@ class _Group extends StatelessWidget {
                 SizedBox(width: Tokens.gapXs),
                 Text(
                   link.note,
-                  style: TextStyle(
-                    color: pal.textSecondary,
-                    fontSize: 15,
-                  ),
+                  style: TextStyle(color: pal.textSecondary, fontSize: 15),
                 ),
               ],
             ),

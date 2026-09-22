@@ -9,11 +9,11 @@ class Photo {
 
   /// Hand-written on purpose — writing this mapping is the lesson (spec §4).
   factory Photo.fromJson(Map<String, dynamic> json) => Photo(
-        id: json['id'] as String,
-        imageUrl: (json['urls'] as Map<String, dynamic>)['regular'] as String,
-        author: (json['user'] as Map<String, dynamic>)['name'] as String,
-        likes: json['likes'] as int,
-      );
+    id: json['id'] as String,
+    imageUrl: (json['urls'] as Map<String, dynamic>)['regular'] as String,
+    author: (json['user'] as Map<String, dynamic>)['name'] as String,
+    likes: json['likes'] as int,
+  );
 
   final String id;
   final String imageUrl;

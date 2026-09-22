@@ -19,7 +19,7 @@ final photos = const [
 const _live = '''
 final photos = await repo.getPhotos();''';
 
-/// Slide 20 — `/delete-hardcoded` (3 steps, A16). The emotional peak of
+/// Slide 19 — `/delete-hardcoded` (3 steps, A16). The emotional peak of
 /// session 1: the Day-1 list they each typed by hand collapses into one
 /// line, and both screens fill from it.
 ///
@@ -34,41 +34,41 @@ class DeleteHardcodedBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Center(
-        child: Padding(
-          padding: EdgeInsets.all(Tokens.gapLg),
-          child: FittedBox(
-            fit: BoxFit.scaleDown,
-            child: Column(
+    child: Padding(
+      padding: EdgeInsets.all(Tokens.gapLg),
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
               mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: 640,
-                      child: CodePanel(
-                        code: step >= 2 ? _live : _hardcoded,
-                        fileName: 'lib/screens/home_screen.dart',
-                      ),
-                    ),
-                    SizedBox(width: Tokens.gapLg),
-                    _PhotoPhone(filled: step >= 3, offset: 0),
-                    SizedBox(width: Tokens.gapMd),
-                    _PhotoPhone(filled: step >= 3, offset: 2),
-                  ],
+                SizedBox(
+                  width: 640,
+                  child: CodePanel(
+                    code: step >= 2 ? _live : _hardcoded,
+                    fileName: 'lib/screens/home_screen.dart',
+                  ),
                 ),
-                SizedBox(height: Tokens.gapMd),
-                Callout(
-                  atStep: 3,
-                  text: 'One list. Two screens. Done.',
-                  color: Palette.green,
-                ),
+                SizedBox(width: Tokens.gapLg),
+                _PhotoPhone(filled: step >= 3, offset: 0),
+                SizedBox(width: Tokens.gapMd),
+                _PhotoPhone(filled: step >= 3, offset: 2),
               ],
             ),
-          ),
+            SizedBox(height: Tokens.gapMd),
+            Callout(
+              atStep: 3,
+              text: 'One list. Two screens. Done.',
+              color: Palette.green,
+            ),
+          ],
         ),
-      );
+      ),
+    ),
+  );
 }
 
 /// A phone that holds grey placeholder tiles until [filled], then shows real
@@ -88,8 +88,9 @@ class _PhotoPhone extends StatelessWidget {
       width: 220,
       child: ColoredBox(
         color: pal.surface,
-        child:
-            filled ? _LivePhotoGrid(offset: offset) : const _PlaceholderGrid(),
+        child: filled
+            ? _LivePhotoGrid(offset: offset)
+            : const _PlaceholderGrid(),
       ),
     );
   }
@@ -159,15 +160,15 @@ class _Grid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: EdgeInsets.all(Tokens.gapXs),
-        child: GridView.count(
-          physics: NeverScrollableScrollPhysics(),
-          crossAxisCount: 2,
-          mainAxisSpacing: Tokens.gapXs,
-          crossAxisSpacing: Tokens.gapXs,
-          children: children,
-        ),
-      );
+    padding: EdgeInsets.all(Tokens.gapXs),
+    child: GridView.count(
+      physics: NeverScrollableScrollPhysics(),
+      crossAxisCount: 2,
+      mainAxisSpacing: Tokens.gapXs,
+      crossAxisSpacing: Tokens.gapXs,
+      children: children,
+    ),
+  );
 }
 
 class _Tile extends StatelessWidget {

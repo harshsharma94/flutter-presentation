@@ -13,8 +13,9 @@ void main() {
     expect(find.byKey(const ValueKey('state-error')), findsOneWidget);
   });
 
-  testWidgets('tapping data fetches and swaps to the data state',
-      (tester) async {
+  testWidgets('tapping data fetches and swaps to the data state', (
+    tester,
+  ) async {
     await pumpBody(tester, ThreeStateDemo());
     await tester.tap(find.text('data'));
     await tester.pumpAndSettle();

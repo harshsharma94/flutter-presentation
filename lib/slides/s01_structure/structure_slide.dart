@@ -57,7 +57,7 @@ double _folderCenterX(int i) => _folderLeft(i) + _folderBoxWidth / 2;
 double _androidRowCenterY(int j) =>
     _androidColumnTop + j * _androidRowPitch + _androidRowHeight / 2;
 
-/// Slide 42 — `/structure` (8 steps, A3). `lib/` assembles feature-first,
+/// Slide 41 — `/structure` (8 steps, A3). `lib/` assembles feature-first,
 /// folder by folder; step 7 draws the same shape out of the Android project
 /// they already know; steps 8-9 land the two rules that matter.
 class StructureBody extends StatelessWidget {
@@ -67,71 +67,71 @@ class StructureBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Center(
-        child: Padding(
-          padding: EdgeInsets.all(Tokens.gapLg),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(
-                width: _canvasWidth,
-                height: _canvasHeight,
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    for (var i = 0; i < _folders.length; i++)
-                      Positioned(
-                        left: _folderLeft(i),
-                        top: _folderRowTop,
-                        width: _folderBoxWidth,
-                        child: StepReveal(
-                          atStep: _folders[i].revealStep,
-                          slideFrom: Offset(-0.08, 0),
-                          dimWhenPast: false,
-                          child: _FolderBox(item: _folders[i]),
-                        ),
-                      ),
-                    Positioned(
-                      left: _androidColumnLeft,
-                      top: _androidColumnTop,
-                      width: _androidColumnWidth,
-                      child: StepReveal(
-                        atStep: 7,
-                        dimWhenPast: false,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            for (var j = 0; j < _androidItems.length; j++) ...[
-                              if (j > 0) SizedBox(height: _androidRowGap),
-                              _AndroidRow(label: _androidItems[j]),
-                            ],
-                          ],
-                        ),
-                      ),
+    child: Padding(
+      padding: EdgeInsets.all(Tokens.gapLg),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            width: _canvasWidth,
+            height: _canvasHeight,
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                for (var i = 0; i < _folders.length; i++)
+                  Positioned(
+                    left: _folderLeft(i),
+                    top: _folderRowTop,
+                    width: _folderBoxWidth,
+                    child: StepReveal(
+                      atStep: _folders[i].revealStep,
+                      slideFrom: Offset(-0.08, 0),
+                      dimWhenPast: false,
+                      child: _FolderBox(item: _folders[i]),
                     ),
-                    for (var j = 0; j < _androidItems.length; j++)
-                      Positioned.fill(
-                        child: AnimatedArrow(
-                          from: Offset(_folderCenterX(j + 1), _folderRowBottom),
-                          to: Offset(_androidColumnLeft, _androidRowCenterY(j)),
-                          atStep: 7,
-                        ),
-                      ),
-                  ],
+                  ),
+                Positioned(
+                  left: _androidColumnLeft,
+                  top: _androidColumnTop,
+                  width: _androidColumnWidth,
+                  child: StepReveal(
+                    atStep: 7,
+                    dimWhenPast: false,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        for (var j = 0; j < _androidItems.length; j++) ...[
+                          if (j > 0) SizedBox(height: _androidRowGap),
+                          _AndroidRow(label: _androidItems[j]),
+                        ],
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-              SizedBox(height: Tokens.gapMd),
-              // The two aphorisms that used to close this slide are gone:
-              // they read as filler next to the diagram and cost two extra
-              // steps of animation for no new information. Say them out
-              // loud if they land in the room; they are in the notes.
-              Callout(
-                atStep: 8,
-                text: 'Same structure you used in Android. Renamed.',
-              ),
-            ],
+                for (var j = 0; j < _androidItems.length; j++)
+                  Positioned.fill(
+                    child: AnimatedArrow(
+                      from: Offset(_folderCenterX(j + 1), _folderRowBottom),
+                      to: Offset(_androidColumnLeft, _androidRowCenterY(j)),
+                      atStep: 7,
+                    ),
+                  ),
+              ],
+            ),
           ),
-        ),
-      );
+          SizedBox(height: Tokens.gapMd),
+          // The two aphorisms that used to close this slide are gone:
+          // they read as filler next to the diagram and cost two extra
+          // steps of animation for no new information. Say them out
+          // loud if they land in the room; they are in the notes.
+          Callout(
+            atStep: 8,
+            text: 'Same structure you used in Android. Renamed.',
+          ),
+        ],
+      ),
+    ),
+  );
 }
 
 class _FolderBox extends StatelessWidget {
@@ -156,7 +156,10 @@ class _FolderBox extends StatelessWidget {
             item.name,
             textAlign: TextAlign.center,
             style: TextStyle(
-                color: color, fontSize: 16, fontWeight: FontWeight.w600),
+              color: color,
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
           ),
           if (item.role case final role?) ...[
             SizedBox(height: 4),
@@ -179,14 +182,13 @@ class _AndroidRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        height: _androidRowHeight,
-        alignment: Alignment.centerLeft,
-        padding: EdgeInsets.symmetric(horizontal: 10),
-        decoration: BoxDecoration(
-          border: Border.all(color: Palette.green, width: Tokens.strokeWidth),
-          borderRadius: BorderRadius.circular(Tokens.radius),
-        ),
-        child:
-            Text(label, style: TextStyle(color: Palette.green, fontSize: 16)),
-      );
+    height: _androidRowHeight,
+    alignment: Alignment.centerLeft,
+    padding: EdgeInsets.symmetric(horizontal: 10),
+    decoration: BoxDecoration(
+      border: Border.all(color: Palette.green, width: Tokens.strokeWidth),
+      borderRadius: BorderRadius.circular(Tokens.radius),
+    ),
+    child: Text(label, style: TextStyle(color: Palette.green, fontSize: 16)),
+  );
 }

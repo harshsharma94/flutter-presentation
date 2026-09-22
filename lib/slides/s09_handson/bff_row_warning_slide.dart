@@ -26,7 +26,7 @@ const _binding = '''
 'warning' => Palette.amber
 RowCta.info => showDialog(...)''';
 
-/// Slide 45 — `/bff-row-warning` (4 steps, A36b). Same row widget, a
+/// Slide 44 — `/bff-row-warning` (4 steps, A36b). Same row widget, a
 /// different tone and a different trailing action — both chosen by the
 /// response.
 class BffRowWarningBody extends StatelessWidget {
@@ -36,12 +36,12 @@ class BffRowWarningBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => BffRevealBody(
-        step: step,
-        regionId: 'row-instalments',
-        anchorY: 218,
-        json: _json,
-        binding: _binding,
-        accent: bffInfo,
-        caption: 'A new tone shipped without an app release.',
-      );
+    step: step,
+    regionId: 'row-instalments',
+    anchorY: 218,
+    json: _json,
+    binding: _binding,
+    accent: bffInfo,
+    caption: 'A new tone shipped without an app release.',
+  );
 }

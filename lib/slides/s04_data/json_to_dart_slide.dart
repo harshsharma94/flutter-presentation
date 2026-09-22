@@ -37,7 +37,7 @@ const _jsonLines = [
   (text: '}', consumedAt: null),
 ];
 
-/// Slide 17 — `/json-to-dart` (6 steps, A14 + A15). Four keys lift out of the
+/// Slide 16 — `/json-to-dart` (6 steps, A14 + A15). Four keys lift out of the
 /// raw response, fly a curved path, and land as named arguments on a real
 /// constructor. Step 5 reverses one — that is `toJson`. Step 6 names the
 /// thing they already use on their own platform, and why Dart can't.
@@ -148,7 +148,9 @@ class JsonToDartBody extends StatelessWidget {
                   stepsPerRow: 0,
                   rows: [
                     CorrelationRow(
-                        platform: 'Android', concept: 'Gson / Moshi / kotlinx'),
+                      platform: 'Android',
+                      concept: 'Gson / Moshi / kotlinx',
+                    ),
                     CorrelationRow(platform: 'iOS', concept: 'Codable'),
                     CorrelationRow(platform: 'Java/Spring', concept: 'Jackson'),
                     CorrelationRow(platform: 'Go', concept: 'encoding/json'),
@@ -158,8 +160,7 @@ class JsonToDartBody extends StatelessWidget {
               SizedBox(height: Tokens.gapSm),
               Callout(
                 atStep: 6,
-                text:
-                    "Dart has no runtime reflection. That's why you write this one.",
+                text: "Dart has no runtime reflection. That's why you write this one.",
                 color: Palette.amber,
               ),
             ],
@@ -175,13 +176,13 @@ class _ConstructorShell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _ShellLine('Photo('),
-          SizedBox(height: _lineHeight * 4),
-          _ShellLine(');'),
-        ],
-      );
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      _ShellLine('Photo('),
+      SizedBox(height: _lineHeight * 4),
+      _ShellLine(');'),
+    ],
+  );
 }
 
 class _ShellLine extends StatelessWidget {
@@ -191,18 +192,18 @@ class _ShellLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SizedBox(
-        height: _lineHeight,
-        child: Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            text,
-            style: TextStyle(
-              fontFamily: 'JetBrainsMono',
-              fontSize: 20,
-              height: 1.0,
-              color: Palette.blue,
-            ),
-          ),
+    height: _lineHeight,
+    child: Align(
+      alignment: Alignment.centerLeft,
+      child: Text(
+        text,
+        style: TextStyle(
+          fontFamily: 'JetBrainsMono',
+          fontSize: 20,
+          height: 1.0,
+          color: Palette.blue,
         ),
-      );
+      ),
+    ),
+  );
 }

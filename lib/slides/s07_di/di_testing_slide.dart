@@ -24,7 +24,7 @@ MultiProvider(
   child: const PhotoApp(),
 )''';
 
-/// Slide 39 — `/di-testing` (2 steps, A32). Slide 27's idea, now at the
+/// Slide 38 — `/di-testing` (2 steps, A32). Slide 27's idea, now at the
 /// wiring level: one line, and the entire tree below is under test.
 class DiTestingBody extends StatelessWidget {
   const DiTestingBody({required this.step, super.key});
@@ -33,32 +33,32 @@ class DiTestingBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Center(
-        child: Padding(
-          padding: const EdgeInsets.all(Tokens.gapLg),
-          child: FittedBox(
-            fit: BoxFit.scaleDown,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(
-                  width: 820,
-                  child: CodePanel(
-                    code: step >= 2 ? _fake : _real,
-                    fileName:
-                        step >= 2 ? 'test/widget_test.dart' : 'lib/main.dart',
-                    highlightedLines: step >= 2 ? const [4] : const [],
-                  ),
-                ),
-                const SizedBox(height: Tokens.gapMd),
-                const Callout(
-                  atStep: 2,
-                  text: 'One line. The whole tree below is now testable — '
-                      'and nothing below it changed.',
-                  color: Palette.green,
-                ),
-              ],
+    child: Padding(
+      padding: const EdgeInsets.all(Tokens.gapLg),
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+              width: 820,
+              child: CodePanel(
+                code: step >= 2 ? _fake : _real,
+                fileName: step >= 2 ? 'test/widget_test.dart' : 'lib/main.dart',
+                highlightedLines: step >= 2 ? const [4] : const [],
+              ),
             ),
-          ),
+            const SizedBox(height: Tokens.gapMd),
+            const Callout(
+              atStep: 2,
+              text:
+                  'One line. The whole tree below is now testable — '
+                  'and nothing below it changed.',
+              color: Palette.green,
+            ),
+          ],
         ),
-      );
+      ),
+    ),
+  );
 }

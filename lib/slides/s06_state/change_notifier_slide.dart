@@ -10,7 +10,7 @@ import 'package:flutter_bootcamp_deck/widgets/widget_tree.dart';
 const _modelWidth = 200.0;
 const _modelHeight = 76.0;
 
-/// Slide 32 — `/change-notifier` (9 steps, A26). Hybrid: a step-driven
+/// Slide 31 — `/change-notifier` (9 steps, A26). Hybrid: a step-driven
 /// diagram *plus* a genuinely tappable button wired to a real
 /// [CounterModel]. Every arrow is labelled with the real method name.
 class ChangeNotifierBody extends StatefulWidget {
@@ -149,7 +149,8 @@ class _ChangeNotifierBodyState extends State<ChangeNotifierBody> {
                           dimWhenPast: false,
                           child: Callout(
                             atStep: 6,
-                            text: 'dispose() — the line is gone, the next '
+                            text:
+                                'dispose() — the line is gone, the next '
                                 'pulse skips it',
                             color: Palette.red,
                           ),
@@ -187,11 +188,13 @@ class _ChangeNotifierBodyState extends State<ChangeNotifierBody> {
                       firstStep: 7,
                       rows: [
                         CorrelationRow(
-                            platform: 'Android',
-                            concept: 'LiveData / StateFlow'),
+                          platform: 'Android',
+                          concept: 'LiveData / StateFlow',
+                        ),
                         CorrelationRow(
-                            platform: 'iOS',
-                            concept: 'ObservableObject / @Published'),
+                          platform: 'iOS',
+                          concept: 'ObservableObject / @Published',
+                        ),
                         CorrelationRow(
                           platform: 'Java/Spring',
                           concept: 'PropertyChangeListener',
@@ -272,24 +275,23 @@ class _Pulse extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => TweenAnimationBuilder<double>(
-        key: ValueKey(tick),
-        tween: Tween(begin: 0.0, end: 1.0),
-        duration: Duration(milliseconds: 700),
-        curve: Curves.easeOut,
-        builder: (context, t, child) => Opacity(
-          opacity: (1 - t).clamp(0.0, 1.0),
-          child: Transform.scale(
-            scale: 0.3 + t * 1.2,
-            child: Container(
-              width: 120,
-              height: 120,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border:
-                    Border.all(color: Palette.green, width: Tokens.strokeWidth),
-              ),
-            ),
+    key: ValueKey(tick),
+    tween: Tween(begin: 0.0, end: 1.0),
+    duration: Duration(milliseconds: 700),
+    curve: Curves.easeOut,
+    builder: (context, t, child) => Opacity(
+      opacity: (1 - t).clamp(0.0, 1.0),
+      child: Transform.scale(
+        scale: 0.3 + t * 1.2,
+        child: Container(
+          width: 120,
+          height: 120,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(color: Palette.green, width: Tokens.strokeWidth),
           ),
         ),
-      );
+      ),
+    ),
+  );
 }

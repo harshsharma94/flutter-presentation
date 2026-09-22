@@ -12,15 +12,16 @@ ThemeData _base(Brightness brightness) {
     brightness: brightness,
     fontFamily: _display,
     scaffoldBackgroundColor: dark ? Palette.base : Palette.lightBase,
-    colorScheme: ColorScheme.fromSeed(
-      seedColor: Palette.blue,
-      brightness: brightness,
-    ).copyWith(
-      primary: Palette.blue,
-      secondary: Palette.green,
-      error: Palette.red,
-      surface: dark ? Palette.surface : Palette.lightSurface,
-    ),
+    colorScheme:
+        ColorScheme.fromSeed(
+          seedColor: Palette.blue,
+          brightness: brightness,
+        ).copyWith(
+          primary: Palette.blue,
+          secondary: Palette.green,
+          error: Palette.red,
+          surface: dark ? Palette.surface : Palette.lightSurface,
+        ),
   );
 }
 

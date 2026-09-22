@@ -9,7 +9,11 @@ void main() {
     await pumpBody(
       tester,
       const FrameStrip(
-          frameCount: 60, stalled: false, stalledFrom: 20, stalledTo: 45),
+        frameCount: 60,
+        stalled: false,
+        stalledFrom: 20,
+        stalledTo: 45,
+      ),
     );
     final painter = stripPainterOf(tester);
     expect(painter.stalled, isFalse);
@@ -20,7 +24,11 @@ void main() {
     await pumpBody(
       tester,
       const FrameStrip(
-          frameCount: 60, stalled: true, stalledFrom: 20, stalledTo: 45),
+        frameCount: 60,
+        stalled: true,
+        stalledFrom: 20,
+        stalledTo: 45,
+      ),
     );
     final painter = stripPainterOf(tester);
     expect(painter.colorAt(30), Palette.red);

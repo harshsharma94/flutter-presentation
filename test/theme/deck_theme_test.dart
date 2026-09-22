@@ -14,7 +14,9 @@ void main() {
   test('light theme keeps the same accents', () {
     expect(deckLightTheme.materialTheme.colorScheme.primary, Palette.blue);
     expect(
-        deckLightTheme.materialTheme.colorScheme.brightness, Brightness.light);
+      deckLightTheme.materialTheme.colorScheme.brightness,
+      Brightness.light,
+    );
   });
 
   test('correlation accents are distinct and semantic', () {

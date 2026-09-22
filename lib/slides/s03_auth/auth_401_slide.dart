@@ -40,9 +40,9 @@ const _serverEdgeX = _serverLeft - 8;
 /// rejected it.
 const _stampX = _serverLeft - 70;
 
-/// Slide 13 — `/auth-401` (3 steps, A10). Opens §2 Auth: a request with no
+/// Slide 12 — `/auth-401` (3 steps, A10). Opens §2 Auth: a request with no
 /// credential bounces off the API stamped 401; a key is what gets it
-/// through. The key is deliberately unexplained here — slide 14 is the
+/// through. The key is deliberately unexplained here — slide 13 is the
 /// whole mechanism behind getting one and keeping it valid.
 class Auth401Body extends StatelessWidget {
   const Auth401Body({required this.step, super.key});
@@ -231,18 +231,23 @@ class _StampBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        padding: EdgeInsets.symmetric(
-            horizontal: Tokens.gapSm, vertical: Tokens.gapXs),
-        decoration: BoxDecoration(
-          border: Border.all(color: Palette.red, width: Tokens.strokeWidth),
-          borderRadius: BorderRadius.circular(Tokens.radius),
-        ),
-        child: Text(
-          '401',
-          style: TextStyle(
-              color: Palette.red, fontSize: 20, fontWeight: FontWeight.w700),
-        ),
-      );
+    padding: EdgeInsets.symmetric(
+      horizontal: Tokens.gapSm,
+      vertical: Tokens.gapXs,
+    ),
+    decoration: BoxDecoration(
+      border: Border.all(color: Palette.red, width: Tokens.strokeWidth),
+      borderRadius: BorderRadius.circular(Tokens.radius),
+    ),
+    child: Text(
+      '401',
+      style: TextStyle(
+        color: Palette.red,
+        fontSize: 20,
+        fontWeight: FontWeight.w700,
+      ),
+    ),
+  );
 }
 
 /// A small "×" that scales in once, matching `api_gap_slide.dart`'s
@@ -253,13 +258,13 @@ class _ErrorPulse extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => TweenAnimationBuilder<double>(
-        tween: Tween(begin: 0.4, end: 1.0),
-        duration: Tokens.fade,
-        curve: Tokens.curve,
-        builder: (context, scale, child) =>
-            Transform.scale(scale: scale, child: child),
-        child: Icon(Icons.close, color: Palette.red, size: 28),
-      );
+    tween: Tween(begin: 0.4, end: 1.0),
+    duration: Tokens.fade,
+    curve: Tokens.curve,
+    builder: (context, scale, child) =>
+        Transform.scale(scale: scale, child: child),
+    child: Icon(Icons.close, color: Palette.red, size: 28),
+  );
 }
 
 /// A small label riding beside a traffic lane, so each arrow says what it
@@ -273,20 +278,20 @@ class _LaneLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (icon != null) ...[
-            Icon(icon, color: color, size: 16),
-            SizedBox(width: 4),
-          ],
-          Text(
-            text,
-            style: TextStyle(
-              fontFamily: 'JetBrainsMono',
-              color: color,
-              fontSize: 16,
-            ),
-          ),
-        ],
-      );
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      if (icon != null) ...[
+        Icon(icon, color: color, size: 16),
+        SizedBox(width: 4),
+      ],
+      Text(
+        text,
+        style: TextStyle(
+          fontFamily: 'JetBrainsMono',
+          color: color,
+          fontSize: 16,
+        ),
+      ),
+    ],
+  );
 }

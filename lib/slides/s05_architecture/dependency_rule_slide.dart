@@ -14,7 +14,7 @@ const _arrowY = 24.0;
 
 double _slabLeft(int i) => i * (_slabWidth + Tokens.gapLg);
 
-/// Slide 25 — `/dependency-rule` (4 steps, A20). Arrows point inward, toward
+/// Slide 24 — `/dependency-rule` (4 steps, A20). Arrows point inward, toward
 /// Domain. Step 3 flips one, and Domain stops being testable on its own.
 class DependencyRuleBody extends StatelessWidget {
   const DependencyRuleBody({required this.step, super.key});
@@ -90,8 +90,10 @@ class DependencyRuleBody extends StatelessWidget {
                         until: 2,
                         dimWhenPast: false,
                         child: AnimatedArrow(
-                          from:
-                              Offset(_slabLeft(2) + _slabWidth * 0.3, _arrowY),
+                          from: Offset(
+                            _slabLeft(2) + _slabWidth * 0.3,
+                            _arrowY,
+                          ),
                           to: Offset(_slabLeft(1) + _slabWidth * 0.7, _arrowY),
                           atStep: 2,
                           curved: true,
@@ -104,8 +106,10 @@ class DependencyRuleBody extends StatelessWidget {
                         atStep: 3,
                         dimWhenPast: false,
                         child: AnimatedArrow(
-                          from:
-                              Offset(_slabLeft(1) + _slabWidth * 0.7, _arrowY),
+                          from: Offset(
+                            _slabLeft(1) + _slabWidth * 0.7,
+                            _arrowY,
+                          ),
                           to: Offset(_slabLeft(2) + _slabWidth * 0.3, _arrowY),
                           atStep: 3,
                           curved: true,
@@ -126,11 +130,7 @@ class DependencyRuleBody extends StatelessWidget {
                 ),
               ),
               SizedBox(height: Tokens.gapMd),
-              StepReveal(
-                atStep: 4,
-                dimWhenPast: false,
-                child: _TestPanel(),
-              ),
+              StepReveal(atStep: 4, dimWhenPast: false, child: _TestPanel()),
             ],
           ),
         ),

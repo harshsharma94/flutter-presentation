@@ -62,8 +62,8 @@ const _everyNodeId = {
   'like-2',
 };
 
-/// Slide 29 — `/state-problem` (5 steps, A23). Prop drilling, drawn. The
-/// tree, its layout and its node positions are shared with slide 29-34, so
+/// Slide 28 — `/state-problem` (5 steps, A23). Prop drilling, drawn. The
+/// tree, its layout and its node positions are shared with slides 28–33, so
 /// nothing jumps at a slide boundary.
 class StateProblemBody extends StatelessWidget {
   const StateProblemBody({required this.step, super.key});
@@ -72,79 +72,80 @@ class StateProblemBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Center(
-        child: Padding(
-          padding: const EdgeInsets.all(Tokens.gapMd),
-          child: FittedBox(
-            fit: BoxFit.scaleDown,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox.fromSize(
-                  size: treeCanvasSize,
-                  child: WidgetTreeView(
-                    root: step >= 4 ? _crowdedTree : demoTree,
-                    showParams: step >= 2,
-                    subscribed: step >= 1 ? const {'like-1'} : const {},
-                    flashing: step >= 5 ? _everyNodeId : const {},
-                  ),
-                ),
-                const SizedBox(width: Tokens.gapLg),
-                SizedBox(
-                  width: 420,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const _Note(
-                        atStep: 1,
-                        text: 'The data lives at the root. The widget that '
-                            'needs it is four levels down.',
-                      ),
-                      const _Note(
-                        atStep: 2,
-                        text: 'Every widget in between takes a parameter it '
-                            'never reads.',
-                      ),
-                      const Callout(
-                        atStep: 2,
-                        text: "doesn't care, still has to carry it",
-                        color: Palette.amber,
-                      ),
-                      const SizedBox(height: Tokens.gapSm),
-                      const _Note(
-                        atStep: 3,
-                        text: 'And the callback has to be threaded all the '
-                            'way back up.',
-                      ),
-                      const _Note(
-                        atStep: 4,
-                        text: 'Add one more piece of state and every '
-                            'constructor in the middle grows again.',
-                      ),
-                      const _Note(
-                        atStep: 5,
-                        text: 'setState at the root rebuilds the entire '
-                            'subtree — including everything that did not '
-                            'change.',
-                        color: Palette.red,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+    child: Padding(
+      padding: const EdgeInsets.all(Tokens.gapMd),
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox.fromSize(
+              size: treeCanvasSize,
+              child: WidgetTreeView(
+                root: step >= 4 ? _crowdedTree : demoTree,
+                showParams: step >= 2,
+                subscribed: step >= 1 ? const {'like-1'} : const {},
+                flashing: step >= 5 ? _everyNodeId : const {},
+              ),
             ),
-          ),
+            const SizedBox(width: Tokens.gapLg),
+            SizedBox(
+              width: 420,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const _Note(
+                    atStep: 1,
+                    text:
+                        'The data lives at the root. The widget that '
+                        'needs it is four levels down.',
+                  ),
+                  const _Note(
+                    atStep: 2,
+                    text:
+                        'Every widget in between takes a parameter it '
+                        'never reads.',
+                  ),
+                  const Callout(
+                    atStep: 2,
+                    text: "doesn't care, still has to carry it",
+                    color: Palette.amber,
+                  ),
+                  const SizedBox(height: Tokens.gapSm),
+                  const _Note(
+                    atStep: 3,
+                    text:
+                        'And the callback has to be threaded all the '
+                        'way back up.',
+                  ),
+                  const _Note(
+                    atStep: 4,
+                    text:
+                        'Add one more piece of state and every '
+                        'constructor in the middle grows again.',
+                  ),
+                  const _Note(
+                    atStep: 5,
+                    text:
+                        'setState at the root rebuilds the entire '
+                        'subtree — including everything that did not '
+                        'change.',
+                    color: Palette.red,
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
-      );
+      ),
+    ),
+  );
 }
 
 class _Note extends StatelessWidget {
-  const _Note({
-    required this.atStep,
-    required this.text,
-    this.color,
-  });
+  const _Note({required this.atStep, required this.text, this.color});
 
   final int atStep;
   final String text;
@@ -152,14 +153,14 @@ class _Note extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(bottom: Tokens.gapSm),
-        child: StepReveal(
-          atStep: atStep,
-          slideFrom: const Offset(0.06, 0),
-          child: Text(
-            text,
-            style: TextStyle(color: color, fontSize: 23, height: 1.35),
-          ),
-        ),
-      );
+    padding: const EdgeInsets.only(bottom: Tokens.gapSm),
+    child: StepReveal(
+      atStep: atStep,
+      slideFrom: const Offset(0.06, 0),
+      child: Text(
+        text,
+        style: TextStyle(color: color, fontSize: 23, height: 1.35),
+      ),
+    ),
+  );
 }

@@ -11,7 +11,7 @@ const _canvasWidth = 1120.0;
 const _canvasHeight = 470.0;
 const _jsonLeft = 470.0;
 
-/// The shared choreography behind slides 44-46: one row of the screen, the
+/// The shared choreography behind slides 43-45: one row of the screen, the
 /// contract fragment that produced it, and the Dart property that fragment
 /// drives. Only the row, the JSON and the binding change between the three
 /// slides — the beats do not, which is the point: the client code is the
@@ -47,74 +47,69 @@ class BffRevealBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Center(
-        child: Padding(
-          padding: const EdgeInsets.all(Tokens.gapMd),
-          child: FittedBox(
-            fit: BoxFit.scaleDown,
-            child: SizedBox(
-              width: _canvasWidth,
-              height: _canvasHeight,
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  Positioned(
-                    left: 0,
-                    top: 0,
-                    child: PaymentMethodsScreen(
-                      width: _screenWidth,
-                      highlightedRegions: step >= 1 ? {regionId} : const {},
-                    ),
-                  ),
-                  Positioned.fill(
-                    child: AnimatedArrow(
-                      from: const Offset(_screenWidth + 8, 0) +
-                          Offset(0, anchorY),
-                      to: Offset(_jsonLeft - 8, anchorY),
-                      atStep: 2,
-                      color: accent,
-                    ),
-                  ),
-                  Positioned(
-                    left: _jsonLeft,
-                    top: 0,
-                    width: _canvasWidth - _jsonLeft,
-                    child: StepReveal(
-                      atStep: 3,
-                      dimWhenPast: false,
-                      slideFrom: const Offset(0.06, 0),
-                      child: CodePanel(
-                        code: json,
-                        language: 'json',
-                        fileName: 'GET /payment-methods',
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: _jsonLeft,
-                    top: _canvasHeight - 150,
-                    width: _canvasWidth - _jsonLeft,
-                    child: StepReveal(
-                      atStep: 4,
-                      dimWhenPast: false,
-                      child: CodePanel(code: binding),
-                    ),
-                  ),
-                  Positioned(
-                    left: 0,
-                    top: _canvasHeight - 44,
-                    width: _screenWidth + 60,
-                    child: Callout(
-                      atStep: 4,
-                      text: caption,
-                      color: accent,
-                    ),
-                  ),
-                ],
+    child: Padding(
+      padding: const EdgeInsets.all(Tokens.gapMd),
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: SizedBox(
+          width: _canvasWidth,
+          height: _canvasHeight,
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Positioned(
+                left: 0,
+                top: 0,
+                child: PaymentMethodsScreen(
+                  width: _screenWidth,
+                  highlightedRegions: step >= 1 ? {regionId} : const {},
+                ),
               ),
-            ),
+              Positioned.fill(
+                child: AnimatedArrow(
+                  from: const Offset(_screenWidth + 8, 0) + Offset(0, anchorY),
+                  to: Offset(_jsonLeft - 8, anchorY),
+                  atStep: 2,
+                  color: accent,
+                ),
+              ),
+              Positioned(
+                left: _jsonLeft,
+                top: 0,
+                width: _canvasWidth - _jsonLeft,
+                child: StepReveal(
+                  atStep: 3,
+                  dimWhenPast: false,
+                  slideFrom: const Offset(0.06, 0),
+                  child: CodePanel(
+                    code: json,
+                    language: 'json',
+                    fileName: 'GET /payment-methods',
+                  ),
+                ),
+              ),
+              Positioned(
+                left: _jsonLeft,
+                top: _canvasHeight - 150,
+                width: _canvasWidth - _jsonLeft,
+                child: StepReveal(
+                  atStep: 4,
+                  dimWhenPast: false,
+                  child: CodePanel(code: binding),
+                ),
+              ),
+              Positioned(
+                left: 0,
+                top: _canvasHeight - 44,
+                width: _screenWidth + 60,
+                child: Callout(atStep: 4, text: caption, color: accent),
+              ),
+            ],
           ),
         ),
-      );
+      ),
+    ),
+  );
 }
 
 /// A palette alias so the three slides read as variations of one idea rather

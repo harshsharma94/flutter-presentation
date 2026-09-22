@@ -8,7 +8,9 @@ final _rows = [
   CorrelationRow(platform: 'Android', concept: 'Retrofit + OkHttp'),
   CorrelationRow(platform: 'iOS', concept: 'URLSession / Alamofire'),
   CorrelationRow(
-      platform: 'Java / Spring', concept: 'RestTemplate / WebClient'),
+    platform: 'Java / Spring',
+    concept: 'RestTemplate / WebClient',
+  ),
   CorrelationRow(platform: 'Go', concept: 'net/http'),
 ];
 
@@ -43,11 +45,7 @@ class HttpClientsBody extends StatelessWidget {
                 child: CorrelationPanel(flutterLabel: 'Dio', rows: _rows),
               ),
               SizedBox(height: Tokens.gapLg),
-              StepReveal(
-                atStep: 4,
-                dimWhenPast: false,
-                child: _AddDioPanel(),
-              ),
+              StepReveal(atStep: 4, dimWhenPast: false, child: _AddDioPanel()),
             ],
           ),
         ),

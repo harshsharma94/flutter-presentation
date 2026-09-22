@@ -33,7 +33,7 @@ class PaymentRowData {
 
 /// A neutral reconstruction of a "select payment method" screen — generic
 /// rows, synthetic balances, no real product. It exists to be read as a
-/// hierarchy on slide 43 and annotated against a contract on slides 44-46.
+/// hierarchy on slide 42 and annotated against a contract on slides 43-45.
 final paymentRows = [
   PaymentRowData(
     id: 'row-rewards',
@@ -219,10 +219,10 @@ class PaymentRow extends StatelessWidget {
   final PaymentRowData data;
 
   Color _subtitleColor(DeckColors pal) => switch (data.tone) {
-        RowTone.normal => pal.textSecondary,
-        RowTone.info => Palette.amber,
-        RowTone.error => Palette.red,
-      };
+    RowTone.normal => pal.textSecondary,
+    RowTone.info => Palette.amber,
+    RowTone.error => Palette.red,
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -244,10 +244,7 @@ class PaymentRow extends StatelessWidget {
                     data.title,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      color: pal.textPrimary,
-                      fontSize: 16,
-                    ),
+                    style: TextStyle(color: pal.textPrimary, fontSize: 16),
                   ),
                   Text(
                     data.subtitle,
@@ -260,20 +257,20 @@ class PaymentRow extends StatelessWidget {
             ),
             switch (data.cta) {
               RowCta.radio => Icon(
-                  Icons.radio_button_unchecked,
-                  color: pal.textSecondary,
-                  size: 18,
-                ),
+                Icons.radio_button_unchecked,
+                color: pal.textSecondary,
+                size: 18,
+              ),
               RowCta.info => Icon(
-                  Icons.info_outline,
-                  color: Palette.amber,
-                  size: 18,
-                ),
+                Icons.info_outline,
+                color: Palette.amber,
+                size: 18,
+              ),
               RowCta.none => Icon(
-                  Icons.chevron_right,
-                  color: pal.textSecondary,
-                  size: 18,
-                ),
+                Icons.chevron_right,
+                color: pal.textSecondary,
+                size: 18,
+              ),
             },
           ],
         ),
@@ -292,17 +289,17 @@ class _Region extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => AnimatedContainer(
-        key: ValueKey('region-$id'),
-        duration: Tokens.fade,
-        curve: Tokens.curve,
-        padding: EdgeInsets.all(2),
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: lit ? Palette.blue : Colors.transparent,
-            width: Tokens.strokeWidth,
-          ),
-          borderRadius: BorderRadius.circular(Tokens.gapXs),
-        ),
-        child: child,
-      );
+    key: ValueKey('region-$id'),
+    duration: Tokens.fade,
+    curve: Tokens.curve,
+    padding: EdgeInsets.all(2),
+    decoration: BoxDecoration(
+      border: Border.all(
+        color: lit ? Palette.blue : Colors.transparent,
+        width: Tokens.strokeWidth,
+      ),
+      borderRadius: BorderRadius.circular(Tokens.gapXs),
+    ),
+    child: child,
+  );
 }

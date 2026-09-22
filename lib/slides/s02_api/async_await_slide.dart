@@ -35,11 +35,12 @@ const _frameCount = 60;
 const _stalledFrom = 25;
 const _stalledTo = 40;
 
-const _blockWidth = 170.0;
+const _blockWidth = 290.0;
 const _blockHeight = 40.0;
 
 /// Centred over the [_stalledFrom]..[_stalledTo] tick range.
-const _blockLeft = _lanesLeft +
+const _blockLeft =
+    _lanesLeft +
     (_stalledFrom + _stalledTo) / 2 / _frameCount * _lanesWidth -
     _blockWidth / 2;
 const _blockTopInMainLane = _mainLaneCenterY - _blockHeight / 2;
@@ -72,133 +73,147 @@ class AsyncAwaitBody extends StatelessWidget {
     final pal = Palette.of(context);
 
     return Center(
-      child: Padding(
-        padding: EdgeInsets.all(Tokens.gapLg),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SizedBox.fromSize(
-              size: _canvasSize,
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  Positioned(
-                    left: _lanesLeft,
-                    top: 0,
-                    child: StepReveal(
-                      atStep: 1,
-                      until: 1,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            'One thread draws your whole UI.',
-                            style: TextStyle(
-                              color: pal.textPrimary,
-                              fontSize: 26,
-                            ),
-                          ),
-                          Text(
-                            'A frame every 16ms. Hold it up and nothing '
-                            'moves — not even the spinner.',
-                            style: TextStyle(
-                              color: pal.textSecondary,
-                              fontSize: 20,
-                            ),
-                          ),
-                        ],
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Padding(
+          padding: EdgeInsets.all(Tokens.gapLg),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Above the canvas, not inside it: at top 0 this sat under the
+              // frame strip. [StepReveal] holds its space when hidden, so
+              // nothing below it moves when the heading fades at step 2.
+              SizedBox(
+                width: _canvasWidth,
+                child: StepReveal(
+                  atStep: 1,
+                  until: 1,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'One thread draws your whole UI.',
+                        style: TextStyle(color: pal.textPrimary, fontSize: 26),
+                      ),
+                      Text(
+                        'A frame every 16ms. Hold it up and nothing moves '
+                        '— not even the spinner.',
+                        style: TextStyle(
+                          color: pal.textSecondary,
+                          fontSize: 20,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: Tokens.gapMd),
+              SizedBox.fromSize(
+                size: _canvasSize,
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    Positioned(
+                      left: _lanesLeft,
+                      top: _mainLaneTop,
+                      width: _lanesWidth,
+                      height: _laneHeight,
+                      child: FrameStrip(
+                        frameCount: _frameCount,
+                        stalledFrom: _stalledFrom,
+                        stalledTo: _stalledTo,
+                        stalled: _isBlocked,
+                        height: _laneHeight,
                       ),
                     ),
-                  ),
-                  Positioned(
-                    left: _lanesLeft,
-                    top: _mainLaneTop,
-                    width: _lanesWidth,
-                    height: _laneHeight,
-                    child: FrameStrip(
-                      frameCount: _frameCount,
-                      stalledFrom: _stalledFrom,
-                      stalledTo: _stalledTo,
-                      stalled: _isBlocked,
+                    Positioned(
+                      left: _lanesLeft,
+                      top: _secondLaneTop,
+                      width: _lanesWidth,
                       height: _laneHeight,
-                    ),
-                  ),
-                  Positioned(
-                    left: _lanesLeft,
-                    top: _secondLaneTop,
-                    width: _lanesWidth,
-                    height: _laneHeight,
-                    child: DashedBox(
-                      atStep: 3,
-                      color: Palette.blue,
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Padding(
-                          padding: EdgeInsets.only(left: Tokens.gapSm),
-                          child: Text(
-                            'await — suspended',
-                            style: TextStyle(
-                              color:
-                                  Palette.blue.withValues(alpha: Tokens.dimmed),
-                              fontSize: 17,
+                      child: DashedBox(
+                        atStep: 3,
+                        color: Palette.blue,
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: EdgeInsets.only(left: Tokens.gapSm),
+                            child: Text(
+                              'await — suspended',
+                              style: TextStyle(
+                                color: Palette.blue.withValues(
+                                  alpha: Tokens.dimmed,
+                                ),
+                                fontSize: 17,
+                              ),
                             ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  // The floating `fetchPhotos()` call: hidden at step 1,
-                  // then repositioned between the main and suspended
-                  // lanes purely as a function of `step` — see
-                  // [_blockTop].
-                  AnimatedPositioned(
-                    duration: Tokens.travel,
-                    curve: Tokens.curve,
-                    left: _blockLeft,
-                    top: _blockTop,
-                    child: AnimatedOpacity(
-                      duration: Tokens.fade,
+                    // The floating `fetchPhotos()` call: hidden at step 1,
+                    // then repositioned between the main and suspended
+                    // lanes purely as a function of `step` — see
+                    // [_blockTop].
+                    AnimatedPositioned(
+                      duration: Tokens.travel,
                       curve: Tokens.curve,
-                      opacity: step >= 2 ? 1.0 : 0.0,
-                      child: IgnorePointer(
-                          child: _FetchBlock(blocked: _isBlocked)),
+                      left: _blockLeft,
+                      top: _blockTop,
+                      child: AnimatedOpacity(
+                        duration: Tokens.fade,
+                        curve: Tokens.curve,
+                        opacity: step >= 2 ? 1.0 : 0.0,
+                        child: IgnorePointer(
+                          child: _FetchBlock(blocked: _isBlocked),
+                        ),
+                      ),
                     ),
-                  ),
-                  Positioned(
-                    left: _blockLeft,
-                    top: _blockTopInMainLane + _blockHeight + Tokens.gapXs,
-                    child: Callout(
-                      atStep: 2,
-                      text: 'a tight loop, a huge jsonDecode · '
-                          '138 frames dropped',
-                      color: Palette.red,
+                    Positioned(
+                      left: _blockLeft,
+                      top: _blockTopInMainLane + _blockHeight + Tokens.gapXs,
+                      child: Callout(
+                        atStep: 2,
+                        text:
+                            'a tight loop, a huge jsonDecode · '
+                            '138 frames dropped',
+                        color: Palette.red,
+                      ),
                     ),
-                  ),
-                  Positioned(
-                    left: _phoneLeft,
-                    top: 0,
-                    child: PhoneFrame(
-                      width: _phoneWidth,
-                      child: Center(child: _Spinner(step: step)),
+                    Positioned(
+                      left: _phoneLeft,
+                      top: 0,
+                      child: PhoneFrame(
+                        width: _phoneWidth,
+                        child: Center(child: _Spinner(step: step)),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            SizedBox(height: Tokens.gapMd),
-            CorrelationPanel(
-              flutterLabel: 'await',
-              firstStep: 4,
-              stepsPerRow: 0,
-              rows: [
-                CorrelationRow(platform: 'Kotlin', concept: 'suspend'),
-                CorrelationRow(platform: 'Swift', concept: 'async/await'),
-                CorrelationRow(platform: 'Go', concept: 'goroutine'),
-                CorrelationRow(platform: 'Java', concept: 'CompletableFuture'),
-              ],
-            ),
-          ],
+              SizedBox(height: Tokens.gapMd),
+              // [CorrelationPanel] uses `Expanded` internally, so it needs a
+              // bounded width — which the enclosing [FittedBox] does not give.
+              SizedBox(
+                width: _canvasWidth,
+                child: CorrelationPanel(
+                  flutterLabel: 'await',
+                  firstStep: 4,
+                  stepsPerRow: 0,
+                  rows: [
+                    CorrelationRow(platform: 'Kotlin', concept: 'suspend'),
+                    CorrelationRow(platform: 'Swift', concept: 'async/await'),
+                    CorrelationRow(platform: 'Go', concept: 'goroutine'),
+                    CorrelationRow(
+                      platform: 'Java',
+                      concept: 'CompletableFuture',
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -223,10 +238,23 @@ class _FetchBlock extends StatelessWidget {
         border: Border.all(color: color, width: Tokens.strokeWidth),
         borderRadius: BorderRadius.circular(Tokens.radius),
       ),
-      child: Text(
-        'work that never yields',
-        style:
-            TextStyle(color: color, fontFamily: 'JetBrainsMono', fontSize: 20),
+      // The label is wider than a comfortable block at full size, and a
+      // clipped one reads as a bug rather than a design — so the block keeps
+      // the fixed width the slide's geometry is derived from, and the text
+      // shrinks to fit inside it instead of running past the border.
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: Tokens.gapSm),
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Text(
+            'work that never yields',
+            style: TextStyle(
+              color: color,
+              fontFamily: 'JetBrainsMono',
+              fontSize: 20,
+            ),
+          ),
+        ),
       ),
     );
   }

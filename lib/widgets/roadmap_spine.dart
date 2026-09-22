@@ -4,7 +4,8 @@ import 'package:flutter_bootcamp_deck/theme/tokens.dart';
 
 /// The day's five-node roadmap — API · Auth · Data · Architecture · State —
 /// built full-size on slide 3 (`/roadmap`) and reused in [compact] form as
-/// the section-opening chip on slide 42, 6, 15, 19, 25, 31, 39, 42, 44.
+/// the section-opening chip on the slides that open each section: 5, 12,
+/// 16, 22, 28, 36, 39, 41, 42 and 48.
 ///
 /// [activeNode] is 0-5: 0 means no node has started yet (every node reads as
 /// upcoming); node `n` (1-5) renders lit in [Palette.blue]; nodes before it
@@ -14,8 +15,11 @@ import 'package:flutter_bootcamp_deck/theme/tokens.dart';
 /// [activeNode] by one per step) gets a smooth hand-off between nodes with
 /// no [AnimationController] involved.
 class RoadmapSpine extends StatelessWidget {
-  const RoadmapSpine(
-      {required this.activeNode, this.compact = false, super.key});
+  const RoadmapSpine({
+    required this.activeNode,
+    this.compact = false,
+    super.key,
+  });
 
   final int activeNode;
   final bool compact;
@@ -30,8 +34,8 @@ class RoadmapSpine extends StatelessWidget {
 
   Color _connectorColor(int beforeNode, DeckColors pal) =>
       beforeNode <= activeNode
-          ? Palette.blue.withValues(alpha: Tokens.dimmed)
-          : pal.textSecondary;
+      ? Palette.blue.withValues(alpha: Tokens.dimmed)
+      : pal.textSecondary;
 
   @override
   Widget build(BuildContext context) {
@@ -76,8 +80,10 @@ class RoadmapSpine extends StatelessWidget {
               AnimatedDefaultTextStyle(
                 duration: Tokens.travel,
                 curve: Tokens.curve,
-                style:
-                    TextStyle(color: _dotColor(node, pal), fontSize: fontSize),
+                style: TextStyle(
+                  color: _dotColor(node, pal),
+                  fontSize: fontSize,
+                ),
                 child: Text(_labels[node - 1]),
               ),
             ],

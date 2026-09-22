@@ -7,9 +7,9 @@ class _FailingAdapter implements HttpClientAdapter {
   void close({bool force = false}) {}
   @override
   Future<ResponseBody> fetch(o, s, f) async => throw DioException(
-        requestOptions: RequestOptions(path: '/photos'),
-        type: DioExceptionType.connectionError,
-      );
+    requestOptions: RequestOptions(path: '/photos'),
+    type: DioExceptionType.connectionError,
+  );
 }
 
 /// Simulates a successful HTTP call whose body isn't the Unsplash photo
@@ -21,12 +21,12 @@ class _BadShapeAdapter implements HttpClientAdapter {
   void close({bool force = false}) {}
   @override
   Future<ResponseBody> fetch(o, s, f) async => ResponseBody.fromString(
-        '{"errors":["Rate Limit Exceeded"]}',
-        200,
-        headers: {
-          Headers.contentTypeHeader: [Headers.jsonContentType],
-        },
-      );
+    '{"errors":["Rate Limit Exceeded"]}',
+    200,
+    headers: {
+      Headers.contentTypeHeader: [Headers.jsonContentType],
+    },
+  );
 }
 
 const _fixture = '''
@@ -50,10 +50,7 @@ void main() {
 
   test('falls back to the fixture when the network fails', () async {
     final dio = Dio()..httpClientAdapter = _FailingAdapter();
-    final client = UnsplashClient(
-      dio: dio,
-      loadAsset: (_) async => _fixture,
-    );
+    final client = UnsplashClient(dio: dio, loadAsset: (_) async => _fixture);
     final result = await client.getPhotos();
     expect(result.fromFixture, isTrue);
     expect(result.photos.single.author, 'Ansel');
@@ -68,8 +65,7 @@ void main() {
     expect(result.fromFixture, isTrue);
   });
 
-  test(
-      'falls back to the fixture when a 200 response has an unexpected '
+  test('falls back to the fixture when a 200 response has an unexpected '
       'shape', () async {
     final dio = Dio()..httpClientAdapter = _BadShapeAdapter();
     final client = UnsplashClient(
@@ -82,8 +78,7 @@ void main() {
     expect(result.photos.single.author, 'Ansel');
   });
 
-  test(
-      'falls back to the in-code last-resort photos when the fixture '
+  test('falls back to the in-code last-resort photos when the fixture '
       'itself cannot be loaded', () async {
     final client = UnsplashClient(
       accessKey: '',

@@ -8,7 +8,7 @@ import 'package:flutter_bootcamp_deck/widgets/rebuild_flash.dart';
 /// they are three different answers to "how much of my tree rebuilds?".
 enum ReadMode { watch, read, consumer }
 
-/// Slide 35's live demo. The same widget tree, rendered as real widgets
+/// Slide 34's live demo. The same widget tree, rendered as real widgets
 /// under a real [CounterModel], rebuilt through whichever reader is
 /// selected. Nothing here is staged: the flashes come from
 /// [RebuildFlash.build], the readout from [RebuildTally].
@@ -142,11 +142,7 @@ class _RebuildScopeDemoState extends State<RebuildScopeDemo> {
 /// The demo tree as real widgets. [liveLeafOnly] puts the listening builder
 /// around one leaf instead of the whole tree — the `Consumer` case.
 class _Tree extends StatelessWidget {
-  const _Tree({
-    required this.likes,
-    required this.liveLeafOnly,
-    this.model,
-  });
+  const _Tree({required this.likes, required this.liveLeafOnly, this.model});
 
   final int likes;
   final bool liveLeafOnly;
@@ -154,47 +150,50 @@ class _Tree extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => RebuildFlash(
-        id: 'photo-app',
+    id: 'photo-app',
+    child: _Node(
+      label: 'PhotoApp',
+      child: RebuildFlash(
+        id: 'home-screen',
         child: _Node(
-          label: 'PhotoApp',
+          label: 'HomeScreen',
           child: RebuildFlash(
-            id: 'home-screen',
+            id: 'photo-grid',
             child: _Node(
-              label: 'HomeScreen',
-              child: RebuildFlash(
-                id: 'photo-grid',
-                child: _Node(
-                  label: 'PhotoGrid',
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      _tile('tile-1', 'like-1'),
-                      SizedBox(width: Tokens.gapSm),
-                      _tile('tile-2', 'like-2'),
-                    ],
-                  ),
-                ),
+              label: 'PhotoGrid',
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _tile('tile-1', 'like-1'),
+                  SizedBox(width: Tokens.gapSm),
+                  _tile('tile-2', 'like-2'),
+                ],
               ),
             ),
           ),
         ),
-      );
+      ),
+    ),
+  );
 
   Widget _tile(String tileId, String leafId) => RebuildFlash(
-        id: tileId,
-        child: _Node(
-          label: 'PhotoTile',
-          child: liveLeafOnly && leafId == 'like-1' && model != null
-              ? ListenableBuilder(
-                  listenable: model!,
-                  builder: (context, _) => RebuildFlash(
-                    id: leafId,
-                    child: _Leaf(likes: model!.likes),
-                  ),
-                )
-              : RebuildFlash(id: leafId, child: _Leaf(likes: likes)),
-        ),
-      );
+    id: tileId,
+    child: _Node(
+      label: 'PhotoTile',
+      child: liveLeafOnly && leafId == 'like-1' && model != null
+          ? ListenableBuilder(
+              listenable: model!,
+              builder: (context, _) => RebuildFlash(
+                id: leafId,
+                child: _Leaf(likes: model!.likes),
+              ),
+            )
+          : RebuildFlash(
+              id: leafId,
+              child: _Leaf(likes: likes),
+            ),
+    ),
+  );
 }
 
 class _Node extends StatelessWidget {
@@ -217,10 +216,7 @@ class _Node extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            label,
-            style: TextStyle(color: pal.textSecondary, fontSize: 15),
-          ),
+          Text(label, style: TextStyle(color: pal.textSecondary, fontSize: 15)),
           SizedBox(height: 4),
           child,
         ],
@@ -236,19 +232,19 @@ class _Leaf extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        padding: EdgeInsets.symmetric(horizontal: Tokens.gapSm, vertical: 6),
-        margin: EdgeInsets.all(3),
-        decoration: BoxDecoration(
-          border: Border.all(color: Palette.blue, width: 1),
-          borderRadius: BorderRadius.circular(Tokens.radius),
-        ),
-        child: Text(
-          'LikeButton  $likes',
-          style: TextStyle(
-            fontFamily: 'JetBrainsMono',
-            color: Palette.blue,
-            fontSize: 16,
-          ),
-        ),
-      );
+    padding: EdgeInsets.symmetric(horizontal: Tokens.gapSm, vertical: 6),
+    margin: EdgeInsets.all(3),
+    decoration: BoxDecoration(
+      border: Border.all(color: Palette.blue, width: 1),
+      borderRadius: BorderRadius.circular(Tokens.radius),
+    ),
+    child: Text(
+      'LikeButton  $likes',
+      style: TextStyle(
+        fontFamily: 'JetBrainsMono',
+        color: Palette.blue,
+        fontSize: 16,
+      ),
+    ),
+  );
 }

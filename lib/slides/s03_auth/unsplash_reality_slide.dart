@@ -7,7 +7,7 @@ import 'package:flutter_bootcamp_deck/widgets/annotate.dart';
 import 'package:flutter_bootcamp_deck/widgets/sequence_diagram.dart';
 import 'package:flutter_bootcamp_deck/widgets/step_reveal.dart';
 
-/// Slide 15's diagram footprint at full scale — same width it renders with
+/// Slide 14's diagram footprint at full scale — same width it renders with
 /// there, and the same 8-row height its 9 hops resolve to (one row shared by
 /// the step-8/step-9 replay pair). Needed so [Transform.scale] shrinks it
 /// rather than the layout reserving its full, unscaled box.
@@ -17,7 +17,7 @@ const _scale = 0.25;
 
 const _headerLine = 'Authorization: Client-ID abc123';
 
-/// Slide 16 — `/unsplash-reality` (2 steps, A13). Closes §2 Auth: the whole
+/// Slide 15 — `/unsplash-reality` (2 steps, A13). Closes §2 Auth: the whole
 /// OAuth2 machinery just taught, shrunk to a footnote, because Unsplash's
 /// public API only ever checks one static header. Knowing the full flow and
 /// knowing today doesn't need it are the same skill.
@@ -77,7 +77,9 @@ class UnsplashRealityBody extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: pal.surface,
                   border: Border.all(
-                      color: Palette.blue, width: Tokens.strokeWidth),
+                    color: Palette.blue,
+                    width: Tokens.strokeWidth,
+                  ),
                   borderRadius: BorderRadius.circular(Tokens.radius),
                 ),
                 child: Text(

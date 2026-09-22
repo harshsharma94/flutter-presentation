@@ -6,12 +6,12 @@ import 'package:flutter_bootcamp_deck/widgets/annotate.dart';
 const _failures = [
   (
     platform: 'Android',
-    error:
-        'SocketException: Permission denied (maybe missing INTERNET permission)',
+    error: 'SocketException: Permission denied (maybe missing INTERNET permission)',
   ),
   (
     platform: 'macOS',
-    error: 'SocketException: Operation not permitted, errno = 1 '
+    error:
+        'SocketException: Operation not permitted, errno = 1 '
         '(missing network.client entitlement)',
   ),
   (
@@ -30,25 +30,25 @@ class WhenItBreaksBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Center(
-        child: Padding(
-          padding: const EdgeInsets.all(Tokens.gapLg),
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 820),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                for (var i = 0; i < _failures.length; i++) ...[
-                  if (i > 0) const SizedBox(height: Tokens.gapMd),
-                  Callout(
-                    atStep: i + 1,
-                    text: '${_failures[i].platform} — ${_failures[i].error}',
-                    color: Palette.red,
-                  ),
-                ],
-              ],
-            ),
-          ),
+    child: Padding(
+      padding: const EdgeInsets.all(Tokens.gapLg),
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 820),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            for (var i = 0; i < _failures.length; i++) ...[
+              if (i > 0) const SizedBox(height: Tokens.gapMd),
+              Callout(
+                atStep: i + 1,
+                text: '${_failures[i].platform} — ${_failures[i].error}',
+                color: Palette.red,
+              ),
+            ],
+          ],
         ),
-      );
+      ),
+    ),
+  );
 }

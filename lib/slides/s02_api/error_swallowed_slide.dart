@@ -8,8 +8,8 @@ import 'package:flutter_bootcamp_deck/widgets/step_reveal.dart';
 
 const _tryCatchCode = '''
 try {
-  final photos = await repo.fetch();
-  setState(() => _photos = photos);
+  final res = await dio.get(url);
+  setState(() => _photos = res.data);
 } catch (e) {}''';
 
 /// 0-indexed — the empty `catch (e) {}` block, per
@@ -59,7 +59,7 @@ class ErrorSwallowedBody extends StatelessWidget {
                     atStep: 1,
                     child: CodePanel(
                       code: _tryCatchCode,
-                      fileName: 'photo_repository.dart',
+                      fileName: 'lib/screens/photo_list_screen.dart',
                       highlightedLines: _catchLine,
                     ),
                   ),

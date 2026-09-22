@@ -31,10 +31,10 @@ class ThreeStatesCodeBody extends StatelessWidget {
   final int step;
 
   List<int> get _highlightedLines => switch (step) {
-        1 => _loadingLines,
-        2 => _errorLines,
-        _ => _dataLines,
-      };
+    1 => _loadingLines,
+    2 => _errorLines,
+    _ => _dataLines,
+  };
 
   @override
   Widget build(BuildContext context) {

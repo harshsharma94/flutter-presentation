@@ -21,15 +21,15 @@ class CodePanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => FlutterDeckCodeHighlightTheme(
-        data: FlutterDeckCodeHighlightTheme.of(context)
-            .copyWith(textStyle: deckCodeStyle),
-        child: FlutterDeckCodeHighlight(
-          code: code,
-          language: language,
-          fileName: fileName,
-          highlightedLines: highlightedLines,
-          animateCodeUpdate: true,
-          codeUpdateDuration: Tokens.travel,
-        ),
-      );
+    data: FlutterDeckCodeHighlightTheme.of(context)
+        .copyWith(textStyle: deckCodeStyle),
+    child: FlutterDeckCodeHighlight(
+      code: code,
+      language: language,
+      fileName: fileName,
+      highlightedLines: highlightedLines,
+      animateCodeUpdate: true,
+      codeUpdateDuration: Tokens.travel,
+    ),
+  );
 }

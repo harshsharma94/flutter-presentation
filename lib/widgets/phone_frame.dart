@@ -23,10 +23,7 @@ class PhoneFrame extends StatelessWidget {
       padding: EdgeInsets.all(Tokens.strokeWidth),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(outerRadius),
-        border: Border.all(
-          color: pal.textSecondary,
-          width: Tokens.strokeWidth,
-        ),
+        border: Border.all(color: pal.textSecondary, width: Tokens.strokeWidth),
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(innerRadius),

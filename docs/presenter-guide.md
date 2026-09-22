@@ -4,7 +4,7 @@ Live-coding scripts and stuck-points, slide by slide. **Not part of the deck** �
 keep it on your phone or a second machine. Speaker notes inside the deck cover
 *what to say*; this covers *what to type* and *what breaks*.
 
-Covers slides 1–12 (the API section). Extend as the deck settles.
+Covers slides 1–11 (the API section). Extend as the deck settles.
 
 ---
 
@@ -23,7 +23,7 @@ costs you the room's attention for a minute.
 Nothing to type. This is the hook.
 
 Ask, before advancing: **"how many of you copy-pasted the list into the second
-screen?"** Most hands go up. That is the setup for slide 21, where one line
+screen?"** Most hands go up. That is the setup for slide 20, where one line
 replaces it.
 
 Do not explain the fix here. The whole point is that they sit with the problem
@@ -159,7 +159,7 @@ not a photo list.
 
 | Symptom | Cause | Fix |
 |---|---|---|
-| Hangs forever, no output | Android emulator without the `INTERNET` permission | `AndroidManifest.xml` — this is slide 13, put it on screen |
+| Hangs forever, no output | Android emulator without the `INTERNET` permission | `AndroidManifest.xml` — this is slide 10 tap 2, put it on screen |
 | `SocketException` on macOS | Missing network entitlement | `macos/Runner/*.entitlements`, both debug and release |
 | CORS error in Chrome | Browser blocking the cross-origin call | Run on a device or desktop for this exercise |
 | Prints `Instance of 'Response'` | Printed `response`, not `response.data` | Point at it and move on |
@@ -249,14 +249,29 @@ a frozen spinner on the other steps is a bug.
 
 ## Slide 10 — `/loading-state`
 
-Interactive. Hand the keyboard over and make someone click **error**.
+Interactive, two taps.
 
-Then ask: *"what would a user do here?"* Let the silence sit. The silence is
-the lesson — that is a dead end with no way out, and it is what ships when
-nobody thinks about the error branch.
+Hand the keyboard over and make someone click **error**. Then ask: *"what would
+a user do here?"* Let the silence sit. The silence is the lesson — that is a
+dead end with no way out, and it is what ships when nobody thinks about the
+error branch.
+
+Read the code panel beside the phone as they click. The highlight follows
+whichever branch is on screen, so the `sealed class` / `switch` shape gets
+taught by the demo rather than by a second slide reprinting it. (There used to
+be one; it earned nothing.)
 
 Note in passing that the data state is coming from a bundled fixture, not a
 live request. Nothing on this slide depends on the venue's wifi.
+
+**Tap 2 — that error button is a cheat.** The two ways to reach the branch for
+real are to turn wifi off, or point the URL at a host that does not exist. If
+an app *hangs* instead of erroring, it is almost always one of two things — say
+it and move on:
+
+- **Android:** no `INTERNET` permission in `AndroidManifest.xml`
+- **macOS:** no `com.apple.security.network.client` entitlement, in **both**
+  `DebugProfile.entitlements` and `Release.entitlements`
 
 ---
 
@@ -270,19 +285,6 @@ talking — do not rush it, the discomfort *is* the content. Tap 3 is the
 punchline; say it plainly and then stop talking for a second.
 
 ---
-
-## Slide 12 — `/three-states-code`
-
-The code behind the demo from slide 10. Show it, don't re-teach it.
-
-Tap 3 carries what the old platform-troubleshooting slide used to: the fastest
-way to see the error branch is to turn wifi off, or point the URL at a host
-that does not exist. If an app *hangs* instead of erroring, it is almost always
-one of two things — say it and move on:
-
-- **Android:** no `INTERNET` permission in `AndroidManifest.xml`
-- **macOS:** no `com.apple.security.network.client` entitlement, in **both**
-  `DebugProfile.entitlements` and `Release.entitlements`
 
 ### The whole thing, with no state-management package
 
@@ -386,8 +388,9 @@ class _PhotoListScreenState extends State<PhotoListScreen> {
 
 **Where this gets uncomfortable — and that is deliberate.** Ask what happens
 when the detail screen needs the same list. Right now the answer is "fetch it
-again, and write all three branches again". Do not solve it. That is slide 20
+again, and write all three branches again". Do not solve it. That is slide 19
 (one line replaces the list), §5 (repository), and §6 (Provider).
 
 If someone has already reached for a sealed class or a `switch` over a state
-object — good, that is slide 12's code, and they got there on their own.
+object — good, that is slide 10's code panel, and they got there on their
+own.

@@ -24,7 +24,7 @@ final _rows = [
   ),
 ];
 
-/// Slide 35 — `/state-decision` (4 steps, A29). The whole of §5, as a table
+/// Slide 34 — `/state-decision` (4 steps, A29). The whole of §5, as a table
 /// they can hold in their head.
 class StateDecisionBody extends StatelessWidget {
   const StateDecisionBody({required this.step, super.key});

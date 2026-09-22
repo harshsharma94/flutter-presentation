@@ -92,7 +92,9 @@ class BeautifulLieBody extends StatelessWidget {
                       child: AnimatedArrow(
                         from: Offset(_leftPhoneCenterX, _codeTop),
                         to: Offset(
-                            _leftPhoneCenterX, _leftPhoneTop + _phoneHeight),
+                          _leftPhoneCenterX,
+                          _leftPhoneTop + _phoneHeight,
+                        ),
                         atStep: 2,
                       ),
                     ),
@@ -100,7 +102,9 @@ class BeautifulLieBody extends StatelessWidget {
                       child: AnimatedArrow(
                         from: Offset(_rightPhoneCenterX, _codeTop),
                         to: Offset(
-                            _rightPhoneCenterX, _rightPhoneTop + _phoneHeight),
+                          _rightPhoneCenterX,
+                          _rightPhoneTop + _phoneHeight,
+                        ),
                         atStep: 2,
                       ),
                     ),
@@ -108,7 +112,9 @@ class BeautifulLieBody extends StatelessWidget {
                       child: AnimatedArrow(
                         from: Offset(_codeInset, _codeTop + 90),
                         to: Offset(
-                            _canvasSize.width - _codeInset, _codeTop + 90),
+                          _canvasSize.width - _codeInset,
+                          _codeTop + 90,
+                        ),
                         atStep: 3,
                         color: Palette.red,
                       ),
@@ -152,24 +158,23 @@ class BeautifulLieBody extends StatelessWidget {
     required double left,
     required double top,
     required Widget child,
-  }) =>
-      Positioned(
-        left: left,
-        top: top,
-        child: TweenAnimationBuilder<double>(
-          tween: Tween(begin: 0.0, end: step >= 2 ? -0.21 : 0.0),
-          duration: Tokens.travel,
-          curve: Tokens.curve,
-          builder: (context, angle, phone) => Transform(
-            alignment: Alignment.center,
-            transform: Matrix4.identity()
-              ..setEntry(3, 2, 0.001)
-              ..rotateX(angle),
-            child: phone,
-          ),
-          child: PhoneFrame(width: _phoneWidth, child: child),
-        ),
-      );
+  }) => Positioned(
+    left: left,
+    top: top,
+    child: TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0.0, end: step >= 2 ? -0.21 : 0.0),
+      duration: Tokens.travel,
+      curve: Tokens.curve,
+      builder: (context, angle, phone) => Transform(
+        alignment: Alignment.center,
+        transform: Matrix4.identity()
+          ..setEntry(3, 2, 0.001)
+          ..rotateX(angle),
+        child: phone,
+      ),
+      child: PhoneFrame(width: _phoneWidth, child: child),
+    ),
+  );
 }
 
 /// A stand-in for Day 1's list screen: a grid of photo tiles with no text —

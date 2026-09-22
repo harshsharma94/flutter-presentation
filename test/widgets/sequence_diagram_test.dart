@@ -14,10 +14,10 @@ final _lanes = [
   SequenceLane(id: 'api', label: 'API'),
 ];
 
-/// The same nine hops slide 16 (`/oauth-flow`) renders, so this widget test
+/// The same nine hops slide 15 (`/oauth-flow`) renders, so this widget test
 /// exercises `SequenceDiagram` against its real configuration rather than a
 /// toy one. Self-contained — reads `step` from the ambient `StepScope` the
-/// way a slide body would, plus the two `TokenPill`s slide 16 positions
+/// way a slide body would, plus the two `TokenPill`s slide 15 positions
 /// alongside the diagram, so `pill-access` is reachable the same way it is
 /// on the real slide.
 final _hops = [
@@ -25,15 +25,20 @@ final _hops = [
   SequenceHop(from: 'browser', to: 'browser', label: 'user logs in', atStep: 2),
   SequenceHop(from: 'auth', to: 'app', label: 'code', atStep: 3),
   SequenceHop(
-      from: 'app', to: 'auth', label: 'exchange code + secret', atStep: 4),
+    from: 'app',
+    to: 'auth',
+    label: 'exchange code + secret',
+    atStep: 4,
+  ),
   SequenceHop(from: 'auth', to: 'app', label: 'tokens issued', atStep: 5),
   SequenceHop(from: 'app', to: 'api', label: 'GET /photos', atStep: 6),
   SequenceHop(
-      from: 'app',
-      to: 'api',
-      label: 'GET /photos -> 401',
-      atStep: 8,
-      color: Palette.red),
+    from: 'app',
+    to: 'api',
+    label: 'GET /photos -> 401',
+    atStep: 8,
+    color: Palette.red,
+  ),
   SequenceHop(from: 'app', to: 'auth', label: 'refresh', atStep: 9),
   SequenceHop(
     from: 'app',
@@ -80,14 +85,16 @@ void main() {
   // predicate + `.at(i)` technique the deck's multi-arrow slides use
   // (see test/widgets/annotate_test.dart's single-arrow key lookup, and
   // structure_slide.dart / api_gap_slide.dart for the multi-arrow case).
-  Finder arrowsFinder() => find
-      .byWidgetPredicate((w) => w is CustomPaint && w.painter is ArrowPainter);
+  Finder arrowsFinder() => find.byWidgetPredicate(
+    (w) => w is CustomPaint && w.painter is ArrowPainter,
+  );
 
   ArrowPainter painterAt(WidgetTester tester, int i) =>
       tester.widget<CustomPaint>(arrowsFinder().at(i)).painter! as ArrowPainter;
 
-  testWidgets('renders one arrow per crossing hop (self-event excluded)',
-      (tester) async {
+  testWidgets('renders one arrow per crossing hop (self-event excluded)', (
+    tester,
+  ) async {
     await pumpBody(tester, const _OAuthFixture(), step: 9);
     // 9 hops, one of which (step 2, "user logs in") is same-lane and draws
     // a badge instead of an arrow: 8 arrows.
@@ -102,8 +109,9 @@ void main() {
     expect(painterAt(tester, 2).progress, 0.0);
   });
 
-  testWidgets('the replayed request draws in green once refreshed',
-      (tester) async {
+  testWidgets('the replayed request draws in green once refreshed', (
+    tester,
+  ) async {
     await pumpBody(tester, const _OAuthFixture(), step: 9);
     // Arrow 7 is the replayed GET /photos (atStep 9, replay: true).
     final painter = painterAt(tester, 7);
@@ -113,15 +121,17 @@ void main() {
 
   testWidgets('expired token pill collapses', (tester) async {
     await pumpBody(tester, const _OAuthFixture(), step: 7);
-    final pill =
-        tester.widget<TokenPill>(find.byKey(const ValueKey('pill-access')));
+    final pill = tester.widget<TokenPill>(
+      find.byKey(const ValueKey('pill-access')),
+    );
     expect(pill.expired, isTrue);
   });
 
   testWidgets('token pill is not expired before step 7', (tester) async {
     await pumpBody(tester, const _OAuthFixture(), step: 5);
-    final pill =
-        tester.widget<TokenPill>(find.byKey(const ValueKey('pill-access')));
+    final pill = tester.widget<TokenPill>(
+      find.byKey(const ValueKey('pill-access')),
+    );
     expect(pill.expired, isFalse);
   });
 }

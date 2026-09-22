@@ -34,7 +34,7 @@ if (row.type == 'wallet') {
   // …and the colour rule, and the dialog copy, and…
 }''';
 
-/// Slide 47 — `/bff-vs-nonbff` (4 steps, A37). Identical UI, two contracts.
+/// Slide 46 — `/bff-vs-nonbff` (4 steps, A37). Identical UI, two contracts.
 /// The difference is not elegance — it is who has to ship to change a
 /// string. *Cut candidate.*
 class BffVsNonBffBody extends StatelessWidget {
@@ -44,52 +44,53 @@ class BffVsNonBffBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Center(
-        child: Padding(
-          padding: const EdgeInsets.all(Tokens.gapMd),
-          child: FittedBox(
-            fit: BoxFit.scaleDown,
-            child: Column(
+    child: Padding(
+      padding: const EdgeInsets.all(Tokens.gapMd),
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
               mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _Side(
-                      label: 'BFF — the server decides presentation',
-                      color: Palette.green,
-                      json: _bffJson,
-                      client: _bffClient,
-                      showClient: step >= 2,
-                      lines: 'client rules: 3',
-                      showLines: step >= 3,
-                    ),
-                    const SizedBox(width: Tokens.gapLg),
-                    _Side(
-                      label: 'Raw resource — the client decides everything',
-                      color: Palette.amber,
-                      json: _bareJson,
-                      client: _bareClient,
-                      showClient: step >= 2,
-                      lines: step >= 4
-                          ? 'client rules: 41 and climbing'
-                          : 'client rules: 31',
-                      showLines: step >= 3,
-                    ),
-                  ],
+                _Side(
+                  label: 'BFF — the server decides presentation',
+                  color: Palette.green,
+                  json: _bffJson,
+                  client: _bffClient,
+                  showClient: step >= 2,
+                  lines: 'client rules: 3',
+                  showLines: step >= 3,
                 ),
-                const SizedBox(height: Tokens.gapMd),
-                const Callout(
-                  atStep: 4,
-                  text: 'New payment type — left: nothing to change. '
-                      'Right: an app release. Ships in 1 day vs 6 weeks.',
-                  color: Palette.red,
+                const SizedBox(width: Tokens.gapLg),
+                _Side(
+                  label: 'Raw resource — the client decides everything',
+                  color: Palette.amber,
+                  json: _bareJson,
+                  client: _bareClient,
+                  showClient: step >= 2,
+                  lines: step >= 4
+                      ? 'client rules: 41 and climbing'
+                      : 'client rules: 31',
+                  showLines: step >= 3,
                 ),
               ],
             ),
-          ),
+            const SizedBox(height: Tokens.gapMd),
+            const Callout(
+              atStep: 4,
+              text:
+                  'New payment type — left: nothing to change. '
+                  'Right: an app release. Ships in 1 day vs 6 weeks.',
+              color: Palette.red,
+            ),
+          ],
         ),
-      );
+      ),
+    ),
+  );
 }
 
 class _Side extends StatelessWidget {
@@ -113,31 +114,34 @@ class _Side extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SizedBox(
-        width: 520,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              label,
-              style: TextStyle(
-                  color: color, fontSize: 21, fontWeight: FontWeight.w600),
-            ),
-            const SizedBox(height: Tokens.gapXs),
-            CodePanel(code: json, language: 'json'),
-            const SizedBox(height: Tokens.gapSm),
-            if (showClient) CodePanel(code: client),
-            const SizedBox(height: Tokens.gapXs),
-            if (showLines)
-              Text(
-                lines,
-                style: TextStyle(
-                  fontFamily: 'JetBrainsMono',
-                  color: color,
-                  fontSize: 20,
-                ),
-              ),
-          ],
+    width: 520,
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+            color: color,
+            fontSize: 21,
+            fontWeight: FontWeight.w600,
+          ),
         ),
-      );
+        const SizedBox(height: Tokens.gapXs),
+        CodePanel(code: json, language: 'json'),
+        const SizedBox(height: Tokens.gapSm),
+        if (showClient) CodePanel(code: client),
+        const SizedBox(height: Tokens.gapXs),
+        if (showLines)
+          Text(
+            lines,
+            style: TextStyle(
+              fontFamily: 'JetBrainsMono',
+              color: color,
+              fontSize: 20,
+            ),
+          ),
+      ],
+    ),
+  );
 }

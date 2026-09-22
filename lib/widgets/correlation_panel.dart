@@ -64,10 +64,7 @@ class CorrelationPanel extends StatelessWidget {
                         ),
                         Text(
                           rows[i].concept,
-                          style: TextStyle(
-                            color: Palette.green,
-                            fontSize: 29,
-                          ),
+                          style: TextStyle(color: Palette.green, fontSize: 29),
                         ),
                       ],
                     ),
@@ -90,8 +87,10 @@ class CorrelationPanel extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.all(Tokens.gapMd),
               decoration: BoxDecoration(
-                border:
-                    Border.all(color: Palette.blue, width: Tokens.strokeWidth),
+                border: Border.all(
+                  color: Palette.blue,
+                  width: Tokens.strokeWidth,
+                ),
                 borderRadius: BorderRadius.circular(Tokens.radius),
               ),
               child: Text(

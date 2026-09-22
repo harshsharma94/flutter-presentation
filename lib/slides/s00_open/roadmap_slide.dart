@@ -12,9 +12,9 @@ class RoadmapBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Center(
-        child: Padding(
-          padding: const EdgeInsets.all(Tokens.gapXl),
-          child: RoadmapSpine(activeNode: step),
-        ),
-      );
+    child: Padding(
+      padding: const EdgeInsets.all(Tokens.gapXl),
+      child: RoadmapSpine(activeNode: step),
+    ),
+  );
 }

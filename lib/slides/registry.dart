@@ -10,7 +10,6 @@ import 'package:flutter_bootcamp_deck/slides/s02_api/future_states_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s02_api/http_clients_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s02_api/live_first_request_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s02_api/loading_state_slide.dart';
-import 'package:flutter_bootcamp_deck/slides/s02_api/three_states_code_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s03_auth/auth_401_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s03_auth/interceptor_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s03_auth/oauth_flow_slide.dart';
@@ -63,7 +62,8 @@ final List<SlideSpec> slideRegistry = [
     title: 'Day 2 — Making It Real',
     chrome: false,
     body: (step) => TitleBody(step: step),
-    speakerNotes: '30 seconds, no more. Names, then move — slide 2 is the '
+    speakerNotes:
+        '30 seconds, no more. Names, then move — slide 2 is the '
         'hook and you want them still settling in when it lands.',
   ),
   SlideSpec(
@@ -71,8 +71,9 @@ final List<SlideSpec> slideRegistry = [
     section: '§0 Open',
     steps: 3,
     body: (step) => BeautifulLieBody(step: step),
-    speakerNotes: 'They built two screens off one hardcoded list. One '
-        'change today fixes both — that\'s slide 20. Ask: how many of you '
+    speakerNotes:
+        'They built two screens off one hardcoded list. One '
+        'change today fixes both — that\'s slide 19. Ask: how many of you '
         'copy-pasted the list into the detail screen?',
   ),
   SlideSpec(
@@ -80,7 +81,8 @@ final List<SlideSpec> slideRegistry = [
     section: '§0 Open',
     steps: 5,
     body: (step) => RoadmapBody(step: step),
-    speakerNotes: 'Just orient them — five stops, in order, over today and '
+    speakerNotes:
+        'Just orient them — five stops, in order, over today and '
         'tomorrow. Don\'t teach anything yet; this is a map, not a lesson. '
         'Come back to this spine at the start of every section.',
   ),
@@ -88,7 +90,8 @@ final List<SlideSpec> slideRegistry = [
     route: '/homework',
     section: '§0 Open',
     body: (step) => HomeworkBody(step: step),
-    speakerNotes: '15 min. Pick 2–3 volunteers. Look for: a reusable row '
+    speakerNotes:
+        '15 min. Pick 2–3 volunteers. Look for: a reusable row '
         'widget, ListView vs GridView choice, and whether navigation '
         'passes the whole model or just an id. That last one sets up the '
         'repository discussion in session 2.',
@@ -100,7 +103,8 @@ final List<SlideSpec> slideRegistry = [
     section: '§1 API',
     steps: 3,
     body: (step) => ApiGapBody(step: step),
-    speakerNotes: 'The phone and the internet don\'t just talk to each '
+    speakerNotes:
+        'The phone and the internet don\'t just talk to each '
         'other — nothing bridges them yet. Let the empty space sit for a '
         'second before you advance. Step 2 is the naive, direct attempt '
         'failing; step 3 is the shape that actually works: Dio speaks '
@@ -113,7 +117,8 @@ final List<SlideSpec> slideRegistry = [
     section: '§1 API',
     steps: 4,
     body: (step) => HttpClientsBody(step: step),
-    speakerNotes: 'Dio is not new. It\'s the interceptor+client pair they '
+    speakerNotes:
+        'Dio is not new. It\'s the interceptor+client pair they '
         'already know. Don\'t sell it — just name the mapping and move to '
         'code.',
   ),
@@ -122,7 +127,8 @@ final List<SlideSpec> slideRegistry = [
     section: '§1 API',
     steps: 2,
     body: (step) => LiveFirstRequestBody(step: step),
-    speakerNotes: 'Picsum, not Unsplash: no key, no account, nothing to '
+    speakerNotes:
+        'Picsum, not Unsplash: no key, no account, nothing to '
         'explain before §2 Auth. Type it live, don\'t paste: `final dio = '
         'Dio(); dio.get(\'https://picsum.photos/v2/list\').then((r) => '
         'print(r.data));`. Hold tap 2 back and let them try first — the '
@@ -137,7 +143,8 @@ final List<SlideSpec> slideRegistry = [
     section: '§1 API',
     steps: 4,
     body: (step) => FutureStatesBody(step: step),
-    speakerNotes: 'Define it before the next slide animates it. A Future '
+    speakerNotes:
+        'Define it before the next slide animates it. A Future '
         'is a receipt: you get it immediately, the value arrives later, and '
         'it settles exactly once — with a value or with an error. Step 3 is '
         'the point: the error branch is native to the model, not an edge '
@@ -152,7 +159,8 @@ final List<SlideSpec> slideRegistry = [
     section: '§1 API',
     steps: 4,
     body: (step) => AsyncAwaitBody(step: step),
-    speakerNotes: 'Flutter runs your UI on ONE thread — the main isolate. '
+    speakerNotes:
+        'Flutter runs your UI on ONE thread — the main isolate. '
         'It draws a frame every 16ms, and anything that occupies that '
         'thread without yielding stops the whole UI, spinner included. '
         'Step 2 is deliberately NOT a network call: Dart has no blocking '
@@ -165,39 +173,35 @@ final List<SlideSpec> slideRegistry = [
         'Rehearse forward and back; if the spinner moves during step 2, '
         'fix it before you present. Answer to "does it block without '
         'await?" and references are in docs/presenter-guide.md.',
-  ),  SlideSpec(
+  ),
+  SlideSpec(
     route: '/loading-state',
     section: '§1 API',
+    steps: 2,
     body: (step) => LoadingStateBody(step: step),
-    speakerNotes: 'Hand the keyboard to someone. Make them click error. '
+    speakerNotes:
+        'Hand the keyboard to someone. Make them click error. '
         'Ask what a user would do here. Let the silence sit — that\'s the '
         'point, not a gap to fill. Then click data and note it\'s pulling '
-        'from the same offline fixture as slide 7, no live request risked.',
+        'from the same offline fixture as slide 7, no live request risked. '
+        'Read the code panel beside the phone as you go — the highlight '
+        'follows whichever branch they just clicked. Step 2: the error '
+        'button is a cheat; give them the two real ways to reach that '
+        'branch. If someone\'s app hangs instead of erroring, it is almost '
+        'always the Android INTERNET permission or the macOS network '
+        'entitlement.',
   ),
   SlideSpec(
     route: '/error-swallowed',
     section: '§1 API',
     steps: 3,
     body: (step) => ErrorSwallowedBody(step: step),
-    speakerNotes: 'Step 1: this compiles, runs, and ships — nobody\'s '
+    speakerNotes:
+        'Step 1: this compiles, runs, and ships — nobody\'s '
         'lint catches an empty catch block. Step 2: let the clock actually '
         'climb from 5 to 30 while you keep talking; don\'t rush past it, '
         'the discomfort is the lesson. Step 3 is the punchline — say it '
         'plainly and then stop talking for a second.',
-  ),
-  SlideSpec(
-    route: '/three-states-code',
-    section: '§1 API',
-    steps: 3,
-    body: (step) => ThreeStatesCodeBody(step: step),
-    speakerNotes: 'Same switch slide 10 just ran live — show it as the '
-        'code behind the demo, don\'t re-teach it. Step 3 carries what the '
-        'old platform-troubleshooting slide used to: the fastest way to '
-        'see the error branch is wifi off or a bad host. If someone\'s app '
-        'hangs instead of erroring, it is almost always the Android '
-        'INTERNET permission or the macOS network entitlement — say it, '
-        'move on. A complete no-dependency three-state widget is in '
-        'docs/presenter-guide.md if anyone wants the shape.',
   ),
 
   // §2 Auth
@@ -206,26 +210,29 @@ final List<SlideSpec> slideRegistry = [
     section: '§2 Auth',
     steps: 3,
     body: (step) => Auth401Body(step: step),
-    speakerNotes: 'A request with no credential just bounces — a flat 401, '
+    speakerNotes:
+        'A request with no credential just bounces — a flat 401, '
         'nothing more. Step 3\'s key is deliberately unexplained: where it '
         'comes from and how you keep it valid without asking the user to '
-        'log in again every hour is the whole of slide 14.',
+        'log in again every hour is the whole of slide 13.',
   ),
   SlideSpec(
     route: '/oauth-flow',
     section: '§2 Auth',
     steps: 9,
     body: (step) => OauthFlowBody(step: step),
-    speakerNotes: 'Step 7 is the whole point — nobody logged in again. The '
+    speakerNotes:
+        'Step 7 is the whole point — nobody logged in again. The '
         'user saw nothing. Ask them where this lives in their Android app; '
-        'answer is OkHttp Authenticator, which is slide 15.',
+        'answer is OkHttp Authenticator, which is slide 14.',
   ),
   SlideSpec(
     route: '/auth-interceptor',
     section: '§2 Auth',
     steps: 4,
     body: (step) => AuthInterceptorBody(step: step),
-    speakerNotes: 'This is slide 14\'s steps 7 through 9, automated. Every '
+    speakerNotes:
+        'This is slide 13\'s steps 7 through 9, automated. Every '
         'platform has this exact shape — an interceptor sitting between '
         'the app and the network, watching for a 401 it can fix by itself. '
         'Walk the four highlighted lines, then land on the correlation: '
@@ -236,7 +243,8 @@ final List<SlideSpec> slideRegistry = [
     section: '§2 Auth',
     steps: 2,
     body: (step) => UnsplashRealityBody(step: step),
-    speakerNotes: 'Say plainly: we taught you the full flow because that\'s '
+    speakerNotes:
+        'Say plainly: we taught you the full flow because that\'s '
         'what production looks like. Today\'s API needs one header. '
         'Knowing the difference is the skill.',
   ),
@@ -247,19 +255,21 @@ final List<SlideSpec> slideRegistry = [
     section: '§3 Data',
     steps: 6,
     body: (step) => JsonToDartBody(step: step),
-    speakerNotes: 'Four keys, four wires — call each one out as it flies. '
+    speakerNotes:
+        'Four keys, four wires — call each one out as it flies. '
         'Step 5 is the reverse trip: same wires, toJson. Step 6 is the one '
         'that lands: every platform they know does this with reflection or '
         'an annotation processor. Dart has no runtime reflection, so '
         'someone writes the mapping — either you, by hand, or build_runner '
-        'on slide 21.',
+        'on slide 20.',
   ),
   SlideSpec(
     route: '/from-json-code',
     section: '§3 Data',
     steps: 5,
     body: (step) => FromJsonCodeBody(step: step),
-    speakerNotes: 'Walk the highlighted lines, don\'t read the file. The '
+    speakerNotes:
+        'Walk the highlighted lines, don\'t read the file. The '
         'two things worth saying out loud: `factory` is allowed to return a '
         'cached or subclass instance (that is the whole difference from a '
         'normal constructor), and the `as String` casts are where a bad '
@@ -270,7 +280,8 @@ final List<SlideSpec> slideRegistry = [
     route: '/live-map-model',
     section: '§3 Data',
     body: (step) => LiveMapModelBody(step: step),
-    speakerNotes: 'Use their Day 1 Photo class as-is. Don\'t rename fields '
+    speakerNotes:
+        'Use their Day 1 Photo class as-is. Don\'t rename fields '
         'to match the API — the whole point is that the mapping layer '
         'absorbs the difference. If someone asks why not just use the JSON '
         'map directly, that is the repository discussion after the break.',
@@ -280,7 +291,8 @@ final List<SlideSpec> slideRegistry = [
     section: '§3 Data',
     steps: 3,
     body: (step) => DeleteHardcodedBody(step: step),
-    speakerNotes: 'Pause here. This is the moment. Step forward slowly and '
+    speakerNotes:
+        'Pause here. This is the moment. Step forward slowly and '
         'let them watch the characters morph — twelve lines they typed '
         'yesterday become one. Then let both screens fill from it. Don\'t '
         'talk over step 3.',
@@ -290,7 +302,8 @@ final List<SlideSpec> slideRegistry = [
     section: '§3 Data',
     steps: 2,
     body: (step) => CodegenBody(step: step),
-    speakerNotes: 'Optional — only run this if you are ahead of schedule. '
+    speakerNotes:
+        'Optional — only run this if you are ahead of schedule. '
         'Frame it as "you now understand exactly what it generates", which '
         'is why we did it by hand first. One sentence on build_runner '
         'being a compile step, not magic, then move.',
@@ -309,7 +322,8 @@ final List<SlideSpec> slideRegistry = [
     section: '§4 Architecture',
     steps: 4,
     body: (step) => GodFileBody(step: step),
-    speakerNotes: 'This is their Day 1 file, honestly drawn. Point at the '
+    speakerNotes:
+        'This is their Day 1 file, honestly drawn. Point at the '
         'interleaving — the concerns are not in four tidy blocks, they are '
         'braided. Step 4 is the question that actually costs money: a bug '
         'report comes in and there is no obvious place to start reading. '
@@ -320,7 +334,8 @@ final List<SlideSpec> slideRegistry = [
     section: '§4 Architecture',
     steps: 8,
     body: (step) => ThreeLayersBody(step: step),
-    speakerNotes: 'Same bands, same colours — say that out loud so they see '
+    speakerNotes:
+        'Same bands, same colours — say that out loud so they see '
         'it is a sort, not new code. Domain is the one to dwell on: no '
         'Flutter imports, no Dio, which is exactly why it is the layer you '
         'can test in milliseconds. Steps 6-8 are the payoff — they have '
@@ -331,7 +346,8 @@ final List<SlideSpec> slideRegistry = [
     section: '§4 Architecture',
     steps: 4,
     body: (step) => DependencyRuleBody(step: step),
-    speakerNotes: 'One rule, and it is the only thing they need to '
+    speakerNotes:
+        'One rule, and it is the only thing they need to '
         'memorise. Step 3 is the violation, and it is always the same '
         'violation in real code: an import of the HTTP client inside a '
         'rules file. Step 4 shows the cost — the domain test now needs '
@@ -343,7 +359,8 @@ final List<SlideSpec> slideRegistry = [
     section: '§4 Architecture',
     steps: 3,
     body: (step) => TestabilityBody(step: step),
-    speakerNotes: 'Watch the Domain slab as the swap happens — it does not '
+    speakerNotes:
+        'Watch the Domain slab as the swap happens — it does not '
         'move a pixel. That is the point. 2400ms to 3ms is not a '
         'micro-optimisation, it is the difference between a suite you run '
         'on every save and one you run in CI and ignore.',
@@ -353,9 +370,10 @@ final List<SlideSpec> slideRegistry = [
     section: '§4 Architecture',
     steps: 3,
     body: (step) => RepositoryBody(step: step),
-    speakerNotes: 'Same knock, different door. Ask where they have seen '
+    speakerNotes:
+        'Same knock, different door. Ask where they have seen '
         'this: Android Repository, Spring @Repository, a Go interface with '
-        'two implementations. Then make the connection back to slide 26 — '
+        'two implementations. Then make the connection back to slide 25 — '
         'the fake repository worked precisely because the caller only ever '
         'knew the door.',
   ),
@@ -363,7 +381,8 @@ final List<SlideSpec> slideRegistry = [
     route: '/live-extract-repo',
     section: '§4 Architecture',
     body: (step) => LiveExtractRepoBody(step: step),
-    speakerNotes: 'Do it as a refactor, not a rewrite. Cut the dio.get out '
+    speakerNotes:
+        'Do it as a refactor, not a rewrite. Cut the dio.get out '
         'of build(), paste it into PhotoRepository, inject it. Then ask '
         'what just got easier to test — let them answer.',
   ),
@@ -374,7 +393,8 @@ final List<SlideSpec> slideRegistry = [
     section: '§5 State',
     steps: 5,
     body: (step) => StateProblemBody(step: step),
-    speakerNotes: 'This is the tree for the next five slides — it never '
+    speakerNotes:
+        'This is the tree for the next five slides — it never '
         'jumps, so they can keep their bearings. Step 2 is the one to sit '
         'on: point at HomeScreen and PhotoGrid and say they do not use '
         'photos at all, they just carry it. Step 5 is the second cost — '
@@ -385,11 +405,12 @@ final List<SlideSpec> slideRegistry = [
     section: '§5 State',
     steps: 8,
     body: (step) => InheritedWidgetBody(step: step),
-    speakerNotes: 'Step 3 is the one they will remember — let the pulse '
+    speakerNotes:
+        'Step 3 is the one they will remember — let the pulse '
         'finish travelling before you talk. Then say it out loud: the '
         'lookup is O(1), not a tree walk at runtime, because Flutter '
         'caches it per element. The animation shows the conceptual walk, '
-        'not the runtime cost. Step 5 is the payoff over slide 29: only '
+        'not the runtime cost. Step 5 is the payoff over slide 28: only '
         'subscribers rebuild.',
   ),
   SlideSpec(
@@ -397,7 +418,8 @@ final List<SlideSpec> slideRegistry = [
     section: '§5 State',
     steps: 2,
     body: (step) => InheritedLimitsBody(step: step),
-    speakerNotes: 'This slide exists so ChangeNotifier looks necessary '
+    speakerNotes:
+        'This slide exists so ChangeNotifier looks necessary '
         'instead of arbitrary. Do not skip it. The field is final — it has '
         'to be, that is what makes the lookup safe — so changing the data '
         'means rebuilding the whole scope from above.',
@@ -407,7 +429,8 @@ final List<SlideSpec> slideRegistry = [
     section: '§5 State',
     steps: 9,
     body: (step) => ChangeNotifierBody(step: step),
-    speakerNotes: 'Let them tap it several times — it is a real '
+    speakerNotes:
+        'Let them tap it several times — it is a real '
         'ChangeNotifier, not a drawing of one. Every arrow is labelled with '
         'the real method name; point at each as you say it. Step 6 is the '
         'one people forget in production: dispose, or the listener outlives '
@@ -418,16 +441,18 @@ final List<SlideSpec> slideRegistry = [
     section: '§5 State',
     steps: 3,
     body: (step) => ProviderFusionBody(step: step),
-    speakerNotes: 'Say it as arithmetic: InheritedWidget solves reach, '
+    speakerNotes:
+        'Say it as arithmetic: InheritedWidget solves reach, '
         'ChangeNotifier solves change, and neither solves the other. '
         'Provider is not a new concept — it is the two they just learned, '
-        'wired together so they stop writing the wrapper from slide 31.',
+        'wired together so they stop writing the wrapper from slide 30.',
   ),
   SlideSpec(
     route: '/watch-read-consumer',
     section: '§5 State',
     body: (step) => WatchReadConsumerBody(step: step),
-    speakerNotes: 'Hand over the keyboard. Do not assert that Consumer is '
+    speakerNotes:
+        'Hand over the keyboard. Do not assert that Consumer is '
         'better — make them watch the flash region shrink and the counter '
         'drop. Then ask which one they would reach for by default. The '
         'read() mode is the trap worth showing: the number never moves '
@@ -439,7 +464,8 @@ final List<SlideSpec> slideRegistry = [
     section: '§5 State',
     steps: 4,
     body: (step) => StateDecisionBody(step: step),
-    speakerNotes: 'Three rows, and the honest advice is to start at the top '
+    speakerNotes:
+        'Three rows, and the honest advice is to start at the top '
         'and only move down when something forces you. Most screens never '
         'leave row one. Step 4 matters for the ones who have already read '
         'about Bloc: those tools solve problems they do not have yet.',
@@ -448,7 +474,8 @@ final List<SlideSpec> slideRegistry = [
     route: '/live-convert-provider',
     section: '§5 State',
     body: (step) => LiveConvertProviderBody(step: step),
-    speakerNotes: 'List screen first, then detail. The detail screen is the '
+    speakerNotes:
+        'List screen first, then detail. The detail screen is the '
         'interesting one — ask whether it should read the provider or take '
         'the model as a constructor argument. Both are defensible; make '
         'them argue it.',
@@ -460,7 +487,8 @@ final List<SlideSpec> slideRegistry = [
     section: '§6 DI',
     steps: 3,
     body: (step) => DiProblemBody(step: step),
-    speakerNotes: 'This is slide 29 again, but for services instead of '
+    speakerNotes:
+        'This is slide 28 again, but for services instead of '
         'data — say that, they will see it. Step 3 is the cost that '
         'actually shows up in review: adding one dependency means editing '
         'every constructor between main and the leaf.',
@@ -470,7 +498,8 @@ final List<SlideSpec> slideRegistry = [
     section: '§6 DI',
     steps: 5,
     body: (step) => DiMultiproviderBody(step: step),
-    speakerNotes: 'Say it explicitly: Provider is already in the app for '
+    speakerNotes:
+        'Say it explicitly: Provider is already in the app for '
         'state, so DI costs them zero new packages and zero build_runner. '
         'Note that Provider(create:) is lazy by default. Mention get_it '
         'exists in one sentence and move on — do not teach it.',
@@ -480,7 +509,8 @@ final List<SlideSpec> slideRegistry = [
     section: '§6 DI',
     steps: 2,
     body: (step) => DiTestingBody(step: step),
-    speakerNotes: 'Callback to slide 26 — same idea, now at the wiring '
+    speakerNotes:
+        'Callback to slide 25 — same idea, now at the wiring '
         'level. This is the answer to "why bother with DI": one line, and '
         'the whole tree is testable. Point out the type argument on '
         'Provider<PhotoRepository> — that is what makes the swap '
@@ -493,7 +523,8 @@ final List<SlideSpec> slideRegistry = [
     section: '§7 Dart',
     steps: 3,
     body: (step) => NamedParamsBody(step: step),
-    speakerNotes: 'Ask them, before step 2, which argument is which. '
+    speakerNotes:
+        'Ask them, before step 2, which argument is which. '
         'Someone will get it wrong. That is the slide. Then the morph — '
         'same call, readable at the call site, and now the compiler '
         'enforces required.',
@@ -503,7 +534,8 @@ final List<SlideSpec> slideRegistry = [
     section: '§7 Dart',
     steps: 2,
     body: (step) => CascadeSpreadBody(step: step),
-    speakerNotes: 'Ninety seconds total. They will meet both in the '
+    speakerNotes:
+        'Ninety seconds total. They will meet both in the '
         'codebase today; they do not need a lecture. If anyone asks: '
         'cascade returns the receiver, which is why it chains, and spread '
         'is what lets you build a children list conditionally without a '
@@ -516,7 +548,8 @@ final List<SlideSpec> slideRegistry = [
     section: '§8 Folder structure',
     steps: 8,
     body: (step) => StructureBody(step: step),
-    speakerNotes: 'Don\'t debate folder philosophy. Point out it\'s the '
+    speakerNotes:
+        'Don\'t debate folder philosophy. Point out it\'s the '
         'same structure they used in Android, renamed. The rule that '
         'matters: feature-first beats type-first as soon as you have two '
         'features.',
@@ -528,7 +561,8 @@ final List<SlideSpec> slideRegistry = [
     section: '§9 Hands-on',
     steps: 7,
     body: (step) => DesignToTreeBody(step: step),
-    speakerNotes: 'Make them call out the widget before you reveal it. This '
+    speakerNotes:
+        'Make them call out the widget before you reveal it. This '
         'is the actual skill — reading a design as a hierarchy. Do not '
         'rush it. Ask why ListView.builder and not a Column of six rows; '
         'the answer is that the count comes from the server.',
@@ -538,7 +572,8 @@ final List<SlideSpec> slideRegistry = [
     section: '§9 Hands-on',
     steps: 4,
     body: (step) => BffRowPlainBody(step: step),
-    speakerNotes: 'Start with the ordinary row so the next two read as the '
+    speakerNotes:
+        'Start with the ordinary row so the next two read as the '
         'same machinery with different data. Point at cta.type and say it '
         'out loud: the client switches on a string the server sent, not on '
         'which row this is.',
@@ -548,7 +583,8 @@ final List<SlideSpec> slideRegistry = [
     section: '§9 Hands-on',
     steps: 4,
     body: (step) => BffRowWarningBody(step: step),
-    speakerNotes: 'Same widget, different tone — and the tone came from '
+    speakerNotes:
+        'Same widget, different tone — and the tone came from '
         'color_token, not from an if. Ask what the client would need to '
         'change to add a fourth tone. Answer: nothing, if the token '
         'mapping already covers it.',
@@ -558,7 +594,8 @@ final List<SlideSpec> slideRegistry = [
     section: '§9 Hands-on',
     steps: 4,
     body: (step) => BffRowErrorBody(step: step),
-    speakerNotes: 'The disabled case, plus the per-platform action map. '
+    speakerNotes:
+        'The disabled case, plus the per-platform action map. '
         'Land the question at the end and actually wait for an answer: '
         'design wants a new state — who ships? On the left nobody; on a '
         'client-driven contract, everybody.',
@@ -568,7 +605,8 @@ final List<SlideSpec> slideRegistry = [
     section: '§9 Hands-on',
     steps: 4,
     body: (step) => BffVsNonBffBody(step: step),
-    speakerNotes: 'Optional — cut this if time is short, slides 44-46 '
+    speakerNotes:
+        'Optional — cut this if time is short, slides 43-45 '
         'already made the point. If you run it, be fair to the right-hand '
         'side: a raw resource contract is the right call when the client '
         'genuinely owns presentation, or when several very different '
@@ -579,7 +617,8 @@ final List<SlideSpec> slideRegistry = [
     section: '§9 Hands-on',
     steps: 3,
     body: (step) => AssignmentBody(step: step),
-    speakerNotes: 'Three tasks, in this order — each one depends on the '
+    speakerNotes:
+        'Three tasks, in this order — each one depends on the '
         'last. Tell them item 2 is the one that gets skipped and the one '
         'that gets asked about tomorrow.',
   ),
@@ -590,7 +629,8 @@ final List<SlideSpec> slideRegistry = [
     section: '§10 References',
     steps: 6,
     body: (step) => ReferencesBody(step: step),
-    speakerNotes: 'Do not read these out. Tell them the deck is on GitHub '
+    speakerNotes:
+        'Do not read these out. Tell them the deck is on GitHub '
         'and point at exactly two: the async-await codelab tonight, and '
         'the Flutter app-architecture guide this weekend. Everything else '
         'is for when they hit the problem it solves.',
@@ -600,7 +640,8 @@ final List<SlideSpec> slideRegistry = [
     section: '§10 References',
     chrome: false,
     body: (step) => ThanksBody(step: step),
-    speakerNotes: 'Q&A. If it goes quiet, prompt with the one from slide '
+    speakerNotes:
+        'Q&A. If it goes quiet, prompt with the one from slide '
         '36: which reader would you reach for by default, and why?',
   ),
 ];

@@ -172,11 +172,11 @@ class _ErrorPulse extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => TweenAnimationBuilder<double>(
-        tween: Tween(begin: 0.4, end: 1.0),
-        duration: Tokens.fade,
-        curve: Tokens.curve,
-        builder: (context, scale, child) =>
-            Transform.scale(scale: scale, child: child),
-        child: Icon(Icons.close, color: Palette.red, size: 28),
-      );
+    tween: Tween(begin: 0.4, end: 1.0),
+    duration: Tokens.fade,
+    curve: Tokens.curve,
+    builder: (context, scale, child) =>
+        Transform.scale(scale: scale, child: child),
+    child: Icon(Icons.close, color: Palette.red, size: 28),
+  );
 }

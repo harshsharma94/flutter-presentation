@@ -5,17 +5,19 @@ import 'package:flutter_bootcamp_deck/widgets/step_reveal.dart';
 import 'package:flutter_bootcamp_deck/widgets/step_scope.dart';
 
 Widget _harness(int step) => MaterialApp(
-      home: StepScope(
-        step: step,
-        child: const StepReveal(atStep: 2, child: Text('hello')),
-      ),
-    );
+  home: StepScope(
+    step: step,
+    child: const StepReveal(atStep: 2, child: Text('hello')),
+  ),
+);
 
 double _opacity(WidgetTester tester) => tester
-    .widget<AnimatedOpacity>(find.ancestor(
-      of: find.text('hello'),
-      matching: find.byType(AnimatedOpacity),
-    ))
+    .widget<AnimatedOpacity>(
+      find.ancestor(
+        of: find.text('hello'),
+        matching: find.byType(AnimatedOpacity),
+      ),
+    )
     .opacity;
 
 void main() {
@@ -38,21 +40,24 @@ void main() {
   });
 
   testWidgets('until hides it again', (tester) async {
-    await tester.pumpWidget(MaterialApp(
-      home: const StepScope(
-        step: 4,
-        child: StepReveal(atStep: 2, until: 3, child: Text('hello')),
+    await tester.pumpWidget(
+      MaterialApp(
+        home: const StepScope(
+          step: 4,
+          child: StepReveal(atStep: 2, until: 3, child: Text('hello')),
+        ),
       ),
-    ));
+    );
     await tester.pumpAndSettle();
     expect(_opacity(tester), 0.0);
   });
 
-  testWidgets('StepScope.of throws a useful error when missing',
-      (tester) async {
-    await tester.pumpWidget(const MaterialApp(
-      home: StepReveal(atStep: 1, child: Text('hello')),
-    ));
+  testWidgets('StepScope.of throws a useful error when missing', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      const MaterialApp(home: StepReveal(atStep: 1, child: Text('hello'))),
+    );
     expect(tester.takeException(), isA<FlutterError>());
   });
 }

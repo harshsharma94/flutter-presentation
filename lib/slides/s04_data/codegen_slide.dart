@@ -25,7 +25,7 @@ part 'photo.g.dart';
 @JsonSerializable()
 class Photo { ... }''';
 
-/// Slide 21 — `/codegen` (2 steps, A17). Optional. Frame it as "you now know
+/// Slide 20 — `/codegen` (2 steps, A17). Optional. Frame it as "you now know
 /// exactly what this generates" — which is the only reason it was worth
 /// writing by hand first.
 class CodegenBody extends StatelessWidget {
@@ -35,31 +35,27 @@ class CodegenBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Center(
-        child: Padding(
-          padding: EdgeInsets.all(Tokens.gapLg),
-          child: FittedBox(
-            fit: BoxFit.scaleDown,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(
-                  width: 720,
-                  child: CodePanel(
-                    code: step >= 1 ? _generated : _byHand,
-                    fileName: 'lib/models/photo.dart',
-                  ),
-                ),
-                SizedBox(height: Tokens.gapMd),
-                StepReveal(
-                  atStep: 2,
-                  dimWhenPast: false,
-                  child: _Terminal(),
-                ),
-              ],
+    child: Padding(
+      padding: EdgeInsets.all(Tokens.gapLg),
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+              width: 720,
+              child: CodePanel(
+                code: step >= 1 ? _generated : _byHand,
+                fileName: 'lib/models/photo.dart',
+              ),
             ),
-          ),
+            SizedBox(height: Tokens.gapMd),
+            StepReveal(atStep: 2, dimWhenPast: false, child: _Terminal()),
+          ],
         ),
-      );
+      ),
+    ),
+  );
 }
 
 class _Terminal extends StatelessWidget {

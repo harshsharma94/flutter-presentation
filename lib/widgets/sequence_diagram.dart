@@ -1,8 +1,8 @@
 /// A reusable step-driven sequence diagram: fixed vertical "lanes" (actors)
 /// and a stack of horizontal "hops" (messages) between them, one per row.
 ///
-/// Built for slide 14's nine-step OAuth2 flow (`/oauth-flow`) and reused,
-/// smaller, on slide 15 and 18 — getting the lane/row geometry right once
+/// Built for slide 13's nine-step OAuth2 flow (`/oauth-flow`) and reused,
+/// smaller, on slide 14 and 17 — getting the lane/row geometry right once
 /// is worth it. Every hop is gated by [StepReveal], so the whole diagram is
 /// presenter-paced and reverses cleanly like every other primitive in this
 /// deck: no [AnimationController], no timer.
@@ -25,7 +25,7 @@ class SequenceLane {
 
 /// One message between two lanes, revealed at [atStep].
 ///
-/// When [from] equals [to] the hop is a same-lane event (slide 14 step 2,
+/// When [from] equals [to] the hop is a same-lane event (slide 13 step 2,
 /// "user logs in") and renders as a small badge rather than a crossing
 /// arrow.
 ///
@@ -63,8 +63,12 @@ class SequenceHop {
 /// `dimWhenPast` behaviour, not bespoke logic — so the current hop always
 /// reads as the one in motion.
 class SequenceDiagram extends StatelessWidget {
-  const SequenceDiagram(
-      {required this.lanes, required this.hops, this.width = 860, super.key});
+  const SequenceDiagram({
+    required this.lanes,
+    required this.hops,
+    this.width = 860,
+    super.key,
+  });
 
   final List<SequenceLane> lanes;
   final List<SequenceHop> hops;
@@ -74,7 +78,7 @@ class SequenceDiagram extends StatelessWidget {
   static const laneHeaderHeight = 34.0;
 
   /// Vertical space each hop row occupies. Exposed so a caller that needs
-  /// to align extra content (slide 14's token pills) with a specific hop
+  /// to align extra content (slide 13's token pills) with a specific hop
   /// can compute that row's y-offset the same way this widget does.
   static const rowHeight = 36.0;
 
@@ -135,7 +139,9 @@ class SequenceDiagram extends StatelessWidget {
               top: laneHeaderHeight,
               bottom: 0,
               child: Container(
-                  width: 1, color: pal.textSecondary.withValues(alpha: 0.15)),
+                width: 1,
+                color: pal.textSecondary.withValues(alpha: 0.15),
+              ),
             ),
           for (var i = 0; i < lanes.length; i++)
             Positioned(
@@ -234,8 +240,10 @@ class _HopRow extends StatelessWidget {
               ? [_SelfBadge(x: fromX, label: hop.label, color: color)]
               : [
                   Positioned(
-                    left: ((fromX + toX) / 2 - labelBoxWidth / 2)
-                        .clamp(0.0, double.infinity),
+                    left: ((fromX + toX) / 2 - labelBoxWidth / 2).clamp(
+                      0.0,
+                      double.infinity,
+                    ),
                     top: 0,
                     width: labelBoxWidth,
                     child: Text(
@@ -244,9 +252,10 @@ class _HopRow extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                          color: color,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w500),
+                        color: color,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                   Positioned(
@@ -268,7 +277,7 @@ class _HopRow extends StatelessWidget {
   }
 }
 
-/// A same-lane hop's badge (slide 14 step 2: "user logs in", no crossing).
+/// A same-lane hop's badge (slide 13 step 2: "user logs in", no crossing).
 /// Returns a [Positioned] directly, so it must sit inside a [Stack] — see
 /// its use in [_HopRow.build].
 class _SelfBadge extends StatelessWidget {
@@ -282,30 +291,30 @@ class _SelfBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Positioned(
-        left: x - _width / 2,
-        top: 0,
-        width: _width,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.check_circle, color: color, size: 18),
-            SizedBox(height: 2),
-            Text(
-              label,
-              textAlign: TextAlign.center,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(color: color, fontSize: 13),
-            ),
-          ],
+    left: x - _width / 2,
+    top: 0,
+    width: _width,
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(Icons.check_circle, color: color, size: 18),
+        SizedBox(height: 2),
+        Text(
+          label,
+          textAlign: TextAlign.center,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(color: color, fontSize: 13),
         ),
-      );
+      ],
+    ),
+  );
 }
 
 /// One token, rendered as a pill whose *width* — not a caption — carries its
 /// lifetime: a short-lived access token draws narrow, a long-lived refresh
 /// token draws wide. [expired] collapses it toward zero width and greys it,
-/// for slide 14 step 7's silent, unattended expiry.
+/// for slide 13 step 7's silent, unattended expiry.
 class TokenPill extends StatelessWidget {
   const TokenPill({
     required this.label,

@@ -8,8 +8,9 @@ import '../support/pump.dart';
 /// genuinely differs between watch-at-root and Consumer-at-leaf. This asserts
 /// the property the audience is asked to see.
 void main() {
-  testWidgets('Consumer rebuilds far less of the tree than watch',
-      (tester) async {
+  testWidgets('Consumer rebuilds far less of the tree than watch', (
+    tester,
+  ) async {
     await pumpBody(tester, RebuildScopeDemo());
     await tester.pump();
 

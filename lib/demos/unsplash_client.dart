@@ -36,8 +36,8 @@ class UnsplashClient {
     this.accessKey = const String.fromEnvironment('UNSPLASH_ACCESS_KEY'),
     Dio? dio,
     Future<String> Function(String)? loadAsset,
-  })  : _dio = dio ?? Dio(),
-        _loadAsset = loadAsset ?? rootBundle.loadString;
+  }) : _dio = dio ?? Dio(),
+       _loadAsset = loadAsset ?? rootBundle.loadString;
 
   static const _fixtureAssetPath = 'assets/fixtures/unsplash_photos.json';
   static const _endpoint = 'https://api.unsplash.com/photos?per_page=12';
@@ -63,9 +63,7 @@ class UnsplashClient {
     try {
       final response = await _dio.get<dynamic>(
         _endpoint,
-        options: Options(
-          headers: {'Authorization': 'Client-ID $accessKey'},
-        ),
+        options: Options(headers: {'Authorization': 'Client-ID $accessKey'}),
       );
       return PhotoResult(
         photos: _parsePhotos(response.data),
@@ -86,10 +84,7 @@ class UnsplashClient {
       final raw = await _loadAsset(_fixtureAssetPath);
       return PhotoResult(photos: _parsePhotos(raw), fromFixture: true);
     } catch (_) {
-      return const PhotoResult(
-        photos: _lastResortPhotos,
-        fromFixture: true,
-      );
+      return const PhotoResult(photos: _lastResortPhotos, fromFixture: true);
     }
   }
 

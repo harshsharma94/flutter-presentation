@@ -16,7 +16,7 @@ const _binding = '''
 // cta.type decides the widget, not the row's identity
 RowCta.radio => const Icon(Icons.radio_button_unchecked)''';
 
-/// Slide 44 — `/bff-row-plain` (4 steps, A36a). The ordinary case, so the
+/// Slide 43 — `/bff-row-plain` (4 steps, A36a). The ordinary case, so the
 /// two that follow read as the same machinery with different data.
 class BffRowPlainBody extends StatelessWidget {
   const BffRowPlainBody({required this.step, super.key});
@@ -25,12 +25,12 @@ class BffRowPlainBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => BffRevealBody(
-        step: step,
-        regionId: 'row-wallet',
-        anchorY: 118,
-        json: _json,
-        binding: _binding,
-        accent: bffNormal,
-        caption: 'The server named the control. The client just rendered it.',
-      );
+    step: step,
+    regionId: 'row-wallet',
+    anchorY: 118,
+    json: _json,
+    binding: _binding,
+    accent: bffNormal,
+    caption: 'The server named the control. The client just rendered it.',
+  );
 }

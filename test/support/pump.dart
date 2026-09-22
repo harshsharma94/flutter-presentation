@@ -27,8 +27,9 @@ Future<void> pumpBody(
     ..devicePixelRatio = 1.0;
   addTearDown(tester.view.reset);
 
-  final deckTheme =
-      brightness == Brightness.dark ? deckDarkTheme : deckLightTheme;
+  final deckTheme = brightness == Brightness.dark
+      ? deckDarkTheme
+      : deckLightTheme;
   await tester.pumpWidget(
     MaterialApp(
       theme: deckTheme.materialTheme,
@@ -49,7 +50,7 @@ Future<void> pumpBody(
   // check that a slide renders without throwing or overflowing, not that it
   // eventually stops moving.
   // 3s total comfortably clears the longest animation in the deck: the
-  // five-node ancestor-chain traversal on slide 32, which runs
+  // five-node ancestor-chain traversal on slide 31, which runs
   // Tokens.travel * 5 = 2000ms.
   await tester.pump();
   for (var i = 0; i < 3; i++) {
@@ -62,6 +63,10 @@ Future<void> pumpBody(
 /// find-by-key-then-cast technique `annotate_test.dart` uses for
 /// [ArrowPainter] — robust against `find.byType(CustomPaint).first`
 /// resolving to a framework ink-effect [CustomPaint] instead of ours.
-FrameStripPainter stripPainterOf(WidgetTester tester) => tester
-    .widget<CustomPaint>(find.byKey(const ValueKey('frame-strip-painter')))
-    .painter! as FrameStripPainter;
+FrameStripPainter stripPainterOf(WidgetTester tester) =>
+    tester
+            .widget<CustomPaint>(
+              find.byKey(const ValueKey('frame-strip-painter')),
+            )
+            .painter!
+        as FrameStripPainter;

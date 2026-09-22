@@ -10,23 +10,28 @@ import 'package:flutter_bootcamp_deck/widgets/phone_frame.dart';
 enum _DemoState { loading, error, data }
 
 const _phoneWidth = 200.0;
-const _codeWidth = 400.0;
+const _codeWidth = 470.0;
 
+/// The `sealed` declaration is carried here rather than on a slide of its
+/// own: an earlier `/three-states-code` slide reprinted this same `switch`
+/// one beat later, which taught nothing the live demo had not already shown.
 const _demoCode = '''
-switch (state) {
+sealed class ApiResult {}
+
+switch (result) {
   case Loading():
     return Spinner();
-  case ApiError():
-    return ErrorView();
+  case ApiError(:final message):
+    return ErrorView(message);
   case Data(:final photos):
     return PhotoGrid(photos);
 }''';
 
 /// 0-indexed line numbers, one branch per [_DemoState] — see
 /// `FlutterDeckCodeHighlight.highlightedLines`.
-const _loadingLines = [1, 2];
-const _errorLines = [3, 4];
-const _dataLines = [5, 6];
+const _loadingLines = [3, 4];
+const _errorLines = [5, 6];
+const _dataLines = [7, 8];
 
 /// Slide 10's live centerpiece (A8) — genuinely interactive, unlike every
 /// other slide in the deck. A real [PhoneFrame] plus three [FilledButton]s
@@ -54,10 +59,10 @@ class _ThreeStateDemoState extends State<ThreeStateDemo> {
   bool _fromFixture = false;
 
   List<int> get _highlightedLines => switch (_state) {
-        _DemoState.loading => _loadingLines,
-        _DemoState.error => _errorLines,
-        _DemoState.data => _dataLines,
-      };
+    _DemoState.loading => _loadingLines,
+    _DemoState.error => _errorLines,
+    _DemoState.data => _dataLines,
+  };
 
   void _selectLoading() => setState(() => _state = _DemoState.loading);
 
@@ -94,42 +99,40 @@ class _ThreeStateDemoState extends State<ThreeStateDemo> {
 
   @override
   Widget build(BuildContext context) => Row(
+    mainAxisSize: MainAxisSize.min,
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Column(
         mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Column(
+          PhoneFrame(
+            width: _phoneWidth,
+            child: AnimatedSwitcher(duration: Tokens.fade, child: _content()),
+          ),
+          SizedBox(height: Tokens.gapMd),
+          Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              PhoneFrame(
-                width: _phoneWidth,
-                child:
-                    AnimatedSwitcher(duration: Tokens.fade, child: _content()),
-              ),
-              SizedBox(height: Tokens.gapMd),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  FilledButton(
-                      onPressed: _selectLoading, child: Text('loading')),
-                  SizedBox(width: Tokens.gapSm),
-                  FilledButton(onPressed: _selectError, child: Text('error')),
-                  SizedBox(width: Tokens.gapSm),
-                  FilledButton(onPressed: _selectData, child: Text('data')),
-                ],
-              ),
+              FilledButton(onPressed: _selectLoading, child: Text('loading')),
+              SizedBox(width: Tokens.gapSm),
+              FilledButton(onPressed: _selectError, child: Text('error')),
+              SizedBox(width: Tokens.gapSm),
+              FilledButton(onPressed: _selectData, child: Text('data')),
             ],
           ),
-          SizedBox(width: Tokens.gapLg),
-          SizedBox(
-            width: _codeWidth,
-            child: CodePanel(
-              code: _demoCode,
-              fileName: 'photo_view.dart',
-              highlightedLines: _highlightedLines,
-            ),
-          ),
         ],
-      );
+      ),
+      SizedBox(width: Tokens.gapLg),
+      SizedBox(
+        width: _codeWidth,
+        child: CodePanel(
+          code: _demoCode,
+          fileName: 'photo_view.dart',
+          highlightedLines: _highlightedLines,
+        ),
+      ),
+    ],
+  );
 }
 
 /// The loading state's spinner. Never [CircularProgressIndicator] — an
@@ -168,16 +171,18 @@ class _ErrorView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.error_outline, color: Palette.red, size: 32),
-            SizedBox(height: Tokens.gapSm),
-            Text('Something went wrong.',
-                style: TextStyle(color: Palette.red, fontSize: 17)),
-          ],
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(Icons.error_outline, color: Palette.red, size: 32),
+        SizedBox(height: Tokens.gapSm),
+        Text(
+          'Something went wrong.',
+          style: TextStyle(color: Palette.red, fontSize: 17),
         ),
-      );
+      ],
+    ),
+  );
 }
 
 class _DataView extends StatelessWidget {

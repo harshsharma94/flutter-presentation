@@ -207,8 +207,9 @@ class DashedBox extends StatelessWidget {
     return StepReveal(
       atStep: atStep,
       child: CustomPaint(
-        foregroundPainter:
-            _DashedBorderPainter(color: color ?? pal.textSecondary),
+        foregroundPainter: _DashedBorderPainter(
+          color: color ?? pal.textSecondary,
+        ),
         child: child,
       ),
     );
@@ -248,8 +249,10 @@ Path _dashPath(Path source) {
     var distance = 0.0;
     var draw = true;
     while (distance < metric.length) {
-      final next =
-          (distance + (draw ? _dashWidth : _dashGap)).clamp(0.0, metric.length);
+      final next = (distance + (draw ? _dashWidth : _dashGap)).clamp(
+        0.0,
+        metric.length,
+      );
       if (draw) {
         dashed.addPath(metric.extractPath(distance, next), Offset.zero);
       }
@@ -297,11 +300,13 @@ class Callout extends StatelessWidget {
           ),
           borderRadius: BorderRadius.circular(Tokens.radius),
         ),
-        child: Text(text,
-            style: TextStyle(
-              color: color ?? pal.textSecondary,
-              fontSize: _calloutFontSize,
-            )),
+        child: Text(
+          text,
+          style: TextStyle(
+            color: color ?? pal.textSecondary,
+            fontSize: _calloutFontSize,
+          ),
+        ),
       ),
     );
   }

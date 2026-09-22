@@ -16,12 +16,12 @@ const _beats = [
   (
     region: 'row-instalments',
     name: 'Row[Icon, Column[Title, Subtitle], Trailing]',
-    indent: 4
+    indent: 4,
   ),
   (region: 'cta', name: 'FilledButton', indent: 1),
 ];
 
-/// Slide 43 — `/design-to-tree` (7 steps, A35). A design on the left, a
+/// Slide 42 — `/design-to-tree` (7 steps, A35). A design on the left, a
 /// widget tree assembling itself on the right, one tap at a time.
 class DesignToTreeBody extends StatelessWidget {
   const DesignToTreeBody({required this.step, super.key});

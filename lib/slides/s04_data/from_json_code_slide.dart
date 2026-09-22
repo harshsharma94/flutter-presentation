@@ -32,8 +32,8 @@ const _highlights = <int, List<int>>{
   5: [3, 4, 5, 6],
 };
 
-/// Slide 18 — `/from-json-code` (5 steps). The anatomy of the mapping they
-/// just watched fly across slide 17, one highlighted line at a time.
+/// Slide 17 — `/from-json-code` (5 steps). The anatomy of the mapping they
+/// just watched fly across slide 16, one highlighted line at a time.
 class FromJsonCodeBody extends StatelessWidget {
   const FromJsonCodeBody({required this.step, super.key});
 
@@ -41,39 +41,37 @@ class FromJsonCodeBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Center(
-        child: Padding(
-          padding: const EdgeInsets.all(Tokens.gapLg),
-          child: FittedBox(
-            fit: BoxFit.scaleDown,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  width: 760,
-                  child: CodePanel(
-                    code: _code,
-                    fileName: 'lib/models/photo.dart',
-                    highlightedLines: _highlights[step] ?? const [],
-                  ),
-                ),
-                const SizedBox(height: Tokens.gapMd),
-                const Callout(
-                  atStep: 4,
-                  text:
-                      "factory = a constructor that doesn't have to return a new instance.",
-                  color: Palette.blue,
-                ),
-                const SizedBox(height: Tokens.gapXs),
-                const Callout(
-                  atStep: 5,
-                  text:
-                      'Four Strings positionally is a bug waiting to happen — slide 40.',
-                  color: Palette.amber,
-                ),
-              ],
+    child: Padding(
+      padding: const EdgeInsets.all(Tokens.gapLg),
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              width: 760,
+              child: CodePanel(
+                code: _code,
+                fileName: 'lib/models/photo.dart',
+                highlightedLines: _highlights[step] ?? const [],
+              ),
             ),
-          ),
+            const SizedBox(height: Tokens.gapMd),
+            const Callout(
+              atStep: 4,
+              text: "factory = a constructor that doesn't have to return a new instance.",
+              color: Palette.blue,
+            ),
+            const SizedBox(height: Tokens.gapXs),
+            const Callout(
+              atStep: 5,
+              text: 'Four Strings positionally is a bug waiting to happen — slide 39.',
+              color: Palette.amber,
+            ),
+          ],
         ),
-      );
+      ),
+    ),
+  );
 }

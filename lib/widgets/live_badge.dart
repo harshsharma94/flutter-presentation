@@ -12,28 +12,25 @@ class LiveBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            width: 14,
-            height: 14,
-            decoration: BoxDecoration(
-              color: Palette.red,
-              shape: BoxShape.circle,
-            ),
-          ),
-          SizedBox(width: Tokens.gapSm),
-          Text(
-            'LIVE',
-            style: TextStyle(
-              color: Palette.red,
-              fontSize: 24,
-              letterSpacing: 4,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ],
-      );
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      Container(
+        width: 14,
+        height: 14,
+        decoration: BoxDecoration(color: Palette.red, shape: BoxShape.circle),
+      ),
+      SizedBox(width: Tokens.gapSm),
+      Text(
+        'LIVE',
+        style: TextStyle(
+          color: Palette.red,
+          fontSize: 24,
+          letterSpacing: 4,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    ],
+  );
 }
 
 /// The body of a live-coding handoff slide. Deliberately almost empty — the

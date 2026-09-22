@@ -14,10 +14,7 @@ void main() {
   });
 
   testWidgets('shows parameters threaded through a node', (tester) async {
-    await pumpBody(
-      tester,
-      WidgetTreeView(root: demoTree, showParams: true),
-    );
+    await pumpBody(tester, WidgetTreeView(root: demoTree, showParams: true));
     expect(find.textContaining('photos'), findsWidgets);
   });
 
@@ -44,30 +41,28 @@ void main() {
   ];
 
   Map<String, double> dxByNode(WidgetTester tester) => {
-        for (final id in trackedIds)
-          id: tester.getTopLeft(find.byKey(ValueKey('flash-$id'))).dx,
-      };
+    for (final id in trackedIds)
+      id: tester.getTopLeft(find.byKey(ValueKey('flash-$id'))).dx,
+  };
 
   Map<String, double> dyByNode(WidgetTester tester) => {
-        for (final id in trackedIds)
-          id: tester.getTopLeft(find.byKey(ValueKey('flash-$id'))).dy,
-      };
+    for (final id in trackedIds)
+      id: tester.getTopLeft(find.byKey(ValueKey('flash-$id'))).dy,
+  };
 
   testWidgets('showParams moves no node', (tester) async {
     await pumpBody(tester, WidgetTreeView(root: demoTree));
     final beforeX = dxByNode(tester);
     final beforeY = dyByNode(tester);
 
-    await pumpBody(
-      tester,
-      WidgetTreeView(root: demoTree, showParams: true),
-    );
+    await pumpBody(tester, WidgetTreeView(root: demoTree, showParams: true));
     expect(dxByNode(tester), beforeX);
     expect(dyByNode(tester), beforeY);
   });
 
-  testWidgets('flashing, subscribed and traversalTo move no node',
-      (tester) async {
+  testWidgets('flashing, subscribed and traversalTo move no node', (
+    tester,
+  ) async {
     await pumpBody(tester, WidgetTreeView(root: demoTree));
     final beforeX = dxByNode(tester);
     final beforeY = dyByNode(tester);
@@ -104,9 +99,11 @@ void main() {
   // ArrowPainter.progress, and far more robust than asserting on the exact
   // sequence of canvas draw calls (which is an implementation detail of
   // traversal order, not a public contract).
-  TreeEdgePainter edgePainter(WidgetTester tester) => tester
-      .widget<CustomPaint>(find.byKey(const ValueKey('tree-edges')))
-      .painter! as TreeEdgePainter;
+  TreeEdgePainter edgePainter(WidgetTester tester) =>
+      tester
+              .widget<CustomPaint>(find.byKey(const ValueKey('tree-edges')))
+              .painter!
+          as TreeEdgePainter;
 
   testWidgets('no traversal means no path and no lit edges', (tester) async {
     await pumpBody(tester, WidgetTreeView(root: demoTree));
@@ -115,31 +112,36 @@ void main() {
     expect(painter.edgeProgress('tile-2', 'like-2'), 0.0);
   });
 
-  testWidgets('settled traversal fully lights every edge on the ancestor path',
-      (tester) async {
-    await pumpBody(
-      tester,
-      WidgetTreeView(root: demoTree, traversalTo: 'like-2'),
-    );
-    // pumpBody settles the animation, so progress has reached 1.0 and every
-    // edge on the like-2 -> tile-2 -> photo-grid -> home-screen -> photo-app
-    // chain should be fully lit - both the one nearest the target and the
-    // one nearest the root, which is exactly the "one continuous movement"
-    // property the A24 finding was about: no edge is left behind.
-    final painter = edgePainter(tester);
-    expect(
-      painter.pathIds,
-      ['photo-app', 'home-screen', 'photo-grid', 'tile-2', 'like-2'],
-    );
-    expect(painter.edgeProgress('tile-2', 'like-2'), 1.0);
-    expect(painter.edgeProgress('photo-grid', 'tile-2'), 1.0);
-    expect(painter.edgeProgress('home-screen', 'photo-grid'), 1.0);
-    expect(painter.edgeProgress('photo-app', 'home-screen'), 1.0);
-    // The untouched tile-1/like-1 branch never lit, even once traversal
-    // settles - only the ancestor chain to the target does.
-    expect(painter.edgeProgress('photo-grid', 'tile-1'), 0.0);
-    expect(painter.edgeProgress('tile-1', 'like-1'), 0.0);
-  });
+  testWidgets(
+    'settled traversal fully lights every edge on the ancestor path',
+    (tester) async {
+      await pumpBody(
+        tester,
+        WidgetTreeView(root: demoTree, traversalTo: 'like-2'),
+      );
+      // pumpBody settles the animation, so progress has reached 1.0 and every
+      // edge on the like-2 -> tile-2 -> photo-grid -> home-screen -> photo-app
+      // chain should be fully lit - both the one nearest the target and the
+      // one nearest the root, which is exactly the "one continuous movement"
+      // property the A24 finding was about: no edge is left behind.
+      final painter = edgePainter(tester);
+      expect(painter.pathIds, [
+        'photo-app',
+        'home-screen',
+        'photo-grid',
+        'tile-2',
+        'like-2',
+      ]);
+      expect(painter.edgeProgress('tile-2', 'like-2'), 1.0);
+      expect(painter.edgeProgress('photo-grid', 'tile-2'), 1.0);
+      expect(painter.edgeProgress('home-screen', 'photo-grid'), 1.0);
+      expect(painter.edgeProgress('photo-app', 'home-screen'), 1.0);
+      // The untouched tile-1/like-1 branch never lit, even once traversal
+      // settles - only the ancestor chain to the target does.
+      expect(painter.edgeProgress('photo-grid', 'tile-1'), 0.0);
+      expect(painter.edgeProgress('tile-1', 'like-1'), 0.0);
+    },
+  );
 
   // Direct, deterministic coverage of the staggering formula itself, built
   // by constructing TreeEdgePainter with a controlled `progress` rather than
@@ -147,8 +149,7 @@ void main() {
   // `edgeProgress`, so an empty map is fine here.
   const path = ['photo-app', 'home-screen', 'photo-grid', 'tile-2', 'like-2'];
 
-  test(
-      'the edge nearest the target lights well before the edge nearest '
+  test('the edge nearest the target lights well before the edge nearest '
       'the root, for the same overall progress', () {
     final painter = TreeEdgePainter(
       root: demoTree,
@@ -206,35 +207,37 @@ void main() {
   // calls pumpAndSettle - incompatible with checking a specific instant
   // mid-animation.
   testWidgets(
-      'edge (photo-grid -> tile-2) reaches full brightness exactly when '
-      "photo-grid's own border finishes arriving, not before", (tester) async {
-    tester.view
-      ..physicalSize = const Size(1920, 1080)
-      ..devicePixelRatio = 1.0;
-    addTearDown(tester.view.reset);
+    'edge (photo-grid -> tile-2) reaches full brightness exactly when '
+    "photo-grid's own border finishes arriving, not before",
+    (tester) async {
+      tester.view
+        ..physicalSize = const Size(1920, 1080)
+        ..devicePixelRatio = 1.0;
+      addTearDown(tester.view.reset);
 
-    await tester.pumpWidget(
-      MaterialApp(
-        home: Scaffold(
-          body: WidgetTreeView(root: demoTree, traversalTo: 'like-2'),
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: WidgetTreeView(root: demoTree, traversalTo: 'like-2'),
+          ),
         ),
-      ),
-    );
+      );
 
-    // path = [photo-app, home-screen, photo-grid, tile-2, like-2], length 5.
-    // photo-grid is distance 2 from the target (like-2); its own AnimatedContainer
-    // border duration is Tokens.travel * (2 + 1) = 1200ms, so it finishes
-    // arriving at real time 1200ms. The photo-grid -> tile-2 edge's window is
-    // [Tokens.travel * 2, Tokens.travel * 3] = [800ms, 1200ms], so it should
-    // still be short of fully lit 1ms before that instant, and exactly lit
-    // at it.
-    await tester.pump(Tokens.travel * 3 - const Duration(milliseconds: 1));
-    expect(
-      edgePainter(tester).edgeProgress('photo-grid', 'tile-2'),
-      lessThan(1.0),
-    );
+      // path = [photo-app, home-screen, photo-grid, tile-2, like-2], length 5.
+      // photo-grid is distance 2 from the target (like-2); its own AnimatedContainer
+      // border duration is Tokens.travel * (2 + 1) = 1200ms, so it finishes
+      // arriving at real time 1200ms. The photo-grid -> tile-2 edge's window is
+      // [Tokens.travel * 2, Tokens.travel * 3] = [800ms, 1200ms], so it should
+      // still be short of fully lit 1ms before that instant, and exactly lit
+      // at it.
+      await tester.pump(Tokens.travel * 3 - const Duration(milliseconds: 1));
+      expect(
+        edgePainter(tester).edgeProgress('photo-grid', 'tile-2'),
+        lessThan(1.0),
+      );
 
-    await tester.pump(const Duration(milliseconds: 1));
-    expect(edgePainter(tester).edgeProgress('photo-grid', 'tile-2'), 1.0);
-  });
+      await tester.pump(const Duration(milliseconds: 1));
+      expect(edgePainter(tester).edgeProgress('photo-grid', 'tile-2'), 1.0);
+    },
+  );
 }

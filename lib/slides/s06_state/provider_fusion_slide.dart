@@ -7,7 +7,7 @@ import 'package:flutter_bootcamp_deck/widgets/step_reveal.dart';
 const _boxW = 260.0;
 const _boxH = 112.0;
 
-/// Slide 33 — `/provider-fusion` (3 steps, A27). The two halves they now
+/// Slide 32 — `/provider-fusion` (3 steps, A27). The two halves they now
 /// understand slide together: an InheritedWidget that can't change, and a
 /// ChangeNotifier that can't be reached. Provider is the pair, packaged.
 class ProviderFusionBody extends StatelessWidget {
@@ -37,8 +37,9 @@ class ProviderFusionBody extends StatelessWidget {
                     AnimatedAlign(
                       duration: Tokens.travel,
                       curve: Tokens.curve,
-                      alignment:
-                          fused ? Alignment.center : Alignment.centerLeft,
+                      alignment: fused
+                          ? Alignment.center
+                          : Alignment.centerLeft,
                       child: AnimatedOpacity(
                         duration: Tokens.travel,
                         opacity: fused ? 0.0 : 1.0,
@@ -52,8 +53,9 @@ class ProviderFusionBody extends StatelessWidget {
                     AnimatedAlign(
                       duration: Tokens.travel,
                       curve: Tokens.curve,
-                      alignment:
-                          fused ? Alignment.center : Alignment.centerRight,
+                      alignment: fused
+                          ? Alignment.center
+                          : Alignment.centerRight,
                       child: AnimatedOpacity(
                         duration: Tokens.travel,
                         opacity: fused ? 0.0 : 1.0,
@@ -132,14 +134,20 @@ class _Box extends StatelessWidget {
           Text(
             title,
             style: TextStyle(
-                color: color, fontSize: 21, fontWeight: FontWeight.w600),
+              color: color,
+              fontSize: 21,
+              fontWeight: FontWeight.w600,
+            ),
           ),
           SizedBox(height: 2),
           Text(
             sub,
             textAlign: TextAlign.center,
-            style:
-                TextStyle(color: pal.textSecondary, fontSize: 16, height: 1.3),
+            style: TextStyle(
+              color: pal.textSecondary,
+              fontSize: 16,
+              height: 1.3,
+            ),
           ),
         ],
       ),

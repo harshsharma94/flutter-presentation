@@ -38,28 +38,27 @@ class SlideSpec {
 /// spending slides on dividers (spec §8.1).
 class DeckSlide extends FlutterDeckSlideWidget {
   DeckSlide(this.spec, {super.key})
-      : super(
-          configuration: FlutterDeckSlideConfiguration(
-            route: spec.route,
-            title: spec.title ?? spec.section,
-            steps: spec.steps,
-            speakerNotes: spec.speakerNotes ?? '',
-            header: spec.chrome
-                ? FlutterDeckHeaderConfiguration(title: spec.section)
-                : const FlutterDeckHeaderConfiguration(showHeader: false),
-            footer: spec.chrome
-                ? null
-                : const FlutterDeckFooterConfiguration(showFooter: false),
-          ),
-        );
+    : super(
+        configuration: FlutterDeckSlideConfiguration(
+          route: spec.route,
+          title: spec.title ?? spec.section,
+          steps: spec.steps,
+          speakerNotes: spec.speakerNotes ?? '',
+          header: spec.chrome
+              ? FlutterDeckHeaderConfiguration(title: spec.section)
+              : const FlutterDeckHeaderConfiguration(showHeader: false),
+          footer: spec.chrome
+              ? null
+              : const FlutterDeckFooterConfiguration(showFooter: false),
+        ),
+      );
 
   final SlideSpec spec;
 
   @override
   Widget build(BuildContext context) => FlutterDeckSlide.blank(
-        builder: (context) => FlutterDeckSlideStepsBuilder(
-          builder: (context, step) =>
-              StepScope(step: step, child: spec.body(step)),
-        ),
-      );
+    builder: (context) => FlutterDeckSlideStepsBuilder(
+      builder: (context, step) => StepScope(step: step, child: spec.body(step)),
+    ),
+  );
 }

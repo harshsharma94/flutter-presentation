@@ -8,12 +8,12 @@ import 'package:flutter_bootcamp_deck/widgets/widget_tree.dart';
 
 /// The scope box is drawn *beside* the root rather than inserted into
 /// [demoTree] itself. Inserting a node would add a level, which changes
-/// `treeNodePositions`' row height and shifts every node — and slide 28-34
+/// `treeNodePositions`' row height and shifts every node — and slides 28–33
 /// depend on the tree never jumping across a slide boundary.
 const _scopeWidth = 170.0;
 const _scopeHeight = 68.0;
 
-/// Slide 30 — `/inherited-widget` (8 steps, A24). The same tree as slide 29,
+/// Slide 29 — `/inherited-widget` (8 steps, A24). The same tree as slide 29,
 /// with the chips falling away and an ancestor-chain lookup travelling up to
 /// a scope that sits at the root.
 class InheritedWidgetBody extends StatelessWidget {
@@ -95,7 +95,8 @@ class InheritedWidgetBody extends StatelessWidget {
                     ),
                     const _Note(
                       atStep: 2,
-                      text: 'The middle widgets stop carrying it. Their '
+                      text:
+                          'The middle widgets stop carrying it. Their '
                           'constructors shrink back to what they actually use.',
                       color: Palette.green,
                     ),
@@ -123,12 +124,14 @@ class InheritedWidgetBody extends StatelessWidget {
                     ),
                     const _Note(
                       atStep: 4,
-                      text: 'Any descendant can ask. The one that never asks '
+                      text:
+                          'Any descendant can ask. The one that never asks '
                           'never subscribes.',
                     ),
                     const _Note(
                       atStep: 5,
-                      text: 'Data changes: only the widgets that asked '
+                      text:
+                          'Data changes: only the widgets that asked '
                           'rebuild. The rest stay dark.',
                       color: Palette.green,
                     ),
@@ -138,11 +141,17 @@ class InheritedWidgetBody extends StatelessWidget {
                       firstStep: 6,
                       rows: [
                         CorrelationRow(
-                            platform: 'Android', concept: 'CompositionLocal'),
+                          platform: 'Android',
+                          concept: 'CompositionLocal',
+                        ),
                         CorrelationRow(
-                            platform: 'iOS', concept: '@Environment'),
+                          platform: 'iOS',
+                          concept: '@Environment',
+                        ),
                         CorrelationRow(
-                            platform: 'Web', concept: 'React Context'),
+                          platform: 'Web',
+                          concept: 'React Context',
+                        ),
                       ],
                     ),
                   ],
@@ -195,11 +204,7 @@ class _ScopeBox extends StatelessWidget {
 }
 
 class _Note extends StatelessWidget {
-  const _Note({
-    required this.atStep,
-    required this.text,
-    this.color,
-  });
+  const _Note({required this.atStep, required this.text, this.color});
 
   final int atStep;
   final String text;
@@ -207,14 +212,14 @@ class _Note extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: EdgeInsets.only(bottom: Tokens.gapSm),
-        child: StepReveal(
-          atStep: atStep,
-          slideFrom: Offset(0.06, 0),
-          child: Text(
-            text,
-            style: TextStyle(color: color, fontSize: 22, height: 1.35),
-          ),
-        ),
-      );
+    padding: EdgeInsets.only(bottom: Tokens.gapSm),
+    child: StepReveal(
+      atStep: atStep,
+      slideFrom: Offset(0.06, 0),
+      child: Text(
+        text,
+        style: TextStyle(color: color, fontSize: 22, height: 1.35),
+      ),
+    ),
+  );
 }

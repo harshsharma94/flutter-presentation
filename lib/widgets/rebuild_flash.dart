@@ -4,7 +4,7 @@ import 'package:flutter_bootcamp_deck/theme/tokens.dart';
 
 /// Counts how many times each instrumented widget has actually been rebuilt.
 ///
-/// This is the honesty mechanism behind slide 34: the numbers come from
+/// This is the honesty mechanism behind slide 33: the numbers come from
 /// Flutter genuinely calling `build`, not from a script that plays a
 /// pre-decided animation.
 class RebuildTally extends ChangeNotifier {
@@ -48,8 +48,8 @@ class RebuildTallyScope extends InheritedWidget {
   final RebuildTally tally;
 
   static RebuildTally of(BuildContext context) {
-    final scope =
-        context.dependOnInheritedWidgetOfExactType<RebuildTallyScope>();
+    final scope = context
+        .dependOnInheritedWidgetOfExactType<RebuildTallyScope>();
     assert(scope != null, 'RebuildFlash needs a RebuildTallyScope ancestor.');
     return scope!.tally;
   }

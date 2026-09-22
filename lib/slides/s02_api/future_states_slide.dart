@@ -61,8 +61,10 @@ class FutureStatesBody extends StatelessWidget {
                   children: [
                     Positioned.fill(
                       child: AnimatedArrow(
-                        from:
-                            Offset(_circleALeft + _circleSize, _circleCenterY),
+                        from: Offset(
+                          _circleALeft + _circleSize,
+                          _circleCenterY,
+                        ),
                         to: Offset(_circleBLeft, _circleCenterY),
                         atStep: 3,
                         color: Palette.red,
@@ -135,8 +137,11 @@ class FutureStatesBody extends StatelessWidget {
 /// One circle: an outline that fills solid once [filled], with [label]
 /// cross-fading beneath it.
 class _OutcomeCircle extends StatelessWidget {
-  const _OutcomeCircle(
-      {required this.filled, required this.color, required this.label});
+  const _OutcomeCircle({
+    required this.filled,
+    required this.color,
+    required this.label,
+  });
 
   final bool filled;
   final Color color;
@@ -144,32 +149,32 @@ class _OutcomeCircle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => _PulseOnce(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            AnimatedContainer(
-              duration: Tokens.travel,
-              curve: Tokens.curve,
-              width: _circleSize,
-              height: _circleSize,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: filled ? color : Colors.transparent,
-                border: Border.all(color: color, width: Tokens.strokeWidth),
-              ),
-            ),
-            SizedBox(height: Tokens.gapSm),
-            AnimatedSwitcher(
-              duration: Tokens.fade,
-              child: Text(
-                label,
-                key: ValueKey(label),
-                style: TextStyle(color: color, fontSize: 20),
-              ),
-            ),
-          ],
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        AnimatedContainer(
+          duration: Tokens.travel,
+          curve: Tokens.curve,
+          width: _circleSize,
+          height: _circleSize,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: filled ? color : Colors.transparent,
+            border: Border.all(color: color, width: Tokens.strokeWidth),
+          ),
         ),
-      );
+        SizedBox(height: Tokens.gapSm),
+        AnimatedSwitcher(
+          duration: Tokens.fade,
+          child: Text(
+            label,
+            key: ValueKey(label),
+            style: TextStyle(color: color, fontSize: 20),
+          ),
+        ),
+      ],
+    ),
+  );
 }
 
 /// A single scale-in pulse played once when this subtree first mounts —
@@ -188,11 +193,11 @@ class _PulseOnce extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => TweenAnimationBuilder<double>(
-        tween: Tween(begin: 0.85, end: 1.0),
-        duration: Tokens.fade,
-        curve: Tokens.curve,
-        builder: (context, scale, child) =>
-            Transform.scale(scale: scale, child: child),
-        child: child,
-      );
+    tween: Tween(begin: 0.85, end: 1.0),
+    duration: Tokens.fade,
+    curve: Tokens.curve,
+    builder: (context, scale, child) =>
+        Transform.scale(scale: scale, child: child),
+    child: child,
+  );
 }

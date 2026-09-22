@@ -16,7 +16,7 @@ Photo(
   isFavourite: true,
 );''';
 
-/// Slide 40 — `/named-params` (3 steps, A33). The same `CodePanel` receives
+/// Slide 39 — `/named-params` (3 steps, A33). The same `CodePanel` receives
 /// named-argument code on step 3, so `animateCodeUpdate` morphs the
 /// arguments into place rather than cutting to a new block.
 class NamedParamsBody extends StatelessWidget {
@@ -26,59 +26,60 @@ class NamedParamsBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Center(
-        child: Padding(
-          padding: const EdgeInsets.all(Tokens.gapLg),
-          child: FittedBox(
-            fit: BoxFit.scaleDown,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(
-                  width: 820,
-                  child: CodePanel(code: step >= 3 ? _named : _positional),
-                ),
-                const SizedBox(height: Tokens.gapLg),
-                const StepReveal(
-                  atStep: 2,
-                  until: 2,
-                  dimWhenPast: false,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      _Question(),
-                      SizedBox(width: Tokens.gapLg),
-                      _Question(),
-                      SizedBox(width: Tokens.gapLg),
-                      _Question(),
-                      SizedBox(width: Tokens.gapLg),
-                      _Question(),
-                    ],
-                  ),
-                ),
-                const StepReveal(
-                  atStep: 2,
-                  until: 2,
-                  dimWhenPast: false,
-                  child: Padding(
-                    padding: EdgeInsets.only(top: Tokens.gapSm),
-                    child: Text(
-                      'Which is which? And what happens when someone swaps '
-                      'two of them?',
-                      style: TextStyle(color: Palette.amber, fontSize: 24),
-                    ),
-                  ),
-                ),
-                const Callout(
-                  atStep: 3,
-                  text: 'The compiler cannot catch a swapped String. A reader '
-                      'can — if you name it.',
-                  color: Palette.green,
-                ),
-              ],
+    child: Padding(
+      padding: const EdgeInsets.all(Tokens.gapLg),
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+              width: 820,
+              child: CodePanel(code: step >= 3 ? _named : _positional),
             ),
-          ),
+            const SizedBox(height: Tokens.gapLg),
+            const StepReveal(
+              atStep: 2,
+              until: 2,
+              dimWhenPast: false,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _Question(),
+                  SizedBox(width: Tokens.gapLg),
+                  _Question(),
+                  SizedBox(width: Tokens.gapLg),
+                  _Question(),
+                  SizedBox(width: Tokens.gapLg),
+                  _Question(),
+                ],
+              ),
+            ),
+            const StepReveal(
+              atStep: 2,
+              until: 2,
+              dimWhenPast: false,
+              child: Padding(
+                padding: EdgeInsets.only(top: Tokens.gapSm),
+                child: Text(
+                  'Which is which? And what happens when someone swaps '
+                  'two of them?',
+                  style: TextStyle(color: Palette.amber, fontSize: 24),
+                ),
+              ),
+            ),
+            const Callout(
+              atStep: 3,
+              text:
+                  'The compiler cannot catch a swapped String. A reader '
+                  'can — if you name it.',
+              color: Palette.green,
+            ),
+          ],
         ),
-      );
+      ),
+    ),
+  );
 }
 
 class _Question extends StatelessWidget {
@@ -86,16 +87,16 @@ class _Question extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        width: 40,
-        height: 40,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          border: Border.all(color: Palette.amber, width: 1),
-          borderRadius: BorderRadius.circular(Tokens.radius),
-        ),
-        child: const Text(
-          '?',
-          style: TextStyle(color: Palette.amber, fontSize: 24),
-        ),
-      );
+    width: 40,
+    height: 40,
+    alignment: Alignment.center,
+    decoration: BoxDecoration(
+      border: Border.all(color: Palette.amber, width: 1),
+      borderRadius: BorderRadius.circular(Tokens.radius),
+    ),
+    child: const Text(
+      '?',
+      style: TextStyle(color: Palette.amber, fontSize: 24),
+    ),
+  );
 }
