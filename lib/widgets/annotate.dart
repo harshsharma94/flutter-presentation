@@ -225,6 +225,7 @@ Path _dashPath(Path source) {
 /// [Callout]'s border is deliberately thinner than [Tokens.strokeWidth] —
 /// it labels a point rather than framing a region.
 const _calloutBorderWidth = 1.0;
+const _calloutFontSize = 16.0;
 
 /// A small rounded label with a [color] border, for a short annotation
 /// pointing at a specific value or line rather than a whole region.
@@ -252,7 +253,7 @@ class Callout extends StatelessWidget {
             border: Border.all(color: color, width: _calloutBorderWidth),
             borderRadius: BorderRadius.circular(Tokens.radius),
           ),
-          child: Text(text, style: TextStyle(color: color, fontSize: 16)),
+          child: Text(text, style: TextStyle(color: color, fontSize: _calloutFontSize)),
         ),
       );
 }

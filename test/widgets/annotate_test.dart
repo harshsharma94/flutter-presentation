@@ -40,4 +40,26 @@ void main() {
     );
     expect(find.text('region'), findsOneWidget);
   });
+
+  testWidgets('callout hides before its step and shows once it arrives',
+      (tester) async {
+    await pumpBody(tester, const Callout(atStep: 2, text: 'note'), step: 1);
+    final hiddenOpacity = tester
+        .widget<AnimatedOpacity>(find.ancestor(
+          of: find.text('note'),
+          matching: find.byType(AnimatedOpacity),
+        ))
+        .opacity;
+    expect(hiddenOpacity, 0.0);
+
+    await pumpBody(tester, const Callout(atStep: 2, text: 'note'), step: 2);
+    expect(find.text('note'), findsOneWidget);
+    final visibleOpacity = tester
+        .widget<AnimatedOpacity>(find.ancestor(
+          of: find.text('note'),
+          matching: find.byType(AnimatedOpacity),
+        ))
+        .opacity;
+    expect(visibleOpacity, 1.0);
+  });
 }
