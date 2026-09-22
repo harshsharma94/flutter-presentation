@@ -47,6 +47,8 @@ import 'package:flutter_bootcamp_deck/slides/s09_handson/bff_row_plain_slide.dar
 import 'package:flutter_bootcamp_deck/slides/s09_handson/bff_row_warning_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s09_handson/bff_vs_nonbff_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s09_handson/design_to_tree_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s10_close/references_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s10_close/thanks_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/slide_spec.dart';
 
 /// The ordered list of every slide in the deck. This is the single source of
@@ -579,5 +581,25 @@ final List<SlideSpec> slideRegistry = [
     speakerNotes: 'Three tasks, in this order — each one depends on the '
         'last. Tell them item 2 is the one that gets skipped and the one '
         'that gets asked about tomorrow.',
+  ),
+
+  // §10 Close
+  SlideSpec(
+    route: '/references',
+    section: '§10 References',
+    steps: 6,
+    body: (step) => ReferencesBody(step: step),
+    speakerNotes: 'Do not read these out. Tell them the deck is on GitHub '
+        'and point at exactly two: the async-await codelab tonight, and '
+        'the Flutter app-architecture guide this weekend. Everything else '
+        'is for when they hit the problem it solves.',
+  ),
+  SlideSpec(
+    route: '/thanks',
+    section: '§10 References',
+    chrome: false,
+    body: (step) => ThanksBody(step: step),
+    speakerNotes: 'Q&A. If it goes quiet, prompt with the one from slide '
+        '36: which reader would you reach for by default, and why?',
   ),
 ];
