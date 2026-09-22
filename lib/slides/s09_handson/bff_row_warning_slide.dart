@@ -26,7 +26,7 @@ const _binding = '''
 'warning' => Palette.amber
 RowCta.info => showDialog(...)''';
 
-/// Slide 46 — `/bff-row-warning` (4 steps, A36b). Same row widget, a
+/// Slide 45 — `/bff-row-warning` (4 steps, A36b). Same row widget, a
 /// different tone and a different trailing action — both chosen by the
 /// response.
 class BffRowWarningBody extends StatelessWidget {

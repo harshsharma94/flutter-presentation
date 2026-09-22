@@ -101,7 +101,7 @@ Presenter material:
 
 - `docs/presenter-guide.md` — live-coding scripts, exact commands, and the
   stuck-points for each slide. Not part of the deck; keep it on a second
-  screen. Covers slides 1–7 so far.
+  screen. Covers slides 1–12 (the whole API section) so far.
 
 Design and implementation notes:
 

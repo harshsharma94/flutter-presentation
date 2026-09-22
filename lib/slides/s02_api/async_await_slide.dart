@@ -45,7 +45,7 @@ const _blockLeft = _lanesLeft +
 const _blockTopInMainLane = _mainLaneCenterY - _blockHeight / 2;
 const _blockTopInSecondLane = _secondLaneCenterY - _blockHeight / 2;
 
-/// Slide 8 — `/async-await` (4 steps, A6) ⭐ PROTECTED. One of four slides in
+/// Slide 9 — `/async-await` (4 steps, A6) ⭐ PROTECTED. One of four slides in
 /// the deck where the animation *is* the explanation rather than an
 /// illustration of one — see the file-level rationale on [_Spinner] for the
 /// single detail that makes or breaks it.
@@ -88,9 +88,26 @@ class AsyncAwaitBody extends StatelessWidget {
                     child: StepReveal(
                       atStep: 1,
                       until: 1,
-                      child: Text(
-                        '60 fps.',
-                        style: TextStyle(color: pal.textPrimary, fontSize: 24),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            'One thread draws your whole UI.',
+                            style: TextStyle(
+                              color: pal.textPrimary,
+                              fontSize: 26,
+                            ),
+                          ),
+                          Text(
+                            'A frame every 16ms. Hold it up and nothing '
+                            'moves — not even the spinner.',
+                            style: TextStyle(
+                              color: pal.textSecondary,
+                              fontSize: 20,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -153,7 +170,8 @@ class AsyncAwaitBody extends StatelessWidget {
                     top: _blockTopInMainLane + _blockHeight + Tokens.gapXs,
                     child: Callout(
                       atStep: 2,
-                      text: 'blocked · 2.3s · 138 frames dropped',
+                      text: 'a tight loop, a huge jsonDecode · '
+                          '138 frames dropped',
                       color: Palette.red,
                     ),
                   ),
@@ -206,7 +224,7 @@ class _FetchBlock extends StatelessWidget {
         borderRadius: BorderRadius.circular(Tokens.radius),
       ),
       child: Text(
-        'fetchPhotos()',
+        'work that never yields',
         style:
             TextStyle(color: color, fontFamily: 'JetBrainsMono', fontSize: 20),
       ),

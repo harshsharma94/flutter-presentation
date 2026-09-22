@@ -32,8 +32,8 @@ const _highlights = <int, List<int>>{
   5: [3, 4, 5, 6],
 };
 
-/// Slide 19 — `/from-json-code` (5 steps). The anatomy of the mapping they
-/// just watched fly across slide 18, one highlighted line at a time.
+/// Slide 18 — `/from-json-code` (5 steps). The anatomy of the mapping they
+/// just watched fly across slide 17, one highlighted line at a time.
 class FromJsonCodeBody extends StatelessWidget {
   const FromJsonCodeBody({required this.step, super.key});
 
@@ -68,7 +68,7 @@ class FromJsonCodeBody extends StatelessWidget {
                 const Callout(
                   atStep: 5,
                   text:
-                      'Four Strings positionally is a bug waiting to happen — slide 41.',
+                      'Four Strings positionally is a bug waiting to happen — slide 40.',
                   color: Palette.amber,
                 ),
               ],

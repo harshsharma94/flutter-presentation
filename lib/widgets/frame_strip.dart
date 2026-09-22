@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bootcamp_deck/theme/palette.dart';
 
 /// A strip of [frameCount] tick marks standing in for a UI's frame budget —
-/// A6 (slide 8)'s central visual. Every tick is [Palette.green] ("still
+/// A6 (slide 9)'s central visual. Every tick is [Palette.green] ("still
 /// rendering") except the ticks inside `[stalledFrom, stalledTo)`, which
 /// turn [Palette.red] but only while [stalled] is true; outside that range
 /// (or with [stalled] false) every tick stays green regardless.

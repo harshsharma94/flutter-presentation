@@ -62,8 +62,8 @@ const _everyNodeId = {
   'like-2',
 };
 
-/// Slide 30 — `/state-problem` (5 steps, A23). Prop drilling, drawn. The
-/// tree, its layout and its node positions are shared with slide 30-34, so
+/// Slide 29 — `/state-problem` (5 steps, A23). Prop drilling, drawn. The
+/// tree, its layout and its node positions are shared with slide 29-34, so
 /// nothing jumps at a slide boundary.
 class StateProblemBody extends StatelessWidget {
   const StateProblemBody({required this.step, super.key});

@@ -34,7 +34,7 @@ final _miniLanes = [
   SequenceLane(id: 'api', label: 'API'),
 ];
 
-/// The same four-step shape as the code beside it — slide 15's diagram,
+/// The same four-step shape as the code beside it — slide 14's diagram,
 /// zoomed to just the hops this interceptor triggers.
 final _hops = [
   SequenceHop(
@@ -61,8 +61,8 @@ final _rows = [
   CorrelationRow(platform: 'Go', concept: 'Go RoundTripper'),
 ];
 
-/// Slide 16 — `/auth-interceptor` (4 steps, A12). The code that automates
-/// slide 15's steps 7-9: a Dio `onError` interceptor that catches a 401,
+/// Slide 15 — `/auth-interceptor` (4 steps, A12). The code that automates
+/// slide 14's steps 7-9: a Dio `onError` interceptor that catches a 401,
 /// refreshes, and retries — silently, exactly like the diagram showed.
 class AuthInterceptorBody extends StatelessWidget {
   const AuthInterceptorBody({required this.step, super.key});

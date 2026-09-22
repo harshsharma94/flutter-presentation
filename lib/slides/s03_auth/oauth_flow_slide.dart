@@ -5,7 +5,7 @@ import 'package:flutter_bootcamp_deck/widgets/annotate.dart';
 import 'package:flutter_bootcamp_deck/widgets/sequence_diagram.dart';
 import 'package:flutter_bootcamp_deck/widgets/step_reveal.dart';
 
-/// Public (not file-private) because slide 17 (`/unsplash-reality`) reuses
+/// Public (not file-private) because slide 16 (`/unsplash-reality`) reuses
 /// this exact configuration for its "the whole flow, shrunk" beat — the
 /// point there only lands if it is visibly the same diagram, not a redrawn
 /// approximation of it.
@@ -58,7 +58,7 @@ const _tokenRowCenter = SequenceDiagram.laneHeaderHeight +
     SequenceDiagram.rowHeight / 2;
 const _tokenColumnTop = _tokenRowCenter - 32;
 
-/// Slide 15 — `/oauth-flow` (9 steps, A11) ⭐⭐. The deck's longest
+/// Slide 14 — `/oauth-flow` (9 steps, A11) ⭐⭐. The deck's longest
 /// animation: the full OAuth2 authorization-code round trip, hop by hop,
 /// across four lanes. Step 7 is the one the slide exists for — no hop, no
 /// interaction, just an hour passing and the access token quietly expiring

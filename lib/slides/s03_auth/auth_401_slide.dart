@@ -40,9 +40,9 @@ const _serverEdgeX = _serverLeft - 8;
 /// rejected it.
 const _stampX = _serverLeft - 70;
 
-/// Slide 14 — `/auth-401` (3 steps, A10). Opens §2 Auth: a request with no
+/// Slide 13 — `/auth-401` (3 steps, A10). Opens §2 Auth: a request with no
 /// credential bounces off the API stamped 401; a key is what gets it
-/// through. The key is deliberately unexplained here — slide 15 is the
+/// through. The key is deliberately unexplained here — slide 14 is the
 /// whole mechanism behind getting one and keeping it valid.
 class Auth401Body extends StatelessWidget {
   const Auth401Body({required this.step, super.key});

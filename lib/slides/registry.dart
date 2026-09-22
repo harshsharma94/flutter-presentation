@@ -11,7 +11,6 @@ import 'package:flutter_bootcamp_deck/slides/s02_api/http_clients_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s02_api/live_first_request_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s02_api/loading_state_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s02_api/three_states_code_slide.dart';
-import 'package:flutter_bootcamp_deck/slides/s02_api/when_it_breaks_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s03_auth/auth_401_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s03_auth/interceptor_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s03_auth/oauth_flow_slide.dart';
@@ -73,7 +72,7 @@ final List<SlideSpec> slideRegistry = [
     steps: 3,
     body: (step) => BeautifulLieBody(step: step),
     speakerNotes: 'They built two screens off one hardcoded list. One '
-        'change today fixes both — that\'s slide 21. Ask: how many of you '
+        'change today fixes both — that\'s slide 20. Ask: how many of you '
         'copy-pasted the list into the detail screen?',
   ),
   SlideSpec(
@@ -123,41 +122,50 @@ final List<SlideSpec> slideRegistry = [
     section: '§1 API',
     steps: 2,
     body: (step) => LiveFirstRequestBody(step: step),
-    speakerNotes: 'Type it live, don\'t paste. `final dio = Dio(); final '
-        'r = await dio.get(\'https://api.unsplash.com/photos\', options: '
-        'Options(headers: {\'Authorization\': \'Client-ID \$key\'})); '
-        'print(r.data);` — expect a 401 first if you "forget" the '
-        'header. That\'s deliberate; it sets up slide 14.',
+    speakerNotes: 'Picsum, not Unsplash: no key, no account, nothing to '
+        'explain before §2 Auth. Type it live, don\'t paste: `final dio = '
+        'Dio(); dio.get(\'https://picsum.photos/v2/list\').then((r) => '
+        'print(r.data));`. Hold tap 2 back and let them try first — the '
+        'constraint is the lesson, and they end up holding a Future they '
+        'cannot open, which is exactly what the next two slides are for. '
+        'If someone already knows await, let them write it, then ask for '
+        'the .then version too so the room sees both. Full script and the '
+        'stuck-point table are in docs/presenter-guide.md.',
+  ),
+  SlideSpec(
+    route: '/future-states',
+    section: '§1 API',
+    steps: 4,
+    body: (step) => FutureStatesBody(step: step),
+    speakerNotes: 'Define it before the next slide animates it. A Future '
+        'is a receipt: you get it immediately, the value arrives later, and '
+        'it settles exactly once — with a value or with an error. Step 3 is '
+        'the point: the error branch is native to the model, not an edge '
+        'case bolted on. Every await is choosing to handle two branches. '
+        'Step 4 is the one that surprises people — no cancel(). You can '
+        'ignore the result; the work still runs and the error still lands. '
+        'Cancelling the request is the client\'s job (Dio\'s CancelToken), '
+        'not the Future\'s.',
   ),
   SlideSpec(
     route: '/async-await',
     section: '§1 API',
     steps: 4,
     body: (step) => AsyncAwaitBody(step: step),
-    speakerNotes: '60fps means a new frame every 16ms. Step 2: a '
-        'synchronous call blocks the render thread — nothing moves, not '
-        'even the phone\'s own spinner, until it returns; that\'s the red '
-        'strip and the frozen spinner, not a metaphor. Step 3 is `await`: '
-        'the call detaches onto its own lane so the render thread keeps '
-        'ticking, and the result rejoins the main flow when it\'s ready. '
-        'This is not a new idea — Kotlin\'s `suspend`, Swift\'s '
-        '`async/await`, Go\'s goroutines, Java\'s `CompletableFuture` are '
-        'all the same guarantee. Rehearse this one: step forward and back '
-        'through all four before you present it, and if the spinner ever '
-        'moves during step 2, stop and fix it before going on stage.',
-  ),
-  SlideSpec(
-    route: '/future-states',
-    section: '§1 API',
-    steps: 3,
-    body: (step) => FutureStatesBody(step: step),
-    speakerNotes: 'A Future is exactly one of three things: not done yet, '
-        'done with a value, or done with an error. Step 3 is the point: '
-        'the error branch is not a rare edge case bolted onto the model, '
-        'it\'s equally native to it. Every `await` you write is choosing '
-        'to handle two branches, not one.',
-  ),
-  SlideSpec(
+    speakerNotes: 'Flutter runs your UI on ONE thread — the main isolate. '
+        'It draws a frame every 16ms, and anything that occupies that '
+        'thread without yielding stops the whole UI, spinner included. '
+        'Step 2 is deliberately NOT a network call: Dart has no blocking '
+        'HTTP API, so a request can never do this. What does is '
+        'synchronous work — a tight loop, a huge jsonDecode. Say that out '
+        'loud; someone always asks. Step 3: await hands the waiting to the '
+        'event loop, the thread keeps drawing, and your code resumes when '
+        'the answer arrives. Kotlin suspend, Swift async/await, Go '
+        'goroutines, Java CompletableFuture — same idea, different names. '
+        'Rehearse forward and back; if the spinner moves during step 2, '
+        'fix it before you present. Answer to "does it block without '
+        'await?" and references are in docs/presenter-guide.md.',
+  ),  SlideSpec(
     route: '/loading-state',
     section: '§1 API',
     body: (step) => LoadingStateBody(step: step),
@@ -182,22 +190,14 @@ final List<SlideSpec> slideRegistry = [
     section: '§1 API',
     steps: 3,
     body: (step) => ThreeStatesCodeBody(step: step),
-    speakerNotes: 'This is the same switch slide 10 just ran live — show '
-        'it quickly as the code behind the demo, don\'t re-teach it. Cut '
-        'this one first if you\'re short on time; the demo already made '
-        'the point.',
-  ),
-  SlideSpec(
-    route: '/when-it-breaks',
-    section: '§1 API',
-    steps: 3,
-    body: (step) => WhenItBreaksBody(step: step),
-    speakerNotes: 'Put this on screen when someone\'s app hangs. Don\'t '
-        'teach it cold. Android: AndroidManifest.xml needs the INTERNET '
-        'permission. macOS: Runner.entitlements needs '
-        'com.apple.security.network.client, both debug and release. Web: '
-        'CORS is the server\'s problem, not yours — point them at a proxy '
-        'or a CORS-friendly endpoint for the workshop and move on.',
+    speakerNotes: 'Same switch slide 10 just ran live — show it as the '
+        'code behind the demo, don\'t re-teach it. Step 3 carries what the '
+        'old platform-troubleshooting slide used to: the fastest way to '
+        'see the error branch is wifi off or a bad host. If someone\'s app '
+        'hangs instead of erroring, it is almost always the Android '
+        'INTERNET permission or the macOS network entitlement — say it, '
+        'move on. A complete no-dependency three-state widget is in '
+        'docs/presenter-guide.md if anyone wants the shape.',
   ),
 
   // §2 Auth
@@ -209,7 +209,7 @@ final List<SlideSpec> slideRegistry = [
     speakerNotes: 'A request with no credential just bounces — a flat 401, '
         'nothing more. Step 3\'s key is deliberately unexplained: where it '
         'comes from and how you keep it valid without asking the user to '
-        'log in again every hour is the whole of slide 15.',
+        'log in again every hour is the whole of slide 14.',
   ),
   SlideSpec(
     route: '/oauth-flow',
@@ -218,14 +218,14 @@ final List<SlideSpec> slideRegistry = [
     body: (step) => OauthFlowBody(step: step),
     speakerNotes: 'Step 7 is the whole point — nobody logged in again. The '
         'user saw nothing. Ask them where this lives in their Android app; '
-        'answer is OkHttp Authenticator, which is slide 16.',
+        'answer is OkHttp Authenticator, which is slide 15.',
   ),
   SlideSpec(
     route: '/auth-interceptor',
     section: '§2 Auth',
     steps: 4,
     body: (step) => AuthInterceptorBody(step: step),
-    speakerNotes: 'This is slide 15\'s steps 7 through 9, automated. Every '
+    speakerNotes: 'This is slide 14\'s steps 7 through 9, automated. Every '
         'platform has this exact shape — an interceptor sitting between '
         'the app and the network, watching for a 401 it can fix by itself. '
         'Walk the four highlighted lines, then land on the correlation: '
@@ -252,7 +252,7 @@ final List<SlideSpec> slideRegistry = [
         'that lands: every platform they know does this with reflection or '
         'an annotation processor. Dart has no runtime reflection, so '
         'someone writes the mapping — either you, by hand, or build_runner '
-        'on slide 22.',
+        'on slide 21.',
   ),
   SlideSpec(
     route: '/from-json-code',
@@ -355,7 +355,7 @@ final List<SlideSpec> slideRegistry = [
     body: (step) => RepositoryBody(step: step),
     speakerNotes: 'Same knock, different door. Ask where they have seen '
         'this: Android Repository, Spring @Repository, a Go interface with '
-        'two implementations. Then make the connection back to slide 27 — '
+        'two implementations. Then make the connection back to slide 26 — '
         'the fake repository worked precisely because the caller only ever '
         'knew the door.',
   ),
@@ -389,7 +389,7 @@ final List<SlideSpec> slideRegistry = [
         'finish travelling before you talk. Then say it out loud: the '
         'lookup is O(1), not a tree walk at runtime, because Flutter '
         'caches it per element. The animation shows the conceptual walk, '
-        'not the runtime cost. Step 5 is the payoff over slide 30: only '
+        'not the runtime cost. Step 5 is the payoff over slide 29: only '
         'subscribers rebuild.',
   ),
   SlideSpec(
@@ -421,7 +421,7 @@ final List<SlideSpec> slideRegistry = [
     speakerNotes: 'Say it as arithmetic: InheritedWidget solves reach, '
         'ChangeNotifier solves change, and neither solves the other. '
         'Provider is not a new concept — it is the two they just learned, '
-        'wired together so they stop writing the wrapper from slide 32.',
+        'wired together so they stop writing the wrapper from slide 31.',
   ),
   SlideSpec(
     route: '/watch-read-consumer',
@@ -460,7 +460,7 @@ final List<SlideSpec> slideRegistry = [
     section: '§6 DI',
     steps: 3,
     body: (step) => DiProblemBody(step: step),
-    speakerNotes: 'This is slide 30 again, but for services instead of '
+    speakerNotes: 'This is slide 29 again, but for services instead of '
         'data — say that, they will see it. Step 3 is the cost that '
         'actually shows up in review: adding one dependency means editing '
         'every constructor between main and the leaf.',
@@ -480,7 +480,7 @@ final List<SlideSpec> slideRegistry = [
     section: '§6 DI',
     steps: 2,
     body: (step) => DiTestingBody(step: step),
-    speakerNotes: 'Callback to slide 27 — same idea, now at the wiring '
+    speakerNotes: 'Callback to slide 26 — same idea, now at the wiring '
         'level. This is the answer to "why bother with DI": one line, and '
         'the whole tree is testable. Point out the type argument on '
         'Provider<PhotoRepository> — that is what makes the swap '
@@ -568,7 +568,7 @@ final List<SlideSpec> slideRegistry = [
     section: '§9 Hands-on',
     steps: 4,
     body: (step) => BffVsNonBffBody(step: step),
-    speakerNotes: 'Optional — cut this if time is short, slide 45-47 '
+    speakerNotes: 'Optional — cut this if time is short, slides 44-46 '
         'already made the point. If you run it, be fair to the right-hand '
         'side: a raw resource contract is the right call when the client '
         'genuinely owns presentation, or when several very different '

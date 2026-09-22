@@ -14,7 +14,7 @@ const _arrowY = 24.0;
 
 double _slabLeft(int i) => i * (_slabWidth + Tokens.gapLg);
 
-/// Slide 26 — `/dependency-rule` (4 steps, A20). Arrows point inward, toward
+/// Slide 25 — `/dependency-rule` (4 steps, A20). Arrows point inward, toward
 /// Domain. Step 3 flips one, and Domain stops being testable on its own.
 class DependencyRuleBody extends StatelessWidget {
   const DependencyRuleBody({required this.step, super.key});

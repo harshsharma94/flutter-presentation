@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bootcamp_deck/widgets/live_badge.dart';
 
-/// Slide 20 — `/live-map-model` (1 step). Keyboard, not slides.
+/// Slide 19 — `/live-map-model` (1 step). Keyboard, not slides.
 class LiveMapModelBody extends StatelessWidget {
   const LiveMapModelBody({required this.step, super.key});
 

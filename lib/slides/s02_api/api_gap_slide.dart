@@ -151,7 +151,7 @@ class _RequestLabel extends StatelessWidget {
         borderRadius: BorderRadius.circular(Tokens.radius),
       ),
       child: Text(
-        'GET https://api.unsplash.com/photos',
+        'GET https://picsum.photos/v2/list',
         style: TextStyle(
           fontFamily: 'JetBrainsMono',
           color: Palette.blue,

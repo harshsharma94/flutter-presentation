@@ -14,8 +14,8 @@ final _arrivals = <int, List<Band>>{
   3: [rulesBand, networkBand2, rulesBand2],
 };
 
-/// Slide 24 — `/god-file` (4 steps, A18). One widget file that grew four
-/// concerns. The bands here are the same `Band` values slide 25 sorts, so
+/// Slide 23 — `/god-file` (4 steps, A18). One widget file that grew four
+/// concerns. The bands here are the same `Band` values slide 24 sorts, so
 /// the next slide reads as *these* bands moving.
 class GodFileBody extends StatelessWidget {
   const GodFileBody({required this.step, super.key});

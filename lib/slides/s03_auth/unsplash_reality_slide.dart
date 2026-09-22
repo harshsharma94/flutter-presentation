@@ -17,7 +17,7 @@ const _scale = 0.25;
 
 const _headerLine = 'Authorization: Client-ID abc123';
 
-/// Slide 17 — `/unsplash-reality` (2 steps, A13). Closes §2 Auth: the whole
+/// Slide 16 — `/unsplash-reality` (2 steps, A13). Closes §2 Auth: the whole
 /// OAuth2 machinery just taught, shrunk to a footnote, because Unsplash's
 /// public API only ever checks one static header. Knowing the full flow and
 /// knowing today doesn't need it are the same skill.

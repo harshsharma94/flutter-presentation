@@ -78,7 +78,7 @@ const _groups = [
   ),
 ];
 
-/// Slide 50 — `/references` (6 steps).
+/// Slide 49 — `/references` (6 steps).
 class ReferencesBody extends StatelessWidget {
   const ReferencesBody({required this.step, super.key});
 

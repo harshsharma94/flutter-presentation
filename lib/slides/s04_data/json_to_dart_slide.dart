@@ -37,7 +37,7 @@ const _jsonLines = [
   (text: '}', consumedAt: null),
 ];
 
-/// Slide 18 — `/json-to-dart` (6 steps, A14 + A15). Four keys lift out of the
+/// Slide 17 — `/json-to-dart` (6 steps, A14 + A15). Four keys lift out of the
 /// raw response, fly a curved path, and land as named arguments on a real
 /// constructor. Step 5 reverses one — that is `toJson`. Step 6 names the
 /// thing they already use on their own platform, and why Dart can't.

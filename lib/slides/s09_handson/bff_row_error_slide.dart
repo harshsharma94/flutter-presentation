@@ -28,7 +28,7 @@ const _binding = '''
 enabled: false => Opacity + ignore taps
 value[platform] => launchUrl(...)''';
 
-/// Slide 47 — `/bff-row-error` (4 steps, A36c). The disabled case, plus the
+/// Slide 46 — `/bff-row-error` (4 steps, A36c). The disabled case, plus the
 /// per-platform action map — the row the client never had to special-case.
 class BffRowErrorBody extends StatelessWidget {
   const BffRowErrorBody({required this.step, super.key});

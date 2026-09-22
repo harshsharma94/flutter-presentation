@@ -19,7 +19,7 @@ final photos = const [
 const _live = '''
 final photos = await repo.getPhotos();''';
 
-/// Slide 21 — `/delete-hardcoded` (3 steps, A16). The emotional peak of
+/// Slide 20 — `/delete-hardcoded` (3 steps, A16). The emotional peak of
 /// session 1: the Day-1 list they each typed by hand collapses into one
 /// line, and both screens fill from it.
 ///

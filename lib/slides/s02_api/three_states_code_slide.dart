@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bootcamp_deck/theme/palette.dart';
 import 'package:flutter_bootcamp_deck/theme/tokens.dart';
 import 'package:flutter_bootcamp_deck/widgets/code_panel.dart';
+import 'package:flutter_bootcamp_deck/widgets/step_reveal.dart';
 
 const _switchCode = '''
 sealed class ApiResult {}
@@ -58,6 +59,26 @@ class ThreeStatesCodeBody extends StatelessWidget {
                   code: _switchCode,
                   fileName: 'photo_view.dart',
                   highlightedLines: _highlightedLines,
+                ),
+              ),
+              SizedBox(height: Tokens.gapMd),
+              StepReveal(
+                atStep: 3,
+                dimWhenPast: false,
+                child: SizedBox(
+                  width: 620,
+                  child: Text(
+                    'To see the error branch for real: turn wifi off, or '
+                    'point the URL at a host that does not exist. On '
+                    'Android an app with no INTERNET permission fails the '
+                    'same way; on macOS it is the network entitlement.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: pal.textSecondary,
+                      fontSize: 19,
+                      height: 1.35,
+                    ),
+                  ),
                 ),
               ),
             ],

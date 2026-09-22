@@ -93,6 +93,18 @@ class LiveSlideBody extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Padding(
+                    padding: EdgeInsets.only(bottom: Tokens.gapXs),
+                    child: Text(
+                      'Hint',
+                      style: TextStyle(
+                        color: Palette.blue,
+                        fontSize: 22,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 1,
+                      ),
+                    ),
+                  ),
                   for (final hint in hints)
                     Padding(
                       padding: EdgeInsets.only(bottom: Tokens.gapXs),

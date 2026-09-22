@@ -101,7 +101,7 @@ class ErrorSwallowedBody extends StatelessWidget {
 }
 
 /// The wait spinner — the deck's second deliberate exception to the
-/// no-`AnimationController` rule, matching the precedent set on slide 8: a
+/// no-`AnimationController` rule, matching the precedent set on slide 9: a
 /// genuinely repeating [AnimationController], not a finite illusion.
 ///
 /// An earlier version of this widget used a [TweenAnimationBuilder] tweening
@@ -114,7 +114,7 @@ class ErrorSwallowedBody extends StatelessWidget {
 /// talking about a request that supposedly never stopped, undercutting the
 /// slide's own punchline.
 ///
-/// So, as with slide 8's spinner: this is *ambient* motion standing for "the
+/// So, as with slide 9's spinner: this is *ambient* motion standing for "the
 /// request is still out there," which must not be presenter-controlled or
 /// finite, because the point is that it does not stop on its own. Every
 /// other detail on this slide — which elements are visible, the clock text,
@@ -122,7 +122,7 @@ class ErrorSwallowedBody extends StatelessWidget {
 /// runs on its own clock, and it starts turning once [waiting] flips true
 /// and never stops. `test/support/pump.dart`'s bounded pumps (not
 /// `pumpAndSettle`) are what make this compatible with the smoke test — see
-/// that file's own rationale, established for slide 8.
+/// that file's own rationale, established for slide 9.
 class _Spinner extends StatefulWidget {
   const _Spinner({required this.waiting});
 

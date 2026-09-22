@@ -14,9 +14,9 @@ const _laneY = 90.0;
 const _boxW = 210.0;
 const _boxH = 96.0;
 
-/// Slide 28 — `/repository` (3 steps, A22). One door, two sources. The
+/// Slide 27 — `/repository` (3 steps, A22). One door, two sources. The
 /// caller knocks the same way whichever one answers — that is the entire
-/// pattern, and the reason slide 27's swap was free.
+/// pattern, and the reason slide 26's swap was free.
 class RepositoryBody extends StatelessWidget {
   const RepositoryBody({required this.step, super.key});
 

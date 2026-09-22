@@ -18,10 +18,12 @@ const _circleALeft = 40.0;
 const _circleBLeft = _canvasWidth - _circleSize - 40.0;
 const _circleCenterY = _canvasHeight / 2;
 
-/// Slide 9 — `/future-states` (3 steps, A7). One circle standing in for a
-/// `Future`: outlined and pending, then filled in for the outcome a demo
-/// always shows — data — then a second, branch-drawn circle for the outcome
-/// a demo never does: the error.
+/// Slide 8 — `/future-states` (4 steps, A7). Defines the thing before the
+/// next slide animates it: a `Future` is a receipt for a value that does not
+/// exist yet. One circle stands in for it — outlined and pending, then
+/// filled for the outcome every demo shows (data), then a second circle for
+/// the one no demo shows (the error). Step 4 is the property that surprises
+/// people: it does not come with a cancel button.
 class FutureStatesBody extends StatelessWidget {
   const FutureStatesBody({required this.step, super.key});
 
@@ -34,55 +36,96 @@ class FutureStatesBody extends StatelessWidget {
     final pal = Palette.of(context);
 
     return Center(
-      child: Padding(
-        padding: EdgeInsets.all(Tokens.gapLg),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              'A Future settles exactly one way.',
-              style: TextStyle(color: pal.textPrimary, fontSize: 29),
-            ),
-            SizedBox(height: Tokens.gapLg),
-            SizedBox.fromSize(
-              size: _canvasSize,
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  Positioned.fill(
-                    child: AnimatedArrow(
-                      from: Offset(_circleALeft + _circleSize, _circleCenterY),
-                      to: Offset(_circleBLeft, _circleCenterY),
-                      atStep: 3,
-                      color: Palette.red,
-                    ),
-                  ),
-                  Positioned(
-                    left: _circleALeft,
-                    top: _circleTop,
-                    child: _OutcomeCircle(
-                      filled: _resolved,
-                      color: Palette.blue,
-                      label: _resolved ? 'data' : 'pending',
-                    ),
-                  ),
-                  Positioned(
-                    left: _circleBLeft,
-                    top: _circleTop,
-                    child: StepReveal(
-                      atStep: 3,
-                      dimWhenPast: false,
-                      child: const _OutcomeCircle(
-                        filled: true,
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Padding(
+          padding: EdgeInsets.all(Tokens.gapLg),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'A Future is a receipt for a value you do not have yet.',
+                style: TextStyle(color: pal.textPrimary, fontSize: 32),
+              ),
+              SizedBox(height: Tokens.gapXs),
+              Text(
+                'You get it the instant you ask. It settles exactly once, '
+                'later, exactly one way.',
+                style: TextStyle(color: pal.textSecondary, fontSize: 22),
+              ),
+              SizedBox(height: Tokens.gapLg),
+              SizedBox.fromSize(
+                size: _canvasSize,
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    Positioned.fill(
+                      child: AnimatedArrow(
+                        from:
+                            Offset(_circleALeft + _circleSize, _circleCenterY),
+                        to: Offset(_circleBLeft, _circleCenterY),
+                        atStep: 3,
                         color: Palette.red,
-                        label: 'error',
                       ),
                     ),
-                  ),
-                ],
+                    Positioned(
+                      left: _circleALeft,
+                      top: _circleTop,
+                      child: _OutcomeCircle(
+                        filled: _resolved,
+                        color: Palette.blue,
+                        label: _resolved ? 'data' : 'pending',
+                      ),
+                    ),
+                    Positioned(
+                      left: _circleBLeft,
+                      top: _circleTop,
+                      child: StepReveal(
+                        atStep: 3,
+                        dimWhenPast: false,
+                        child: const _OutcomeCircle(
+                          filled: true,
+                          color: Palette.red,
+                          label: 'error',
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+              SizedBox(height: Tokens.gapMd),
+              StepReveal(
+                atStep: 4,
+                dimWhenPast: false,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'And there is no cancel().',
+                      style: TextStyle(color: Palette.amber, fontSize: 26),
+                    ),
+                    SizedBox(height: Tokens.gapXs),
+                    SizedBox(
+                      width: 820,
+                      child: Text(
+                        'You can stop caring about the answer. You cannot stop '
+                        'the work — it finishes, and any error it throws still '
+                        'has to land somewhere. Aborting the request itself is '
+                        'the HTTP client\u2019s job, not the Future\u2019s: '
+                        'that is Dio\u2019s CancelToken.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: pal.textSecondary,
+                          fontSize: 20,
+                          height: 1.35,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -27,7 +27,7 @@ Column(
   ],
 )''';
 
-/// Slide 42 — `/cascade-spread` (2 steps, A34). Ninety seconds. They will
+/// Slide 41 — `/cascade-spread` (2 steps, A34). Ninety seconds. They will
 /// meet both in the codebase today; they do not need a lecture.
 class CascadeSpreadBody extends StatelessWidget {
   const CascadeSpreadBody({required this.step, super.key});
