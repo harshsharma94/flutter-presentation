@@ -12,6 +12,23 @@ class _FailingAdapter implements HttpClientAdapter {
       );
 }
 
+/// Simulates a successful HTTP call whose body isn't the Unsplash photo
+/// shape — a rate-limit message, a maintenance page, or similar served
+/// with a 200. No DioException is thrown; the failure only shows up once
+/// the body is parsed.
+class _BadShapeAdapter implements HttpClientAdapter {
+  @override
+  void close({bool force = false}) {}
+  @override
+  Future<ResponseBody> fetch(o, s, f) async => ResponseBody.fromString(
+        '{"errors":["Rate Limit Exceeded"]}',
+        200,
+        headers: {
+          Headers.contentTypeHeader: [Headers.jsonContentType],
+        },
+      );
+}
+
 const _fixture = '''
 [{"id":"a1","urls":{"regular":"https://x/a1.jpg"},
   "user":{"name":"Ansel"},"likes":42}]
@@ -49,5 +66,19 @@ void main() {
     );
     final result = await client.getPhotos();
     expect(result.fromFixture, isTrue);
+  });
+
+  test(
+      'falls back to the fixture when a 200 response has an unexpected '
+      'shape', () async {
+    final dio = Dio()..httpClientAdapter = _BadShapeAdapter();
+    final client = UnsplashClient(
+      accessKey: 'test-key',
+      dio: dio,
+      loadAsset: (_) async => _fixture,
+    );
+    final result = await client.getPhotos();
+    expect(result.fromFixture, isTrue);
+    expect(result.photos.single.author, 'Ansel');
   });
 }

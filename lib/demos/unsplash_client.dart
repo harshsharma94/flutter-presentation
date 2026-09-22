@@ -20,11 +20,15 @@ class PhotoResult {
 }
 
 /// Fetches photos from the Unsplash API, falling back to a bundled offline
-/// fixture whenever no access key is configured or the request fails.
+/// fixture whenever no access key is configured, the request fails, or the
+/// response can't be parsed into [Photo]s.
 ///
 /// This runs live, in front of an audience: a forgotten
-/// `--dart-define=UNSPLASH_ACCESS_KEY=...` or a flaky venue wifi must render
-/// real-looking photos, not an error. [getPhotos] therefore never throws.
+/// `--dart-define=UNSPLASH_ACCESS_KEY=...`, a flaky venue wifi, or a 200
+/// response whose body isn't the shape we expect (a rate-limit or
+/// maintenance message, a captive-portal page from a proxy, a changed
+/// field) must all render real-looking photos, not an error. [getPhotos]
+/// therefore never throws.
 class UnsplashClient {
   UnsplashClient({
     this.accessKey = const String.fromEnvironment('UNSPLASH_ACCESS_KEY'),
@@ -43,7 +47,12 @@ class UnsplashClient {
   /// Returns 12 photos from the live Unsplash API.
   ///
   /// Falls back to the bundled fixture — without ever throwing — when
-  /// [accessKey] is empty or the request raises any [DioException].
+  /// [accessKey] is empty, the request raises a [DioException], or the
+  /// response body can't be parsed into [Photo]s (wrong shape, rate-limit
+  /// or maintenance body served with a 200, a captive-portal page, etc.).
+  /// The fallback wraps the whole fetch-and-parse sequence on purpose: a
+  /// response we cannot parse is a failed request in every sense this
+  /// audience cares about.
   Future<PhotoResult> getPhotos() async {
     if (accessKey.isEmpty) {
       return _fromFixture();
@@ -60,7 +69,7 @@ class UnsplashClient {
         photos: _parsePhotos(response.data),
         fromFixture: false,
       );
-    } on DioException {
+    } catch (_) {
       return _fromFixture();
     }
   }
