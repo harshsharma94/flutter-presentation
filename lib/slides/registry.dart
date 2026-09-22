@@ -16,6 +16,12 @@ import 'package:flutter_bootcamp_deck/slides/s03_auth/auth_401_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s03_auth/interceptor_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s03_auth/oauth_flow_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s03_auth/unsplash_reality_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s04_data/break_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s04_data/codegen_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s04_data/delete_hardcoded_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s04_data/from_json_code_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s04_data/json_to_dart_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s04_data/live_map_model_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/slide_spec.dart';
 
 /// The ordered list of every slide in the deck. This is the single source of
@@ -217,5 +223,67 @@ final List<SlideSpec> slideRegistry = [
     speakerNotes: 'Say plainly: we taught you the full flow because that\'s '
         'what production looks like. Today\'s API needs one header. '
         'Knowing the difference is the skill.',
+  ),
+
+  // §4 Data
+  SlideSpec(
+    route: '/json-to-dart',
+    section: '§4 Data',
+    steps: 6,
+    body: (step) => JsonToDartBody(step: step),
+    speakerNotes: 'Four keys, four wires — call each one out as it flies. '
+        'Step 5 is the reverse trip: same wires, toJson. Step 6 is the one '
+        'that lands: every platform they know does this with reflection or '
+        'an annotation processor. Dart has no runtime reflection, so '
+        'someone writes the mapping — either you, by hand, or build_runner '
+        'on slide 23.',
+  ),
+  SlideSpec(
+    route: '/from-json-code',
+    section: '§4 Data',
+    steps: 5,
+    body: (step) => FromJsonCodeBody(step: step),
+    speakerNotes: 'Walk the highlighted lines, don\'t read the file. The '
+        'two things worth saying out loud: `factory` is allowed to return a '
+        'cached or subclass instance (that is the whole difference from a '
+        'normal constructor), and the `as String` casts are where a bad '
+        'response actually blows up — which is why this parsing lives '
+        'behind the repository, not in build().',
+  ),
+  SlideSpec(
+    route: '/live-map-model',
+    section: '§4 Data',
+    body: (step) => LiveMapModelBody(step: step),
+    speakerNotes: 'Use their Day 1 Photo class as-is. Don\'t rename fields '
+        'to match the API — the whole point is that the mapping layer '
+        'absorbs the difference. If someone asks why not just use the JSON '
+        'map directly, that is the repository discussion after the break.',
+  ),
+  SlideSpec(
+    route: '/delete-hardcoded',
+    section: '§4 Data',
+    steps: 3,
+    body: (step) => DeleteHardcodedBody(step: step),
+    speakerNotes: 'Pause here. This is the moment. Step forward slowly and '
+        'let them watch the characters morph — twelve lines they typed '
+        'yesterday become one. Then let both screens fill from it. Don\'t '
+        'talk over step 3.',
+  ),
+  SlideSpec(
+    route: '/codegen',
+    section: '§4 Data',
+    steps: 2,
+    body: (step) => CodegenBody(step: step),
+    speakerNotes: 'Optional — only run this if you are ahead of schedule. '
+        'Frame it as "you now understand exactly what it generates", which '
+        'is why we did it by hand first. One sentence on build_runner '
+        'being a compile step, not magic, then move.',
+  ),
+  SlideSpec(
+    route: '/break',
+    section: '§4 Data',
+    chrome: false,
+    body: (step) => BreakBody(step: step),
+    speakerNotes: 'Actually take 15. Session 2 is the dense half.',
   ),
 ];
