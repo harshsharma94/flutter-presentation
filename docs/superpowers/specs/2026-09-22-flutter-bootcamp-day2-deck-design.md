@@ -59,7 +59,7 @@ Two sessions, ~2 hours each, with a break between.
 | Codegen | Hand-write first, one `build_runner` payoff demo at the end | Hand-writing `fromJson` is the part that teaches. Codegen shown as payoff, marked skippable, so a `part 'x.g.dart'` error can never derail the main path. |
 | DI | `Provider` **is** the DI container | Zero new packages — they already learn Provider for state. Maps 1:1 to Hilt `@Module` / Koin `module {}` / Spring `@Bean`. Avoids a second mental model (get_it's global registry). |
 | Auth | Teach generic OAuth2, then show Unsplash's reality | Unsplash's public API takes a static `Client-ID` header — no refresh, no expiry. Teaching refresh-with-Unsplash would be teaching a fiction. Animate the real-world flow they will meet at work, then contrast it with what today actually needs. The contrast *is* the lesson. |
-| Hands-on screen | Rebuild the real GoPay "Select payment method" screen | It is their own product; recognition value is high, and payment rows vary richly (title styles, description states, CTA types, action maps) in a way photo rows do not. |
+| Hands-on screen | Rebuild the real payment-methods screen | It is their own product; recognition value is high, and payment rows vary richly (title styles, description states, CTA types, action maps) in a way photo rows do not. |
 | Deck identity | "Flutter Bootcamp" on the title slide and footer | User decision. |
 | Section orientation | flutter_deck's built-in per-slide header + a roadmap chip, **no divider slides** | Decided (open question 3). Rationale in §8.1 — orientation without spending slides. |
 | Theme | Near-black slate + primary accent + familiar-platform accent | Accents carry **semantic** roles, not decoration: blue = Flutter/new, green = what you already know. Two-tone correlation panels are therefore readable at a glance, and every other slide stays monochrome and quiet. |
@@ -135,7 +135,7 @@ lib/
 assets/
   fonts/                     bundled, for offline rendering
   fixtures/unsplash.json     offline fallback for the live request
-  images/gopay/              payment screen iconography
+  images/payment/            payment screen iconography
 ```
 
 One file per slide. Per project coding standards: many small files, 200–400 lines typical.
@@ -174,8 +174,8 @@ Applied uniformly so the deck reads calm rather than busy:
 ```
 base       #0B0E13   near-black slate
 surface    #141922
-blue       #118EEA   GoPay  — "Flutter / the new thing"
-green      #00AA5B   Gojek  — "what you already know"
+blue       #118EEA   "Flutter / the new thing"
+green      #00AA5B   "what you already know"
 amber      #F5A623   warning states
 red        #E5484D   error states
 text       #E8EDF4 primary / #93A1B5 secondary
@@ -277,7 +277,7 @@ Net effect: continuous orientation, zero extra slides.
 | 42 | `/named-params` | Which string was which? | A33 | 3 |
 | 43 | `/cascade-spread` | `..` and `...` | A34 | 2 |
 | **§9 Hands-on** |
-| 44 | `/design-to-tree` | GoPay screen -> widget tree, grows on tap | A35 | 7 |
+| 44 | `/design-to-tree` | payment screen -> widget tree, grows on tap | A35 | 7 |
 | 45 | `/bff-row-plain` | Contract reveal: plain row | A36a | 4 |
 | 46 | `/bff-row-warning` | Contract reveal: warning + info CTA | A36b | 4 |
 | 47 | `/bff-row-error` | Contract reveal: error + disabled + deep link | A36c | 4 |
@@ -438,7 +438,7 @@ The tree widget persists and evolves; they watch the same tree get better.
   `[...list, item]` expands to show elements flowing out of the spread.
 
 ### §9 Hands-on
-- **A35 (**) — Design -> widget tree** (7). The rebuilt GoPay "Select payment method"
+- **A35 (**) — Design -> widget tree** (7). The generic "Select payment method"
   screen renders as a real Flutter widget on the left. Each step dashes a box around one
   region and its widget name flies out to the right, assembling
   `Scaffold -> Column -> SectionHeader -> ListView -> PaymentRow -> [Icon, Column[Title,

@@ -1,6 +1,6 @@
 {
-    "name": "gopay_flutter_deck",
-    "short_name": "gopay_flutter_deck",
+    "name": "flutter_bootcamp_deck",
+    "short_name": "flutter_bootcamp_deck",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

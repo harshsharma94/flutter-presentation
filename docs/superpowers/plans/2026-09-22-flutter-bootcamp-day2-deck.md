@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Build a 51-slide `flutter_deck` presentation for GoPay's Flutter bootcamp Day 2, carrying 37 step-driven animations and 3 live interactive demos that explain API integration, auth, data mapping, clean architecture, state management and DI to engineers arriving from Android/iOS/Java/Go.
+**Goal:** Build a 51-slide `flutter_deck` presentation for a Flutter bootcamp Day 2, carrying 37 step-driven animations and 3 live interactive demos that explain API integration, auth, data mapping, clean architecture, state management and DI to engineers arriving from Android/iOS/Java/Go.
 
 **Architecture:** Every slide splits in two — a thin `FlutterDeckSlideWidget` wrapper that owns routing/config, and a pure `Body` widget that takes the current `step` as a plain `int` and has no flutter_deck ancestors. A single `SlideSpec` registry feeds both `main.dart` and the smoke test, so a slide cannot exist without being covered. All animation is derived from `step` through one primitive (`StepReveal`), which makes every animation presenter-paced, reversible, and testable by pumping a body at a fixed step.
 
@@ -15,7 +15,7 @@
 - **Flutter >= 3.32.0 / Dart >= 3.8.0.** Pinned to 3.47.5 via fvm. Every Flutter and Dart command runs through `fvm` (`fvm flutter ...`, `fvm dart ...`). Never invoke bare `flutter`.
 - **No `build_runner` in the deck itself.** Codegen appears only as *content* on slide 23. No `.g.dart` files, no mockito.
 - **Deck identity:** "Flutter Bootcamp". Title slide and footer.
-- **Palette (exact):** base `#0B0E13`, surface `#141922`, blue `#118EEA` (GoPay — "Flutter/new"), green `#00AA5B` (Gojek — "what you already know"), amber `#F5A623` (warning), red `#E5484D` (error), text `#E8EDF4` primary / `#93A1B5` secondary.
+- **Palette (exact):** base `#0B0E13`, surface `#141922`, blue `#118EEA` ("Flutter / the new thing"), green `#00AA5B` ("what you already know"), amber `#F5A623` (warning), red `#E5484D` (error), text `#E8EDF4` primary / `#93A1B5` secondary.
 - **Motion language:** 300ms fades, 400ms travel, `Curves.easeOutCubic` everywhere, no bounce/overshoot, max two things moving at once, completed steps dim to 40% rather than disappearing. Slide transition is `FlutterDeckTransition.fade()` and nothing else.
 - **Text density:** no slide may exceed ~25 words of body copy. If a slide needs more, it is two slides or the words belong in speaker notes.
 - **Secrets:** the Unsplash key arrives via `--dart-define=UNSPLASH_ACCESS_KEY=...` and is read with `String.fromEnvironment`. Never hardcoded, never committed. Missing key or failed request falls back to a bundled fixture.
@@ -1823,21 +1823,21 @@ testWidgets('counts a rebuild each time it builds', (tester) async {
 
 **Files:**
 - Create: `lib/slides/s09_handson/design_to_tree_slide.dart`
-- Create: `lib/demos/gopay_payment_screen.dart`
-- Create: `assets/images/gopay/` (payment method icons)
+- Create: `lib/demos/payment_methods_screen.dart`
+- Create: `assets/images/payment/` (payment method icons)
 
 **Interfaces:**
-- Produces: `GoPayPaymentScreen({Set<String> highlightedRegions = const {}})` — a real Flutter rebuild of the "Select payment method" screen, with named regions (`header`, `section-title`, `row-gopay`, `row-paylater`, `row-cicil`, `row-card`, `cta`) that can be individually outlined
+- Produces: `PaymentMethodsScreen({Set<String> highlightedRegions = const {}})` — a real Flutter rebuild of the "Select payment method" screen, with named regions (`header`, `section-title`, `row-wallet`, `row-paylater`, `row-instalments`, `row-card`, `cta`) that can be individually outlined
 
-**Slide 44 — `/design-to-tree`** (7 steps, A35). `GoPayPaymentScreen` renders left. Each step draws a `DashedBox` around one region and its widget name flies right to assemble the tree: `Scaffold` → `Column` → `SectionHeader` → `ListView` → `PaymentRow` → `[Icon, Column[Title, Subtitle], Trailing]`. The tree grows with every tap.
+**Slide 44 — `/design-to-tree`** (7 steps, A35). `PaymentMethodsScreen` renders left. Each step draws a `DashedBox` around one region and its widget name flies right to assemble the tree: `Scaffold` → `Column` → `SectionHeader` → `ListView` → `PaymentRow` → `[Icon, Column[Title, Subtitle], Trailing]`. The tree grows with every tap.
 - Notes: "Make them call out the widget before you reveal it. This is the skill: reading a design as a hierarchy. Don't rush it."
 
-Build the screen from the reference photo: header "Select payment method", a "Payment methods" section with subtitle "Swipe left to set as default", rows for GoPay Coins / GoPay / GoPayLater / GoPayLater Cicil / Jago / card entries, and an "Add methods" section. Neutral reconstruction — approximate layout and iconography, no lifted brand assets.
+Build the screen from the reference photo: header "Select payment method", a "Payment methods" section with subtitle "Swipe left to set as default", rows for Rewards Points / Wallet / Pay Later / Pay Later Instalments / Bank Account / card entries, and an "Add methods" section. Neutral reconstruction — approximate layout and iconography, no lifted brand assets.
 
-- [ ] **Step 1: Build `GoPayPaymentScreen` with region keys**
+- [ ] **Step 1: Build `PaymentMethodsScreen` with region keys**
 - [ ] **Step 2: Add a widget test asserting each named region renders and can be highlighted**
 - [ ] **Step 3: Build slide 44 following the five-step cycle**
-- [ ] **Step 4: Commit** — `feat(slide-44): GoPay screen to widget tree decomposition (A35)`
+- [ ] **Step 4: Commit** — `feat(slide-44): payment screen to widget tree decomposition (A35)`
 
 ---
 
@@ -1846,18 +1846,18 @@ Build the screen from the reference photo: header "Select payment method", a "Pa
 **Files:**
 - Create: `lib/slides/s09_handson/bff_row_plain_slide.dart`, `bff_row_warning_slide.dart`, `bff_row_error_slide.dart`
 
-Each slide: `GoPayPaymentScreen` left, JSON right, a self-drawing `AnimatedArrow` connecting one row to its fragment, **and** a highlight on the Dart property that JSON drives.
+Each slide: `PaymentMethodsScreen` left, JSON right, a self-drawing `AnimatedArrow` connecting one row to its fragment, **and** a highlight on the Dart property that JSON drives.
 
-**Slide 45 — `/bff-row-plain`** (4 steps, A36a). Row `row-gopay`. JSON fragment:
+**Slide 45 — `/bff-row-plain`** (4 steps, A36a). Row `row-wallet`. JSON fragment:
 ```json
-{"title": "GoPay", "descriptions": [{"type": "DEFAULT", "value": "Balance: Rp500.000"}],
+{"title": "Wallet", "descriptions": [{"type": "DEFAULT", "value": "Balance: Rp500.000"}],
  "cta": {"type": "radio_button", "value": "true"}}
 ```
 Steps: highlight row → arrow draws → JSON appears → Dart property lights (`cta.type` → `Radio(value:)`).
 
-**Slide 46 — `/bff-row-warning`** (4 steps, A36b). Row `row-cicil`. JSON adds `"descriptions": [{"type": "INFO", "value": "Limit Rp500.000", "attributes": {"color_token": "default"}}]` and `"cta": {"type": "info", "dialog": {"title": "…", "description": "You have exceeded limit for this month"}}`. Final step lights `color_token` → `style: theme.amber` and the info CTA → `showDialog`.
+**Slide 46 — `/bff-row-warning`** (4 steps, A36b). Row `row-instalments`. JSON adds `"descriptions": [{"type": "INFO", "value": "Limit Rp500.000", "attributes": {"color_token": "default"}}]` and `"cta": {"type": "info", "dialog": {"title": "…", "description": "You have exceeded limit for this month"}}`. Final step lights `color_token` → `style: theme.amber` and the info CTA → `showDialog`.
 
-**Slide 47 — `/bff-row-error`** (4 steps, A36c). Row `row-jago`. JSON: `"descriptions": [{"type": "ERROR", "value": "Under maintenance", "attributes": {"color_token": "error"}}]`, `"enabled": false`, and `"cta": {"type": "DEEP_LINK", "value": {"android": "gojek://paymentwidget/card", "ios": "gojek://paymentwidget/card", "web": "…"}}`. Final step lights `color_token: "error"` → `style: theme.error` and the platform action map.
+**Slide 47 — `/bff-row-error`** (4 steps, A36c). Row `row-bank`. JSON: `"descriptions": [{"type": "ERROR", "value": "Under maintenance", "attributes": {"color_token": "error"}}]`, `"enabled": false`, and `"cta": {"type": "DEEP_LINK", "value": {"android": "app://payment/card", "ios": "app://payment/card", "web": "…"}}`. Final step lights `color_token: "error"` → `style: theme.error` and the platform action map.
 - Notes across all three: "The server decided the colour. The client just rendered it. Ask what happens when design wants a new state — who ships?"
 
 - [ ] **Step 1: Slides 45–47, following the five-step cycle**
@@ -1871,7 +1871,7 @@ Steps: highlight row → arrow draws → JSON appears → Dart property lights (
 - Create: `lib/slides/s09_handson/bff_vs_nonbff_slide.dart`, `assignment_slide.dart`
 
 **Slide 48 — `/bff-vs-nonbff`** (4 steps, A37). Split screen, identical UI both sides.
-- Step 1: left JSON rich, right JSON bare `{"id": "gopay", "type": "wallet", "balance": 500000}`.
+- Step 1: left JSON rich, right JSON bare `{"id": "wallet", "type": "wallet", "balance": 500000}`.
 - Step 2: left client code is a thin `switch`; right client code starts stacking `if`s.
 - Step 3: the right side's line count climbs visibly (step-driven counter).
 - Step 4: a new payment type is added — left needs zero client changes; right needs an app release. `Callout`: *"Ships in: 1 day vs 6 weeks."*
