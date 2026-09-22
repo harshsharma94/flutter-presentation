@@ -12,6 +12,8 @@ import 'package:gopay_flutter_deck/slides/s02_api/live_first_request_slide.dart'
 import 'package:gopay_flutter_deck/slides/s02_api/loading_state_slide.dart';
 import 'package:gopay_flutter_deck/slides/s02_api/three_states_code_slide.dart';
 import 'package:gopay_flutter_deck/slides/s02_api/when_it_breaks_slide.dart';
+import 'package:gopay_flutter_deck/slides/s03_auth/auth_401_slide.dart';
+import 'package:gopay_flutter_deck/slides/s03_auth/oauth_flow_slide.dart';
 import 'package:gopay_flutter_deck/slides/slide_spec.dart';
 
 /// The ordered list of every slide in the deck. This is the single source of
@@ -172,5 +174,26 @@ final List<SlideSpec> slideRegistry = [
         'com.apple.security.network.client, both debug and release. Web: '
         'CORS is the server\'s problem, not yours — point them at a proxy '
         'or a CORS-friendly endpoint for the workshop and move on.',
+  ),
+
+  // §3 Auth
+  SlideSpec(
+    route: '/auth-401',
+    section: '§3 Auth',
+    steps: 3,
+    body: (step) => Auth401Body(step: step),
+    speakerNotes: 'A request with no credential just bounces — a flat 401, '
+        'nothing more. Step 3\'s key is deliberately unexplained: where it '
+        'comes from and how you keep it valid without asking the user to '
+        'log in again every hour is the whole of slide 16.',
+  ),
+  SlideSpec(
+    route: '/oauth-flow',
+    section: '§3 Auth',
+    steps: 9,
+    body: (step) => OauthFlowBody(step: step),
+    speakerNotes: 'Step 7 is the whole point — nobody logged in again. The '
+        'user saw nothing. Ask them where this lives in their Android app; '
+        'answer is OkHttp Authenticator, which is slide 17.',
   ),
 ];
