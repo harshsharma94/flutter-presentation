@@ -28,7 +28,9 @@ class PhotoResult {
 /// response whose body isn't the shape we expect (a rate-limit or
 /// maintenance message, a captive-portal page from a proxy, a changed
 /// field) must all render real-looking photos, not an error. [getPhotos]
-/// therefore never throws.
+/// therefore never throws — even the fixture fallback has its own guard,
+/// dropping to a small in-code [_lastResortPhotos] constant if the bundled
+/// fixture itself can't be loaded or parsed.
 class UnsplashClient {
   UnsplashClient({
     this.accessKey = const String.fromEnvironment('UNSPLASH_ACCESS_KEY'),
@@ -74,9 +76,21 @@ class UnsplashClient {
     }
   }
 
+  /// Loads the bundled fixture, with its own guard: this is the fallback
+  /// itself, so it must not be able to throw. If the asset is missing, the
+  /// loader fails, or the bundled JSON doesn't parse, this drops one more
+  /// rung to [_lastResortPhotos] — an in-code constant with no file I/O and
+  /// no decoding, so there is nothing left in that path that can fail.
   Future<PhotoResult> _fromFixture() async {
-    final raw = await _loadAsset(_fixtureAssetPath);
-    return PhotoResult(photos: _parsePhotos(raw), fromFixture: true);
+    try {
+      final raw = await _loadAsset(_fixtureAssetPath);
+      return PhotoResult(photos: _parsePhotos(raw), fromFixture: true);
+    } catch (_) {
+      return const PhotoResult(
+        photos: _lastResortPhotos,
+        fromFixture: true,
+      );
+    }
   }
 
   List<Photo> _parsePhotos(Object? data) {
@@ -85,4 +99,28 @@ class UnsplashClient {
         .map((item) => Photo.fromJson(item as Map<String, dynamic>))
         .toList();
   }
+
+  /// The floor beneath the fixture: hardcoded [Photo]s used only when even
+  /// the bundled fixture can't be loaded or parsed. Deliberately small —
+  /// it only has to make the slide render something rather than crash.
+  static const _lastResortPhotos = <Photo>[
+    Photo(
+      id: 'last-resort-1',
+      imageUrl: 'https://picsum.photos/seed/gopay-last-resort-1/800/600',
+      author: 'GoPay Flutter Deck',
+      likes: 1,
+    ),
+    Photo(
+      id: 'last-resort-2',
+      imageUrl: 'https://picsum.photos/seed/gopay-last-resort-2/800/600',
+      author: 'GoPay Flutter Deck',
+      likes: 1,
+    ),
+    Photo(
+      id: 'last-resort-3',
+      imageUrl: 'https://picsum.photos/seed/gopay-last-resort-3/800/600',
+      author: 'GoPay Flutter Deck',
+      likes: 1,
+    ),
+  ];
 }

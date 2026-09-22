@@ -81,4 +81,26 @@ void main() {
     expect(result.fromFixture, isTrue);
     expect(result.photos.single.author, 'Ansel');
   });
+
+  test(
+      'falls back to the in-code last-resort photos when the fixture '
+      'itself cannot be loaded', () async {
+    final client = UnsplashClient(
+      accessKey: '',
+      loadAsset: (_) async => throw Exception('asset bundle unavailable'),
+    );
+    final result = await client.getPhotos();
+    expect(result.fromFixture, isTrue);
+    expect(result.photos, isNotEmpty);
+    expect(result.photos.first.author, 'GoPay Flutter Deck');
+  });
+
+  test('loads the real bundled fixture via the default asset loader',
+      () async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+    final client = UnsplashClient(accessKey: '');
+    final result = await client.getPhotos();
+    expect(result.fromFixture, isTrue);
+    expect(result.photos, hasLength(12));
+  });
 }
