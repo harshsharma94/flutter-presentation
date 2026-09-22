@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_deck/flutter_deck.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gopay_flutter_deck/theme/deck_theme.dart';
+import 'package:gopay_flutter_deck/widgets/frame_strip.dart';
 import 'package:gopay_flutter_deck/widgets/step_scope.dart';
 
 const fhd = Size(1920, 1080);
@@ -40,3 +41,12 @@ Future<void> pumpBody(
   );
   await tester.pumpAndSettle();
 }
+
+/// Finds a [FrameStrip]'s [CustomPaint] by its `ValueKey('frame-strip-painter')`
+/// and casts its painter to [FrameStripPainter], the same
+/// find-by-key-then-cast technique `annotate_test.dart` uses for
+/// [ArrowPainter] — robust against `find.byType(CustomPaint).first`
+/// resolving to a framework ink-effect [CustomPaint] instead of ours.
+FrameStripPainter stripPainterOf(WidgetTester tester) => tester
+    .widget<CustomPaint>(find.byKey(const ValueKey('frame-strip-painter')))
+    .painter! as FrameStripPainter;

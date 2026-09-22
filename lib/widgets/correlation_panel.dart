@@ -19,12 +19,21 @@ class CorrelationPanel extends StatelessWidget {
     required this.rows,
     required this.flutterLabel,
     this.firstStep = 1,
+    this.stepsPerRow = 1,
     super.key,
   });
 
   final List<CorrelationRow> rows;
   final String flutterLabel;
   final int firstStep;
+
+  /// How many steps separate one row's reveal from the next. The default of
+  /// 1 is the usual "one row per step, arrow lands with the last row"
+  /// choreography (slide 7). Pass 0 to reveal every row — and the arrow and
+  /// [flutterLabel] box — together on a single step, for a slide that only
+  /// has one step left in its budget to spend on the correlation (slide 9's
+  /// closing beat).
+  final int stepsPerRow;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +47,7 @@ class CorrelationPanel extends StatelessWidget {
             children: [
               for (var i = 0; i < rows.length; i++)
                 StepReveal(
-                  atStep: firstStep + i,
+                  atStep: firstStep + i * stepsPerRow,
                   dimWhenPast: false,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: Tokens.gapXs),
@@ -68,7 +77,7 @@ class CorrelationPanel extends StatelessWidget {
         ),
         const SizedBox(width: Tokens.gapLg),
         StepReveal(
-          atStep: firstStep + rows.length - 1,
+          atStep: firstStep + (rows.length - 1) * stepsPerRow,
           dimWhenPast: false,
           child: const Icon(Icons.arrow_forward,
               color: Palette.textSecondary, size: 32),
@@ -76,7 +85,7 @@ class CorrelationPanel extends StatelessWidget {
         const SizedBox(width: Tokens.gapLg),
         Expanded(
           child: StepReveal(
-            atStep: firstStep + rows.length - 1,
+            atStep: firstStep + (rows.length - 1) * stepsPerRow,
             dimWhenPast: false,
             child: Container(
               padding: const EdgeInsets.all(Tokens.gapMd),

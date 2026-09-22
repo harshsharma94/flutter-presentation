@@ -4,6 +4,7 @@ import 'package:gopay_flutter_deck/slides/s00_open/roadmap_slide.dart';
 import 'package:gopay_flutter_deck/slides/s00_open/title_slide.dart';
 import 'package:gopay_flutter_deck/slides/s01_structure/structure_slide.dart';
 import 'package:gopay_flutter_deck/slides/s02_api/api_gap_slide.dart';
+import 'package:gopay_flutter_deck/slides/s02_api/async_await_slide.dart';
 import 'package:gopay_flutter_deck/slides/s02_api/http_clients_slide.dart';
 import 'package:gopay_flutter_deck/slides/s02_api/live_first_request_slide.dart';
 import 'package:gopay_flutter_deck/slides/slide_spec.dart';
@@ -96,5 +97,22 @@ final List<SlideSpec> slideRegistry = [
         'Options(headers: {\'Authorization\': \'Client-ID \$key\'})); '
         'print(r.data);` — expect a 401 first if you "forget" the '
         'header. That\'s deliberate; it sets up slide 15.',
+  ),
+  SlideSpec(
+    route: '/async-await',
+    section: '§2 API',
+    steps: 4,
+    body: (step) => AsyncAwaitBody(step: step),
+    speakerNotes: '60fps means a new frame every 16ms. Step 2: a '
+        'synchronous call blocks the render thread — nothing moves, not '
+        'even the phone\'s own spinner, until it returns; that\'s the red '
+        'strip and the frozen spinner, not a metaphor. Step 3 is `await`: '
+        'the call detaches onto its own lane so the render thread keeps '
+        'ticking, and the result rejoins the main flow when it\'s ready. '
+        'This is not a new idea — Kotlin\'s `suspend`, Swift\'s '
+        '`async/await`, Go\'s goroutines, Java\'s `CompletableFuture` are '
+        'all the same guarantee. Rehearse this one: step forward and back '
+        'through all four before you present it, and if the spinner ever '
+        'moves during step 2, stop and fix it before going on stage.',
   ),
 ];
