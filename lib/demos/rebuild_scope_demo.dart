@@ -72,6 +72,23 @@ class _RebuildScopeDemoState extends State<RebuildScopeDemo> {
                   icon: const Icon(Icons.favorite),
                   label: const Text('like'),
                 ),
+                const SizedBox(width: Tokens.gapMd),
+                // The model's own value, read live and rendered *outside*
+                // the tree. Without this, `read` mode looks broken rather
+                // than instructive: the tap genuinely changes the model,
+                // and the lesson is that the tree below did not hear about
+                // it. You cannot see that unless you can see both numbers.
+                ListenableBuilder(
+                  listenable: _model,
+                  builder: (context, _) => Text(
+                    'model.likes = ${_model.likes}',
+                    style: const TextStyle(
+                      fontFamily: 'JetBrainsMono',
+                      color: Palette.green,
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
               ],
             ),
             const SizedBox(height: Tokens.gapMd),
@@ -100,12 +117,16 @@ class _RebuildScopeDemoState extends State<RebuildScopeDemo> {
               ),
             ),
             if (_mode == ReadMode.read)
-              const Padding(
-                padding: EdgeInsets.only(top: Tokens.gapXs),
-                child: Text(
-                  'read() never subscribes — the number never moves, and '
-                  'neither does the UI.',
-                  style: TextStyle(color: Palette.amber, fontSize: 16),
+              Padding(
+                padding: const EdgeInsets.only(top: Tokens.gapXs),
+                child: ListenableBuilder(
+                  listenable: _model,
+                  builder: (context, _) => Text(
+                    'read() never subscribes. The model says '
+                    '${_model.likes}; the tree still says 0, nothing '
+                    'rebuilt, and no flash fired.',
+                    style: const TextStyle(color: Palette.amber, fontSize: 16),
+                  ),
                 ),
               ),
           ],

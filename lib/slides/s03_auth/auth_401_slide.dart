@@ -24,8 +24,22 @@ const _serverSize = 100.0;
 const _serverLeft = _canvasWidth - _serverSize;
 const _serverTop = _laneY - _serverSize / 2;
 
-/// Where the failed round trip turns around — the literal wall.
-const _gapMidX = (_phoneWidth + _serverLeft) / 2;
+/// Outbound and return traffic ride separate lanes, the way a sequence
+/// diagram reads. Drawing both on one lane stacked two opposing arrowheads
+/// on the same pixels, which read as a single confused line.
+const _outboundY = _laneY - 24;
+const _returnY = _laneY + 24;
+
+/// Where the request leaves the phone and where it meets the server. The
+/// request *does* reach the server — a 401 is the server's answer, not a
+/// wall the request never gets to. Stopping the arrow short would teach the
+/// wrong mental model.
+const _phoneEdgeX = _phoneWidth + 8;
+const _serverEdgeX = _serverLeft - 8;
+
+/// Where the rejection stamp sits: at the server, because the server is what
+/// rejected it.
+const _stampX = _serverLeft - 70;
 
 /// Slide 15 — `/auth-401` (3 steps, A10). Opens §3 Auth: a request with no
 /// credential bounces off the API stamped 401; a key is what gets it
@@ -75,49 +89,62 @@ class Auth401Body extends StatelessWidget {
                         color: _granted ? Palette.blue : Palette.textSecondary,
                       ),
                     ),
-                    // Step 1: the request goes out and hits a wall.
+                    // Step 1: the request reaches the server, carrying no
+                    // credential.
                     Positioned.fill(
                       child: StepReveal(
                         atStep: 1,
                         until: 2,
                         dimWhenPast: false,
                         child: const AnimatedArrow(
-                          from: Offset(_phoneWidth, _laneY),
-                          to: Offset(_gapMidX, _laneY),
+                          from: Offset(_phoneEdgeX, _outboundY),
+                          to: Offset(_serverEdgeX, _outboundY),
                           atStep: 1,
                           dashed: true,
-                          color: Palette.red,
+                          color: Palette.textSecondary,
                         ),
                       ),
                     ),
                     Positioned(
-                      left: _gapMidX - 14,
-                      top: _laneY - 14,
+                      left: _phoneEdgeX + 12,
+                      top: _outboundY - 30,
                       child: const StepReveal(
                         atStep: 1,
+                        until: 2,
+                        dimWhenPast: false,
+                        child: _LaneLabel(
+                          text: 'GET /photos   (no Authorization header)',
+                          color: Palette.textSecondary,
+                        ),
+                      ),
+                    ),
+                    // Step 2: the server rejects it and says so.
+                    Positioned(
+                      left: _stampX,
+                      top: _laneY - 14,
+                      child: const StepReveal(
+                        atStep: 2,
                         until: 2,
                         dimWhenPast: false,
                         child: _ErrorPulse(),
                       ),
                     ),
-                    // Step 2: it bounces back, stamped 401.
                     Positioned.fill(
                       child: StepReveal(
                         atStep: 2,
                         until: 2,
                         dimWhenPast: false,
                         child: const AnimatedArrow(
-                          from: Offset(_gapMidX, _laneY),
-                          to: Offset(_phoneWidth, _laneY),
+                          from: Offset(_serverEdgeX, _returnY),
+                          to: Offset(_phoneEdgeX, _returnY),
                           atStep: 2,
-                          dashed: true,
                           color: Palette.red,
                         ),
                       ),
                     ),
                     Positioned(
-                      left: 0,
-                      top: _phoneTop + _phoneHeight + Tokens.gapSm,
+                      left: _phoneEdgeX + 12,
+                      top: _returnY + 12,
                       child: const StepReveal(
                         atStep: 2,
                         until: 2,
@@ -127,20 +154,41 @@ class Auth401Body extends StatelessWidget {
                     ),
                     // Step 3: a key attaches, and the request passes clean.
                     Positioned(
-                      left: _phoneWidth - 8,
-                      top: _laneY - 32,
+                      left: _phoneEdgeX + 12,
+                      top: _outboundY - 34,
                       child: const StepReveal(
                         atStep: 3,
                         dimWhenPast: false,
-                        child: Icon(Icons.vpn_key, color: Palette.blue, size: 20),
+                        child: _LaneLabel(
+                          text: 'Authorization: Client-ID …',
+                          color: Palette.blue,
+                          icon: Icons.vpn_key,
+                        ),
                       ),
                     ),
                     Positioned.fill(
                       child: AnimatedArrow(
-                        from: const Offset(_phoneWidth, _laneY),
-                        to: const Offset(_serverLeft, _laneY),
+                        from: const Offset(_phoneEdgeX, _outboundY),
+                        to: const Offset(_serverEdgeX, _outboundY),
                         atStep: 3,
                         color: Palette.blue,
+                      ),
+                    ),
+                    Positioned.fill(
+                      child: AnimatedArrow(
+                        from: const Offset(_serverEdgeX, _returnY),
+                        to: const Offset(_phoneEdgeX, _returnY),
+                        atStep: 3,
+                        color: Palette.green,
+                      ),
+                    ),
+                    Positioned(
+                      left: _phoneEdgeX + 12,
+                      top: _returnY + 12,
+                      child: const StepReveal(
+                        atStep: 3,
+                        dimWhenPast: false,
+                        child: _LaneLabel(text: '200 OK', color: Palette.green),
                       ),
                     ),
                   ],
@@ -209,5 +257,35 @@ class _ErrorPulse extends StatelessWidget {
         curve: Tokens.curve,
         builder: (context, scale, child) => Transform.scale(scale: scale, child: child),
         child: const Icon(Icons.close, color: Palette.red, size: 28),
+      );
+}
+
+
+/// A small label riding beside a traffic lane, so each arrow says what it
+/// carries instead of relying on colour alone.
+class _LaneLabel extends StatelessWidget {
+  const _LaneLabel({required this.text, required this.color, this.icon});
+
+  final String text;
+  final Color color;
+  final IconData? icon;
+
+  @override
+  Widget build(BuildContext context) => Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (icon != null) ...[
+            Icon(icon, color: color, size: 16),
+            const SizedBox(width: 4),
+          ],
+          Text(
+            text,
+            style: TextStyle(
+              fontFamily: 'JetBrainsMono',
+              color: color,
+              fontSize: 13,
+            ),
+          ),
+        ],
       );
 }

@@ -47,10 +47,11 @@ class _ChangeNotifierBodyState extends State<ChangeNotifierBody> {
 
     final modelLeft = treeCanvasSize.width - _modelWidth / 2;
     const modelTop = 40.0;
-    const modelAnchor = Offset(
-      treeCanvasWidthAnchor,
-      modelTop + _modelHeight / 2,
-    );
+    // Two listeners, two entry points. Converging both lines on one pixel
+    // stacked their arrowheads and read as a single thick blob, so each
+    // line lands on its own point along the model box's left edge.
+    const anchorA = Offset(treeCanvasWidthAnchor, modelTop + _modelHeight * 0.3);
+    const anchorB = Offset(treeCanvasWidthAnchor, modelTop + _modelHeight * 0.75);
 
     return Center(
       child: Padding(
@@ -98,7 +99,7 @@ class _ChangeNotifierBodyState extends State<ChangeNotifierBody> {
                           dimWhenPast: false,
                           child: AnimatedArrow(
                             from: leafA,
-                            to: modelAnchor,
+                            to: anchorA,
                             atStep: 2,
                             curved: true,
                             color: Palette.green,
@@ -112,7 +113,7 @@ class _ChangeNotifierBodyState extends State<ChangeNotifierBody> {
                             dimWhenPast: false,
                             child: AnimatedArrow(
                               from: leafB,
-                              to: modelAnchor,
+                              to: anchorB,
                               atStep: 2,
                               curved: true,
                               color: Palette.green,

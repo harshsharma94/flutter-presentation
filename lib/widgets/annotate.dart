@@ -7,6 +7,7 @@
 /// simply re-targets the animation toward 0 with no retained state.
 library;
 
+import 'dart:math' as math;
 import 'dart:ui' show PathMetric;
 
 import 'package:flutter/material.dart';
@@ -127,7 +128,7 @@ class ArrowPainter extends CustomPainter {
     canvas.drawPath(dashed ? _dashPath(drawn) : drawn, linePaint);
 
     if (progress > _headThreshold) {
-      _paintArrowhead(canvas, metric, linePaint);
+      _paintArrowhead(canvas, metric, end, linePaint);
     }
   }
 
@@ -138,12 +139,25 @@ class ArrowPainter extends CustomPainter {
     return Offset((from.dx + to.dx) / 2, (from.dy + to.dy) / 2) + normal * _curveBow;
   }
 
-  void _paintArrowhead(Canvas canvas, PathMetric metric, Paint linePaint) {
-    final tangent = metric.getTangentForOffset(metric.length);
+  void _paintArrowhead(
+    Canvas canvas,
+    PathMetric metric,
+    double end,
+    Paint linePaint,
+  ) {
+    // The head rides the drawn tip, not the path's final point, so it leads
+    // the line while the arrow is still drawing.
+    final tangent = metric.getTangentForOffset(end);
     if (tangent == null) return;
 
     final tip = tangent.position;
-    final direction = tangent.angle;
+    // `Tangent.angle` is defined as `-atan2(dy, dx)` — negated, for use with
+    // Transform.rotate. `Offset.fromDirection` uses the un-negated
+    // convention, so feeding it `tangent.angle` mirrors the head about the
+    // horizontal axis: correct for a flat arrow, visibly wrong for any arrow
+    // with a vertical component. Derive the direction from the vector
+    // instead.
+    final direction = math.atan2(tangent.vector.dy, tangent.vector.dx);
     final left = tip - Offset.fromDirection(direction - _headAngle, _headLength);
     final right = tip - Offset.fromDirection(direction + _headAngle, _headLength);
 
