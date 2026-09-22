@@ -2,6 +2,7 @@ import 'package:gopay_flutter_deck/slides/s00_open/beautiful_lie_slide.dart';
 import 'package:gopay_flutter_deck/slides/s00_open/homework_slide.dart';
 import 'package:gopay_flutter_deck/slides/s00_open/roadmap_slide.dart';
 import 'package:gopay_flutter_deck/slides/s00_open/title_slide.dart';
+import 'package:gopay_flutter_deck/slides/s01_structure/structure_slide.dart';
 import 'package:gopay_flutter_deck/slides/slide_spec.dart';
 
 /// The ordered list of every slide in the deck. This is the single source of
@@ -46,5 +47,17 @@ final List<SlideSpec> slideRegistry = [
         'widget, ListView vs GridView choice, and whether navigation '
         'passes the whole model or just an id. That last one sets up the '
         'repository discussion in session 2.',
+  ),
+
+  // §1 Folder structure
+  SlideSpec(
+    route: '/structure',
+    section: '§1 Folder structure',
+    steps: 9,
+    body: (step) => StructureBody(step: step),
+    speakerNotes: 'Don\'t debate folder philosophy. Point out it\'s the '
+        'same structure they used in Android, renamed. The rule that '
+        'matters: feature-first beats type-first as soon as you have two '
+        'features.',
   ),
 ];
