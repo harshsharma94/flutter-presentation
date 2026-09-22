@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:gopay_flutter_deck/theme/tokens.dart';
 import 'package:gopay_flutter_deck/widgets/widget_tree.dart';
 
 import '../support/pump.dart';
@@ -182,5 +183,54 @@ void main() {
       progress: 1.0,
     );
     expect(painter.edgeProgress('tile-2', 'like-2'), 0.0);
+  });
+
+  // The tests above feed edgeProgress a hand-picked `progress` value, which
+  // only proves the formula is internally monotonic - it cannot catch a bug
+  // in how real elapsed time maps to that value (exactly the bug an earlier
+  // version of this fix had: curving the rescaled *global* progress instead
+  // of curving *within* each edge's own local window desynced every
+  // interior edge from the node it leads into by hundreds of milliseconds,
+  // while every hand-fed-progress test above kept passing). This test pumps
+  // real durations instead, the same way `annotate_test.dart` proves
+  // `AnimatedArrow` reaches progress 1.0 "once its step arrives" rather than
+  // asserting on the tween's shape directly.
+  //
+  // WidgetTreeView needs no StepScope/FlutterDeckTheme ancestor (it reads no
+  // ambient step; callers decide what to pass), so this uses a minimal
+  // MaterialApp/Scaffold harness rather than pumpBody, which unconditionally
+  // calls pumpAndSettle - incompatible with checking a specific instant
+  // mid-animation.
+  testWidgets(
+      'edge (photo-grid -> tile-2) reaches full brightness exactly when '
+      "photo-grid's own border finishes arriving, not before", (tester) async {
+    tester.view
+      ..physicalSize = const Size(1920, 1080)
+      ..devicePixelRatio = 1.0;
+    addTearDown(tester.view.reset);
+
+    await tester.pumpWidget(
+      const MaterialApp(
+        home: Scaffold(
+          body: WidgetTreeView(root: demoTree, traversalTo: 'like-2'),
+        ),
+      ),
+    );
+
+    // path = [photo-app, home-screen, photo-grid, tile-2, like-2], length 5.
+    // photo-grid is distance 2 from the target (like-2); its own AnimatedContainer
+    // border duration is Tokens.travel * (2 + 1) = 1200ms, so it finishes
+    // arriving at real time 1200ms. The photo-grid -> tile-2 edge's window is
+    // [Tokens.travel * 2, Tokens.travel * 3] = [800ms, 1200ms], so it should
+    // still be short of fully lit 1ms before that instant, and exactly lit
+    // at it.
+    await tester.pump(Tokens.travel * 3 - const Duration(milliseconds: 1));
+    expect(
+      edgePainter(tester).edgeProgress('photo-grid', 'tile-2'),
+      lessThan(1.0),
+    );
+
+    await tester.pump(const Duration(milliseconds: 1));
+    expect(edgePainter(tester).edgeProgress('photo-grid', 'tile-2'), 1.0);
   });
 }

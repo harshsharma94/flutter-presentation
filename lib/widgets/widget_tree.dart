@@ -258,7 +258,13 @@ class WidgetTreeView extends StatelessWidget {
               tween: Tween(begin: 0.0, end: path == null ? 0.0 : 1.0),
               duration:
                   path == null ? Tokens.fade : Tokens.travel * path.length,
-              curve: Tokens.curve,
+              // Deliberately linear, not Tokens.curve: this progress is a
+              // raw elapsed-time fraction that TreeEdgePainter.edgeProgress
+              // re-windows per edge and curves *locally* (see its doc).
+              // Curving here too would curve twice — once globally, once
+              // per edge — which is exactly what desynced edges from node
+              // borders in an earlier version of this fix.
+              curve: Curves.linear,
               builder: (context, progress, child) => CustomPaint(
                 key: const ValueKey('tree-edges'),
                 painter: TreeEdgePainter(
@@ -414,13 +420,27 @@ class TreeEdgePainter extends CustomPainter {
   }
 
   /// 0 when the edge from [parentId] to [childId] is not on [pathIds], or
-  /// the pulse has not yet reached it; grows to 1 as [progress] advances,
-  /// timed against [pathIds]' node-distance-from-target exactly the way
-  /// [_pulseDelaysFor] times each node's own border: with `duration =
-  /// Tokens.travel * pathIds.length` driving [progress], scaling it back up
-  /// by `pathIds.length` recovers the same node-count units [_NodeBox] uses,
-  /// so this edge's `[d+1, d+2]` window lands on the same instants the
-  /// child's, then the parent's, own border finishes arriving.
+  /// the pulse has not yet reached it; grows to 1 as [progress] advances.
+  ///
+  /// [progress] arrives here as a *linear* elapsed-time fraction (see
+  /// [WidgetTreeView.build]'s deliberate `Curves.linear` on the builder that
+  /// feeds it) precisely so this method can re-derive real elapsed time —
+  /// `scaled = progress * pathIds.length` is elapsed time in units of
+  /// `Tokens.travel` — and apply [Tokens.curve] itself, *within this edge's
+  /// own local window*, exactly the way each node's own [_NodeBox]
+  /// `AnimatedContainer` applies [Tokens.curve] over its own individual
+  /// duration rather than sharing one globally-curved value.
+  ///
+  /// This edge's window is `[d+1, d+2]` in those units, where `d` is the
+  /// child's distance from the target: real time `Tokens.travel * (d+1)` to
+  /// `Tokens.travel * (d+2)`, so it starts lighting exactly when the child
+  /// node itself finishes arriving and finishes lighting exactly when the
+  /// *parent* node finishes arriving. Curving the already-rescaled *global*
+  /// progress instead of a local window (an earlier version of this method)
+  /// looks similar but is wrong: since `Tokens.curve(x) > x` on `(0, 1)`,
+  /// every interior edge would reach full brightness hundreds of
+  /// milliseconds before the node it leads into — this local-window version
+  /// is what a real-duration test (`widget_tree_test.dart`) checks for.
   double edgeProgress(String parentId, String childId) {
     if (pathIds.length < 2) return 0;
     final parentIndex = pathIds.indexOf(parentId);
@@ -432,7 +452,9 @@ class TreeEdgePainter extends CustomPainter {
     }
     final childDistanceFromTarget = pathIds.length - 1 - childIndex;
     final scaled = progress * pathIds.length;
-    return (scaled - (childDistanceFromTarget + 1)).clamp(0.0, 1.0);
+    final windowStart = childDistanceFromTarget + 1;
+    final localLinear = (scaled - windowStart).clamp(0.0, 1.0);
+    return Tokens.curve.transform(localLinear);
   }
 
   // `positions` is static for the lifetime of a slide's `demoTree` and
