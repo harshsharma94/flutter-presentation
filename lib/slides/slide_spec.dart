@@ -15,6 +15,7 @@ class SlideSpec {
     this.title,
     this.steps = 1,
     this.speakerNotes,
+    this.chrome = true,
   });
 
   final String route;
@@ -23,6 +24,13 @@ class SlideSpec {
   final int steps;
   final String? speakerNotes;
   final Widget Function(int step) body;
+
+  /// Whether the persistent header/footer chrome shows on this slide.
+  ///
+  /// `false` for the title, break and thanks slides, where the chrome (a
+  /// header repeating the section name, a footer with the slide number)
+  /// would just duplicate what the slide itself already says.
+  final bool chrome;
 }
 
 /// Wraps a [SlideSpec] as a flutter_deck slide. The section name becomes the
@@ -36,7 +44,12 @@ class DeckSlide extends FlutterDeckSlideWidget {
             title: spec.title ?? spec.section,
             steps: spec.steps,
             speakerNotes: spec.speakerNotes ?? '',
-            header: FlutterDeckHeaderConfiguration(title: spec.section),
+            header: spec.chrome
+                ? FlutterDeckHeaderConfiguration(title: spec.section)
+                : const FlutterDeckHeaderConfiguration(showHeader: false),
+            footer: spec.chrome
+                ? null
+                : const FlutterDeckFooterConfiguration(showFooter: false),
           ),
         );
 
