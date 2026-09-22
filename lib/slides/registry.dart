@@ -41,6 +41,12 @@ import 'package:flutter_bootcamp_deck/slides/s07_di/di_problem_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s07_di/di_testing_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s08_dart/cascade_spread_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s08_dart/named_params_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s09_handson/assignment_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s09_handson/bff_row_error_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s09_handson/bff_row_plain_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s09_handson/bff_row_warning_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s09_handson/bff_vs_nonbff_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s09_handson/design_to_tree_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/slide_spec.dart';
 
 /// The ordered list of every slide in the deck. This is the single source of
@@ -511,5 +517,67 @@ final List<SlideSpec> slideRegistry = [
         'cascade returns the receiver, which is why it chains, and spread '
         'is what lets you build a children list conditionally without a '
         'helper function.',
+  ),
+
+  // §9 Hands-on
+  SlideSpec(
+    route: '/design-to-tree',
+    section: '§9 Hands-on',
+    steps: 7,
+    body: (step) => DesignToTreeBody(step: step),
+    speakerNotes: 'Make them call out the widget before you reveal it. This '
+        'is the actual skill — reading a design as a hierarchy. Do not '
+        'rush it. Ask why ListView.builder and not a Column of six rows; '
+        'the answer is that the count comes from the server.',
+  ),
+  SlideSpec(
+    route: '/bff-row-plain',
+    section: '§9 Hands-on',
+    steps: 4,
+    body: (step) => BffRowPlainBody(step: step),
+    speakerNotes: 'Start with the ordinary row so the next two read as the '
+        'same machinery with different data. Point at cta.type and say it '
+        'out loud: the client switches on a string the server sent, not on '
+        'which row this is.',
+  ),
+  SlideSpec(
+    route: '/bff-row-warning',
+    section: '§9 Hands-on',
+    steps: 4,
+    body: (step) => BffRowWarningBody(step: step),
+    speakerNotes: 'Same widget, different tone — and the tone came from '
+        'color_token, not from an if. Ask what the client would need to '
+        'change to add a fourth tone. Answer: nothing, if the token '
+        'mapping already covers it.',
+  ),
+  SlideSpec(
+    route: '/bff-row-error',
+    section: '§9 Hands-on',
+    steps: 4,
+    body: (step) => BffRowErrorBody(step: step),
+    speakerNotes: 'The disabled case, plus the per-platform action map. '
+        'Land the question at the end and actually wait for an answer: '
+        'design wants a new state — who ships? On the left nobody; on a '
+        'client-driven contract, everybody.',
+  ),
+  SlideSpec(
+    route: '/bff-vs-nonbff',
+    section: '§9 Hands-on',
+    steps: 4,
+    body: (step) => BffVsNonBffBody(step: step),
+    speakerNotes: 'Optional — cut this if time is short, slides 45-47 '
+        'already made the point. If you run it, be fair to the right-hand '
+        'side: a raw resource contract is the right call when the client '
+        'genuinely owns presentation, or when several very different '
+        'clients share one endpoint.',
+  ),
+  SlideSpec(
+    route: '/assignment',
+    section: '§9 Hands-on',
+    steps: 3,
+    body: (step) => AssignmentBody(step: step),
+    speakerNotes: 'Three tasks, in this order — each one depends on the '
+        'last. Tell them item 2 is the one that gets skipped and the one '
+        'that gets asked about tomorrow.',
   ),
 ];
