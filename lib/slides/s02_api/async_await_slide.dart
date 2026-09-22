@@ -1,5 +1,3 @@
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 import 'package:gopay_flutter_deck/theme/palette.dart';
 import 'package:gopay_flutter_deck/theme/tokens.dart';
@@ -206,53 +204,71 @@ class _FetchBlock extends StatelessWidget {
   }
 }
 
-/// The phone's loading spinner — and the single detail this whole slide
-/// stands or falls on.
+/// The phone's loading spinner — the single detail this whole slide stands
+/// or falls on.
 ///
-/// Its rotation is driven **only** by [step] via [_targetAngle], animated
-/// toward that target with a plain, finite `Tokens.travel`
-/// [TweenAnimationBuilder] — the same step-derived-target technique
-/// `beautiful_lie_slide.dart`'s tilted phone uses — rather than an
-/// [AnimationController] or [Timer] of this deck's own authorship, or (an
-/// earlier version of this widget) Flutter's own indeterminate
-/// [CircularProgressIndicator].
+/// It **genuinely spins**, continuously, whenever the UI is alive (steps 1, 3
+/// and 4), and **genuinely stops dead** on step 2 when the synchronous call
+/// blocks the thread. The contrast is the entire lesson: a spinner that was
+/// never moving cannot be seen to freeze, and an audience watching a static
+/// icon next to the words "UI blocked" learns nothing.
 ///
-/// That earlier version is worth recording because it failed for two
-/// independent reasons, not one: a perpetually-spinning indicator would
-/// have kept moving straight through step 2 regardless of any surrounding
-/// "frozen" state, which is the pedagogical failure the task brief warns
-/// about directly — but it also never reached the screen at all, because
-/// `slides_smoke_test.dart` calls `pumpAndSettle()` on every slide at every
-/// step, and an indeterminate animation never settles: the whole gate timed
-/// out on this slide alone. Deriving the angle from `step` fixes both at
-/// once — the animation is finite (it reaches [_targetAngle] and stops, so
-/// `pumpAndSettle` succeeds), and step 2's target is simply never visited by
-/// a running animation, so a screenshot taken at any point during step 2
-/// looks identical to any other: it genuinely does not move.
+/// This is the deck's one deliberate exception to the no-[AnimationController]
+/// rule. That rule exists so *explanatory* motion stays presenter-paced and
+/// reversible — and it still does here: which lane the call sits in, what the
+/// frame strip shows, and every label are all derived from `step`. The
+/// controller drives only ambient motion that stands for "the UI thread is
+/// running", which is exactly the thing that must not be under the
+/// presenter's control, because the point is that it stops on its own.
 ///
-/// Steps 1, 3 and 4 ("spinning") each advance the target by half a turn, so
-/// stepping forward through them always reads as continued motion rather
-/// than snapping back; step 2 ("frozen") breaks from that cadence with an
-/// arbitrary, non-cardinal angle instead, so it reads as "caught mid-turn"
-/// rather than a glyph that conveniently stopped on a round number.
-class _Spinner extends StatelessWidget {
+/// Freezing via `stop()` rather than by resetting leaves the icon caught at
+/// whatever angle it had reached, which reads as seized mid-turn rather than
+/// parked on a convenient mark.
+class _Spinner extends StatefulWidget {
   const _Spinner({required this.step});
 
   final int step;
 
-  bool get _frozen => step == 2;
+  @override
+  State<_Spinner> createState() => _SpinnerState();
+}
 
-  double get _targetAngle => _frozen ? 0.9 : step * math.pi;
+class _SpinnerState extends State<_Spinner> with SingleTickerProviderStateMixin {
+  late final AnimationController _controller = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 1400),
+  );
+
+  bool get _frozen => widget.step == 2;
+
+  @override
+  void initState() {
+    super.initState();
+    if (!_frozen) _controller.repeat();
+  }
+
+  @override
+  void didUpdateWidget(covariant _Spinner oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (_frozen && _controller.isAnimating) {
+      _controller.stop();
+    } else if (!_frozen && !_controller.isAnimating) {
+      _controller.repeat();
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) => SizedBox(
         width: 28,
         height: 28,
-        child: TweenAnimationBuilder<double>(
-          tween: Tween(begin: 0.0, end: _targetAngle),
-          duration: Tokens.travel,
-          curve: Tokens.curve,
-          builder: (context, angle, child) => Transform.rotate(angle: angle, child: child),
+        child: RotationTransition(
+          turns: _controller,
           child: Icon(
             Icons.autorenew,
             size: 28,

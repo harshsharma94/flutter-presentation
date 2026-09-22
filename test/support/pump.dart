@@ -39,7 +39,21 @@ Future<void> pumpBody(
       ),
     ),
   );
-  await tester.pumpAndSettle();
+  // Deliberately NOT pumpAndSettle(). Some slides carry intentionally
+  // continuous motion — a loading spinner that must visibly keep turning so
+  // that a *frozen* spinner reads as frozen (slide 9) — and pumpAndSettle
+  // waits for a steady state that such a slide never reaches, hanging the
+  // gate rather than failing it. Bounded pumps advance well past
+  // Tokens.travel + Tokens.fade, which is all these assertions need: they
+  // check that a slide renders without throwing or overflowing, not that it
+  // eventually stops moving.
+  // 3s total comfortably clears the longest animation in the deck: the
+  // five-node ancestor-chain traversal on slide 32, which runs
+  // Tokens.travel * 5 = 2000ms.
+  await tester.pump();
+  for (var i = 0; i < 3; i++) {
+    await tester.pump(const Duration(seconds: 1));
+  }
 }
 
 /// Finds a [FrameStrip]'s [CustomPaint] by its `ValueKey('frame-strip-painter')`
