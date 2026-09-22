@@ -5,8 +5,13 @@ import 'package:gopay_flutter_deck/slides/s00_open/title_slide.dart';
 import 'package:gopay_flutter_deck/slides/s01_structure/structure_slide.dart';
 import 'package:gopay_flutter_deck/slides/s02_api/api_gap_slide.dart';
 import 'package:gopay_flutter_deck/slides/s02_api/async_await_slide.dart';
+import 'package:gopay_flutter_deck/slides/s02_api/error_swallowed_slide.dart';
+import 'package:gopay_flutter_deck/slides/s02_api/future_states_slide.dart';
 import 'package:gopay_flutter_deck/slides/s02_api/http_clients_slide.dart';
 import 'package:gopay_flutter_deck/slides/s02_api/live_first_request_slide.dart';
+import 'package:gopay_flutter_deck/slides/s02_api/loading_state_slide.dart';
+import 'package:gopay_flutter_deck/slides/s02_api/three_states_code_slide.dart';
+import 'package:gopay_flutter_deck/slides/s02_api/when_it_breaks_slide.dart';
 import 'package:gopay_flutter_deck/slides/slide_spec.dart';
 
 /// The ordered list of every slide in the deck. This is the single source of
@@ -114,5 +119,58 @@ final List<SlideSpec> slideRegistry = [
         'all the same guarantee. Rehearse this one: step forward and back '
         'through all four before you present it, and if the spinner ever '
         'moves during step 2, stop and fix it before going on stage.',
+  ),
+  SlideSpec(
+    route: '/future-states',
+    section: '§2 API',
+    steps: 3,
+    body: (step) => FutureStatesBody(step: step),
+    speakerNotes: 'A Future is exactly one of three things: not done yet, '
+        'done with a value, or done with an error. Step 3 is the point: '
+        'the error branch is not a rare edge case bolted onto the model, '
+        'it\'s equally native to it. Every `await` you write is choosing '
+        'to handle two branches, not one.',
+  ),
+  SlideSpec(
+    route: '/loading-state',
+    section: '§2 API',
+    body: (step) => LoadingStateBody(step: step),
+    speakerNotes: 'Hand the keyboard to someone. Make them click error. '
+        'Ask what a user would do here. Let the silence sit — that\'s the '
+        'point, not a gap to fill. Then click data and note it\'s pulling '
+        'from the same offline fixture as slide 8, no live request risked.',
+  ),
+  SlideSpec(
+    route: '/error-swallowed',
+    section: '§2 API',
+    steps: 3,
+    body: (step) => ErrorSwallowedBody(step: step),
+    speakerNotes: 'Step 1: this compiles, runs, and ships — nobody\'s '
+        'lint catches an empty catch block. Step 2: let the clock actually '
+        'climb from 5 to 30 while you keep talking; don\'t rush past it, '
+        'the discomfort is the lesson. Step 3 is the punchline — say it '
+        'plainly and then stop talking for a second.',
+  ),
+  SlideSpec(
+    route: '/three-states-code',
+    section: '§2 API',
+    steps: 3,
+    body: (step) => ThreeStatesCodeBody(step: step),
+    speakerNotes: 'This is the same switch slide 11 just ran live — show '
+        'it quickly as the code behind the demo, don\'t re-teach it. Cut '
+        'this one first if you\'re short on time; the demo already made '
+        'the point.',
+  ),
+  SlideSpec(
+    route: '/when-it-breaks',
+    section: '§2 API',
+    steps: 3,
+    body: (step) => WhenItBreaksBody(step: step),
+    speakerNotes: 'Put this on screen when someone\'s app hangs. Don\'t '
+        'teach it cold. Android: AndroidManifest.xml needs the INTERNET '
+        'permission. macOS: Runner.entitlements needs '
+        'com.apple.security.network.client, both debug and release. Web: '
+        'CORS is the server\'s problem, not yours — point them at a proxy '
+        'or a CORS-friendly endpoint for the workshop and move on.',
   ),
 ];

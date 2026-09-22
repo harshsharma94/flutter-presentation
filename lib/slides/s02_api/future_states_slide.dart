@@ -1,0 +1,149 @@
+import 'package:flutter/material.dart';
+import 'package:gopay_flutter_deck/theme/palette.dart';
+import 'package:gopay_flutter_deck/theme/tokens.dart';
+import 'package:gopay_flutter_deck/widgets/annotate.dart';
+import 'package:gopay_flutter_deck/widgets/step_reveal.dart';
+
+/// Fixed canvas the two outcome circles and the branch arrow are laid out
+/// against, mirroring every other diagram slide's fixed-canvas-plus-
+/// `Positioned` convention so the arrow's coordinates agree with where the
+/// circles actually render.
+const _canvasWidth = 640.0;
+const _canvasHeight = 200.0;
+const _canvasSize = Size(_canvasWidth, _canvasHeight);
+
+const _circleSize = 96.0;
+const _circleTop = (_canvasHeight - _circleSize) / 2;
+const _circleALeft = 40.0;
+const _circleBLeft = _canvasWidth - _circleSize - 40.0;
+const _circleCenterY = _canvasHeight / 2;
+
+/// Slide 10 — `/future-states` (3 steps, A7). One circle standing in for a
+/// `Future`: outlined and pending, then filled in for the outcome a demo
+/// always shows — data — then a second, branch-drawn circle for the outcome
+/// a demo never does: the error.
+class FutureStatesBody extends StatelessWidget {
+  const FutureStatesBody({required this.step, super.key});
+
+  final int step;
+
+  bool get _resolved => step >= 2;
+
+  @override
+  Widget build(BuildContext context) => Center(
+        child: Padding(
+          padding: const EdgeInsets.all(Tokens.gapLg),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                'A Future settles exactly one way.',
+                style: TextStyle(color: Palette.textPrimary, fontSize: 24),
+              ),
+              const SizedBox(height: Tokens.gapLg),
+              SizedBox.fromSize(
+                size: _canvasSize,
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    Positioned.fill(
+                      child: AnimatedArrow(
+                        from: Offset(_circleALeft + _circleSize, _circleCenterY),
+                        to: Offset(_circleBLeft, _circleCenterY),
+                        atStep: 3,
+                        color: Palette.red,
+                      ),
+                    ),
+                    Positioned(
+                      left: _circleALeft,
+                      top: _circleTop,
+                      child: _OutcomeCircle(
+                        filled: _resolved,
+                        color: Palette.blue,
+                        label: _resolved ? 'data' : 'pending',
+                      ),
+                    ),
+                    Positioned(
+                      left: _circleBLeft,
+                      top: _circleTop,
+                      child: StepReveal(
+                        atStep: 3,
+                        dimWhenPast: false,
+                        child: const _OutcomeCircle(
+                          filled: true,
+                          color: Palette.red,
+                          label: 'error',
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+}
+
+/// One circle: an outline that fills solid once [filled], with [label]
+/// cross-fading beneath it.
+class _OutcomeCircle extends StatelessWidget {
+  const _OutcomeCircle({required this.filled, required this.color, required this.label});
+
+  final bool filled;
+  final Color color;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) => _PulseOnce(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            AnimatedContainer(
+              duration: Tokens.travel,
+              curve: Tokens.curve,
+              width: _circleSize,
+              height: _circleSize,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: filled ? color : Colors.transparent,
+                border: Border.all(color: color, width: Tokens.strokeWidth),
+              ),
+            ),
+            const SizedBox(height: Tokens.gapSm),
+            AnimatedSwitcher(
+              duration: Tokens.fade,
+              child: Text(
+                label,
+                key: ValueKey(label),
+                style: TextStyle(color: color, fontSize: 16),
+              ),
+            ),
+          ],
+        ),
+      );
+}
+
+/// A single scale-in pulse played once when this subtree first mounts —
+/// this slide's stand-in for a "pending" breathing pulse that stops short of
+/// an indeterminate, never-settling animation. `CircularProgressIndicator`
+/// and friends are banned deck-wide: an indeterminate animation never
+/// settles, so `pumpAndSettle` hangs and the smoke test dies rather than
+/// failing cleanly. [TweenAnimationBuilder] only re-animates when its
+/// `tween.end` changes between builds; [begin]/[end] here are both constant,
+/// so this plays exactly once per mount and then holds still for good —
+/// finite by construction.
+class _PulseOnce extends StatelessWidget {
+  const _PulseOnce({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) => TweenAnimationBuilder<double>(
+        tween: Tween(begin: 0.85, end: 1.0),
+        duration: Tokens.fade,
+        curve: Tokens.curve,
+        builder: (context, scale, child) => Transform.scale(scale: scale, child: child),
+        child: child,
+      );
+}
