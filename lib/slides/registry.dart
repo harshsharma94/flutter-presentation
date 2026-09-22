@@ -22,6 +22,12 @@ import 'package:flutter_bootcamp_deck/slides/s04_data/delete_hardcoded_slide.dar
 import 'package:flutter_bootcamp_deck/slides/s04_data/from_json_code_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s04_data/json_to_dart_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s04_data/live_map_model_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s05_architecture/dependency_rule_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s05_architecture/god_file_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s05_architecture/live_extract_repo_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s05_architecture/repository_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s05_architecture/testability_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s05_architecture/three_layers_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/slide_spec.dart';
 
 /// The ordered list of every slide in the deck. This is the single source of
@@ -285,5 +291,70 @@ final List<SlideSpec> slideRegistry = [
     chrome: false,
     body: (step) => BreakBody(step: step),
     speakerNotes: 'Actually take 15. Session 2 is the dense half.',
+  ),
+
+  // §5 Architecture
+  SlideSpec(
+    route: '/god-file',
+    section: '§5 Architecture',
+    steps: 4,
+    body: (step) => GodFileBody(step: step),
+    speakerNotes: 'This is their Day 1 file, honestly drawn. Point at the '
+        'interleaving — the concerns are not in four tidy blocks, they are '
+        'braided. Step 4 is the question that actually costs money: a bug '
+        'report comes in and there is no obvious place to start reading. '
+        'Ask how they would unit-test the sort rule here. They cannot.',
+  ),
+  SlideSpec(
+    route: '/three-layers',
+    section: '§5 Architecture',
+    steps: 8,
+    body: (step) => ThreeLayersBody(step: step),
+    speakerNotes: 'Same bands, same colours — say that out loud so they see '
+        'it is a sort, not new code. Domain is the one to dwell on: no '
+        'Flutter imports, no Dio, which is exactly why it is the layer you '
+        'can test in milliseconds. Steps 6-8 are the payoff — they have '
+        'already built this shape under three other names.',
+  ),
+  SlideSpec(
+    route: '/dependency-rule',
+    section: '§5 Architecture',
+    steps: 4,
+    body: (step) => DependencyRuleBody(step: step),
+    speakerNotes: 'One rule, and it is the only thing they need to '
+        'memorise. Step 3 is the violation, and it is always the same '
+        'violation in real code: an import of the HTTP client inside a '
+        'rules file. Step 4 shows the cost — the domain test now needs '
+        'DNS. Land it: the rule is not aesthetic, it is what keeps tests '
+        'fast.',
+  ),
+  SlideSpec(
+    route: '/testability',
+    section: '§5 Architecture',
+    steps: 3,
+    body: (step) => TestabilityBody(step: step),
+    speakerNotes: 'Watch the Domain slab as the swap happens — it does not '
+        'move a pixel. That is the point. 2400ms to 3ms is not a '
+        'micro-optimisation, it is the difference between a suite you run '
+        'on every save and one you run in CI and ignore.',
+  ),
+  SlideSpec(
+    route: '/repository',
+    section: '§5 Architecture',
+    steps: 3,
+    body: (step) => RepositoryBody(step: step),
+    speakerNotes: 'Same knock, different door. Ask where they have seen '
+        'this: Android Repository, Spring @Repository, a Go interface with '
+        'two implementations. Then make the connection back to slide 28 — '
+        'the fake repository worked precisely because the caller only ever '
+        'knew the door.',
+  ),
+  SlideSpec(
+    route: '/live-extract-repo',
+    section: '§5 Architecture',
+    body: (step) => LiveExtractRepoBody(step: step),
+    speakerNotes: 'Do it as a refactor, not a rewrite. Cut the dio.get out '
+        'of build(), paste it into PhotoRepository, inject it. Then ask '
+        'what just got easier to test — let them answer.',
   ),
 ];
