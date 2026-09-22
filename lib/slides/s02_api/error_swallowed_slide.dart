@@ -1,5 +1,3 @@
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 import 'package:gopay_flutter_deck/theme/palette.dart';
 import 'package:gopay_flutter_deck/theme/tokens.dart';
@@ -21,14 +19,14 @@ const _catchLine = [3];
 const _codeWidth = 520.0;
 const _phoneWidth = 110.0;
 
-/// How long the clock climbs from 5s to 30s and the spinner keeps turning.
-/// Deliberately not one of the deck's shared `Tokens.fade`/`Tokens.travel`
-/// values — those describe a UI element settling into place; this describes
-/// real wall-clock seconds passing while a person stares at a spinner, which
-/// has to read as several seconds, not an instant snap. Still driven by a
-/// finite, step-derived `TweenAnimationBuilder` (never a `Timer` or
-/// `AnimationController`), so it settles cleanly for `pumpAndSettle` and
-/// reverses correctly if the presenter steps back — see [_Spinner].
+/// How long the clock climbs from 5s to 30s. Deliberately not one of the
+/// deck's shared `Tokens.fade`/`Tokens.travel` values — those describe a UI
+/// element settling into place; this describes real wall-clock seconds
+/// passing while a person stares at a spinner, which has to read as several
+/// seconds, not an instant snap. Still a finite, step-derived
+/// `TweenAnimationBuilder`, so it settles at "30s" and reverses correctly if
+/// the presenter steps back — see [_ClockText]. The spinner itself is a
+/// separate, deliberately non-finite case; see [_Spinner]'s own rationale.
 const _waitDuration = Duration(seconds: 4);
 
 /// Slide 12 — `/error-swallowed` (3 steps, A9). The section's emotional
@@ -98,25 +96,67 @@ class ErrorSwallowedBody extends StatelessWidget {
       );
 }
 
-/// The wait spinner — never [CircularProgressIndicator]: an indeterminate
-/// animation never settles, which hangs `pumpAndSettle` and kills the smoke
-/// test outright (the exact trap an earlier batch of this deck hit).
-/// Instead the target angle is a large but finite number of turns, reached
-/// over [_waitDuration] once [waiting] flips true — several real seconds of
-/// visible spinning that the framework still sees as an animation with an
-/// end, so it settles for the gate and reverses cleanly if the presenter
-/// steps back to step 1.
-class _Spinner extends StatelessWidget {
+/// The wait spinner — the deck's second deliberate exception to the
+/// no-`AnimationController` rule, matching the precedent set on slide 9: a
+/// genuinely repeating [AnimationController], not a finite illusion.
+///
+/// An earlier version of this widget used a [TweenAnimationBuilder] tweening
+/// toward a large-but-finite rotation target, so it would visibly spin for a
+/// few seconds and then quietly stop. That is wrong for exactly the reason
+/// this slide exists: the whole argument is that the spinner *never*
+/// resolves. If the presenter follows the speaker notes and holds this beat
+/// for longer than the tween's duration — which is the point, not an edge
+/// case — the audience would watch it go still while the coach keeps
+/// talking about a request that supposedly never stopped, undercutting the
+/// slide's own punchline.
+///
+/// So, as with slide 9's spinner: this is *ambient* motion standing for "the
+/// request is still out there," which must not be presenter-controlled or
+/// finite, because the point is that it does not stop on its own. Every
+/// other detail on this slide — which elements are visible, the clock text,
+/// the callout — stays a pure function of `step`; only this icon's rotation
+/// runs on its own clock, and it starts turning once [waiting] flips true
+/// and never stops. `test/support/pump.dart`'s bounded pumps (not
+/// `pumpAndSettle`) are what make this compatible with the smoke test — see
+/// that file's own rationale, established for slide 9.
+class _Spinner extends StatefulWidget {
   const _Spinner({required this.waiting});
 
   final bool waiting;
 
   @override
-  Widget build(BuildContext context) => TweenAnimationBuilder<double>(
-        tween: Tween(begin: 0.0, end: waiting ? math.pi * 2 * 10 : 0.0),
-        duration: _waitDuration,
-        curve: Tokens.curve,
-        builder: (context, angle, child) => Transform.rotate(angle: angle, child: child),
+  State<_Spinner> createState() => _SpinnerState();
+}
+
+class _SpinnerState extends State<_Spinner> with SingleTickerProviderStateMixin {
+  late final AnimationController _controller = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 1400),
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.waiting) _controller.repeat();
+  }
+
+  @override
+  void didUpdateWidget(covariant _Spinner oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.waiting && !_controller.isAnimating) {
+      _controller.repeat();
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => RotationTransition(
+        turns: _controller,
         child: const Icon(Icons.autorenew, size: 28, color: Palette.textSecondary),
       );
 }
