@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:gopay_flutter_deck/widgets/annotate.dart';
+import 'package:flutter_bootcamp_deck/widgets/annotate.dart';
 
 import '../support/pump.dart';
 

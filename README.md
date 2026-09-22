@@ -1,4 +1,4 @@
-# gopay_flutter_deck
+# flutter_bootcamp_deck
 
 A new Flutter project.
 

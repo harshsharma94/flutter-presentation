@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:gopay_flutter_deck/theme/deck_theme.dart';
-import 'package:gopay_flutter_deck/theme/palette.dart';
+import 'package:flutter_bootcamp_deck/theme/deck_theme.dart';
+import 'package:flutter_bootcamp_deck/theme/palette.dart';
 
 void main() {
-  test('dark theme uses the GoPay base and blue accent', () {
+  test('dark theme uses the deck base and blue accent', () {
     final scheme = deckDarkTheme.materialTheme.colorScheme;
     expect(scheme.brightness, Brightness.dark);
     expect(scheme.primary, Palette.blue);

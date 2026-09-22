@@ -60,9 +60,9 @@ Two sessions, ~2 hours each, with a break between.
 | DI | `Provider` **is** the DI container | Zero new packages — they already learn Provider for state. Maps 1:1 to Hilt `@Module` / Koin `module {}` / Spring `@Bean`. Avoids a second mental model (get_it's global registry). |
 | Auth | Teach generic OAuth2, then show Unsplash's reality | Unsplash's public API takes a static `Client-ID` header — no refresh, no expiry. Teaching refresh-with-Unsplash would be teaching a fiction. Animate the real-world flow they will meet at work, then contrast it with what today actually needs. The contrast *is* the lesson. |
 | Hands-on screen | Rebuild the real GoPay "Select payment method" screen | It is their own product; recognition value is high, and payment rows vary richly (title styles, description states, CTA types, action maps) in a way photo rows do not. |
-| Deck identity | "GoPay · Flutter Bootcamp" on the title slide and footer | User decision. |
+| Deck identity | "Flutter Bootcamp" on the title slide and footer | User decision. |
 | Section orientation | flutter_deck's built-in per-slide header + a roadmap chip, **no divider slides** | Decided (open question 3). Rationale in §8.1 — orientation without spending slides. |
-| Theme | Near-black slate + GoPay blue + Gojek green | Accents carry **semantic** roles, not decoration: blue = Flutter/new, green = what you already know. Two-tone correlation panels are therefore readable at a glance, and every other slide stays monochrome and quiet. |
+| Theme | Near-black slate + primary accent + familiar-platform accent | Accents carry **semantic** roles, not decoration: blue = Flutter/new, green = what you already know. Two-tone correlation panels are therefore readable at a glance, and every other slide stays monochrome and quiet. |
 
 ## 5. Prerequisites
 
@@ -531,7 +531,7 @@ All three open questions are closed as of 2026-09-22:
 1. **Day 1 homework** — confirmed as a multi-screen app (list + detail, reusable widget in
    a ListView/GridView, hardcoded models). Spine re-hung in §1; slides 2, 23, 24, 43 and
    animations A1 and A16 updated to work across both screens.
-2. **Deck identity** — "GoPay · Flutter Bootcamp", on the title slide and footer.
+2. **Deck identity** — "Flutter Bootcamp", on the title slide and footer.
 3. **Section dividers** — decided: none. Built-in per-slide headers plus a roadmap chip on
    section-opening slides give the same orientation for zero extra slides (§8.1).
 

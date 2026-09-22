@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gopay_flutter_deck/theme/palette.dart';
+import 'package:flutter_bootcamp_deck/theme/palette.dart';
 
 /// A strip of [frameCount] tick marks standing in for a UI's frame budget —
 /// A6 (slide 9)'s central visual. Every tick is [Palette.green] ("still

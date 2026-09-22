@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_deck/flutter_deck.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:gopay_flutter_deck/theme/deck_theme.dart';
-import 'package:gopay_flutter_deck/widgets/frame_strip.dart';
-import 'package:gopay_flutter_deck/widgets/step_scope.dart';
+import 'package:flutter_bootcamp_deck/theme/deck_theme.dart';
+import 'package:flutter_bootcamp_deck/widgets/frame_strip.dart';
+import 'package:flutter_bootcamp_deck/widgets/step_scope.dart';
 
 const fhd = Size(1920, 1080);
 const hd = Size(1280, 720);

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gopay_flutter_deck/theme/palette.dart';
-import 'package:gopay_flutter_deck/theme/tokens.dart';
+import 'package:flutter_bootcamp_deck/theme/palette.dart';
+import 'package:flutter_bootcamp_deck/theme/tokens.dart';
 
 /// Slide 1 — `/title`, the deck's opening slide (1 step, `chrome: false`).
 ///
@@ -24,7 +24,7 @@ class TitleBody extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                'GoPay · Flutter Bootcamp',
+                'Flutter Bootcamp',
                 style: TextStyle(
                   color: Palette.blue,
                   fontSize: 28,

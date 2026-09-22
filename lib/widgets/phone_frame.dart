@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gopay_flutter_deck/theme/palette.dart';
-import 'package:gopay_flutter_deck/theme/tokens.dart';
+import 'package:flutter_bootcamp_deck/theme/palette.dart';
+import 'package:flutter_bootcamp_deck/theme/tokens.dart';
 
 /// A rounded 9:19.5 phone silhouette around [child], for slides that show a
 /// screenshot or live demo "on a phone" rather than floating in space.

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:gopay_flutter_deck/slides/s03_auth/oauth_flow_slide.dart' show oauthHops, oauthLanes;
-import 'package:gopay_flutter_deck/theme/palette.dart';
-import 'package:gopay_flutter_deck/theme/tokens.dart';
-import 'package:gopay_flutter_deck/widgets/annotate.dart';
-import 'package:gopay_flutter_deck/widgets/sequence_diagram.dart';
-import 'package:gopay_flutter_deck/widgets/step_reveal.dart';
+import 'package:flutter_bootcamp_deck/slides/s03_auth/oauth_flow_slide.dart' show oauthHops, oauthLanes;
+import 'package:flutter_bootcamp_deck/theme/palette.dart';
+import 'package:flutter_bootcamp_deck/theme/tokens.dart';
+import 'package:flutter_bootcamp_deck/widgets/annotate.dart';
+import 'package:flutter_bootcamp_deck/widgets/sequence_diagram.dart';
+import 'package:flutter_bootcamp_deck/widgets/step_reveal.dart';
 
 /// Slide 16's diagram footprint at full scale — same width it renders with
 /// there, and the same 8-row height its 9 hops resolve to (one row shared by

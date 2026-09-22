@@ -1,11 +1,11 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:gopay_flutter_deck/demos/unsplash_client.dart';
-import 'package:gopay_flutter_deck/theme/palette.dart';
-import 'package:gopay_flutter_deck/theme/tokens.dart';
-import 'package:gopay_flutter_deck/widgets/code_panel.dart';
-import 'package:gopay_flutter_deck/widgets/phone_frame.dart';
+import 'package:flutter_bootcamp_deck/demos/unsplash_client.dart';
+import 'package:flutter_bootcamp_deck/theme/palette.dart';
+import 'package:flutter_bootcamp_deck/theme/tokens.dart';
+import 'package:flutter_bootcamp_deck/widgets/code_panel.dart';
+import 'package:flutter_bootcamp_deck/widgets/phone_frame.dart';
 
 enum _DemoState { loading, error, data }
 

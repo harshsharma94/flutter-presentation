@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:gopay_flutter_deck/theme/tokens.dart';
-import 'package:gopay_flutter_deck/widgets/step_reveal.dart';
-import 'package:gopay_flutter_deck/widgets/step_scope.dart';
+import 'package:flutter_bootcamp_deck/theme/tokens.dart';
+import 'package:flutter_bootcamp_deck/widgets/step_reveal.dart';
+import 'package:flutter_bootcamp_deck/widgets/step_scope.dart';
 
 Widget _harness(int step) => MaterialApp(
       home: StepScope(

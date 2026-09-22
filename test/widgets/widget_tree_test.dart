@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:gopay_flutter_deck/theme/tokens.dart';
-import 'package:gopay_flutter_deck/widgets/widget_tree.dart';
+import 'package:flutter_bootcamp_deck/theme/tokens.dart';
+import 'package:flutter_bootcamp_deck/widgets/widget_tree.dart';
 
 import '../support/pump.dart';
 

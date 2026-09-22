@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gopay_flutter_deck/theme/palette.dart';
-import 'package:gopay_flutter_deck/theme/tokens.dart';
+import 'package:flutter_bootcamp_deck/theme/palette.dart';
+import 'package:flutter_bootcamp_deck/theme/tokens.dart';
 
 /// The day's five-node roadmap — API · Auth · Data · Architecture · State —
 /// built full-size on slide 3 (`/roadmap`) and reused in [compact] form as

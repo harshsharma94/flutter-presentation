@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:gopay_flutter_deck/theme/palette.dart';
-import 'package:gopay_flutter_deck/theme/tokens.dart';
-import 'package:gopay_flutter_deck/widgets/annotate.dart';
-import 'package:gopay_flutter_deck/widgets/step_reveal.dart';
+import 'package:flutter_bootcamp_deck/theme/palette.dart';
+import 'package:flutter_bootcamp_deck/theme/tokens.dart';
+import 'package:flutter_bootcamp_deck/widgets/annotate.dart';
+import 'package:flutter_bootcamp_deck/widgets/step_reveal.dart';
 
 /// Fixed canvas the two outcome circles and the branch arrow are laid out
 /// against, mirroring every other diagram slide's fixed-canvas-plus-

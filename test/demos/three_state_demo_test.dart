@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:gopay_flutter_deck/demos/three_state_demo.dart';
+import 'package:flutter_bootcamp_deck/demos/three_state_demo.dart';
 
 import '../support/pump.dart';
 

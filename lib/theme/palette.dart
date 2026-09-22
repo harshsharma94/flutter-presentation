@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 abstract final class Palette {
   static const base = Color(0xFF0B0E13);
   static const surface = Color(0xFF141922);
-  static const blue = Color(0xFF118EEA);   // GoPay
-  static const green = Color(0xFF00AA5B);  // Gojek
+  static const blue = Color(0xFF118EEA);   // primary accent
+  static const green = Color(0xFF00AA5B);  // familiar-platform accent
   static const amber = Color(0xFFF5A623);
   static const red = Color(0xFFE5484D);
   static const textPrimary = Color(0xFFE8EDF4);

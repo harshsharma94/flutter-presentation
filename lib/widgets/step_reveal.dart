@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:gopay_flutter_deck/theme/tokens.dart';
-import 'package:gopay_flutter_deck/widgets/step_scope.dart';
+import 'package:flutter_bootcamp_deck/theme/tokens.dart';
+import 'package:flutter_bootcamp_deck/widgets/step_scope.dart';
 
 /// Reveals [child] at [atStep], dims it once the deck has moved past, and
 /// optionally hides it again after [until].

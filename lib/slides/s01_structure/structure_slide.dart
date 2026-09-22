@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:gopay_flutter_deck/theme/palette.dart';
-import 'package:gopay_flutter_deck/theme/tokens.dart';
-import 'package:gopay_flutter_deck/widgets/annotate.dart';
-import 'package:gopay_flutter_deck/widgets/roadmap_spine.dart';
-import 'package:gopay_flutter_deck/widgets/step_reveal.dart';
+import 'package:flutter_bootcamp_deck/theme/palette.dart';
+import 'package:flutter_bootcamp_deck/theme/tokens.dart';
+import 'package:flutter_bootcamp_deck/widgets/annotate.dart';
+import 'package:flutter_bootcamp_deck/widgets/roadmap_spine.dart';
+import 'package:flutter_bootcamp_deck/widgets/step_reveal.dart';
 
 /// One entry in the `lib/` assembly (steps 1-6). [role] is null only for the
 /// `lib/` root itself, which docks alongside `models/` at step 1 and has no

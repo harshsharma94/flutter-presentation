@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:gopay_flutter_deck/theme/palette.dart';
-import 'package:gopay_flutter_deck/theme/tokens.dart';
-import 'package:gopay_flutter_deck/widgets/code_panel.dart';
-import 'package:gopay_flutter_deck/widgets/correlation_panel.dart';
-import 'package:gopay_flutter_deck/widgets/sequence_diagram.dart';
+import 'package:flutter_bootcamp_deck/theme/palette.dart';
+import 'package:flutter_bootcamp_deck/theme/tokens.dart';
+import 'package:flutter_bootcamp_deck/widgets/code_panel.dart';
+import 'package:flutter_bootcamp_deck/widgets/correlation_panel.dart';
+import 'package:flutter_bootcamp_deck/widgets/sequence_diagram.dart';
 
 /// Kept deliberately short: `flutter test` does not load the deck's bundled
 /// fonts, so `CodePanel` measures every line against a wide fallback

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_deck/flutter_deck.dart';
-import 'package:gopay_flutter_deck/widgets/step_scope.dart';
+import 'package:flutter_bootcamp_deck/widgets/step_scope.dart';
 
 /// One slide, described independently of flutter_deck.
 ///

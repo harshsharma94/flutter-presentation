@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:gopay_flutter_deck/theme/palette.dart';
-import 'package:gopay_flutter_deck/theme/tokens.dart';
-import 'package:gopay_flutter_deck/widgets/annotate.dart';
-import 'package:gopay_flutter_deck/widgets/correlation_panel.dart';
-import 'package:gopay_flutter_deck/widgets/frame_strip.dart';
-import 'package:gopay_flutter_deck/widgets/phone_frame.dart';
-import 'package:gopay_flutter_deck/widgets/step_reveal.dart';
+import 'package:flutter_bootcamp_deck/theme/palette.dart';
+import 'package:flutter_bootcamp_deck/theme/tokens.dart';
+import 'package:flutter_bootcamp_deck/widgets/annotate.dart';
+import 'package:flutter_bootcamp_deck/widgets/correlation_panel.dart';
+import 'package:flutter_bootcamp_deck/widgets/frame_strip.dart';
+import 'package:flutter_bootcamp_deck/widgets/phone_frame.dart';
+import 'package:flutter_bootcamp_deck/widgets/step_reveal.dart';
 
 /// Fixed canvas the two lanes, the phone and the floating `fetchPhotos()`
 /// block are laid out against — the same fixed-canvas-plus-`Positioned`

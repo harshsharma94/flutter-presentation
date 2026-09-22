@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_deck/flutter_deck.dart';
-import 'package:gopay_flutter_deck/theme/palette.dart';
+import 'package:flutter_bootcamp_deck/theme/palette.dart';
 
 const _display = 'Outfit';
 const _mono = 'JetBrainsMono';

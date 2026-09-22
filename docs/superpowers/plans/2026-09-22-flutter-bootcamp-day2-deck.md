@@ -14,7 +14,7 @@
 
 - **Flutter >= 3.32.0 / Dart >= 3.8.0.** Pinned to 3.47.5 via fvm. Every Flutter and Dart command runs through `fvm` (`fvm flutter ...`, `fvm dart ...`). Never invoke bare `flutter`.
 - **No `build_runner` in the deck itself.** Codegen appears only as *content* on slide 23. No `.g.dart` files, no mockito.
-- **Deck identity:** "GoPay · Flutter Bootcamp". Title slide and footer.
+- **Deck identity:** "Flutter Bootcamp". Title slide and footer.
 - **Palette (exact):** base `#0B0E13`, surface `#141922`, blue `#118EEA` (GoPay — "Flutter/new"), green `#00AA5B` (Gojek — "what you already know"), amber `#F5A623` (warning), red `#E5484D` (error), text `#E8EDF4` primary / `#93A1B5` secondary.
 - **Motion language:** 300ms fades, 400ms travel, `Curves.easeOutCubic` everywhere, no bounce/overshoot, max two things moving at once, completed steps dim to 40% rather than disappearing. Slide transition is `FlutterDeckTransition.fade()` and nothing else.
 - **Text density:** no slide may exceed ~25 words of body copy. If a slide needs more, it is two slides or the words belong in speaker notes.
@@ -78,7 +78,7 @@ This task exists to fail fast. If Flutter 3.47.5 and flutter_deck 0.29.0 disagre
 cd /Users/batman/Desktop/Projects/flutter-presentation
 fvm use 3.47.5 --force
 fvm flutter --version    # expect Flutter 3.47.5, Dart >=3.8
-fvm flutter create --project-name gopay_flutter_deck --platforms=web,macos .
+fvm flutter create --project-name flutter_bootcamp_deck --platforms=web,macos .
 ```
 
 - [ ] **Step 2: Add dependencies**
@@ -96,13 +96,13 @@ Expected: resolves with `flutter_deck 0.29.x`. **If pub reports a version solve 
 ```dart
 // test/smoke_test.dart
 import 'package:flutter_test/flutter_test.dart';
-import 'package:gopay_flutter_deck/main.dart';
+import 'package:flutter_bootcamp_deck/main.dart';
 
 void main() {
   testWidgets('deck boots and shows the title slide', (tester) async {
-    await tester.pumpWidget(const GoPayDeckApp());
+    await tester.pumpWidget(const BootcampDeckApp());
     await tester.pumpAndSettle();
-    expect(find.text('GoPay · Flutter Bootcamp'), findsOneWidget);
+    expect(find.text('Flutter Bootcamp'), findsOneWidget);
   });
 }
 ```
@@ -110,7 +110,7 @@ void main() {
 - [ ] **Step 4: Run it and watch it fail**
 
 Run: `fvm flutter test test/smoke_test.dart`
-Expected: FAIL — `GoPayDeckApp` is undefined.
+Expected: FAIL — `BootcampDeckApp` is undefined.
 
 - [ ] **Step 5: Write the minimal deck**
 
@@ -119,10 +119,10 @@ Expected: FAIL — `GoPayDeckApp` is undefined.
 import 'package:flutter/material.dart';
 import 'package:flutter_deck/flutter_deck.dart';
 
-void main() => runApp(const GoPayDeckApp());
+void main() => runApp(const BootcampDeckApp());
 
-class GoPayDeckApp extends StatelessWidget {
-  const GoPayDeckApp({super.key});
+class BootcampDeckApp extends StatelessWidget {
+  const BootcampDeckApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -137,7 +137,7 @@ class GoPayDeckApp extends StatelessWidget {
       slides: [
         FlutterDeckSlide.title(
           configuration: const FlutterDeckSlideConfiguration(route: '/title'),
-          title: 'GoPay · Flutter Bootcamp',
+          title: 'Flutter Bootcamp',
           subtitle: 'Day 2 — Making It Real',
         ),
       ],
@@ -203,11 +203,11 @@ flutter:
 // test/theme/deck_theme_test.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:gopay_flutter_deck/theme/deck_theme.dart';
-import 'package:gopay_flutter_deck/theme/palette.dart';
+import 'package:flutter_bootcamp_deck/theme/deck_theme.dart';
+import 'package:flutter_bootcamp_deck/theme/palette.dart';
 
 void main() {
-  test('dark theme uses the GoPay base and blue accent', () {
+  test('dark theme uses the deck base and blue accent', () {
     final scheme = deckDarkTheme.materialTheme.colorScheme;
     expect(scheme.brightness, Brightness.dark);
     expect(scheme.primary, Palette.blue);
@@ -241,8 +241,8 @@ import 'package:flutter/material.dart';
 abstract final class Palette {
   static const base = Color(0xFF0B0E13);
   static const surface = Color(0xFF141922);
-  static const blue = Color(0xFF118EEA);   // GoPay
-  static const green = Color(0xFF00AA5B);  // Gojek
+  static const blue = Color(0xFF118EEA);   // primary accent
+  static const green = Color(0xFF00AA5B);  // familiar-platform accent
   static const amber = Color(0xFFF5A623);
   static const red = Color(0xFFE5484D);
   static const textPrimary = Color(0xFFE8EDF4);
@@ -286,7 +286,7 @@ abstract final class Tokens {
 // lib/theme/deck_theme.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_deck/flutter_deck.dart';
-import 'package:gopay_flutter_deck/theme/palette.dart';
+import 'package:flutter_bootcamp_deck/theme/palette.dart';
 
 const _display = 'Outfit';
 const _mono = 'JetBrainsMono';
@@ -330,7 +330,7 @@ In `lib/main.dart`, add `lightTheme: deckLightTheme, darkTheme: deckDarkTheme, t
 ```bash
 fvm flutter test && fvm flutter analyze
 git add -A
-git commit -m "feat: add GoPay/Gojek deck theme with bundled fonts"
+git commit -m "feat: add deck deck theme with bundled fonts"
 ```
 
 ---
@@ -355,9 +355,9 @@ Everything in the deck animates through this. Get it right and the remaining 37 
 // test/widgets/step_reveal_test.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:gopay_flutter_deck/theme/tokens.dart';
-import 'package:gopay_flutter_deck/widgets/step_reveal.dart';
-import 'package:gopay_flutter_deck/widgets/step_scope.dart';
+import 'package:flutter_bootcamp_deck/theme/tokens.dart';
+import 'package:flutter_bootcamp_deck/widgets/step_reveal.dart';
+import 'package:flutter_bootcamp_deck/widgets/step_scope.dart';
 
 Widget _harness(int step) => MaterialApp(
       home: StepScope(
@@ -454,8 +454,8 @@ class StepScope extends InheritedWidget {
 ```dart
 // lib/widgets/step_reveal.dart
 import 'package:flutter/widgets.dart';
-import 'package:gopay_flutter_deck/theme/tokens.dart';
-import 'package:gopay_flutter_deck/widgets/step_scope.dart';
+import 'package:flutter_bootcamp_deck/theme/tokens.dart';
+import 'package:flutter_bootcamp_deck/widgets/step_scope.dart';
 
 /// Reveals [child] at [atStep], dims it once the deck has moved past, and
 /// optionally hides it again after [until].
@@ -540,7 +540,7 @@ The gate every later task runs against. Building it now means no slide is ever a
 // lib/slides/slide_spec.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_deck/flutter_deck.dart';
-import 'package:gopay_flutter_deck/widgets/step_scope.dart';
+import 'package:flutter_bootcamp_deck/widgets/step_scope.dart';
 
 /// One slide, described independently of flutter_deck.
 ///
@@ -597,7 +597,7 @@ class DeckSlide extends FlutterDeckSlideWidget {
 ```dart
 // lib/slides/registry.dart
 import 'package:flutter/material.dart';
-import 'package:gopay_flutter_deck/slides/slide_spec.dart';
+import 'package:flutter_bootcamp_deck/slides/slide_spec.dart';
 
 /// The ordered list of every slide in the deck. This is the single source of
 /// truth: `main.dart` builds the deck from it and `slides_smoke_test.dart`
@@ -608,9 +608,9 @@ final List<SlideSpec> slideRegistry = [
   // §0 Open
   SlideSpec(
     route: '/title',
-    section: 'GoPay · Flutter Bootcamp',
+    section: 'Flutter Bootcamp',
     title: 'Day 2 — Making It Real',
-    body: (step) => const Center(child: Text('GoPay · Flutter Bootcamp')),
+    body: (step) => const Center(child: Text('Flutter Bootcamp')),
   ),
 ];
 ```
@@ -621,8 +621,8 @@ final List<SlideSpec> slideRegistry = [
 // test/support/pump.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:gopay_flutter_deck/theme/deck_theme.dart';
-import 'package:gopay_flutter_deck/widgets/step_scope.dart';
+import 'package:flutter_bootcamp_deck/theme/deck_theme.dart';
+import 'package:flutter_bootcamp_deck/widgets/step_scope.dart';
 
 const fhd = Size(1920, 1080);
 const hd = Size(1280, 720);
@@ -660,7 +660,7 @@ Future<void> pumpBody(
 // test/slides_smoke_test.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:gopay_flutter_deck/slides/registry.dart';
+import 'package:flutter_bootcamp_deck/slides/registry.dart';
 
 import 'support/pump.dart';
 
@@ -729,7 +729,7 @@ progressIndicator: const FlutterDeckProgressIndicator.gradient(
 ),
 ```
 
-plus `speakerInfo: const FlutterDeckSpeakerInfo(name: 'Harsh Sharma', description: 'Coach · Assistant coaches: Harsh, Abhas', socialHandle: 'GoPay · Flutter Bootcamp', imagePath: 'assets/images/logo.png')` on `FlutterDeckApp`.
+plus `speakerInfo: const FlutterDeckSpeakerInfo(name: 'Harsh Sharma', description: 'Coach · Assistant coaches: Harsh, Abhas', socialHandle: 'Flutter Bootcamp', imagePath: 'assets/images/logo.png')` on `FlutterDeckApp`.
 
 - [ ] **Step 7: Verify the whole deck still boots**
 
@@ -767,8 +767,8 @@ git commit -m "feat: add slide registry, generic deck wrapper and smoke-test gat
 // test/widgets/correlation_panel_test.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:gopay_flutter_deck/theme/palette.dart';
-import 'package:gopay_flutter_deck/widgets/correlation_panel.dart';
+import 'package:flutter_bootcamp_deck/theme/palette.dart';
+import 'package:flutter_bootcamp_deck/widgets/correlation_panel.dart';
 
 import '../support/pump.dart';
 
@@ -806,9 +806,9 @@ Two columns. Left column rows use `Palette.green` (what they already know), righ
 ```dart
 // lib/widgets/correlation_panel.dart
 import 'package:flutter/material.dart';
-import 'package:gopay_flutter_deck/theme/palette.dart';
-import 'package:gopay_flutter_deck/theme/tokens.dart';
-import 'package:gopay_flutter_deck/widgets/step_reveal.dart';
+import 'package:flutter_bootcamp_deck/theme/palette.dart';
+import 'package:flutter_bootcamp_deck/theme/tokens.dart';
+import 'package:flutter_bootcamp_deck/widgets/step_reveal.dart';
 
 class CorrelationRow {
   const CorrelationRow({required this.platform, required this.concept});
@@ -912,8 +912,8 @@ class CorrelationPanel extends StatelessWidget {
 ```dart
 // lib/widgets/live_badge.dart
 import 'package:flutter/material.dart';
-import 'package:gopay_flutter_deck/theme/palette.dart';
-import 'package:gopay_flutter_deck/theme/tokens.dart';
+import 'package:flutter_bootcamp_deck/theme/palette.dart';
+import 'package:flutter_bootcamp_deck/theme/tokens.dart';
 
 class LiveBadge extends StatelessWidget {
   const LiveBadge({super.key});
@@ -982,8 +982,8 @@ class LiveSlideBody extends StatelessWidget {
 // lib/widgets/code_panel.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_deck/flutter_deck.dart';
-import 'package:gopay_flutter_deck/theme/deck_theme.dart';
-import 'package:gopay_flutter_deck/theme/tokens.dart';
+import 'package:flutter_bootcamp_deck/theme/deck_theme.dart';
+import 'package:flutter_bootcamp_deck/theme/tokens.dart';
 
 /// Deck-wide defaults for code. `animateCodeUpdate` is what makes A16's
 /// character-morph work — changing [code] between steps cross-fades the diff.
@@ -1049,7 +1049,7 @@ The drawing layer for every diagram slide: arrows that draw themselves, dashed b
 // test/widgets/annotate_test.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:gopay_flutter_deck/widgets/annotate.dart';
+import 'package:flutter_bootcamp_deck/widgets/annotate.dart';
 
 import '../support/pump.dart';
 
@@ -1132,7 +1132,7 @@ Nine slides share one tree that re-arranges itself. Building it once, driven by 
 ```dart
 // test/widgets/widget_tree_test.dart
 import 'package:flutter_test/flutter_test.dart';
-import 'package:gopay_flutter_deck/widgets/widget_tree.dart';
+import 'package:flutter_bootcamp_deck/widgets/widget_tree.dart';
 
 import '../support/pump.dart';
 
@@ -1200,7 +1200,7 @@ git commit -m "feat: add shared widget tree view for state management section"
 // test/demos/unsplash_client_test.dart
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:gopay_flutter_deck/demos/unsplash_client.dart';
+import 'package:flutter_bootcamp_deck/demos/unsplash_client.dart';
 
 class _FailingAdapter implements HttpClientAdapter {
   @override
@@ -1325,7 +1325,7 @@ Every slide task follows the same five-step cycle. It is written out in full her
 - Consumes: `StepReveal`, `PhoneFrame`, `CodePanel`, `LiveSlideBody`
 - Produces: `RoadmapSpine({required int activeNode, bool compact = false})` — reused as the section-opening chip on slides 5, 6, 15, 19, 25, 31, 39, 42, 44
 
-**Slide 1 — `/title`** (1 step). `FlutterDeckSlide.title` via template override. "GoPay · Flutter Bootcamp" / "Day 2 — Making It Real". Below, small: "Coach: Harsh Sharma · Assistant coaches: Harsh, Abhas".
+**Slide 1 — `/title`** (1 step). `FlutterDeckSlide.title` via template override. "Flutter Bootcamp" / "Day 2 — Making It Real". Below, small: "Coach: Harsh Sharma · Assistant coaches: Harsh, Abhas".
 
 **Slide 2 — `/beautiful-lie`** (3 steps, A1):
 - Step 1: two `PhoneFrame`s side by side — a list screen and the detail screen it navigates to. Both look finished. Caption: *"Yesterday."*
@@ -1415,8 +1415,8 @@ Implementation note: the spinner must be driven by `step` (e.g. `Transform.rotat
 ```dart
 // test/widgets/frame_strip_test.dart
 import 'package:flutter_test/flutter_test.dart';
-import 'package:gopay_flutter_deck/theme/palette.dart';
-import 'package:gopay_flutter_deck/widgets/frame_strip.dart';
+import 'package:flutter_bootcamp_deck/theme/palette.dart';
+import 'package:flutter_bootcamp_deck/widgets/frame_strip.dart';
 
 import '../support/pump.dart';
 

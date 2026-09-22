@@ -1,22 +1,22 @@
-import 'package:gopay_flutter_deck/slides/s00_open/beautiful_lie_slide.dart';
-import 'package:gopay_flutter_deck/slides/s00_open/homework_slide.dart';
-import 'package:gopay_flutter_deck/slides/s00_open/roadmap_slide.dart';
-import 'package:gopay_flutter_deck/slides/s00_open/title_slide.dart';
-import 'package:gopay_flutter_deck/slides/s01_structure/structure_slide.dart';
-import 'package:gopay_flutter_deck/slides/s02_api/api_gap_slide.dart';
-import 'package:gopay_flutter_deck/slides/s02_api/async_await_slide.dart';
-import 'package:gopay_flutter_deck/slides/s02_api/error_swallowed_slide.dart';
-import 'package:gopay_flutter_deck/slides/s02_api/future_states_slide.dart';
-import 'package:gopay_flutter_deck/slides/s02_api/http_clients_slide.dart';
-import 'package:gopay_flutter_deck/slides/s02_api/live_first_request_slide.dart';
-import 'package:gopay_flutter_deck/slides/s02_api/loading_state_slide.dart';
-import 'package:gopay_flutter_deck/slides/s02_api/three_states_code_slide.dart';
-import 'package:gopay_flutter_deck/slides/s02_api/when_it_breaks_slide.dart';
-import 'package:gopay_flutter_deck/slides/s03_auth/auth_401_slide.dart';
-import 'package:gopay_flutter_deck/slides/s03_auth/interceptor_slide.dart';
-import 'package:gopay_flutter_deck/slides/s03_auth/oauth_flow_slide.dart';
-import 'package:gopay_flutter_deck/slides/s03_auth/unsplash_reality_slide.dart';
-import 'package:gopay_flutter_deck/slides/slide_spec.dart';
+import 'package:flutter_bootcamp_deck/slides/s00_open/beautiful_lie_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s00_open/homework_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s00_open/roadmap_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s00_open/title_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s01_structure/structure_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s02_api/api_gap_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s02_api/async_await_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s02_api/error_swallowed_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s02_api/future_states_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s02_api/http_clients_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s02_api/live_first_request_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s02_api/loading_state_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s02_api/three_states_code_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s02_api/when_it_breaks_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s03_auth/auth_401_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s03_auth/interceptor_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s03_auth/oauth_flow_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s03_auth/unsplash_reality_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/slide_spec.dart';
 
 /// The ordered list of every slide in the deck. This is the single source of
 /// truth: `main.dart` builds the deck from it and `slides_smoke_test.dart`

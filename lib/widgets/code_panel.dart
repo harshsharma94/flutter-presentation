@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_deck/flutter_deck.dart';
-import 'package:gopay_flutter_deck/theme/deck_theme.dart';
-import 'package:gopay_flutter_deck/theme/tokens.dart';
+import 'package:flutter_bootcamp_deck/theme/deck_theme.dart';
+import 'package:flutter_bootcamp_deck/theme/tokens.dart';
 
 /// Deck-wide defaults for code. `animateCodeUpdate` is what makes A16's
 /// character-morph work — changing [code] between steps cross-fades the diff.

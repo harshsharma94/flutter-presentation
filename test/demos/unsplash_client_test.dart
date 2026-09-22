@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:gopay_flutter_deck/demos/unsplash_client.dart';
+import 'package:flutter_bootcamp_deck/demos/unsplash_client.dart';
 
 class _FailingAdapter implements HttpClientAdapter {
   @override
@@ -92,7 +92,7 @@ void main() {
     final result = await client.getPhotos();
     expect(result.fromFixture, isTrue);
     expect(result.photos, isNotEmpty);
-    expect(result.photos.first.author, 'GoPay Flutter Deck');
+    expect(result.photos.first.author, 'Flutter Bootcamp');
   });
 
   test('loads the real bundled fixture via the default asset loader',

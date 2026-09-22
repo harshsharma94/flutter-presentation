@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gopay_flutter_deck/demos/three_state_demo.dart';
-import 'package:gopay_flutter_deck/theme/tokens.dart';
+import 'package:flutter_bootcamp_deck/demos/three_state_demo.dart';
+import 'package:flutter_bootcamp_deck/theme/tokens.dart';
 
 /// Slide 11 — `/loading-state` (1 step, A8) ⭐ INTERACTIVE. One of only three
 /// slides in the deck (11, 34, 36) the audience drives instead of the arrow

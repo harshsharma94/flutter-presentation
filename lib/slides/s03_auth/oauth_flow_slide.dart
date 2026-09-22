@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:gopay_flutter_deck/theme/palette.dart';
-import 'package:gopay_flutter_deck/theme/tokens.dart';
-import 'package:gopay_flutter_deck/widgets/annotate.dart';
-import 'package:gopay_flutter_deck/widgets/sequence_diagram.dart';
-import 'package:gopay_flutter_deck/widgets/step_reveal.dart';
+import 'package:flutter_bootcamp_deck/theme/palette.dart';
+import 'package:flutter_bootcamp_deck/theme/tokens.dart';
+import 'package:flutter_bootcamp_deck/widgets/annotate.dart';
+import 'package:flutter_bootcamp_deck/widgets/sequence_diagram.dart';
+import 'package:flutter_bootcamp_deck/widgets/step_reveal.dart';
 
 /// Public (not file-private) because slide 18 (`/unsplash-reality`) reuses
 /// this exact configuration for its "the whole flow, shrunk" beat — the

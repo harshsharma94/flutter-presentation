@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:gopay_flutter_deck/theme/palette.dart';
-import 'package:gopay_flutter_deck/theme/tokens.dart';
-import 'package:gopay_flutter_deck/widgets/annotate.dart';
-import 'package:gopay_flutter_deck/widgets/code_panel.dart';
-import 'package:gopay_flutter_deck/widgets/phone_frame.dart';
-import 'package:gopay_flutter_deck/widgets/step_reveal.dart';
+import 'package:flutter_bootcamp_deck/theme/palette.dart';
+import 'package:flutter_bootcamp_deck/theme/tokens.dart';
+import 'package:flutter_bootcamp_deck/widgets/annotate.dart';
+import 'package:flutter_bootcamp_deck/widgets/code_panel.dart';
+import 'package:flutter_bootcamp_deck/widgets/phone_frame.dart';
+import 'package:flutter_bootcamp_deck/widgets/step_reveal.dart';
 
 /// Fixed canvas the phones, code panel and connecting arrows are laid out
 /// against, so every [AnimatedArrow]'s `from`/`to` agrees with where the

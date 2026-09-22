@@ -106,20 +106,20 @@ class UnsplashClient {
   static const _lastResortPhotos = <Photo>[
     Photo(
       id: 'last-resort-1',
-      imageUrl: 'https://picsum.photos/seed/gopay-last-resort-1/800/600',
-      author: 'GoPay Flutter Deck',
+      imageUrl: 'https://picsum.photos/seed/deck-last-resort-1/800/600',
+      author: 'Flutter Bootcamp',
       likes: 1,
     ),
     Photo(
       id: 'last-resort-2',
-      imageUrl: 'https://picsum.photos/seed/gopay-last-resort-2/800/600',
-      author: 'GoPay Flutter Deck',
+      imageUrl: 'https://picsum.photos/seed/deck-last-resort-2/800/600',
+      author: 'Flutter Bootcamp',
       likes: 1,
     ),
     Photo(
       id: 'last-resort-3',
-      imageUrl: 'https://picsum.photos/seed/gopay-last-resort-3/800/600',
-      author: 'GoPay Flutter Deck',
+      imageUrl: 'https://picsum.photos/seed/deck-last-resort-3/800/600',
+      author: 'Flutter Bootcamp',
       likes: 1,
     ),
   ];

@@ -10,10 +10,10 @@ library;
 import 'dart:ui' show PathMetric;
 
 import 'package:flutter/material.dart';
-import 'package:gopay_flutter_deck/theme/palette.dart';
-import 'package:gopay_flutter_deck/theme/tokens.dart';
-import 'package:gopay_flutter_deck/widgets/step_reveal.dart';
-import 'package:gopay_flutter_deck/widgets/step_scope.dart';
+import 'package:flutter_bootcamp_deck/theme/palette.dart';
+import 'package:flutter_bootcamp_deck/theme/tokens.dart';
+import 'package:flutter_bootcamp_deck/widgets/step_reveal.dart';
+import 'package:flutter_bootcamp_deck/widgets/step_scope.dart';
 
 /// Draws a straight or curved arrow from [from] to [to] as the deck steps
 /// forward to [atStep]. Fully drawn once the step has arrived; empty before

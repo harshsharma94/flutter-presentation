@@ -33,8 +33,8 @@
 library;
 
 import 'package:flutter/material.dart';
-import 'package:gopay_flutter_deck/theme/palette.dart';
-import 'package:gopay_flutter_deck/theme/tokens.dart';
+import 'package:flutter_bootcamp_deck/theme/palette.dart';
+import 'package:flutter_bootcamp_deck/theme/tokens.dart';
 
 /// One node of the shared tree. Immutable and const-constructible so
 /// [demoTree] can be declared once, as a single `const` value, and reused

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_deck/flutter_deck.dart';
-import 'package:gopay_flutter_deck/slides/registry.dart';
-import 'package:gopay_flutter_deck/slides/slide_spec.dart';
-import 'package:gopay_flutter_deck/theme/deck_theme.dart';
-import 'package:gopay_flutter_deck/theme/palette.dart';
+import 'package:flutter_bootcamp_deck/slides/registry.dart';
+import 'package:flutter_bootcamp_deck/slides/slide_spec.dart';
+import 'package:flutter_bootcamp_deck/theme/deck_theme.dart';
+import 'package:flutter_bootcamp_deck/theme/palette.dart';
 
-void main() => runApp(const GoPayDeckApp());
+void main() => runApp(const BootcampDeckApp());
 
-class GoPayDeckApp extends StatelessWidget {
-  const GoPayDeckApp({super.key});
+class BootcampDeckApp extends StatelessWidget {
+  const BootcampDeckApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class GoPayDeckApp extends StatelessWidget {
       speakerInfo: const FlutterDeckSpeakerInfo(
         name: 'Harsh Sharma',
         description: 'Coach · Assistant coaches: Harsh, Abhas',
-        socialHandle: 'GoPay · Flutter Bootcamp',
+        socialHandle: 'Flutter Bootcamp',
         imagePath: 'assets/images/logo.png',
       ),
       configuration: FlutterDeckConfiguration(
