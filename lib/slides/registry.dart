@@ -10,13 +10,12 @@ import 'package:flutter_bootcamp_deck/slides/s02_api/future_states_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s02_api/http_clients_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s02_api/live_first_request_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s02_api/loading_state_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s02_api/three_states_code_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s03_auth/auth_401_slide.dart';
-import 'package:flutter_bootcamp_deck/slides/s03_auth/interceptor_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s03_auth/oauth_flow_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s03_auth/unsplash_reality_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s04_data/break_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s04_data/codegen_slide.dart';
-import 'package:flutter_bootcamp_deck/slides/s04_data/delete_hardcoded_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s04_data/from_json_code_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s04_data/json_to_dart_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s04_data/live_map_model_slide.dart';
@@ -73,7 +72,8 @@ final List<SlideSpec> slideRegistry = [
     body: (step) => BeautifulLieBody(step: step),
     speakerNotes:
         'They built two screens off one hardcoded list. One '
-        'change today fixes both — that\'s slide 19. Ask: how many of you '
+        'change today fixes both — that\'s slide 18, where the list goes '
+        'away for real. Ask: how many of you '
         'copy-pasted the list into the detail screen?',
   ),
   SlideSpec(
@@ -157,39 +157,38 @@ final List<SlideSpec> slideRegistry = [
   SlideSpec(
     route: '/async-await',
     section: '§1 API',
-    steps: 4,
+    steps: 5,
     body: (step) => AsyncAwaitBody(step: step),
     speakerNotes:
-        'Flutter runs your UI on ONE thread — the main isolate. '
-        'It draws a frame every 16ms, and anything that occupies that '
-        'thread without yielding stops the whole UI, spinner included. '
-        'Step 2 is deliberately NOT a network call: Dart has no blocking '
-        'HTTP API, so a request can never do this. What does is '
-        'synchronous work — a tight loop, a huge jsonDecode. Say that out '
-        'loud; someone always asks. Step 3: await hands the waiting to the '
-        'event loop, the thread keeps drawing, and your code resumes when '
-        'the answer arrives. Kotlin suspend, Swift async/await, Go '
-        'goroutines, Java CompletableFuture — same idea, different names. '
-        'Rehearse forward and back; if the spinner moves during step 2, '
-        'fix it before you present. Answer to "does it block without '
-        'await?" and references are in docs/presenter-guide.md.',
+        'This slide exists to break a wrong model, so do not rush it. '
+        'One isolate, one thread, one event loop; a frame every 16ms. '
+        'Step 2: the request goes to the socket, which is the OS — not '
+        'your thread. The strip keeps flowing and the spinner keeps '
+        'turning, ON PURPOSE. Ask them why. Dart has no blocking HTTP '
+        'call, so a network request cannot freeze the UI with await or '
+        'without it. Step 3: then what is await FOR? Being told. It is '
+        '.then() unwrapped — sequential code, and try/catch that works. '
+        'Step 4 is the honest exception: synchronous work on your thread, '
+        'never yielding. The spinner dies. await cannot save this; '
+        'Isolate.run can. Step 5: the correlation, WITH the caveat — '
+        'Kotlin has Dispatchers.IO and Go has real threads, Dart has '
+        'neither, so await never moves work anywhere. Rehearse forward '
+        'and back: if the spinner freezes on step 2, or keeps turning on '
+        'step 4, fix it before you present. Full answer and references '
+        'are in docs/presenter-guide.md.',
   ),
   SlideSpec(
     route: '/loading-state',
     section: '§1 API',
-    steps: 2,
     body: (step) => LoadingStateBody(step: step),
     speakerNotes:
         'Hand the keyboard to someone. Make them click error. '
         'Ask what a user would do here. Let the silence sit — that\'s the '
         'point, not a gap to fill. Then click data and note it\'s pulling '
         'from the same offline fixture as slide 7, no live request risked. '
-        'Read the code panel beside the phone as you go — the highlight '
-        'follows whichever branch they just clicked. Step 2: the error '
-        'button is a cheat; give them the two real ways to reach that '
-        'branch. If someone\'s app hangs instead of erroring, it is almost '
-        'always the Android INTERNET permission or the macOS network '
-        'entitlement.',
+        'No code on this slide on purpose — the switch that produces these '
+        'three branches is two slides away, and it lands better once they '
+        'have watched the empty catch fail first.',
   ),
   SlideSpec(
     route: '/error-swallowed',
@@ -203,6 +202,21 @@ final List<SlideSpec> slideRegistry = [
         'the discomfort is the lesson. Step 3 is the punchline — say it '
         'plainly and then stop talking for a second.',
   ),
+  SlideSpec(
+    route: '/three-states-code',
+    section: '§1 API',
+    steps: 3,
+    body: (step) => ThreeStatesCodeBody(step: step),
+    speakerNotes:
+        'The answer to the slide they just watched fail. One '
+        'result type, three branches, and the compiler will not let you '
+        'forget one — that is what sealed buys you over a bag of booleans. '
+        'Walk the highlight: loading, error, data. Step 3 carries what the '
+        'old platform-troubleshooting slide used to: the fastest way to see '
+        'the error branch for real is wifi off or a bad host. If someone\'s '
+        'app hangs instead of erroring, it is almost always the Android '
+        'INTERNET permission or the macOS network entitlement.',
+  ),
 
   // §2 Auth
   SlideSpec(
@@ -214,29 +228,27 @@ final List<SlideSpec> slideRegistry = [
         'A request with no credential just bounces — a flat 401, '
         'nothing more. Step 3\'s key is deliberately unexplained: where it '
         'comes from and how you keep it valid without asking the user to '
-        'log in again every hour is the whole of slide 13.',
+        'log in again every hour is the whole of slide 14.',
   ),
   SlideSpec(
     route: '/oauth-flow',
     section: '§2 Auth',
-    steps: 9,
+    steps: 10,
     body: (step) => OauthFlowBody(step: step),
     speakerNotes:
-        'Step 7 is the whole point — nobody logged in again. The '
-        'user saw nothing. Ask them where this lives in their Android app; '
-        'answer is OkHttp Authenticator, which is slide 14.',
-  ),
-  SlideSpec(
-    route: '/auth-interceptor',
-    section: '§2 Auth',
-    steps: 4,
-    body: (step) => AuthInterceptorBody(step: step),
-    speakerNotes:
-        'This is slide 13\'s steps 7 through 9, automated. Every '
-        'platform has this exact shape — an interceptor sitting between '
-        'the app and the network, watching for a 401 it can fix by itself. '
-        'Walk the four highlighted lines, then land on the correlation: '
-        'they already have this pattern under a different name.',
+        'This is the phone\'s flow, not the web one they may have seen. '
+        'Two things to say out loud. One: the login happens in an in-app '
+        'browser tab your app cannot read — Chrome Custom Tabs on '
+        'Android, ASWebAuthenticationSession on iOS — and it comes back '
+        'as a deep link to a URI you registered. Never a WebView you own; '
+        'that is how you end up handling someone\'s password. Two: step 5 '
+        'sends a PKCE verifier, NOT a client secret. A shipped app is a '
+        'public client; anything compiled into it can be pulled back out '
+        'of the binary. Someone will ask where the secret goes — the '
+        'answer is that there is not one. Step 8 is the beat the slide '
+        'exists for: an hour passes, nobody logged in again, the user saw '
+        'nothing. Ask them where the refresh-on-401 lives in their '
+        'Android app; the answer is an OkHttp Authenticator.',
   ),
   SlideSpec(
     route: '/unsplash-reality',
@@ -261,7 +273,7 @@ final List<SlideSpec> slideRegistry = [
         'that lands: every platform they know does this with reflection or '
         'an annotation processor. Dart has no runtime reflection, so '
         'someone writes the mapping — either you, by hand, or build_runner '
-        'on slide 20.',
+        'on slide 19.',
   ),
   SlideSpec(
     route: '/from-json-code',
@@ -285,17 +297,6 @@ final List<SlideSpec> slideRegistry = [
         'to match the API — the whole point is that the mapping layer '
         'absorbs the difference. If someone asks why not just use the JSON '
         'map directly, that is the repository discussion after the break.',
-  ),
-  SlideSpec(
-    route: '/delete-hardcoded',
-    section: '§3 Data',
-    steps: 3,
-    body: (step) => DeleteHardcodedBody(step: step),
-    speakerNotes:
-        'Pause here. This is the moment. Step forward slowly and '
-        'let them watch the characters morph — twelve lines they typed '
-        'yesterday become one. Then let both screens fill from it. Don\'t '
-        'talk over step 3.',
   ),
   SlideSpec(
     route: '/codegen',
@@ -373,7 +374,7 @@ final List<SlideSpec> slideRegistry = [
     speakerNotes:
         'Same knock, different door. Ask where they have seen '
         'this: Android Repository, Spring @Repository, a Go interface with '
-        'two implementations. Then make the connection back to slide 25 — '
+        'two implementations. Then make the connection back to slide 24 — '
         'the fake repository worked precisely because the caller only ever '
         'knew the door.',
   ),
@@ -410,7 +411,7 @@ final List<SlideSpec> slideRegistry = [
         'finish travelling before you talk. Then say it out loud: the '
         'lookup is O(1), not a tree walk at runtime, because Flutter '
         'caches it per element. The animation shows the conceptual walk, '
-        'not the runtime cost. Step 5 is the payoff over slide 28: only '
+        'not the runtime cost. Step 5 is the payoff over slide 27: only '
         'subscribers rebuild.',
   ),
   SlideSpec(
@@ -445,7 +446,7 @@ final List<SlideSpec> slideRegistry = [
         'Say it as arithmetic: InheritedWidget solves reach, '
         'ChangeNotifier solves change, and neither solves the other. '
         'Provider is not a new concept — it is the two they just learned, '
-        'wired together so they stop writing the wrapper from slide 30.',
+        'wired together so they stop writing the wrapper from slide 29.',
   ),
   SlideSpec(
     route: '/watch-read-consumer',
@@ -488,7 +489,7 @@ final List<SlideSpec> slideRegistry = [
     steps: 3,
     body: (step) => DiProblemBody(step: step),
     speakerNotes:
-        'This is slide 28 again, but for services instead of '
+        'This is slide 27 again, but for services instead of '
         'data — say that, they will see it. Step 3 is the cost that '
         'actually shows up in review: adding one dependency means editing '
         'every constructor between main and the leaf.',
@@ -510,7 +511,7 @@ final List<SlideSpec> slideRegistry = [
     steps: 2,
     body: (step) => DiTestingBody(step: step),
     speakerNotes:
-        'Callback to slide 25 — same idea, now at the wiring '
+        'Callback to slide 24 — same idea, now at the wiring '
         'level. This is the answer to "why bother with DI": one line, and '
         'the whole tree is testable. Point out the type argument on '
         'Provider<PhotoRepository> — that is what makes the swap '
@@ -606,7 +607,7 @@ final List<SlideSpec> slideRegistry = [
     steps: 4,
     body: (step) => BffVsNonBffBody(step: step),
     speakerNotes:
-        'Optional — cut this if time is short, slides 43-45 '
+        'Optional — cut this if time is short, slides 42-44 '
         'already made the point. If you run it, be fair to the right-hand '
         'side: a raw resource contract is the right call when the client '
         'genuinely owns presentation, or when several very different '

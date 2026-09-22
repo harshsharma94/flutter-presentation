@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bootcamp_deck/theme/palette.dart';
 import 'package:flutter_bootcamp_deck/theme/tokens.dart';
 
-/// Slide 21 — `/break` (1 step). Nothing else on it on purpose.
+/// Slide 20 — `/break` (1 step). Nothing else on it on purpose.
 class BreakBody extends StatelessWidget {
   const BreakBody({required this.step, super.key});
 

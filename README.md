@@ -41,11 +41,11 @@ The key is read via `String.fromEnvironment` and is never committed.
 - **Primary: Chrome.** `FlutterDeckWebClient` gives presenter view — speaker notes on a
   second screen — for free. Open the navigation drawer to launch it.
 - **Backup: macOS.** `fvm flutter run -d macos`. Needs the network entitlement in
-  `macos/Runner/*.entitlements`, which is itself the teaching moment on slide 13.
+  `macos/Runner/*.entitlements`, which is itself the teaching moment on slide 12.
 - Arrow keys step through animations; every step is reversible, so stepping backward
   re-hides things correctly.
 
-Slides 12, 20, 29, 35 and 37 are **live-coding slides** — they are nearly empty on
+Slides 4, 7, 18, 26 and 34 are **live-coding slides** — they are nearly empty on
 purpose. The slide states the goal; the work happens in the editor.
 
 ## Cutting a slide
@@ -94,7 +94,7 @@ Two conventions carry the whole deck:
 2. **Visibility is a pure function of `(step, theme)`.** Explanatory motion uses no
    `AnimationController` and no `Timer`, so every animation is presenter-paced and
    reverses cleanly. The exceptions are deliberate and few — an ambient spinner on slide
-   9, the notifier pulse on slide 33, the rebuild flashes on slide 35 — where the motion
+   9, the notifier pulse on slide 30, the rebuild flashes on slide 32 — where the motion
    *is* the lesson.
 
 Presenter material:

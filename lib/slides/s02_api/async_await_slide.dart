@@ -7,66 +7,74 @@ import 'package:flutter_bootcamp_deck/widgets/frame_strip.dart';
 import 'package:flutter_bootcamp_deck/widgets/phone_frame.dart';
 import 'package:flutter_bootcamp_deck/widgets/step_reveal.dart';
 
-/// Fixed canvas the two lanes, the phone and the floating `fetchPhotos()`
-/// block are laid out against — the same fixed-canvas-plus-`Positioned`
-/// convention every other diagram slide in this deck uses, so every
-/// coordinate below agrees with what actually renders.
+/// Fixed canvas the two lanes, the phone and the two floating work blocks
+/// are laid out against — the same fixed-canvas-plus-`Positioned` convention
+/// every other diagram slide in this deck uses, so every coordinate below
+/// agrees with what actually renders.
 const _canvasWidth = 980.0;
-const _canvasHeight = 220.0;
+const _canvasHeight = 230.0;
 const _canvasSize = Size(_canvasWidth, _canvasHeight);
 
 const _lanesLeft = 0.0;
 const _lanesWidth = 800.0;
 
-const _mainLaneTop = 32.0;
+const _mainLaneTop = 36.0;
 const _laneHeight = 36.0;
-const _mainLaneCenterY = _mainLaneTop + _laneHeight / 2;
+const _mainLaneBottom = _mainLaneTop + _laneHeight;
 
-const _secondLaneTop = 118.0;
-const _secondLaneCenterY = _secondLaneTop + _laneHeight / 2;
+const _secondLaneTop = 132.0;
 
 const _phoneWidth = 100.0;
 const _phoneLeft = _canvasWidth - _phoneWidth;
 
 const _frameCount = 60;
 
-/// The tick range `fetchPhotos()` sits over once it "drops onto" the strip
-/// (step 2) — the range [FrameStrip] paints red while [_isBlocked] is true.
-const _stalledFrom = 25;
-const _stalledTo = 40;
+double _tickX(num tick) => _lanesLeft + tick / _frameCount * _lanesWidth;
 
-const _blockWidth = 290.0;
+const _blockWidth = 250.0;
 const _blockHeight = 40.0;
 
-/// Centred over the [_stalledFrom]..[_stalledTo] tick range.
-const _blockLeft =
-    _lanesLeft +
-    (_stalledFrom + _stalledTo) / 2 / _frameCount * _lanesWidth -
-    _blockWidth / 2;
-const _blockTopInMainLane = _mainLaneCenterY - _blockHeight / 2;
-const _blockTopInSecondLane = _secondLaneCenterY - _blockHeight / 2;
+/// The waiting request sits on the second lane, early in the strip; the
+/// synchronous decode sits on the main lane, later, over the ticks
+/// [FrameStrip] paints red while [AsyncAwaitBody._blocked] holds.
+const _waitTick = 18;
+const _stalledFrom = 34;
+const _stalledTo = 48;
+const _stalledCentreTick = (_stalledFrom + _stalledTo) / 2;
 
-/// Slide 9 — `/async-await` (4 steps, A6) ⭐ PROTECTED. One of four slides in
+final _waitBlockLeft = _tickX(_waitTick) - _blockWidth / 2;
+final _waitBlockCentreX = _tickX(_waitTick);
+final _cpuBlockLeft = _tickX(_stalledCentreTick) - _blockWidth / 2;
+
+/// Slide 9 — `/async-await` (5 steps, A6) ⭐ PROTECTED. One of four slides in
 /// the deck where the animation *is* the explanation rather than an
 /// illustration of one — see the file-level rationale on [_Spinner] for the
 /// single detail that makes or breaks it.
 ///
-/// Step 1: 60 ticks flowing green, the phone's spinner turning. Step 2: a
-/// synchronous `fetchPhotos()` call drops onto the strip — the ticks under
-/// it go red and stop, the spinner freezes. Step 3: the same call detaches
-/// onto a second "suspended" lane; the strip resumes, the spinner spins
-/// again. Step 4: the result rejoins the main lane and four other
-/// languages' names for the same idea fade in.
+/// The slide exists to correct the mental model most of the room arrives
+/// with, which is that `await` moves work off the UI thread. It does not.
+/// Dart runs one isolate on one thread with one event loop, and `await` is
+/// not a thread-switch — it is a way of registering what happens next.
+///
+/// So the two cases are drawn as two different things, on purpose:
+///
+/// - **Waiting** (step 2) never occupied the thread in the first place. The
+///   socket is the OS's problem; the isolate is free the entire time. This is
+///   why a network call cannot block the UI in Flutter with *or* without
+///   `await`, and the strip keeps flowing green to prove it.
+/// - **Computing** (step 4) genuinely does occupy the thread, and `await`
+///   changes nothing about that. Only moving it to another isolate does.
+///
+/// Step 3 is then what `await` actually buys: the continuation, written in a
+/// straight line, with `try`/`catch` that works — the same machinery as
+/// `.then()`, spelled better.
 class AsyncAwaitBody extends StatelessWidget {
   const AsyncAwaitBody({required this.step, super.key});
 
   final int step;
 
-  bool get _isBlocked => step == 2;
-  bool get _isSuspended => step == 3;
-
-  double get _blockTop =>
-      _isSuspended ? _blockTopInSecondLane : _blockTopInMainLane;
+  /// Only the synchronous-decode step stalls the thread. Waiting never does.
+  bool get _blocked => step == 4;
 
   @override
   Widget build(BuildContext context) {
@@ -93,12 +101,12 @@ class AsyncAwaitBody extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        'One thread draws your whole UI.',
+                        'One thread. One event loop. Your whole app.',
                         style: TextStyle(color: pal.textPrimary, fontSize: 26),
                       ),
                       Text(
-                        'A frame every 16ms. Hold it up and nothing moves '
-                        '— not even the spinner.',
+                        'A frame every 16ms. Hold that thread up and nothing '
+                        'moves — not even the spinner.',
                         style: TextStyle(
                           color: pal.textSecondary,
                           fontSize: 20,
@@ -123,8 +131,19 @@ class AsyncAwaitBody extends StatelessWidget {
                         frameCount: _frameCount,
                         stalledFrom: _stalledFrom,
                         stalledTo: _stalledTo,
-                        stalled: _isBlocked,
+                        stalled: _blocked,
                         height: _laneHeight,
+                      ),
+                    ),
+                    Positioned(
+                      left: _lanesLeft,
+                      top: _mainLaneTop - 22,
+                      child: Text(
+                        'UI isolate — the one thread that draws',
+                        style: TextStyle(
+                          color: pal.textSecondary,
+                          fontSize: 15,
+                        ),
                       ),
                     ),
                     Positioned(
@@ -133,52 +152,74 @@ class AsyncAwaitBody extends StatelessWidget {
                       width: _lanesWidth,
                       height: _laneHeight,
                       child: DashedBox(
-                        atStep: 3,
+                        atStep: 2,
                         color: Palette.blue,
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Padding(
                             padding: EdgeInsets.only(left: Tokens.gapSm),
                             child: Text(
-                              'await — suspended',
+                              'the socket — the OS, not your thread',
                               style: TextStyle(
                                 color: Palette.blue.withValues(
                                   alpha: Tokens.dimmed,
                                 ),
-                                fontSize: 17,
+                                fontSize: 16,
                               ),
                             ),
                           ),
                         ),
                       ),
                     ),
-                    // The floating `fetchPhotos()` call: hidden at step 1,
-                    // then repositioned between the main and suspended
-                    // lanes purely as a function of `step` — see
-                    // [_blockTop].
-                    AnimatedPositioned(
-                      duration: Tokens.travel,
-                      curve: Tokens.curve,
-                      left: _blockLeft,
-                      top: _blockTop,
-                      child: AnimatedOpacity(
-                        duration: Tokens.fade,
-                        curve: Tokens.curve,
-                        opacity: step >= 2 ? 1.0 : 0.0,
-                        child: IgnorePointer(
-                          child: _FetchBlock(blocked: _isBlocked),
+                    // `await`: the continuation coming back up to the one
+                    // thread that can touch the UI. Not a hand-off *to*
+                    // another thread — there isn't one.
+                    Positioned.fill(
+                      child: AnimatedArrow(
+                        from: Offset(_waitBlockCentreX, _secondLaneTop),
+                        to: Offset(_waitBlockCentreX, _mainLaneBottom),
+                        atStep: 3,
+                        color: Palette.green,
+                      ),
+                    ),
+                    Positioned(
+                      left: _waitBlockCentreX + Tokens.gapSm,
+                      top: (_mainLaneBottom + _secondLaneTop) / 2 - 14,
+                      child: StepReveal(
+                        atStep: 3,
+                        dimWhenPast: false,
+                        child: Text(
+                          'await',
+                          style: TextStyle(
+                            color: Palette.green,
+                            fontFamily: 'JetBrainsMono',
+                            fontSize: 20,
+                          ),
                         ),
                       ),
                     ),
                     Positioned(
-                      left: _blockLeft,
-                      top: _blockTopInMainLane + _blockHeight + Tokens.gapXs,
-                      child: Callout(
+                      left: _waitBlockLeft,
+                      top: _secondLaneTop - _blockHeight - Tokens.gapXs,
+                      child: StepReveal(
                         atStep: 2,
-                        text:
-                            'a tight loop, a huge jsonDecode · '
-                            '138 frames dropped',
-                        color: Palette.red,
+                        dimWhenPast: false,
+                        child: _WorkBlock(
+                          label: 'dio.get(url)',
+                          color: Palette.blue,
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      left: _cpuBlockLeft,
+                      top: _mainLaneTop + (_laneHeight - _blockHeight) / 2,
+                      child: StepReveal(
+                        atStep: 4,
+                        dimWhenPast: false,
+                        child: _WorkBlock(
+                          label: 'jsonDecode(20 MB)',
+                          color: Palette.red,
+                        ),
                       ),
                     ),
                     Positioned(
@@ -186,12 +227,14 @@ class AsyncAwaitBody extends StatelessWidget {
                       top: 0,
                       child: PhoneFrame(
                         width: _phoneWidth,
-                        child: Center(child: _Spinner(step: step)),
+                        child: Center(child: _Spinner(frozen: _blocked)),
                       ),
                     ),
                   ],
                 ),
               ),
+              SizedBox(height: Tokens.gapMd),
+              _StepNote(step: step),
               SizedBox(height: Tokens.gapMd),
               // [CorrelationPanel] uses `Expanded` internally, so it needs a
               // bounded width — which the enclosing [FittedBox] does not give.
@@ -199,7 +242,7 @@ class AsyncAwaitBody extends StatelessWidget {
                 width: _canvasWidth,
                 child: CorrelationPanel(
                   flutterLabel: 'await',
-                  firstStep: 4,
+                  firstStep: 5,
                   stepsPerRow: 0,
                   rows: [
                     CorrelationRow(platform: 'Kotlin', concept: 'suspend'),
@@ -212,6 +255,26 @@ class AsyncAwaitBody extends StatelessWidget {
                   ],
                 ),
               ),
+              SizedBox(height: Tokens.gapSm),
+              SizedBox(
+                width: _canvasWidth,
+                child: StepReveal(
+                  atStep: 5,
+                  dimWhenPast: false,
+                  child: Text(
+                    'Close, but not the same: Kotlin can hand a suspend '
+                    'function to Dispatchers.IO, and a goroutine can land on '
+                    'another core. Dart has neither. await never moves work '
+                    '— Isolate.run does.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Palette.amber,
+                      fontSize: 19,
+                      height: 1.35,
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -220,15 +283,86 @@ class AsyncAwaitBody extends StatelessWidget {
   }
 }
 
-class _FetchBlock extends StatelessWidget {
-  const _FetchBlock({required this.blocked});
+/// The one-line commentary under the diagram. Three mutually exclusive notes
+/// sharing a fixed-height box, so the panel below never shifts as the
+/// presenter steps: [StepReveal] with `until` set to the same step hides each
+/// again as the next arrives.
+class _StepNote extends StatelessWidget {
+  const _StepNote({required this.step});
 
-  final bool blocked;
+  final int step;
+
+  static const _height = 58.0;
+
+  @override
+  Widget build(BuildContext context) => SizedBox(
+    width: _canvasWidth,
+    height: _height,
+    child: Stack(
+      children: [
+        _note(
+          atStep: 2,
+          color: Palette.blue,
+          text:
+              'Waiting is free. Dart has no blocking HTTP call — while '
+              'the socket works, nothing of yours is running, so the '
+              'frames keep coming. With await or without it.',
+        ),
+        _note(
+          atStep: 3,
+          color: Palette.green,
+          text:
+              'So what is await for? Getting told. It is .then() with '
+              'the callback unwrapped — the next line runs when the '
+              'answer lands, and try/catch finally works.',
+        ),
+        _note(
+          atStep: 4,
+          color: Palette.red,
+          text:
+              'This one really does block: it is your code, on your '
+              'thread, never yielding. await cannot help — there is no '
+              'other thread to await on. Isolate.run(...) is the fix.',
+        ),
+      ],
+    ),
+  );
+
+  Widget _note({
+    required int atStep,
+    required Color color,
+    required String text,
+  }) => Positioned.fill(
+    child: StepReveal(
+      atStep: atStep,
+      until: atStep,
+      dimWhenPast: false,
+      child: Align(
+        alignment: Alignment.topCenter,
+        child: Text(
+          text,
+          textAlign: TextAlign.center,
+          style: TextStyle(color: color, fontSize: 20, height: 1.35),
+        ),
+      ),
+    ),
+  );
+}
+
+/// One unit of work, on whichever lane it belongs to. The label is wider than
+/// a comfortable block at full size, and a clipped one reads as a bug rather
+/// than a design — so the block keeps the fixed width the slide's geometry is
+/// derived from, and the text shrinks to fit inside it.
+class _WorkBlock extends StatelessWidget {
+  const _WorkBlock({required this.label, required this.color});
+
+  final String label;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
     final pal = Palette.of(context);
-    final color = blocked ? Palette.red : Palette.blue;
+
     return Container(
       width: _blockWidth,
       height: _blockHeight,
@@ -238,16 +372,12 @@ class _FetchBlock extends StatelessWidget {
         border: Border.all(color: color, width: Tokens.strokeWidth),
         borderRadius: BorderRadius.circular(Tokens.radius),
       ),
-      // The label is wider than a comfortable block at full size, and a
-      // clipped one reads as a bug rather than a design — so the block keeps
-      // the fixed width the slide's geometry is derived from, and the text
-      // shrinks to fit inside it instead of running past the border.
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: Tokens.gapSm),
         child: FittedBox(
           fit: BoxFit.scaleDown,
           child: Text(
-            'work that never yields',
+            label,
             style: TextStyle(
               color: color,
               fontFamily: 'JetBrainsMono',
@@ -263,15 +393,17 @@ class _FetchBlock extends StatelessWidget {
 /// The phone's loading spinner — the single detail this whole slide stands
 /// or falls on.
 ///
-/// It **genuinely spins**, continuously, whenever the UI is alive (steps 1, 3
-/// and 4), and **genuinely stops dead** on step 2 when the synchronous call
-/// blocks the thread. The contrast is the entire lesson: a spinner that was
-/// never moving cannot be seen to freeze, and an audience watching a static
-/// icon next to the words "UI blocked" learns nothing.
+/// It **genuinely spins**, continuously, whenever the UI is alive, and
+/// **genuinely stops dead** on the one step where synchronous work occupies
+/// the thread. The contrast is the entire lesson: a spinner that was never
+/// moving cannot be seen to freeze, and an audience watching a static icon
+/// next to the words "UI blocked" learns nothing. That it keeps turning
+/// through the *network* step is just as much of the lesson — that is the
+/// half the room does not expect.
 ///
 /// This is the deck's one deliberate exception to the no-[AnimationController]
 /// rule. That rule exists so *explanatory* motion stays presenter-paced and
-/// reversible — and it still does here: which lane the call sits in, what the
+/// reversible — and it still does here: which lane the work sits in, what the
 /// frame strip shows, and every label are all derived from `step`. The
 /// controller drives only ambient motion that stands for "the UI thread is
 /// running", which is exactly the thing that must not be under the
@@ -281,9 +413,9 @@ class _FetchBlock extends StatelessWidget {
 /// whatever angle it had reached, which reads as seized mid-turn rather than
 /// parked on a convenient mark.
 class _Spinner extends StatefulWidget {
-  const _Spinner({required this.step});
+  const _Spinner({required this.frozen});
 
-  final int step;
+  final bool frozen;
 
   @override
   State<_Spinner> createState() => _SpinnerState();
@@ -296,20 +428,18 @@ class _SpinnerState extends State<_Spinner>
     duration: Duration(milliseconds: 1400),
   );
 
-  bool get _frozen => widget.step == 2;
-
   @override
   void initState() {
     super.initState();
-    if (!_frozen) _controller.repeat();
+    if (!widget.frozen) _controller.repeat();
   }
 
   @override
   void didUpdateWidget(covariant _Spinner oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (_frozen && _controller.isAnimating) {
+    if (widget.frozen && _controller.isAnimating) {
       _controller.stop();
-    } else if (!_frozen && !_controller.isAnimating) {
+    } else if (!widget.frozen && !_controller.isAnimating) {
       _controller.repeat();
     }
   }
@@ -332,7 +462,7 @@ class _SpinnerState extends State<_Spinner>
         child: Icon(
           Icons.autorenew,
           size: 28,
-          color: _frozen ? Palette.red : pal.textPrimary,
+          color: widget.frozen ? Palette.red : pal.textPrimary,
         ),
       ),
     );

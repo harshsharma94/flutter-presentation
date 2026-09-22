@@ -23,7 +23,7 @@ class _PhotoScopeHostState extends State<PhotoScopeHost> {
       PhotoScope(photos: _photos, child: widget.child);
 }''';
 
-/// Slide 30 — `/inherited-limits` (2 steps, A25). The gap ChangeNotifier
+/// Slide 29 — `/inherited-limits` (2 steps, A25). The gap ChangeNotifier
 /// exists to fill. Without this slide the next one looks arbitrary.
 class InheritedLimitsBody extends StatelessWidget {
   const InheritedLimitsBody({required this.step, super.key});

@@ -4,40 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bootcamp_deck/demos/unsplash_client.dart';
 import 'package:flutter_bootcamp_deck/theme/palette.dart';
 import 'package:flutter_bootcamp_deck/theme/tokens.dart';
-import 'package:flutter_bootcamp_deck/widgets/code_panel.dart';
 import 'package:flutter_bootcamp_deck/widgets/phone_frame.dart';
 
 enum _DemoState { loading, error, data }
 
-const _phoneWidth = 200.0;
-const _codeWidth = 470.0;
-
-/// The `sealed` declaration is carried here rather than on a slide of its
-/// own: an earlier `/three-states-code` slide reprinted this same `switch`
-/// one beat later, which taught nothing the live demo had not already shown.
-const _demoCode = '''
-sealed class ApiResult {}
-
-switch (result) {
-  case Loading():
-    return Spinner();
-  case ApiError(:final message):
-    return ErrorView(message);
-  case Data(:final photos):
-    return PhotoGrid(photos);
-}''';
-
-/// 0-indexed line numbers, one branch per [_DemoState] — see
-/// `FlutterDeckCodeHighlight.highlightedLines`.
-const _loadingLines = [3, 4];
-const _errorLines = [5, 6];
-const _dataLines = [7, 8];
+const _phoneWidth = 280.0;
 
 /// Slide 10's live centerpiece (A8) — genuinely interactive, unlike every
 /// other slide in the deck. A real [PhoneFrame] plus three [FilledButton]s
 /// drive a real [AnimatedSwitcher] between the three states a `Future<T>`
-/// can render as, with a [CodePanel] beside it whose `highlightedLines`
-/// track whichever branch is on screen. This is deliberately **not**
+/// can render as. No code panel: the phone is the whole slide, and the
+/// `switch` that produces these three branches gets its own slide two beats
+/// later, once the room has watched the empty-`catch` version fail. Printed
+/// side by side they were the same lesson twice. This is deliberately **not**
 /// step-driven — the presenter hands the keyboard to a bootcamper, so the
 /// state has to be genuine `State`, not a function of the ambient step.
 ///
@@ -57,12 +36,6 @@ class _ThreeStateDemoState extends State<ThreeStateDemo> {
   _DemoState _state = _DemoState.loading;
   Photo? _photo;
   bool _fromFixture = false;
-
-  List<int> get _highlightedLines => switch (_state) {
-    _DemoState.loading => _loadingLines,
-    _DemoState.error => _errorLines,
-    _DemoState.data => _dataLines,
-  };
 
   void _selectLoading() => setState(() => _state = _DemoState.loading);
 
@@ -98,38 +71,23 @@ class _ThreeStateDemoState extends State<ThreeStateDemo> {
   }
 
   @override
-  Widget build(BuildContext context) => Row(
+  Widget build(BuildContext context) => Column(
     mainAxisSize: MainAxisSize.min,
-    crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      Column(
+      PhoneFrame(
+        width: _phoneWidth,
+        child: AnimatedSwitcher(duration: Tokens.fade, child: _content()),
+      ),
+      SizedBox(height: Tokens.gapMd),
+      Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          PhoneFrame(
-            width: _phoneWidth,
-            child: AnimatedSwitcher(duration: Tokens.fade, child: _content()),
-          ),
-          SizedBox(height: Tokens.gapMd),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              FilledButton(onPressed: _selectLoading, child: Text('loading')),
-              SizedBox(width: Tokens.gapSm),
-              FilledButton(onPressed: _selectError, child: Text('error')),
-              SizedBox(width: Tokens.gapSm),
-              FilledButton(onPressed: _selectData, child: Text('data')),
-            ],
-          ),
+          FilledButton(onPressed: _selectLoading, child: Text('loading')),
+          SizedBox(width: Tokens.gapSm),
+          FilledButton(onPressed: _selectError, child: Text('error')),
+          SizedBox(width: Tokens.gapSm),
+          FilledButton(onPressed: _selectData, child: Text('data')),
         ],
-      ),
-      SizedBox(width: Tokens.gapLg),
-      SizedBox(
-        width: _codeWidth,
-        child: CodePanel(
-          code: _demoCode,
-          fileName: 'photo_view.dart',
-          highlightedLines: _highlightedLines,
-        ),
       ),
     ],
   );

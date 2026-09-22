@@ -50,7 +50,7 @@ Future<void> pumpBody(
   // check that a slide renders without throwing or overflowing, not that it
   // eventually stops moving.
   // 3s total comfortably clears the longest animation in the deck: the
-  // five-node ancestor-chain traversal on slide 31, which runs
+  // five-node ancestor-chain traversal on slide 30, which runs
   // Tokens.travel * 5 = 2000ms.
   await tester.pump();
   for (var i = 0; i < 3; i++) {

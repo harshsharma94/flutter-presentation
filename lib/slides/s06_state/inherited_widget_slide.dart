@@ -8,12 +8,12 @@ import 'package:flutter_bootcamp_deck/widgets/widget_tree.dart';
 
 /// The scope box is drawn *beside* the root rather than inserted into
 /// [demoTree] itself. Inserting a node would add a level, which changes
-/// `treeNodePositions`' row height and shifts every node — and slides 28–33
+/// `treeNodePositions`' row height and shifts every node — and slides 27–32
 /// depend on the tree never jumping across a slide boundary.
 const _scopeWidth = 170.0;
 const _scopeHeight = 68.0;
 
-/// Slide 29 — `/inherited-widget` (8 steps, A24). The same tree as slide 29,
+/// Slide 28 — `/inherited-widget` (8 steps, A24). The same tree as slide 29,
 /// with the chips falling away and an ancestor-chain lookup travelling up to
 /// a scope that sits at the root.
 class InheritedWidgetBody extends StatelessWidget {

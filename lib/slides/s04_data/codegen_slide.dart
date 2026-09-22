@@ -25,7 +25,7 @@ part 'photo.g.dart';
 @JsonSerializable()
 class Photo { ... }''';
 
-/// Slide 20 — `/codegen` (2 steps, A17). Optional. Frame it as "you now know
+/// Slide 19 — `/codegen` (2 steps, A17). Optional. Frame it as "you now know
 /// exactly what this generates" — which is the only reason it was worth
 /// writing by hand first.
 class CodegenBody extends StatelessWidget {

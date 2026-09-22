@@ -3,7 +3,7 @@ import 'package:flutter_bootcamp_deck/theme/palette.dart';
 import 'package:flutter_bootcamp_deck/theme/tokens.dart';
 
 /// One colour-coded concern. The *same* [Band] values are reused across
-/// slide 22 and 25 so the sort reads as the same bands moving, not new
+/// slide 21 and 24 so the sort reads as the same bands moving, not new
 /// bands appearing.
 class Band {
   Band({required this.label, required this.color});
@@ -12,8 +12,8 @@ class Band {
   final Color color;
 }
 
-/// The four concerns tangled together in one file on slide 22 and sorted
-/// into three layers on slide 23.
+/// The four concerns tangled together in one file on slide 21 and sorted
+/// into three layers on slide 22.
 final uiBand = Band(label: 'build() — Column, ListView', color: Palette.blue);
 final uiBand2 = Band(
   label: 'build() — error Text, spinner',
@@ -29,7 +29,7 @@ final rulesBand = Band(
 final rulesBand2 = Band(label: 'sort by likes desc', color: Palette.red);
 
 /// A named layer holding [bands]. [onFire] tints the slab red — used on
-/// slide 24 when the dependency rule is broken and the Domain layer stops
+/// slide 23 when the dependency rule is broken and the Domain layer stops
 /// being independently testable.
 class LayerSlab extends StatelessWidget {
   const LayerSlab({
@@ -109,7 +109,7 @@ class LayerSlab extends StatelessWidget {
 }
 
 /// A single band, rendered identically wherever it appears — that visual
-/// identity is what carries the continuity between slide 22 and 25.
+/// identity is what carries the continuity between slide 21 and 24.
 class BandRow extends StatelessWidget {
   const BandRow({required this.band, super.key});
 

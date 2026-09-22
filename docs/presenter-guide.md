@@ -4,7 +4,7 @@ Live-coding scripts and stuck-points, slide by slide. **Not part of the deck** �
 keep it on your phone or a second machine. Speaker notes inside the deck cover
 *what to say*; this covers *what to type* and *what breaks*.
 
-Covers slides 1–11 (the API section). Extend as the deck settles.
+Covers slides 1–12 (the API section). Extend as the deck settles.
 
 ---
 
@@ -23,7 +23,7 @@ costs you the room's attention for a minute.
 Nothing to type. This is the hook.
 
 Ask, before advancing: **"how many of you copy-pasted the list into the second
-screen?"** Most hands go up. That is the setup for slide 20, where one line
+screen?"** Most hands go up. That is the setup for slide 18, where one line
 replaces it.
 
 Do not explain the fix here. The whole point is that they sit with the problem
@@ -153,13 +153,14 @@ not a photo list.
 - *"What type is `response.data`?"* — `dynamic`; Dio already decoded the JSON
   into Dart maps and lists. Turning that into a real object is §3.
 - *"Can I use `http` instead of Dio?"* — Yes, and it works fine. We use Dio
-  because interceptors matter in §2, and that is where it earns its place.
+  because §2 leans on its interceptors, and because every Dio answer they
+  find online will assume Dio. Either is a fine choice for today.
 
 **Stuck-points:**
 
 | Symptom | Cause | Fix |
 |---|---|---|
-| Hangs forever, no output | Android emulator without the `INTERNET` permission | `AndroidManifest.xml` — this is slide 10 tap 2, put it on screen |
+| Hangs forever, no output | Android emulator without the `INTERNET` permission | `AndroidManifest.xml` — this is slide 12 tap 3, put it on screen |
 | `SocketException` on macOS | Missing network entitlement | `macos/Runner/*.entitlements`, both debug and release |
 | CORS error in Chrome | Browser blocking the cross-origin call | Run on a device or desktop for this exercise |
 | Prints `Instance of 'Response'` | Printed `response`, not `response.data` | Point at it and move on |
@@ -198,35 +199,53 @@ That difference is worth one sentence and no more.
 
 ## Slide 9 — `/async-await`
 
-Four taps, and the one slide in this section worth rehearsing forward *and*
-backward before you present it.
+Five taps, and the one slide in this section worth rehearsing forward *and*
+backward before you present it. It exists to break a wrong model, not to
+introduce a keyword, so do not rush it.
 
-**Tap 1 — the framing.** Flutter runs your entire UI on one thread: the main
-isolate. It draws a frame roughly every 16ms. Anything that sits on that thread
-without yielding stops everything — including the spinner, which is the detail
-that makes it land.
+**Tap 1 — the framing.** One isolate, one thread, one event loop, and a frame
+every 16ms. Anything that sits on that thread without yielding stops
+everything, spinner included.
 
-**Tap 2 — what actually blocks.** The red strip is *not* a network call. Say
-this out loud, because it is the question you will get:
+**Tap 2 — waiting is free, and this is the surprise.** The request drops onto
+the *second* lane, labelled "the socket — the OS, not your thread". The frame
+strip keeps flowing and the spinner keeps turning. That is deliberate. Ask the
+room why before you explain it.
 
-> **Does a network call block the UI thread in Flutter if I don't use `await`?**
+> **Would the thread be blocked if we fetched photos without `async`/`await`?**
 >
-> No. And it does not block *with* `await` either.
+> No. And it is not blocked *with* them either.
 >
-> Dart has no blocking HTTP API. `dio.get(...)` returns a `Future` immediately;
-> the socket work happens off the main isolate and the completion is posted
-> back to the event loop. `await` and `.then()` are two spellings of the same
+> Dart has no blocking HTTP API. `dio.get(...)` returns a `Future`
+> immediately; the socket work is the OS's, and the completion is posted back
+> to the event loop. `await` and `.then()` are two spellings of the same
 > mechanism — register a continuation, let the event loop call it. Neither is
-> "more asynchronous" than the other.
->
-> What *does* stall the UI is **synchronous work on the main isolate**: a tight
-> loop, a large `jsonDecode`, image decoding done by hand, a `...Sync()` file
-> call. Those never yield, so the event loop never gets to run the next frame.
-> The fix for those is not `await` — it is `Isolate.run` (or `compute`).
+> "more asynchronous" than the other, and neither moves anything to another
+> thread, because there is no other thread to move it to.
 
-So the honest lesson of this slide is *not* "await stops the UI freezing". It is
-two things: the UI thread is precious, and `await` lets you write the
-continuation as sequential code instead of nesting callbacks.
+**Tap 3 — so what is `await` actually for?** Being told. It is `.then()` with
+the callback unwrapped: the next line runs when the answer lands, and
+`try`/`catch` works, which it does not across a `.then()` boundary. That is the
+whole pitch. It is a readability and error-handling feature, not a threading
+one.
+
+**Tap 4 — the honest exception.** A red block lands *on* the main lane:
+`jsonDecode(20 MB)`. Now the ticks go red and the spinner dies. This is your
+code, on your thread, never yielding — a tight loop, a huge decode, an image
+decoded by hand, any `...Sync()` call.
+
+> **`await` cannot help here.** There is nothing to await. The fix is
+> `Isolate.run(() => jsonDecode(body))` — or `compute(...)`, which is the same
+> thing with an older name.
+
+**Tap 5 — the correlation, and its caveat.** Kotlin `suspend`, Swift
+`async/await`, Go goroutines, Java `CompletableFuture`. Same shape, and then
+the line that matters for anyone coming from Android:
+
+> Kotlin can hand a `suspend` function to `Dispatchers.IO` and it really does
+> land on another thread. A goroutine can land on another core. **Dart has
+> neither.** `await` never moves work anywhere — `Isolate.run` does. If they
+> take one thing from this slide, take that.
 
 References worth pasting into chat if someone wants to go deeper:
 
@@ -235,43 +254,27 @@ References worth pasting into chat if someone wants to go deeper:
 - Isolates — <https://dart.dev/language/isolates>
 - Flutter performance best practices — <https://docs.flutter.dev/perf/best-practices>
 
-**Tap 3 — `await`.** The call moves off the main lane; the thread keeps
-drawing; the result rejoins when it arrives.
-
-**Tap 4 — the correlation.** Kotlin `suspend`, Swift `async/await`, Go
-goroutines, Java `CompletableFuture`. Same idea, four names they already know.
-
-**If the spinner stops moving during tap 2, stop and fix it before you go on
-stage.** A frozen spinner on the "thread is blocked" step is the whole point;
-a frozen spinner on the other steps is a bug.
+**Rehearse the spinner.** If it freezes on tap 2, or keeps turning on tap 4,
+the slide is teaching the opposite of what you are saying. Check it before you
+go on stage.
 
 ---
 
 ## Slide 10 — `/loading-state`
 
-Interactive, two taps.
+Interactive, one tap, nothing on screen but the phone.
 
 Hand the keyboard over and make someone click **error**. Then ask: *"what would
 a user do here?"* Let the silence sit. The silence is the lesson — that is a
 dead end with no way out, and it is what ships when nobody thinks about the
 error branch.
 
-Read the code panel beside the phone as they click. The highlight follows
-whichever branch is on screen, so the `sealed class` / `switch` shape gets
-taught by the demo rather than by a second slide reprinting it. (There used to
-be one; it earned nothing.)
+No code on this slide on purpose. The `switch` that produces these three
+branches is slide 12, and it lands better once they have watched the empty
+`catch` fail first.
 
 Note in passing that the data state is coming from a bundled fixture, not a
 live request. Nothing on this slide depends on the venue's wifi.
-
-**Tap 2 — that error button is a cheat.** The two ways to reach the branch for
-real are to turn wifi off, or point the URL at a host that does not exist. If
-an app *hangs* instead of erroring, it is almost always one of two things — say
-it and move on:
-
-- **Android:** no `INTERNET` permission in `AndroidManifest.xml`
-- **macOS:** no `com.apple.security.network.client` entitlement, in **both**
-  `DebugProfile.entitlements` and `Release.entitlements`
 
 ---
 
@@ -283,6 +286,24 @@ Tap 1 is code that compiles, runs, ships, and passes review. No linter flags an
 empty `catch`. Tap 2: let the clock actually climb from 5 to 30 while you keep
 talking — do not rush it, the discomfort *is* the content. Tap 3 is the
 punchline; say it plainly and then stop talking for a second.
+
+---
+
+## Slide 12 — `/three-states-code`
+
+The answer to the slide they just watched fail. Three taps, one per branch.
+
+One result type, three branches, and the compiler will not let you forget one —
+that is what `sealed` buys you over a bag of booleans. Walk the highlight:
+loading, error, data.
+
+**Tap 3 — reaching the error branch for real.** Turn wifi off, or point the URL
+at a host that does not exist. If an app *hangs* instead of erroring, it is
+almost always one of two things — say it and move on:
+
+- **Android:** no `INTERNET` permission in `AndroidManifest.xml`
+- **macOS:** no `com.apple.security.network.client` entitlement, in **both**
+  `DebugProfile.entitlements` and `Release.entitlements`
 
 ---
 
@@ -388,9 +409,8 @@ class _PhotoListScreenState extends State<PhotoListScreen> {
 
 **Where this gets uncomfortable — and that is deliberate.** Ask what happens
 when the detail screen needs the same list. Right now the answer is "fetch it
-again, and write all three branches again". Do not solve it. That is slide 19
-(one line replaces the list), §5 (repository), and §6 (Provider).
+again, and write all three branches again". Do not solve it. That is slide 18
+(the hardcoded list goes away), §5 (repository), and §6 (Provider).
 
 If someone has already reached for a sealed class or a `switch` over a state
-object — good, that is slide 10's code panel, and they got there on their
-own.
+object — good, that is slide 12, and they got there on their own.

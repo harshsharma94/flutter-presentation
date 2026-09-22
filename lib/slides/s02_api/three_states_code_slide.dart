@@ -25,6 +25,16 @@ const _dataLines = [7, 8];
 /// Slide 12 — `/three-states-code` (3 steps). The `switch` over a sealed
 /// result type that slide 10's demo runs for real; `highlightedLines` walks
 /// loading → error → data, one branch per step.
+/// Slide 12 — `/three-states-code` (3 steps). The answer to slide 11's empty
+/// `catch`: one result type, three branches, none of them silent.
+///
+/// It deliberately sits *after* the empty-catch slide rather than beside the
+/// live demo on slide 10. Printed next to the demo it was a duplicate — the
+/// same `switch`, one beat later, teaching nothing the demo had not already
+/// shown. Printed here it is a fix for a problem the room has just watched
+/// fail, which is a different slide entirely.
+///
+/// `highlightedLines` walks loading -> error -> data, one branch per step.
 class ThreeStatesCodeBody extends StatelessWidget {
   const ThreeStatesCodeBody({required this.step, super.key});
 
@@ -49,7 +59,7 @@ class ThreeStatesCodeBody extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'One result. Three branches.',
+                'One result. Three branches. None of them silent.',
                 style: TextStyle(color: pal.textPrimary, fontSize: 29),
               ),
               SizedBox(height: Tokens.gapMd),

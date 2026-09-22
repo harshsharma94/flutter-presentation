@@ -7,12 +7,12 @@ import 'package:flutter_bootcamp_deck/widgets/annotate.dart';
 import 'package:flutter_bootcamp_deck/widgets/sequence_diagram.dart';
 import 'package:flutter_bootcamp_deck/widgets/step_reveal.dart';
 
-/// Slide 14's diagram footprint at full scale — same width it renders with
-/// there, and the same 8-row height its 9 hops resolve to (one row shared by
-/// the step-8/step-9 replay pair). Needed so [Transform.scale] shrinks it
+/// The OAuth slide's diagram footprint at full scale — same width it renders
+/// with there, and the same 9-row height its 10 hops resolve to (one row
+/// shared by the 401/replay pair). Needed so [Transform.scale] shrinks it
 /// rather than the layout reserving its full, unscaled box.
 const _fullDiagramWidth = 820.0;
-const _fullDiagramHeight = 322.0;
+const _fullDiagramHeight = 358.0;
 const _scale = 0.25;
 
 const _headerLine = 'Authorization: Client-ID abc123';

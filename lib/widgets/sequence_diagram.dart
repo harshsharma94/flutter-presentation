@@ -1,9 +1,9 @@
 /// A reusable step-driven sequence diagram: fixed vertical "lanes" (actors)
 /// and a stack of horizontal "hops" (messages) between them, one per row.
 ///
-/// Built for slide 13's nine-step OAuth2 flow (`/oauth-flow`) and reused,
-/// smaller, on slide 14 and 17 — getting the lane/row geometry right once
-/// is worth it. Every hop is gated by [StepReveal], so the whole diagram is
+/// Built for slide 14's ten-step mobile OAuth2 flow (`/oauth-flow`) and
+/// reused, shrunk to a footnote, on slide 15 — getting the lane/row
+/// geometry right once is worth it. Every hop is gated by [StepReveal], so the whole diagram is
 /// presenter-paced and reverses cleanly like every other primitive in this
 /// deck: no [AnimationController], no timer.
 library;
@@ -25,12 +25,14 @@ class SequenceLane {
 
 /// One message between two lanes, revealed at [atStep].
 ///
-/// When [from] equals [to] the hop is a same-lane event (slide 13 step 2,
-/// "user logs in") and renders as a small badge rather than a crossing
-/// arrow.
+/// When [from] equals [to] the hop is a same-lane event — something an
+/// actor does to itself, with nothing crossing — and renders as a small
+/// badge rather than an arrow. No linked slide uses one today; the mobile
+/// OAuth flow that used to (`user logs in`, inside the browser) now shows
+/// that as a real hop to the auth server, because on a phone it is one.
 ///
 /// [replay] marks a hop that redraws an *earlier* hop's exact line — slide
-/// 16 step 9's successful retry redraws step 8's failed request in green.
+/// 14 step 10's successful retry redraws step 9's failed request in green.
 /// A replay hop shares its row with the most recent earlier hop that has
 /// the same [from]/[to] pair, so it lands on the same line rather than
 /// opening a new one.
@@ -78,11 +80,15 @@ class SequenceDiagram extends StatelessWidget {
   static const laneHeaderHeight = 34.0;
 
   /// Vertical space each hop row occupies. Exposed so a caller that needs
-  /// to align extra content (slide 13's token pills) with a specific hop
+  /// to align extra content (slide 14's token pills) with a specific hop
   /// can compute that row's y-offset the same way this widget does.
   static const rowHeight = 36.0;
 
   static const _laneBoxHeight = 26.0;
+
+  /// Wide enough for a two-word actor name — `In-app tab` used to
+  /// ellipsis at the old 120.
+  static const _laneLabelWidth = 170.0;
   static const _labelBoxWidth = 220.0;
   static const _arrowLaneY = 22.0;
   static const _arrowLaneHeight = 14.0;
@@ -145,9 +151,9 @@ class SequenceDiagram extends StatelessWidget {
             ),
           for (var i = 0; i < lanes.length; i++)
             Positioned(
-              left: _laneCenterX(i) - 60,
+              left: _laneCenterX(i) - _laneLabelWidth / 2,
               top: 0,
-              width: 120,
+              width: _laneLabelWidth,
               height: _laneBoxHeight,
               child: _LaneHeader(label: lanes[i].label),
             ),
@@ -277,7 +283,8 @@ class _HopRow extends StatelessWidget {
   }
 }
 
-/// A same-lane hop's badge (slide 13 step 2: "user logs in", no crossing).
+/// A same-lane hop's badge: an actor acting on itself, with nothing
+/// crossing between lanes.
 /// Returns a [Positioned] directly, so it must sit inside a [Stack] — see
 /// its use in [_HopRow.build].
 class _SelfBadge extends StatelessWidget {
@@ -314,7 +321,7 @@ class _SelfBadge extends StatelessWidget {
 /// One token, rendered as a pill whose *width* — not a caption — carries its
 /// lifetime: a short-lived access token draws narrow, a long-lived refresh
 /// token draws wide. [expired] collapses it toward zero width and greys it,
-/// for slide 13 step 7's silent, unattended expiry.
+/// for slide 14 step 8's silent, unattended expiry.
 class TokenPill extends StatelessWidget {
   const TokenPill({
     required this.label,

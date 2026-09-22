@@ -16,7 +16,7 @@ Photo(
   isFavourite: true,
 );''';
 
-/// Slide 39 — `/named-params` (3 steps, A33). The same `CodePanel` receives
+/// Slide 38 — `/named-params` (3 steps, A33). The same `CodePanel` receives
 /// named-argument code on step 3, so `animateCodeUpdate` morphs the
 /// arguments into place rather than cutting to a new block.
 class NamedParamsBody extends StatelessWidget {
