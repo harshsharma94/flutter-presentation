@@ -174,6 +174,11 @@ class BeautifulLieBody extends StatelessWidget {
 
 /// A stand-in for Day 1's list screen: a grid of photo tiles with no text —
 /// the point is silhouette, not content.
+///
+/// Everything is sized off the frame's own width rather than in fixed pixels,
+/// so the grid keeps its proportions whatever [_phoneWidth] is set to. It was
+/// pinned to 38px tiles for a 120px frame, which left the grid stranded in a
+/// corner once the phones were enlarged.
 class _ListScreenPreview extends StatelessWidget {
   const _ListScreenPreview();
 
@@ -183,23 +188,34 @@ class _ListScreenPreview extends StatelessWidget {
 
     return ColoredBox(
       color: pal.surface,
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(8, 24, 8, 8),
-        child: Wrap(
-          spacing: 6,
-          runSpacing: 6,
-          children: [
-            for (var i = 0; i < 6; i++)
-              Container(
-                width: 38,
-                height: 38,
-                decoration: BoxDecoration(
-                  color: pal.base,
-                  borderRadius: BorderRadius.circular(6),
-                ),
-              ),
-          ],
-        ),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final w = constraints.maxWidth;
+          final gap = w * 0.05;
+          final tile = (w - gap * 3) / 2;
+
+          return Padding(
+            padding: EdgeInsets.fromLTRB(gap, w * 0.16, gap, gap),
+            child: Wrap(
+              spacing: gap,
+              runSpacing: gap,
+              children: [
+                for (var i = 0; i < 6; i++)
+                  Container(
+                    width: tile,
+                    height: tile,
+                    decoration: BoxDecoration(
+                      // A tint of the text colour rather than a ground
+                      // colour: in light mode a surface-on-surface tile is
+                      // invisible, which is what made these read as missing.
+                      color: pal.textSecondary.withValues(alpha: 0.22),
+                      borderRadius: BorderRadius.circular(w * 0.04),
+                    ),
+                  ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }
@@ -214,26 +230,56 @@ class _DetailScreenPreview extends StatelessWidget {
   Widget build(BuildContext context) {
     final pal = Palette.of(context);
 
-    return ColoredBox(
-      color: pal.base,
-      child: Stack(
-        children: [
-          Positioned(
-            left: 8,
-            right: 8,
-            bottom: 10,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Alex',
-                    style: TextStyle(color: pal.textPrimary, fontSize: 12)),
-                Text('128 ♥',
-                    style: TextStyle(color: pal.textSecondary, fontSize: 12)),
-              ],
-            ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final w = constraints.maxWidth;
+
+        return ColoredBox(
+          color: pal.surface,
+          child: Stack(
+            children: [
+              // The photo placeholder, drawn as a tinted block so it reads on
+              // either ground.
+              Positioned(
+                left: w * 0.05,
+                right: w * 0.05,
+                top: w * 0.16,
+                height: w * 1.35,
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: pal.textSecondary.withValues(alpha: 0.22),
+                    borderRadius: BorderRadius.circular(w * 0.04),
+                  ),
+                ),
+              ),
+              Positioned(
+                left: w * 0.05,
+                right: w * 0.05,
+                bottom: w * 0.08,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Alex',
+                      style: TextStyle(
+                        color: pal.textPrimary,
+                        fontSize: w * 0.09,
+                      ),
+                    ),
+                    Text(
+                      '128 \u2665',
+                      style: TextStyle(
+                        color: pal.textSecondary,
+                        fontSize: w * 0.09,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

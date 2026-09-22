@@ -97,6 +97,12 @@ Two conventions carry the whole deck:
    9, the notifier pulse on slide 34, the rebuild flashes on slide 36 — where the motion
    *is* the lesson.
 
+Presenter material:
+
+- `docs/presenter-guide.md` — live-coding scripts, exact commands, and the
+  stuck-points for each slide. Not part of the deck; keep it on a second
+  screen. Covers slides 1–7 so far.
+
 Design and implementation notes:
 
 - `docs/superpowers/specs/2026-09-22-flutter-bootcamp-day2-deck-design.md`

@@ -11,6 +11,13 @@ class LiveFirstRequestBody extends StatelessWidget {
   final int step;
 
   @override
-  Widget build(BuildContext context) =>
-      LiveSlideBody(goal: 'One GET. Print the JSON.');
+  Widget build(BuildContext context) => LiveSlideBody(
+        goal: 'One GET. Print what comes back.',
+        constraint: 'Dio only. No async, no await — not yet.',
+        hints: [
+          "final dio = Dio();",
+          "dio.get('https://api.unsplash.com/photos')",
+          "   .then((response) => print(response.data));",
+        ],
+      );
 }

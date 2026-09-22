@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bootcamp_deck/theme/palette.dart';
 import 'package:flutter_bootcamp_deck/theme/tokens.dart';
+import 'package:flutter_bootcamp_deck/widgets/step_reveal.dart';
 
 /// A static "LIVE" indicator: a solid red dot next to red, letter-spaced
 /// text. Deliberately not animated — a pulsing element on the near-empty
@@ -38,9 +39,23 @@ class LiveBadge extends StatelessWidget {
 /// The body of a live-coding handoff slide. Deliberately almost empty — the
 /// audience looks at the IDE, not the screen. The script is in speaker notes.
 class LiveSlideBody extends StatelessWidget {
-  const LiveSlideBody({required this.goal, super.key});
+  const LiveSlideBody({
+    required this.goal,
+    this.constraint,
+    this.hints = const [],
+    this.hintsAtStep = 2,
+    super.key,
+  });
 
   final String goal;
+
+  /// A single rule that bounds the exercise, shown under the goal. Keep it to
+  /// one line — it is a fence, not an instruction.
+  final String? constraint;
+
+  /// Revealed on [hintsAtStep], so the room gets a genuine attempt first.
+  final List<String> hints;
+  final int hintsAtStep;
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +76,39 @@ class LiveSlideBody extends StatelessWidget {
               height: 1.25,
             ),
           ),
+          if (constraint != null) ...[
+            SizedBox(height: Tokens.gapMd),
+            Text(
+              constraint!,
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Palette.amber, fontSize: 26),
+            ),
+          ],
+          if (hints.isNotEmpty) ...[
+            SizedBox(height: Tokens.gapLg),
+            StepReveal(
+              atStep: hintsAtStep,
+              dimWhenPast: false,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  for (final hint in hints)
+                    Padding(
+                      padding: EdgeInsets.only(bottom: Tokens.gapXs),
+                      child: Text(
+                        hint,
+                        style: TextStyle(
+                          fontFamily: 'JetBrainsMono',
+                          color: pal.textSecondary,
+                          fontSize: 22,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          ],
         ],
       ),
     );

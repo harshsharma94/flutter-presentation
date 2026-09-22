@@ -121,6 +121,7 @@ final List<SlideSpec> slideRegistry = [
   SlideSpec(
     route: '/live-first-request',
     section: '§1 API',
+    steps: 2,
     body: (step) => LiveFirstRequestBody(step: step),
     speakerNotes: 'Type it live, don\'t paste. `final dio = Dio(); final '
         'r = await dio.get(\'https://api.unsplash.com/photos\', options: '
