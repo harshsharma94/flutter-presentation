@@ -12,8 +12,14 @@ final _presentation = [uiBand, uiBand2];
 final _domain = [rulesBand, rulesBand2];
 final _data = [networkBand, networkBand2, parseBand];
 
-/// Slide 21 — `/three-layers` (8 steps, A19). The same bands, sorted. Steps
-/// 6-8 name what each layer is already called on the platforms they know.
+/// Slide 21 — `/three-layers` (3 steps, A19). Everyone in the room has
+/// already built this, under three different names; then the Flutter one.
+///
+/// An earlier version spent four taps filling the slabs band by band and
+/// three more revealing the platform names one at a time — seven beats to
+/// arrive somewhere the audience was already standing. The interesting
+/// comparison is all three platforms at once against the one set of names
+/// this deck will use, so that is what it is now.
 class ThreeLayersBody extends StatelessWidget {
   const ThreeLayersBody({required this.step, super.key});
 
@@ -31,62 +37,13 @@ class ThreeLayersBody extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  StepReveal(
-                    atStep: 1,
-                    dimWhenPast: false,
-                    slideFrom: Offset(0, -0.15),
-                    child: LayerSlab(
-                      name: 'Presentation',
-                      subtitle: 'widgets, state',
-                      width: 300,
-                      bands: step >= 2 ? _presentation : const [],
-                    ),
-                  ),
-                  SizedBox(width: Tokens.gapMd),
-                  StepReveal(
-                    atStep: 1,
-                    dimWhenPast: false,
-                    child: LayerSlab(
-                      name: 'Domain',
-                      subtitle: 'rules, no Flutter imports',
-                      width: 320,
-                      bands: step >= 3 ? _domain : const [],
-                    ),
-                  ),
-                  SizedBox(width: Tokens.gapMd),
-                  StepReveal(
-                    atStep: 1,
-                    dimWhenPast: false,
-                    slideFrom: Offset(0, 0.15),
-                    child: LayerSlab(
-                      name: 'Data',
-                      subtitle: 'Dio, JSON, cache',
-                      width: 320,
-                      bands: step >= 4 ? _data : const [],
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: Tokens.gapMd),
-              StepReveal(
-                atStep: 5,
-                dimWhenPast: false,
-                child: Text(
-                  'Same code. Same bands. Three files that can each be '
-                  'read — and tested — on their own.',
-                  style: TextStyle(color: pal.textSecondary, fontSize: 22),
-                ),
-              ),
-              SizedBox(height: Tokens.gapMd),
               SizedBox(
-                width: 900,
+                width: 980,
                 child: CorrelationPanel(
-                  flutterLabel: 'Presentation / Domain / Data',
-                  firstStep: 6,
+                  flutterLabel: 'Presentation\nDomain\nData',
+                  firstStep: 1,
+                  stepsPerRow: 0,
+                  flutterStep: 2,
                   rows: [
                     CorrelationRow(
                       platform: 'Android',
@@ -95,9 +52,50 @@ class ThreeLayersBody extends StatelessWidget {
                     CorrelationRow(platform: 'iOS', concept: 'MVVM / VIPER'),
                     CorrelationRow(
                       platform: 'Java/Spring',
-                      concept: 'Controller → Service → Repository',
+                      concept: 'Controller -> Service -> Repository',
                     ),
                   ],
+                ),
+              ),
+              SizedBox(height: Tokens.gapLg),
+              StepReveal(
+                atStep: 2,
+                dimWhenPast: false,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    LayerSlab(
+                      name: 'Presentation',
+                      subtitle: 'widgets, state',
+                      width: 300,
+                      bands: _presentation,
+                    ),
+                    SizedBox(width: Tokens.gapMd),
+                    LayerSlab(
+                      name: 'Domain',
+                      subtitle: 'rules, no Flutter imports',
+                      width: 320,
+                      bands: _domain,
+                    ),
+                    SizedBox(width: Tokens.gapMd),
+                    LayerSlab(
+                      name: 'Data',
+                      subtitle: 'Dio, JSON, cache',
+                      width: 320,
+                      bands: _data,
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: Tokens.gapMd),
+              StepReveal(
+                atStep: 3,
+                dimWhenPast: false,
+                child: Text(
+                  'Same bands as the last slide. Same code. Three files that '
+                  'can each be read — and tested — on their own.',
+                  style: TextStyle(color: pal.textSecondary, fontSize: 22),
                 ),
               ),
             ],

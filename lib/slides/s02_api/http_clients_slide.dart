@@ -14,10 +14,14 @@ final _rows = [
   CorrelationRow(platform: 'Go', concept: 'net/http'),
 ];
 
-/// Slide 6 — `/http-clients` (4 steps, A5). A correlation slide in its own
-/// right (per the task brief) rather than the tail of a diagram slide:
-/// [CorrelationPanel]'s default one-row-per-step pacing spends exactly this
-/// slide's 4 steps, landing on `Dio` at the last one.
+/// Slide 6 — `/http-clients` (3 steps, A5). A correlation slide in its own
+/// right (per the task brief) rather than the tail of a diagram slide.
+///
+/// Three beats, not five: every platform's client lands together, then Dio,
+/// then the one command that installs it. Revealing the four familiar names
+/// one at a time made the room wait four taps to be told something they
+/// already knew — the interesting comparison is all of them at once against
+/// the one new name.
 class HttpClientsBody extends StatelessWidget {
   const HttpClientsBody({required this.step, super.key});
 
@@ -42,10 +46,15 @@ class HttpClientsBody extends StatelessWidget {
               SizedBox(height: Tokens.gapLg),
               ConstrainedBox(
                 constraints: BoxConstraints(maxWidth: 960),
-                child: CorrelationPanel(flutterLabel: 'Dio', rows: _rows),
+                child: CorrelationPanel(
+                  flutterLabel: 'Dio',
+                  rows: _rows,
+                  stepsPerRow: 0,
+                  flutterStep: 2,
+                ),
               ),
               SizedBox(height: Tokens.gapLg),
-              StepReveal(atStep: 4, dimWhenPast: false, child: _AddDioPanel()),
+              StepReveal(atStep: 3, dimWhenPast: false, child: _AddDioPanel()),
             ],
           ),
         ),

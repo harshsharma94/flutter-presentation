@@ -148,7 +148,26 @@ class OauthFlowBody extends StatelessWidget {
               SizedBox(
                 width: _diagramWidth,
                 child: StepReveal(
+                  atStep: 8,
+                  dimWhenPast: false,
+                  child: Text(
+                    'Same request, redrawn in green. New token, no login '
+                    'screen, and the user never knew any of this happened.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Palette.green,
+                      fontSize: 19,
+                      height: 1.35,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: Tokens.gapSm),
+              SizedBox(
+                width: _diagramWidth,
+                child: StepReveal(
                   atStep: 4,
+                  until: 7,
                   dimWhenPast: false,
                   child: Text(
                     'Two tokens, two jobs. The short one proves who you are '

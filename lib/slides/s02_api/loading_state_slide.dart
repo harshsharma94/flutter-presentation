@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bootcamp_deck/demos/three_state_demo.dart';
 import 'package:flutter_bootcamp_deck/theme/tokens.dart';
 
-/// Slide 10 — `/loading-state` (1 step, A8) ⭐ INTERACTIVE. One of only three
+/// Slide 12 — `/loading-state` (1 step, A8) ⭐ INTERACTIVE. One of only three
 /// slides in the deck the audience drives instead of the arrow keys —
 /// [ThreeStateDemo] is a genuine `StatefulWidget`, so its three states are
 /// real `State`, not a function of `step`, which is accepted here only to

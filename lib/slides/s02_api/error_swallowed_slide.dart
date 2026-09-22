@@ -12,8 +12,11 @@ try {
   setState(() => _photos = res.data);
 } catch (e) {}''';
 
-/// 0-indexed — the empty `catch (e) {}` block, per
-/// `FlutterDeckCodeHighlight.highlightedLines`.
+/// 0-indexed, per `FlutterDeckCodeHighlight.highlightedLines`. Step 1 lights
+/// the two lines they actually wrote; step 2 lights the empty `catch` they
+/// added to make the red squiggle go away. Two beats out of one static
+/// snippet — no morphing text, which is hard to read at the back of a room.
+const _theirLines = [1, 2];
 const _catchLine = [3];
 
 const _codeWidth = 520.0;
@@ -29,15 +32,22 @@ const _phoneWidth = 110.0;
 /// separate, deliberately non-finite case; see [_Spinner]'s own rationale.
 const _waitDuration = Duration(seconds: 4);
 
-/// Slide 11 — `/error-swallowed` (3 steps, A9). The section's emotional
-/// beat: an empty `catch` block, then the spinner that never resolves, then
-/// the person who gave up waiting on it.
+/// Slide 10 — `/error-swallowed` (4 steps, A9). Opens the error arc: the
+/// code they wrote this morning, and what it does to somebody.
+///
+/// It runs *before* the live three-state demo now. Showing the loading /
+/// error / data screen first answered a question nobody had yet — this slide
+/// asks it. Step 1 is their own two lines; step 2 is the empty `catch` that
+/// makes the analyzer happy and the user stranded; steps 3 and 4 are the
+/// consequence.
 class ErrorSwallowedBody extends StatelessWidget {
   const ErrorSwallowedBody({required this.step, super.key});
 
   final int step;
 
-  bool get _waiting => step >= 2;
+  bool get _waiting => step >= 3;
+
+  List<int> get _highlighted => step >= 2 ? _catchLine : _theirLines;
 
   @override
   Widget build(BuildContext context) {
@@ -60,13 +70,13 @@ class ErrorSwallowedBody extends StatelessWidget {
                     child: CodePanel(
                       code: _tryCatchCode,
                       fileName: 'lib/screens/photo_list_screen.dart',
-                      highlightedLines: _catchLine,
+                      highlightedLines: _highlighted,
                     ),
                   ),
                 ),
                 SizedBox(width: Tokens.gapLg),
                 StepReveal(
-                  atStep: 2,
+                  atStep: 3,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -83,13 +93,13 @@ class ErrorSwallowedBody extends StatelessWidget {
             ),
             SizedBox(height: Tokens.gapLg),
             StepReveal(
-              atStep: 3,
+              atStep: 4,
               dimWhenPast: false,
               child: Icon(Icons.touch_app, color: pal.textSecondary, size: 32),
             ),
             SizedBox(height: Tokens.gapSm),
             Callout(
-              atStep: 3,
+              atStep: 4,
               text: "They didn't file a bug. They left.",
               color: Palette.red,
             ),

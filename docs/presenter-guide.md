@@ -70,7 +70,8 @@ just noise.
 
 ## Slide 6 — `/http-clients`
 
-The correlation lands on tap 4, then the setup panel appears.
+Tap 1 lands all four platform clients at once — they already know every
+name on that list. Tap 2 is Dio. Tap 3 is the setup panel.
 
 **Everyone runs this now, together.** A third of the room stalls here, and a
 stalled room cannot follow slide 7.
@@ -160,7 +161,7 @@ not a photo list.
 
 | Symptom | Cause | Fix |
 |---|---|---|
-| Hangs forever, no output | Android emulator without the `INTERNET` permission | `AndroidManifest.xml` — this is slide 12 tap 3, put it on screen |
+| Hangs forever, no output | Android emulator without the `INTERNET` permission | `AndroidManifest.xml` — this is slide 11 tap 3, put it on screen |
 | `SocketException` on macOS | Missing network entitlement | `macos/Runner/*.entitlements`, both debug and release |
 | CORS error in Chrome | Browser blocking the cross-origin call | Run on a device or desktop for this exercise |
 | Prints `Instance of 'Response'` | Printed `response`, not `response.data` | Point at it and move on |
@@ -260,36 +261,24 @@ go on stage.
 
 ---
 
-## Slide 10 — `/loading-state`
+## Slide 10 — `/error-swallowed`
 
-Interactive, one tap, nothing on screen but the phone.
+Four taps. This now opens the error arc — the room meets the problem before it
+meets the three-branch screen that solves it.
 
-Hand the keyboard over and make someone click **error**. Then ask: *"what would
-a user do here?"* Let the silence sit. The silence is the lesson — that is a
-dead end with no way out, and it is what ships when nobody thinks about the
-error branch.
+Tap 1 is the two lines they wrote this morning. Point at them and ask what
+happens when the wifi drops.
 
-No code on this slide on purpose. The three branches get written out on slide
-12, and they land better once the room has watched the empty `catch` fail
-first.
+Tap 2 is the fix most people reach for: wrap it, and throw the error away. This
+compiles, runs, ships, and passes review — no linter flags an empty `catch`.
 
-Note in passing that the data state is coming from a bundled fixture, not a
-live request. Nothing on this slide depends on the venue's wifi.
-
----
-
-## Slide 11 — `/error-swallowed`
-
-Three taps.
-
-Tap 1 is code that compiles, runs, ships, and passes review. No linter flags an
-empty `catch`. Tap 2: let the clock actually climb from 5 to 30 while you keep
-talking — do not rush it, the discomfort *is* the content. Tap 3 is the
-punchline; say it plainly and then stop talking for a second.
+Tap 3: let the clock actually climb from 5 to 30 while you keep talking. Do not
+rush it; the discomfort *is* the content. Tap 4 is the punchline; say it plainly
+and then stop talking for a second.
 
 ---
 
-## Slide 12 — `/three-states-code`
+## Slide 11 — `/three-states-code`
 
 The answer to the slide they just watched fail. Three taps, one per branch.
 
@@ -311,6 +300,22 @@ almost always one of two things — say it and move on:
 - **Android:** no `INTERNET` permission in `AndroidManifest.xml`
 - **macOS:** no `com.apple.security.network.client` entitlement, in **both**
   `DebugProfile.entitlements` and `Release.entitlements`
+
+---
+
+## Slide 12 — `/loading-state`
+
+Interactive, one tap, nothing on screen but the phone.
+
+They have now seen the problem (slide 10) and the code that fixes it (slide
+11). This is those three branches running, so hand the keyboard over and say
+very little.
+
+Make someone click **error**, then ask: *"what would a user do here?"* Let the
+silence sit. That is the dead end from slide 10, now in their own hands.
+
+Note in passing that the data state is coming from a bundled fixture, not a
+live request. Nothing on this slide depends on the venue's wifi.
 
 ---
 
@@ -408,7 +413,7 @@ class _PhotoListScreenState extends State<PhotoListScreen> {
    is in flight, and `setState` after that throws. This is the bug they will
    actually hit tonight.
 3. **The retry button.** An error state with no way out is the dead end from
-   slide 10. Make them add it.
+   slide 12. Make them add it.
 4. **`response.data as List<dynamic>`** — this cast is doing real work and
    will explode on a malformed response. That is the argument for §3's
    `fromJson` and §5's repository: the cast belongs behind a boundary, not in

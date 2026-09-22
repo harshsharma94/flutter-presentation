@@ -41,7 +41,7 @@ The key is read via `String.fromEnvironment` and is never committed.
 - **Primary: Chrome.** `FlutterDeckWebClient` gives presenter view — speaker notes on a
   second screen — for free. Open the navigation drawer to launch it.
 - **Backup: macOS.** `fvm flutter run -d macos`. Needs the network entitlement in
-  `macos/Runner/*.entitlements`, which is itself the teaching moment on slide 12.
+  `macos/Runner/*.entitlements`, which is itself the teaching moment on slide 11.
 - Arrow keys step through animations; every step is reversible, so stepping backward
   re-hides things correctly.
 

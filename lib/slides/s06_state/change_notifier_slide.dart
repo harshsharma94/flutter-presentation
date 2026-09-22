@@ -10,9 +10,27 @@ import 'package:flutter_bootcamp_deck/widgets/widget_tree.dart';
 const _modelWidth = 200.0;
 const _modelHeight = 76.0;
 
-/// Slide 28 — `/change-notifier` (9 steps, A26). Hybrid: a step-driven
+/// Slide 28 — `/change-notifier` (7 steps, A26). Hybrid: a step-driven
 /// diagram *plus* a genuinely tappable button wired to a real
-/// [CounterModel]. Every arrow is labelled with the real method name.
+/// [CounterModel], so the numbers and the flashes are real events rather
+/// than a drawing of events.
+///
+/// The slide answers exactly one question — **who is listening, and how do
+/// they find out?** — because that is the question `notifyListeners()` begs
+/// and never answers by itself. So every step has a sentence beside it
+/// naming the mechanic in plain words, and the sentences are the slide; the
+/// diagram is their illustration.
+///
+/// Two things are deliberate and have bitten before:
+///
+/// - The tappable button is **outside** the tree on purpose. It stands for a
+///   `LikeButton` being tapped, and the step-3 note says so. Putting it on a
+///   tile would make the count look like that tile's own state, which is the
+///   exact misconception this slide exists to remove: the number lives in
+///   one object that the tiles only *read*.
+/// - The `dispose()` note lives in the right-hand column, not on the canvas.
+///   On the canvas it was positioned under the left-most leaf, where it
+///   overlapped the node and ran off the slide.
 class ChangeNotifierBody extends StatefulWidget {
   const ChangeNotifierBody({required this.step, super.key});
 
@@ -33,17 +51,16 @@ class _ChangeNotifierBodyState extends State<ChangeNotifierBody> {
 
   @override
   Widget build(BuildContext context) {
-    final pal = Palette.of(context);
     final step = widget.step;
     final positions = treeNodePositions(demoTree, treeCanvasSize);
     final leafA = positions['like-1']!;
     final leafB = positions['like-2']!;
 
-    // Step 2 registers both leaves; step 6 disposes one, so the next pulse
+    // Step 2 registers both leaves; step 5 disposes one, so the next pulse
     // has nowhere to travel on that line.
     final listeners = <String>{
       if (step >= 2) 'like-1',
-      if (step >= 2 && step < 6) 'like-2',
+      if (step >= 2 && step < 5) 'like-2',
     };
 
     final modelLeft = treeCanvasSize.width - _modelWidth / 2;
@@ -61,6 +78,7 @@ class _ChangeNotifierBodyState extends State<ChangeNotifierBody> {
           fit: BoxFit.scaleDown,
           child: Row(
             mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
                 width: treeCanvasSize.width + _modelWidth,
@@ -75,9 +93,9 @@ class _ChangeNotifierBodyState extends State<ChangeNotifierBody> {
                         child: WidgetTreeView(
                           root: demoTree,
                           subscribed: listeners,
-                          // Step 5 onward: a tick lights exactly the nodes
+                          // Step 4 onward: a tick lights exactly the nodes
                           // that are still registered.
-                          flashing: step >= 5 && _model.likes > 0
+                          flashing: step >= 4 && _model.likes > 0
                               ? listeners
                               : const {},
                         ),
@@ -107,7 +125,7 @@ class _ChangeNotifierBodyState extends State<ChangeNotifierBody> {
                           ),
                         ),
                       ),
-                      if (step < 6)
+                      if (step < 5)
                         Positioned.fill(
                           child: StepReveal(
                             atStep: 2,
@@ -141,68 +159,14 @@ class _ChangeNotifierBodyState extends State<ChangeNotifierBody> {
                           child: _Pulse(tick: _model.likes),
                         ),
                       ),
-                      Positioned(
-                        left: 0,
-                        top: treeCanvasSize.height - 60,
-                        child: StepReveal(
-                          atStep: 6,
-                          dimWhenPast: false,
-                          child: Callout(
-                            atStep: 6,
-                            text:
-                                'dispose() — the line is gone, the next '
-                                'pulse skips it',
-                            color: Palette.red,
-                          ),
-                        ),
-                      ),
                     ],
                   ),
                 ),
               ),
               SizedBox(width: Tokens.gapMd),
               SizedBox(
-                width: 420,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    StepReveal(
-                      atStep: 3,
-                      dimWhenPast: false,
-                      child: FilledButton.icon(
-                        key: ValueKey('increment'),
-                        onPressed: _model.increment,
-                        icon: Icon(Icons.favorite),
-                        label: Text('counter.increment()'),
-                      ),
-                    ),
-                    SizedBox(height: Tokens.gapSm),
-                    Text(
-                      'This button is real. Tap it.',
-                      style: TextStyle(color: pal.textSecondary, fontSize: 20),
-                    ),
-                    SizedBox(height: Tokens.gapMd),
-                    CorrelationPanel(
-                      flutterLabel: 'ChangeNotifier',
-                      firstStep: 7,
-                      rows: [
-                        CorrelationRow(
-                          platform: 'Android',
-                          concept: 'LiveData / StateFlow',
-                        ),
-                        CorrelationRow(
-                          platform: 'iOS',
-                          concept: 'ObservableObject / @Published',
-                        ),
-                        CorrelationRow(
-                          platform: 'Java/Spring',
-                          concept: 'PropertyChangeListener',
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                width: 460,
+                child: _Commentary(step: step, model: _model),
               ),
             ],
           ),
@@ -210,6 +174,128 @@ class _ChangeNotifierBodyState extends State<ChangeNotifierBody> {
       ),
     );
   }
+}
+
+/// The right-hand column: one plain sentence per step naming the mechanic,
+/// the real button, and the correlation. This is where the slide is actually
+/// explained — `notifyListeners()` on a diagram tells a room that has never
+/// seen it precisely nothing.
+class _Commentary extends StatelessWidget {
+  const _Commentary({required this.step, required this.model});
+
+  final int step;
+  final CounterModel model;
+
+  @override
+  Widget build(BuildContext context) {
+    final pal = Palette.of(context);
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _Line(
+          atStep: 1,
+          color: Palette.blue,
+          text:
+              'One object holds the number — and a list of everyone who '
+              'wants to know when it changes.',
+        ),
+        _Line(
+          atStep: 2,
+          color: Palette.green,
+          text:
+              'Both LikeButtons put themselves on that list: '
+              'addListener(). That list is all a ChangeNotifier is.',
+        ),
+        StepReveal(
+          atStep: 3,
+          dimWhenPast: false,
+          child: Padding(
+            padding: EdgeInsets.only(bottom: Tokens.gapSm),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                FilledButton.icon(
+                  key: ValueKey('increment'),
+                  onPressed: model.increment,
+                  icon: Icon(Icons.favorite),
+                  label: Text('counter.increment()'),
+                ),
+                SizedBox(height: Tokens.gapXs),
+                Text(
+                  'Real button, real model. Tap it — this is the same call a '
+                  'LikeButton makes when you tap the heart.',
+                  style: TextStyle(color: pal.textSecondary, fontSize: 18),
+                ),
+              ],
+            ),
+          ),
+        ),
+        _Line(
+          atStep: 4,
+          color: Palette.green,
+          text:
+              'increment() changes the number, then calls '
+              'notifyListeners() — which walks the list and rebuilds '
+              'everyone on it. Both tiles flash. Nothing else in the tree '
+              'moves.',
+        ),
+        _Line(
+          atStep: 5,
+          color: Palette.red,
+          text:
+              'A widget that goes away must come off the list — '
+              'removeListener(), or dispose(). Forget it and the model '
+              'keeps rebuilding a widget that no longer exists. That is the '
+              'leak, and it is the line people forget in production.',
+        ),
+        SizedBox(height: Tokens.gapXs),
+        CorrelationPanel(
+          flutterLabel: 'ChangeNotifier',
+          firstStep: 6,
+          stepsPerRow: 0,
+          flutterStep: 7,
+          rows: [
+            CorrelationRow(
+              platform: 'Android',
+              concept: 'LiveData / StateFlow',
+            ),
+            CorrelationRow(
+              platform: 'iOS',
+              concept: 'ObservableObject / @Published',
+            ),
+            CorrelationRow(
+              platform: 'Java/Spring',
+              concept: 'PropertyChangeListener',
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class _Line extends StatelessWidget {
+  const _Line({required this.atStep, required this.text, required this.color});
+
+  final int atStep;
+  final String text;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) => StepReveal(
+    atStep: atStep,
+    dimWhenPast: false,
+    child: Padding(
+      padding: EdgeInsets.only(bottom: Tokens.gapSm),
+      child: Text(
+        text,
+        style: TextStyle(color: color, fontSize: 19, height: 1.35),
+      ),
+    ),
+  );
 }
 
 class _ModelBox extends StatelessWidget {

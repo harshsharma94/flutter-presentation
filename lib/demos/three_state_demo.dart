@@ -10,13 +10,12 @@ enum _DemoState { loading, error, data }
 
 const _phoneWidth = 280.0;
 
-/// Slide 10's live centerpiece (A8) — genuinely interactive, unlike every
+/// Slide 12's live centerpiece (A8) — genuinely interactive, unlike every
 /// other slide in the deck. A real [PhoneFrame] plus three [FilledButton]s
 /// drive a real [AnimatedSwitcher] between the three states a `Future<T>`
-/// can render as. No code panel: the phone is the whole slide, and the
-/// `switch` that produces these three branches gets its own slide two beats
-/// later, once the room has watched the empty-`catch` version fail. Printed
-/// side by side they were the same lesson twice. This is deliberately **not**
+/// can render as. No code panel: the phone is the whole slide, because the
+/// three branches were written out on the slide before this one. This is
+/// deliberately **not**
 /// step-driven — the presenter hands the keyboard to a bootcamper, so the
 /// state has to be genuine `State`, not a function of the ambient step.
 ///

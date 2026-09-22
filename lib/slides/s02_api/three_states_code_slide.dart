@@ -22,7 +22,7 @@ const _loadingLines = [0, 5];
 const _errorLines = [1, 6];
 const _dataLines = [2, 7];
 
-/// Slide 12 — `/three-states-code` (3 steps). The answer to slide 11's empty
+/// Slide 11 — `/three-states-code` (3 steps). The answer to slide 11's empty
 /// `catch`: three fields, three branches, none of them silent.
 ///
 /// Deliberately `setState` and nothing else. An earlier version opened with a
@@ -33,9 +33,10 @@ const _dataLines = [2, 7];
 /// version spelled out in full in `docs/presenter-guide.md`. The sealed shape
 /// earns its place later, once there is a reason for it.
 ///
-/// It sits *after* the empty-catch slide rather than beside the live demo on
-/// slide 10. Printed next to the demo it was a duplicate; printed here it is
-/// a fix for a failure the room has just watched.
+/// The order of §1 is problem, then fix, then demo: slide 10 shows the empty
+/// `catch` stranding somebody, this slide is the code that stops it, and the
+/// live three-state demo follows on slide 12. Running the demo first answered
+/// a question the room had not been made to ask yet.
 ///
 /// `highlightedLines` walks loading -> error -> data, one branch per step,
 /// lighting the field and its `build` line together.

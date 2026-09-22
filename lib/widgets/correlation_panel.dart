@@ -20,12 +20,24 @@ class CorrelationPanel extends StatelessWidget {
     required this.flutterLabel,
     this.firstStep = 1,
     this.stepsPerRow = 1,
+    this.flutterStep,
     super.key,
   });
 
   final List<CorrelationRow> rows;
   final String flutterLabel;
   final int firstStep;
+
+  /// The step the arrow and the [flutterLabel] box land on. Defaults to the
+  /// step the last row lands on, which is right for the one-row-per-step
+  /// choreography and for `stepsPerRow: 0`'s everything-at-once. Pass it
+  /// explicitly for the third shape: every row together on one step, then the
+  /// Flutter answer on the next — "here is what you all already use; here is
+  /// ours" reads better as two beats than as five.
+  final int? flutterStep;
+
+  int get _flutterStep =>
+      flutterStep ?? firstStep + (rows.length - 1) * stepsPerRow;
 
   /// How many steps separate one row's reveal from the next. The default of
   /// 1 is the usual "one row per step, arrow lands with the last row"
@@ -75,14 +87,14 @@ class CorrelationPanel extends StatelessWidget {
         ),
         SizedBox(width: Tokens.gapLg),
         StepReveal(
-          atStep: firstStep + (rows.length - 1) * stepsPerRow,
+          atStep: _flutterStep,
           dimWhenPast: false,
           child: Icon(Icons.arrow_forward, color: pal.textSecondary, size: 32),
         ),
         SizedBox(width: Tokens.gapLg),
         Expanded(
           child: StepReveal(
-            atStep: firstStep + (rows.length - 1) * stepsPerRow,
+            atStep: _flutterStep,
             dimWhenPast: false,
             child: Container(
               padding: EdgeInsets.all(Tokens.gapMd),

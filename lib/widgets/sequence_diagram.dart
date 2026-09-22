@@ -245,25 +245,31 @@ class _HopRow extends StatelessWidget {
           children: _isSelf
               ? [_SelfBadge(x: fromX, label: hop.label, color: color)]
               : [
-                  Positioned(
-                    left: ((fromX + toX) / 2 - labelBoxWidth / 2).clamp(
-                      0.0,
-                      double.infinity,
-                    ),
-                    top: 0,
-                    width: labelBoxWidth,
-                    child: Text(
-                      hop.label,
-                      textAlign: TextAlign.center,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        color: color,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
+                  // A replay redraws a line that already carries a label, so
+                  // it draws no second one — two labels centred on the same
+                  // row rendered on top of each other and both became
+                  // unreadable. The green arrow over the red one is the
+                  // message; the hop's own label survives in the diff.
+                  if (!hop.replay)
+                    Positioned(
+                      left: ((fromX + toX) / 2 - labelBoxWidth / 2).clamp(
+                        0.0,
+                        double.infinity,
+                      ),
+                      top: 0,
+                      width: labelBoxWidth,
+                      child: Text(
+                        hop.label,
+                        textAlign: TextAlign.center,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: color,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
-                  ),
                   Positioned(
                     left: 0,
                     right: 0,

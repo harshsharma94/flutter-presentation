@@ -25,6 +25,9 @@ class _PhotoScopeHostState extends State<PhotoScopeHost> {
 
 /// Slide 27 — `/inherited-limits` (2 steps, A25). The gap ChangeNotifier
 /// exists to fill. Without this slide the next one looks arbitrary.
+///
+/// Both snippets are on screen at once, statically. See the comment in
+/// `build` for why this is not a morphing [CodePanel].
 class InheritedLimitsBody extends StatelessWidget {
   const InheritedLimitsBody({required this.step, super.key});
 
@@ -42,12 +45,37 @@ class InheritedLimitsBody extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              SizedBox(
-                width: 760,
-                child: CodePanel(
-                  code: step >= 2 ? _wrapped : _immutable,
-                  fileName: 'lib/state/photo_scope.dart',
-                ),
+              // Two panels side by side rather than one panel morphing from
+              // the first into the second. The morph animated a near-total
+              // rewrite — every line changed — which read as text scrambling
+              // rather than as code changing, and gave the room nothing to
+              // compare against once it finished. Side by side, the point
+              // ("you had to write all of that to change one list") is
+              // visible in a glance and stays visible.
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: 620,
+                    child: CodePanel(
+                      code: _immutable,
+                      fileName: 'lib/state/photo_scope.dart',
+                    ),
+                  ),
+                  SizedBox(width: Tokens.gapMd),
+                  SizedBox(
+                    width: 620,
+                    child: StepReveal(
+                      atStep: 2,
+                      dimWhenPast: false,
+                      child: CodePanel(
+                        code: _wrapped,
+                        fileName: 'lib/state/photo_scope_host.dart',
+                      ),
+                    ),
+                  ),
+                ],
               ),
               SizedBox(height: Tokens.gapMd),
               Callout(

@@ -113,7 +113,7 @@ final List<SlideSpec> slideRegistry = [
   SlideSpec(
     route: '/http-clients',
     section: '§1 API',
-    steps: 4,
+    steps: 3,
     body: (step) => HttpClientsBody(step: step),
     speakerNotes:
         'Dio is not new. It\'s the interceptor+client pair they '
@@ -176,29 +176,19 @@ final List<SlideSpec> slideRegistry = [
         'are in docs/presenter-guide.md.',
   ),
   SlideSpec(
-    route: '/loading-state',
-    section: '§1 API',
-    body: (step) => LoadingStateBody(step: step),
-    speakerNotes:
-        'Hand the keyboard to someone. Make them click error. '
-        'Ask what a user would do here. Let the silence sit — that\'s the '
-        'point, not a gap to fill. Then click data and note it\'s pulling '
-        'from the same offline fixture as slide 7, no live request risked. '
-        'No code on this slide on purpose — the switch that produces these '
-        'three branches is two slides away, and it lands better once they '
-        'have watched the empty catch fail first.',
-  ),
-  SlideSpec(
     route: '/error-swallowed',
     section: '§1 API',
-    steps: 3,
+    steps: 4,
     body: (step) => ErrorSwallowedBody(step: step),
     speakerNotes:
-        'Step 1: this compiles, runs, and ships — nobody\'s '
-        'lint catches an empty catch block. Step 2: let the clock actually '
-        'climb from 5 to 30 while you keep talking; don\'t rush past it, '
-        'the discomfort is the lesson. Step 3 is the punchline — say it '
-        'plainly and then stop talking for a second.',
+        'Step 1 is the two lines they wrote this morning — point at them '
+        'and ask what happens when the wifi drops. Step 2 is the fix most '
+        'people reach for: wrap it, and throw the error away. This '
+        'compiles, runs, ships and passes review; no linter flags an empty '
+        'catch. Step 3: let the clock actually climb from 5 to 30 while you '
+        'keep talking — do not rush it, the discomfort IS the content. '
+        'Step 4 is the punchline; say it plainly and then stop talking for '
+        'a second.',
   ),
   SlideSpec(
     route: '/three-states-code',
@@ -214,6 +204,19 @@ final List<SlideSpec> slideRegistry = [
         'the error branch for real is wifi off or a bad host. If someone\'s '
         'app hangs instead of erroring, it is almost always the Android '
         'INTERNET permission or the macOS network entitlement.',
+  ),
+  SlideSpec(
+    route: '/loading-state',
+    section: '§1 API',
+    body: (step) => LoadingStateBody(step: step),
+    speakerNotes:
+        'Hand the keyboard to someone. Make them click error. '
+        'Ask what a user would do here. Let the silence sit — that\'s the '
+        'point, not a gap to fill. Then click data and note it\'s pulling '
+        'from the same offline fixture as slide 7, no live request risked. '
+        'They have now seen the problem and the code that fixes it; this is '
+        'the same three branches running, so let them drive and say very '
+        'little.',
   ),
 
   // §2 Auth
@@ -324,7 +327,7 @@ final List<SlideSpec> slideRegistry = [
   SlideSpec(
     route: '/three-layers',
     section: '§4 Architecture',
-    steps: 8,
+    steps: 3,
     body: (step) => ThreeLayersBody(step: step),
     speakerNotes:
         'Same bands, same colours — say that out loud so they see '
@@ -408,14 +411,22 @@ final List<SlideSpec> slideRegistry = [
   SlideSpec(
     route: '/change-notifier',
     section: '§5 State',
-    steps: 9,
+    steps: 7,
     body: (step) => ChangeNotifierBody(step: step),
     speakerNotes:
-        'Let them tap it several times — it is a real '
-        'ChangeNotifier, not a drawing of one. Every arrow is labelled with '
-        'the real method name; point at each as you say it. Step 6 is the '
-        'one people forget in production: dispose, or the listener outlives '
-        'the widget and you leak.',
+        'The question this slide answers is WHO IS LISTENING. Read the '
+        'right-hand column out loud, one line per tap; the diagram is the '
+        'illustration, the sentences are the slide. Step 1: one object '
+        'holds the number and a list of interested parties — say the word '
+        '\'list\', it demystifies the whole thing. Step 2: both LikeButtons '
+        'add themselves to that list. Step 3: the button is OUTSIDE the '
+        'tree on purpose — say that it stands for tapping either heart, '
+        'and that the number is not the tile\'s own state. Let them tap it '
+        'several times; it is a real ChangeNotifier. Step 4: the tiles '
+        'flash because they are on the list, and nothing else in the tree '
+        'moves. Step 5 is the production bug — come off the list or the '
+        'model rebuilds a dead widget. Steps 6-7: they already have this '
+        'under another name.',
   ),
   SlideSpec(
     route: '/provider-fusion',
