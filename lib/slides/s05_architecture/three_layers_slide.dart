@@ -6,13 +6,13 @@ import 'package:flutter_bootcamp_deck/widgets/layer_slab.dart';
 import 'package:flutter_bootcamp_deck/widgets/step_reveal.dart';
 
 /// Step at which each layer's bands have finished arriving. The bands are
-/// the exact `Band` values slide 21 tangled together — sorting them is the
+/// the exact `Band` values slide 20 tangled together — sorting them is the
 /// whole animation.
 final _presentation = [uiBand, uiBand2];
 final _domain = [rulesBand, rulesBand2];
 final _data = [networkBand, networkBand2, parseBand];
 
-/// Slide 22 — `/three-layers` (8 steps, A19). The same bands, sorted. Steps
+/// Slide 21 — `/three-layers` (8 steps, A19). The same bands, sorted. Steps
 /// 6-8 name what each layer is already called on the platforms they know.
 class ThreeLayersBody extends StatelessWidget {
   const ThreeLayersBody({required this.step, super.key});

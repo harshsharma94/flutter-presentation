@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bootcamp_deck/widgets/live_badge.dart';
 
-/// Slide 26 — `/live-extract-repo` (1 step).
+/// Slide 24 — `/live-extract-repo` (1 step).
 class LiveExtractRepoBody extends StatelessWidget {
   const LiveExtractRepoBody({required this.step, super.key});
 

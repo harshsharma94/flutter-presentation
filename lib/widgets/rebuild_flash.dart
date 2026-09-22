@@ -4,7 +4,7 @@ import 'package:flutter_bootcamp_deck/theme/tokens.dart';
 
 /// Counts how many times each instrumented widget has actually been rebuilt.
 ///
-/// This is the honesty mechanism behind slide 32: the numbers come from
+/// This is the honesty mechanism behind slide 30: the numbers come from
 /// Flutter genuinely calling `build`, not from a script that plays a
 /// pre-decided animation.
 class RebuildTally extends ChangeNotifier {

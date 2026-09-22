@@ -312,9 +312,9 @@ class _StepNote extends StatelessWidget {
           atStep: 3,
           color: Palette.green,
           text:
-              'So what is await for? Getting told. It is .then() with '
-              'the callback unwrapped — the next line runs when the '
-              'answer lands, and try/catch finally works.',
+              'await just means: carry on here when it lands. Same '
+              'machinery as .then(), written in a straight line — and '
+              'try/catch works again.',
         ),
         _note(
           atStep: 4,

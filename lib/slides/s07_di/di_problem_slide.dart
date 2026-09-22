@@ -33,7 +33,7 @@ HomeScreen(repo: repo, likes: likes, auth: auth)
     PhotoTile(repo: repo, likes: likes, auth: auth)
       LikeButton(likes: likes, auth: auth)''';
 
-/// Slide 35 — `/di-problem` (3 steps, A30). Prop drilling again, but for
+/// Slide 33 — `/di-problem` (3 steps, A30). Prop drilling again, but for
 /// services rather than data — and this time adding *one* dependency edits
 /// every constructor between main and the leaf.
 class DiProblemBody extends StatelessWidget {

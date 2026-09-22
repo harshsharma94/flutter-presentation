@@ -8,7 +8,7 @@ import 'package:flutter_bootcamp_deck/widgets/rebuild_flash.dart';
 /// they are three different answers to "how much of my tree rebuilds?".
 enum ReadMode { watch, read, consumer }
 
-/// Slide 33's live demo. The same widget tree, rendered as real widgets
+/// Slide 31's live demo. The same widget tree, rendered as real widgets
 /// under a real [CounterModel], rebuilt through whichever reader is
 /// selected. Nothing here is staged: the flashes come from
 /// [RebuildFlash.build], the readout from [RebuildTally].

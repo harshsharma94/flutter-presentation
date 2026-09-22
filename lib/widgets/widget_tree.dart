@@ -1,4 +1,4 @@
-/// The shared widget tree for §5 State (slides 27–32): the same tree, built once,
+/// The shared widget tree for §5 State (slides 25–30): the same tree, built once,
 /// that the audience watches evolve across nine consecutive slides — first
 /// drowning in prop-drilled parameters, then shedding them as an
 /// `InheritedWidget` arrives, then pulsing with `ChangeNotifier` listeners,
@@ -75,7 +75,7 @@ class TreeNode {
   final bool subscribed;
 }
 
-/// The canonical 5-level tree reused across slides 27–32:
+/// The canonical 5-level tree reused across slides 25–30:
 /// `PhotoApp -> HomeScreen -> PhotoGrid -> PhotoTile x2 -> LikeButton`.
 ///
 /// `photos` (and the `onLike` callback threaded back up) is the state A23

@@ -8,14 +8,20 @@ import 'package:flutter_bootcamp_deck/widgets/widget_tree.dart';
 
 /// The scope box is drawn *beside* the root rather than inserted into
 /// [demoTree] itself. Inserting a node would add a level, which changes
-/// `treeNodePositions`' row height and shifts every node — and slides 27–32
+/// `treeNodePositions`' row height and shifts every node — and slides 25–30
 /// depend on the tree never jumping across a slide boundary.
 const _scopeWidth = 170.0;
 const _scopeHeight = 68.0;
 
-/// Slide 28 — `/inherited-widget` (8 steps, A24). The same tree as slide 29,
+/// Slide 26 — `/inherited-widget` (9 steps, A24). The same tree as slide 27,
 /// with the chips falling away and an ancestor-chain lookup travelling up to
 /// a scope that sits at the root.
+///
+/// Step 9 is the one that makes the pattern feel ordinary rather than
+/// advanced: `Theme.of(context)` is an `InheritedWidget`, and they have been
+/// calling it since their first screen. It is also the homework nudge —
+/// reading the theme from a leaf is the smallest possible version of this
+/// exercise, with no new package and nothing to install.
 class InheritedWidgetBody extends StatelessWidget {
   const InheritedWidgetBody({required this.step, super.key});
 
@@ -154,12 +160,75 @@ class InheritedWidgetBody extends StatelessWidget {
                         ),
                       ],
                     ),
+                    SizedBox(height: Tokens.gapSm),
+                    StepReveal(
+                      atStep: 9,
+                      dimWhenPast: false,
+                      child: _AlreadyUsingItPanel(),
+                    ),
                   ],
                 ),
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// `.of(context)` is the tell. Two lookups they have already written, named
+/// as what they are, so tonight's exercise reads as "do the thing you have
+/// been doing, on purpose" rather than as a new technique.
+class _AlreadyUsingItPanel extends StatelessWidget {
+  const _AlreadyUsingItPanel();
+
+  @override
+  Widget build(BuildContext context) {
+    final pal = Palette.of(context);
+
+    return Container(
+      padding: EdgeInsets.all(Tokens.gapSm),
+      decoration: BoxDecoration(
+        color: pal.surface,
+        border: Border.all(color: Palette.green, width: Tokens.strokeWidth),
+        borderRadius: BorderRadius.circular(Tokens.radius),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            'You have been using one since day 1.',
+            style: TextStyle(
+              color: Palette.green,
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          SizedBox(height: Tokens.gapXs),
+          Text(
+            'Theme.of(context).colorScheme.primary\n'
+            'MediaQuery.of(context).size',
+            style: TextStyle(
+              fontFamily: 'JetBrainsMono',
+              fontSize: 17,
+              color: pal.textPrimary,
+              height: 1.5,
+            ),
+          ),
+          SizedBox(height: Tokens.gapXs),
+          Text(
+            'Both are InheritedWidgets. MaterialApp puts the theme at the '
+            'root; every .of(context) walks up to it. Tonight: put your own '
+            'scope up there and read it from a leaf — same shape, your data.',
+            style: TextStyle(
+              color: pal.textSecondary,
+              fontSize: 16,
+              height: 1.35,
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -14,7 +14,6 @@ import 'package:flutter_bootcamp_deck/slides/s02_api/three_states_code_slide.dar
 import 'package:flutter_bootcamp_deck/slides/s03_auth/auth_401_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s03_auth/oauth_flow_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s03_auth/unsplash_reality_slide.dart';
-import 'package:flutter_bootcamp_deck/slides/s04_data/break_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s04_data/codegen_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s04_data/from_json_code_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s04_data/json_to_dart_slide.dart';
@@ -23,7 +22,6 @@ import 'package:flutter_bootcamp_deck/slides/s05_architecture/dependency_rule_sl
 import 'package:flutter_bootcamp_deck/slides/s05_architecture/god_file_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s05_architecture/live_extract_repo_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s05_architecture/repository_slide.dart';
-import 'package:flutter_bootcamp_deck/slides/s05_architecture/testability_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s05_architecture/three_layers_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s06_state/change_notifier_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s06_state/inherited_limits_slide.dart';
@@ -233,7 +231,7 @@ final List<SlideSpec> slideRegistry = [
   SlideSpec(
     route: '/oauth-flow',
     section: '§2 Auth',
-    steps: 10,
+    steps: 8,
     body: (step) => OauthFlowBody(step: step),
     speakerNotes:
         'This is the phone\'s flow, not the web one they may have seen. '
@@ -309,13 +307,6 @@ final List<SlideSpec> slideRegistry = [
         'is why we did it by hand first. One sentence on build_runner '
         'being a compile step, not magic, then move.',
   ),
-  SlideSpec(
-    route: '/break',
-    section: '§3 Data',
-    chrome: false,
-    body: (step) => BreakBody(step: step),
-    speakerNotes: 'Actually take 15. Session 2 is the dense half.',
-  ),
 
   // §4 Architecture
   SlideSpec(
@@ -356,17 +347,6 @@ final List<SlideSpec> slideRegistry = [
         'fast.',
   ),
   SlideSpec(
-    route: '/testability',
-    section: '§4 Architecture',
-    steps: 3,
-    body: (step) => TestabilityBody(step: step),
-    speakerNotes:
-        'Watch the Domain slab as the swap happens — it does not '
-        'move a pixel. That is the point. 2400ms to 3ms is not a '
-        'micro-optimisation, it is the difference between a suite you run '
-        'on every save and one you run in CI and ignore.',
-  ),
-  SlideSpec(
     route: '/repository',
     section: '§4 Architecture',
     steps: 3,
@@ -374,9 +354,9 @@ final List<SlideSpec> slideRegistry = [
     speakerNotes:
         'Same knock, different door. Ask where they have seen '
         'this: Android Repository, Spring @Repository, a Go interface with '
-        'two implementations. Then make the connection back to slide 24 — '
-        'the fake repository worked precisely because the caller only ever '
-        'knew the door.',
+        'two implementations. Then say the payoff out loud: a fake '
+        'repository is a five-line class, and it works precisely because '
+        'the caller only ever knew the door.',
   ),
   SlideSpec(
     route: '/live-extract-repo',
@@ -404,14 +384,14 @@ final List<SlideSpec> slideRegistry = [
   SlideSpec(
     route: '/inherited-widget',
     section: '§5 State',
-    steps: 8,
+    steps: 9,
     body: (step) => InheritedWidgetBody(step: step),
     speakerNotes:
         'Step 3 is the one they will remember — let the pulse '
         'finish travelling before you talk. Then say it out loud: the '
         'lookup is O(1), not a tree walk at runtime, because Flutter '
         'caches it per element. The animation shows the conceptual walk, '
-        'not the runtime cost. Step 5 is the payoff over slide 27: only '
+        'not the runtime cost. Step 5 is the payoff over slide 25: only '
         'subscribers rebuild.',
   ),
   SlideSpec(
@@ -446,7 +426,7 @@ final List<SlideSpec> slideRegistry = [
         'Say it as arithmetic: InheritedWidget solves reach, '
         'ChangeNotifier solves change, and neither solves the other. '
         'Provider is not a new concept — it is the two they just learned, '
-        'wired together so they stop writing the wrapper from slide 29.',
+        'wired together so they stop writing the wrapper from slide 27.',
   ),
   SlideSpec(
     route: '/watch-read-consumer',
@@ -489,7 +469,7 @@ final List<SlideSpec> slideRegistry = [
     steps: 3,
     body: (step) => DiProblemBody(step: step),
     speakerNotes:
-        'This is slide 27 again, but for services instead of '
+        'This is slide 25 again, but for services instead of '
         'data — say that, they will see it. Step 3 is the cost that '
         'actually shows up in review: adding one dependency means editing '
         'every constructor between main and the leaf.',
@@ -511,7 +491,7 @@ final List<SlideSpec> slideRegistry = [
     steps: 2,
     body: (step) => DiTestingBody(step: step),
     speakerNotes:
-        'Callback to slide 24 — same idea, now at the wiring '
+        'Slide 23\'s one door, now at the wiring '
         'level. This is the answer to "why bother with DI": one line, and '
         'the whole tree is testable. Point out the type argument on '
         'Provider<PhotoRepository> — that is what makes the swap '
@@ -607,7 +587,7 @@ final List<SlideSpec> slideRegistry = [
     steps: 4,
     body: (step) => BffVsNonBffBody(step: step),
     speakerNotes:
-        'Optional — cut this if time is short, slides 42-44 '
+        'Optional — cut this if time is short, slides 40-42 '
         'already made the point. If you run it, be fair to the right-hand '
         'side: a raw resource contract is the right call when the client '
         'genuinely owns presentation, or when several very different '

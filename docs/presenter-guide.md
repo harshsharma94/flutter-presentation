@@ -269,9 +269,9 @@ a user do here?"* Let the silence sit. The silence is the lesson — that is a
 dead end with no way out, and it is what ships when nobody thinks about the
 error branch.
 
-No code on this slide on purpose. The `switch` that produces these three
-branches is slide 12, and it lands better once they have watched the empty
-`catch` fail first.
+No code on this slide on purpose. The three branches get written out on slide
+12, and they land better once the room has watched the empty `catch` fail
+first.
 
 Note in passing that the data state is coming from a bundled fixture, not a
 live request. Nothing on this slide depends on the venue's wifi.
@@ -293,9 +293,16 @@ punchline; say it plainly and then stop talking for a second.
 
 The answer to the slide they just watched fail. Three taps, one per branch.
 
-One result type, three branches, and the compiler will not let you forget one —
-that is what `sealed` buys you over a bag of booleans. Walk the highlight:
-loading, error, data.
+Three fields, three branches, and each tap lights the field *and* the line in
+`build` that reads it. Walk the highlight: loading, error, data. This is
+exactly the code in **The whole thing** below — they can type it tonight with
+nothing installed.
+
+There is a better shape for this (a `sealed` result type, one `switch`, and a
+compiler that will not let you forget a branch). It is deliberately not on this
+slide: it is two unfamiliar ideas standing between the room and a screen that
+handles its error state. If someone asks, say it exists and that §5 is where it
+earns its place.
 
 **Tap 3 — reaching the error branch for real.** Turn wifi off, or point the URL
 at a host that does not exist. If an app *hangs* instead of erroring, it is
@@ -413,4 +420,5 @@ again, and write all three branches again". Do not solve it. That is slide 18
 (the hardcoded list goes away), §5 (repository), and §6 (Provider).
 
 If someone has already reached for a sealed class or a `switch` over a state
-object — good, that is slide 12, and they got there on their own.
+object — good, and tell them so. That is where §5 goes. Do not make the rest of
+the room follow them there tonight.

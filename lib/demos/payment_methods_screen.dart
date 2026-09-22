@@ -33,7 +33,7 @@ class PaymentRowData {
 
 /// A neutral reconstruction of a "select payment method" screen — generic
 /// rows, synthetic balances, no real product. It exists to be read as a
-/// hierarchy on slide 41 and annotated against a contract on slides 42-44.
+/// hierarchy on slide 39 and annotated against a contract on slides 40-42.
 final paymentRows = [
   PaymentRowData(
     id: 'row-rewards',

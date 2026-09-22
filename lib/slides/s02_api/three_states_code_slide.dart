@@ -4,37 +4,41 @@ import 'package:flutter_bootcamp_deck/theme/tokens.dart';
 import 'package:flutter_bootcamp_deck/widgets/code_panel.dart';
 import 'package:flutter_bootcamp_deck/widgets/step_reveal.dart';
 
-const _switchCode = '''
-sealed class ApiResult {}
+const _stateCode = '''
+bool _loading = true;
+String? _error;
+List<Photo> _photos = [];
 
-switch (result) {
-  case Loading():
-    return Spinner();
-  case ApiError(:final message):
-    return ErrorView(message);
-  case Data(:final photos):
-    return PhotoGrid(photos);
+Widget build(BuildContext context) {
+  if (_loading) return const Spinner();
+  if (_error != null) return ErrorView(_error!);
+  return PhotoGrid(_photos);
 }''';
 
-/// 0-indexed line ranges per branch, walked one step at a time — see
-/// `FlutterDeckCodeHighlight.highlightedLines`.
-const _loadingLines = [3, 4];
-const _errorLines = [5, 6];
-const _dataLines = [7, 8];
+/// 0-indexed, and each step highlights a *pair*: the field that holds the
+/// state and the line in `build` that reads it. Seeing them light up together
+/// is the whole point — three fields, three branches, one for one.
+const _loadingLines = [0, 5];
+const _errorLines = [1, 6];
+const _dataLines = [2, 7];
 
-/// Slide 12 — `/three-states-code` (3 steps). The `switch` over a sealed
-/// result type that slide 10's demo runs for real; `highlightedLines` walks
-/// loading → error → data, one branch per step.
 /// Slide 12 — `/three-states-code` (3 steps). The answer to slide 11's empty
-/// `catch`: one result type, three branches, none of them silent.
+/// `catch`: three fields, three branches, none of them silent.
 ///
-/// It deliberately sits *after* the empty-catch slide rather than beside the
-/// live demo on slide 10. Printed next to the demo it was a duplicate — the
-/// same `switch`, one beat later, teaching nothing the demo had not already
-/// shown. Printed here it is a fix for a problem the room has just watched
-/// fail, which is a different slide entirely.
+/// Deliberately `setState` and nothing else. An earlier version opened with a
+/// `sealed class` and a `switch` over it, which is the better pattern and the
+/// wrong slide: sealed classes and exhaustive pattern matching are two
+/// unfamiliar ideas standing between the room and a screen that handles its
+/// error state. This is the version they can type tonight, and it is the same
+/// version spelled out in full in `docs/presenter-guide.md`. The sealed shape
+/// earns its place later, once there is a reason for it.
 ///
-/// `highlightedLines` walks loading -> error -> data, one branch per step.
+/// It sits *after* the empty-catch slide rather than beside the live demo on
+/// slide 10. Printed next to the demo it was a duplicate; printed here it is
+/// a fix for a failure the room has just watched.
+///
+/// `highlightedLines` walks loading -> error -> data, one branch per step,
+/// lighting the field and its `build` line together.
 class ThreeStatesCodeBody extends StatelessWidget {
   const ThreeStatesCodeBody({required this.step, super.key});
 
@@ -59,15 +63,15 @@ class ThreeStatesCodeBody extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'One result. Three branches. None of them silent.',
+                'Three fields. Three branches. None of them silent.',
                 style: TextStyle(color: pal.textPrimary, fontSize: 29),
               ),
               SizedBox(height: Tokens.gapMd),
               ConstrainedBox(
                 constraints: BoxConstraints(maxWidth: 560),
                 child: CodePanel(
-                  code: _switchCode,
-                  fileName: 'photo_view.dart',
+                  code: _stateCode,
+                  fileName: 'lib/screens/photo_list_screen.dart',
                   highlightedLines: _highlightedLines,
                 ),
               ),

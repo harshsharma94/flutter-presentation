@@ -3,7 +3,7 @@ import 'package:flutter_bootcamp_deck/demos/rebuild_scope_demo.dart';
 import 'package:flutter_bootcamp_deck/theme/palette.dart';
 import 'package:flutter_bootcamp_deck/theme/tokens.dart';
 
-/// Slide 32 — `/watch-read-consumer` (1 step, A28). Live and interactive,
+/// Slide 30 — `/watch-read-consumer` (1 step, A28). Live and interactive,
 /// not step-driven: hand over the keyboard. The flash region is the lesson.
 class WatchReadConsumerBody extends StatelessWidget {
   const WatchReadConsumerBody({required this.step, super.key});

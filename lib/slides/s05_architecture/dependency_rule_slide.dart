@@ -5,17 +5,20 @@ import 'package:flutter_bootcamp_deck/widgets/annotate.dart';
 import 'package:flutter_bootcamp_deck/widgets/layer_slab.dart';
 import 'package:flutter_bootcamp_deck/widgets/step_reveal.dart';
 
-const _canvasWidth = 880.0;
-const _canvasHeight = 200.0;
-
 const _slabWidth = 250.0;
-const _slabY = 40.0;
-const _arrowY = 24.0;
 
-double _slabLeft(int i) => i * (_slabWidth + Tokens.gapLg);
+/// Width of the gap between two slabs — the box each arrow is painted into,
+/// so an arrow starts on one slab's edge and ends on the next one's.
+const _gapWidth = 110.0;
+const _arrowLaneHeight = 22.0;
 
-/// Slide 23 — `/dependency-rule` (4 steps, A20). Arrows point inward, toward
+/// Slide 22 — `/dependency-rule` (4 steps, A20). Arrows point inward, toward
 /// Domain. Step 3 flips one, and Domain stops being testable on its own.
+///
+/// The arrows live in [_ArrowGap] boxes *between* the slabs, vertically
+/// centred on them, rather than in a free-floating lane above the row. An
+/// earlier version drew them in a strip over the top of the slabs, where they
+/// touched nothing and read as decoration rather than as dependencies.
 class DependencyRuleBody extends StatelessWidget {
   const DependencyRuleBody({required this.step, super.key});
 
@@ -38,96 +41,71 @@ class DependencyRuleBody extends StatelessWidget {
                 'The one rule: dependencies point inward.',
                 style: TextStyle(color: pal.textPrimary, fontSize: 29),
               ),
-              SizedBox(height: Tokens.gapMd),
-              SizedBox(
-                width: _canvasWidth,
-                height: _canvasHeight,
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    Positioned(
-                      left: _slabLeft(0),
-                      top: _slabY,
-                      child: LayerSlab(
-                        name: 'Presentation',
-                        width: _slabWidth,
-                        bands: [uiBand],
-                      ),
-                    ),
-                    Positioned(
-                      left: _slabLeft(1),
-                      top: _slabY,
-                      child: LayerSlab(
-                        name: 'Domain',
-                        width: _slabWidth,
-                        onFire: broken,
-                        bands: [rulesBand],
-                      ),
-                    ),
-                    Positioned(
-                      left: _slabLeft(2),
-                      top: _slabY,
-                      child: LayerSlab(
-                        name: 'Data',
-                        width: _slabWidth,
-                        bands: [networkBand],
-                      ),
-                    ),
-                    // Presentation → Domain. Always inward.
-                    Positioned.fill(
-                      child: AnimatedArrow(
-                        from: Offset(_slabLeft(0) + _slabWidth * 0.7, _arrowY),
-                        to: Offset(_slabLeft(1) + _slabWidth * 0.3, _arrowY),
+              SizedBox(height: Tokens.gapLg),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  LayerSlab(
+                    name: 'Presentation',
+                    width: _slabWidth,
+                    bands: [uiBand],
+                  ),
+                  // Presentation -> Domain. Always inward.
+                  _ArrowGap(
+                    children: [
+                      AnimatedArrow(
+                        from: Offset(0, _arrowLaneHeight / 2),
+                        to: Offset(_gapWidth, _arrowLaneHeight / 2),
                         atStep: 2,
-                        curved: true,
                         color: Palette.green,
                       ),
-                    ),
-                    // Data → Domain, until step 3 flips it the wrong way.
-                    Positioned.fill(
-                      child: StepReveal(
+                    ],
+                  ),
+                  LayerSlab(
+                    name: 'Domain',
+                    width: _slabWidth,
+                    onFire: broken,
+                    bands: [rulesBand],
+                  ),
+                  _ArrowGap(
+                    children: [
+                      // Data -> Domain, until step 3 flips it the wrong way.
+                      StepReveal(
                         atStep: 2,
                         until: 2,
                         dimWhenPast: false,
                         child: AnimatedArrow(
-                          from: Offset(
-                            _slabLeft(2) + _slabWidth * 0.3,
-                            _arrowY,
-                          ),
-                          to: Offset(_slabLeft(1) + _slabWidth * 0.7, _arrowY),
+                          from: Offset(_gapWidth, _arrowLaneHeight / 2),
+                          to: Offset(0, _arrowLaneHeight / 2),
                           atStep: 2,
-                          curved: true,
                           color: Palette.green,
                         ),
                       ),
-                    ),
-                    Positioned.fill(
-                      child: StepReveal(
+                      StepReveal(
                         atStep: 3,
                         dimWhenPast: false,
                         child: AnimatedArrow(
-                          from: Offset(
-                            _slabLeft(1) + _slabWidth * 0.7,
-                            _arrowY,
-                          ),
-                          to: Offset(_slabLeft(2) + _slabWidth * 0.3, _arrowY),
+                          from: Offset(0, _arrowLaneHeight / 2),
+                          to: Offset(_gapWidth, _arrowLaneHeight / 2),
                           atStep: 3,
-                          curved: true,
                           color: Palette.red,
                         ),
                       ),
-                    ),
-                    Positioned(
-                      left: _slabLeft(1) + _slabWidth * 0.5,
-                      top: 150,
-                      child: Callout(
-                        atStep: 3,
-                        text: "import 'package:dio/dio.dart'; — inside Domain",
-                        color: Palette.red,
-                      ),
-                    ),
-                  ],
-                ),
+                    ],
+                  ),
+                  LayerSlab(
+                    name: 'Data',
+                    width: _slabWidth,
+                    bands: [networkBand],
+                  ),
+                ],
+              ),
+              SizedBox(height: Tokens.gapMd),
+              Callout(
+                atStep: 3,
+                text: "import 'package:dio/dio.dart'; — inside Domain",
+                color: Palette.red,
               ),
               SizedBox(height: Tokens.gapMd),
               StepReveal(atStep: 4, dimWhenPast: false, child: _TestPanel()),
@@ -137,6 +115,25 @@ class DependencyRuleBody extends StatelessWidget {
       ),
     );
   }
+}
+
+/// A fixed box in the gap between two slabs, holding the arrow (or arrows)
+/// that cross it. Sized rather than stretched so the arrow endpoints are
+/// exactly the two slab edges, whatever the slabs' intrinsic height is.
+class _ArrowGap extends StatelessWidget {
+  const _ArrowGap({required this.children});
+
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) => SizedBox(
+    width: _gapWidth,
+    height: _arrowLaneHeight,
+    child: Stack(
+      clipBehavior: Clip.none,
+      children: [for (final child in children) Positioned.fill(child: child)],
+    ),
+  );
 }
 
 class _TestPanel extends StatelessWidget {

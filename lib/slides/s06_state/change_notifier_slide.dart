@@ -10,7 +10,7 @@ import 'package:flutter_bootcamp_deck/widgets/widget_tree.dart';
 const _modelWidth = 200.0;
 const _modelHeight = 76.0;
 
-/// Slide 30 — `/change-notifier` (9 steps, A26). Hybrid: a step-driven
+/// Slide 28 — `/change-notifier` (9 steps, A26). Hybrid: a step-driven
 /// diagram *plus* a genuinely tappable button wired to a real
 /// [CounterModel]. Every arrow is labelled with the real method name.
 class ChangeNotifierBody extends StatefulWidget {

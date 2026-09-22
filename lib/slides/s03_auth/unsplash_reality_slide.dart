@@ -8,11 +8,11 @@ import 'package:flutter_bootcamp_deck/widgets/sequence_diagram.dart';
 import 'package:flutter_bootcamp_deck/widgets/step_reveal.dart';
 
 /// The OAuth slide's diagram footprint at full scale — same width it renders
-/// with there, and the same 9-row height its 10 hops resolve to (one row
-/// shared by the 401/replay pair). Needed so [Transform.scale] shrinks it
-/// rather than the layout reserving its full, unscaled box.
+/// with there, and the same 7-row height its 8 hops resolve to (one row
+/// shared by the 401/replay pair). Needed so the shrunk copy reserves only
+/// the space it actually paints.
 const _fullDiagramWidth = 820.0;
-const _fullDiagramHeight = 358.0;
+const _fullDiagramHeight = 286.0;
 const _scale = 0.25;
 
 const _headerLine = 'Authorization: Client-ID abc123';
@@ -44,21 +44,33 @@ class UnsplashRealityBody extends StatelessWidget {
             StepReveal(
               atStep: 1,
               dimWhenPast: false,
-              child: SizedBox(
-                width: _fullDiagramWidth * _scale,
-                height: _fullDiagramHeight * _scale,
-                child: OverflowBox(
-                  maxWidth: _fullDiagramWidth,
-                  maxHeight: _fullDiagramHeight,
-                  child: Opacity(
-                    opacity: Tokens.dimmed,
-                    child: Transform.scale(
-                      scale: _scale,
-                      alignment: Alignment.topLeft,
-                      child: SequenceDiagram(
-                        lanes: oauthLanes,
-                        hops: oauthHops,
-                        width: _fullDiagramWidth,
+              // ClipRect, and a top-left-aligned [OverflowBox], because the
+              // default centre alignment hands the full-size diagram a box a
+              // quarter its size and then centres it — which pushed the
+              // scaled copy up and left, out of its own footprint and across
+              // the slide.
+              child: ClipRect(
+                child: SizedBox(
+                  width: _fullDiagramWidth * _scale,
+                  height: _fullDiagramHeight * _scale,
+                  child: OverflowBox(
+                    alignment: Alignment.topLeft,
+                    maxWidth: _fullDiagramWidth,
+                    maxHeight: _fullDiagramHeight,
+                    child: Opacity(
+                      opacity: Tokens.dimmed,
+                      child: Transform.scale(
+                        scale: _scale,
+                        alignment: Alignment.topLeft,
+                        child: SizedBox(
+                          width: _fullDiagramWidth,
+                          height: _fullDiagramHeight,
+                          child: SequenceDiagram(
+                            lanes: oauthLanes,
+                            hops: oauthHops,
+                            width: _fullDiagramWidth,
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -95,7 +107,7 @@ class UnsplashRealityBody extends StatelessWidget {
             SizedBox(height: Tokens.gapMd),
             Callout(
               atStep: 2,
-              text: '--dart-define. Never in git.',
+              text: 'It is a password. Keep it out of the repo.',
               color: Palette.red,
             ),
           ],

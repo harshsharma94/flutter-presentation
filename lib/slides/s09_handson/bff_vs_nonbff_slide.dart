@@ -34,7 +34,7 @@ if (row.type == 'wallet') {
   // …and the colour rule, and the dialog copy, and…
 }''';
 
-/// Slide 45 — `/bff-vs-nonbff` (4 steps, A37). Identical UI, two contracts.
+/// Slide 43 — `/bff-vs-nonbff` (4 steps, A37). Identical UI, two contracts.
 /// The difference is not elegance — it is who has to ship to change a
 /// string. *Cut candidate.*
 class BffVsNonBffBody extends StatelessWidget {

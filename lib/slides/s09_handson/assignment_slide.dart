@@ -9,7 +9,7 @@ const _tasks = [
   'Move the Dio call behind a repository, provide it with MultiProvider.',
 ];
 
-/// Slide 46 — `/assignment` (3 steps). Tonight's homework, one line per step.
+/// Slide 44 — `/assignment` (3 steps). Tonight's homework, one line per step.
 class AssignmentBody extends StatelessWidget {
   const AssignmentBody({required this.step, super.key});
 

@@ -7,7 +7,7 @@ import 'package:flutter_bootcamp_deck/widgets/step_reveal.dart';
 const _boxW = 260.0;
 const _boxH = 112.0;
 
-/// Slide 31 — `/provider-fusion` (3 steps, A27). The two halves they now
+/// Slide 29 — `/provider-fusion` (3 steps, A27). The two halves they now
 /// understand slide together: an InheritedWidget that can't change, and a
 /// ChangeNotifier that can't be reached. Provider is the pair, packaged.
 class ProviderFusionBody extends StatelessWidget {

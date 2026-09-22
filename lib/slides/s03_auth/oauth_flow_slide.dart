@@ -9,66 +9,43 @@ import 'package:flutter_bootcamp_deck/widgets/step_reveal.dart';
 /// configuration for its "the whole flow, shrunk" beat — the point there only
 /// lands if it is visibly the same diagram, not a redrawn approximation of it.
 ///
-/// The second lane is an **in-app browser tab**, not a browser app and not a
-/// `WebView`: on Android a Chrome Custom Tab, on iOS an
-/// `ASWebAuthenticationSession`. That distinction is the whole reason mobile
-/// OAuth looks the way it does. The tab is a separate process the app cannot
-/// read, so the password is never typed into anything the app controls, and
-/// the app gets the result back through a redirect it registered rather than
-/// by scraping a page.
+/// Three lanes, no browser. A real mobile login has a fourth actor — a system
+/// browser tab the app cannot read — and that is genuinely how OAuth works on
+/// a phone, but it is a second unfamiliar idea stacked on the one this slide
+/// is actually for. The lesson here is the *token lifecycle*: prove who you
+/// are once, get a short-lived credential and a long-lived one, and never ask
+/// the user again. A phone-and-OTP login carries that whole shape with
+/// nothing to explain.
 final oauthLanes = [
   SequenceLane(id: 'app', label: 'Your app'),
-  SequenceLane(id: 'tab', label: 'In-app tab'),
   SequenceLane(id: 'auth', label: 'Auth Server'),
   SequenceLane(id: 'api', label: 'API'),
 ];
 
-/// The ten steps of A11, in order. Step 8 has no entry here — it is a pure
+/// The eight steps of A11, in order. Step 6 has no entry here — it is a pure
 /// state change on the access [TokenPill] plus a [Callout], not a hop — and
-/// step 10 carries two: the refresh call, then the replay of step 9's failed
+/// step 8 carries two: the refresh call, then the replay of step 7's failed
 /// request (sharing its row; see [SequenceHop.replay]). See [oauthLanes] for
 /// why this is public.
 final oauthHops = [
-  SequenceHop(
-    from: 'app',
-    to: 'tab',
-    label: 'open /authorize + challenge',
-    atStep: 1,
-  ),
-  SequenceHop(from: 'tab', to: 'auth', label: 'email + password', atStep: 2),
-  SequenceHop(
-    from: 'auth',
-    to: 'tab',
-    label: '302 myapp://cb?code=xyz',
-    atStep: 3,
-  ),
-  SequenceHop(
-    from: 'tab',
-    to: 'app',
-    label: 'deep link · tab closes',
-    atStep: 4,
-  ),
-  SequenceHop(
-    from: 'app',
-    to: 'auth',
-    label: 'code + verifier · no secret',
-    atStep: 5,
-  ),
-  SequenceHop(from: 'auth', to: 'app', label: 'tokens issued', atStep: 6),
-  SequenceHop(from: 'app', to: 'api', label: 'GET /photos', atStep: 7),
+  SequenceHop(from: 'app', to: 'auth', label: 'phone number', atStep: 1),
+  SequenceHop(from: 'auth', to: 'app', label: 'OTP sent', atStep: 2),
+  SequenceHop(from: 'app', to: 'auth', label: 'phone + OTP', atStep: 3),
+  SequenceHop(from: 'auth', to: 'app', label: 'tokens issued', atStep: 4),
+  SequenceHop(from: 'app', to: 'api', label: 'GET /photos', atStep: 5),
   SequenceHop(
     from: 'app',
     to: 'api',
     label: 'GET /photos -> 401',
-    atStep: 9,
+    atStep: 7,
     color: Palette.red,
   ),
-  SequenceHop(from: 'app', to: 'auth', label: 'refresh', atStep: 10),
+  SequenceHop(from: 'app', to: 'auth', label: 'refresh', atStep: 8),
   SequenceHop(
     from: 'app',
     to: 'api',
     label: 'GET /photos',
-    atStep: 10,
+    atStep: 8,
     color: Palette.green,
     replay: true,
   ),
@@ -77,43 +54,35 @@ final oauthHops = [
 const _diagramWidth = 820.0;
 const _tokenColumnWidth = 190.0;
 
-/// The "tokens issued" hop (index 5) is the sixth row (0-indexed row 5) —
+/// The "tokens issued" hop (index 3) is the fourth row (0-indexed row 3) —
 /// see `SequenceDiagram._rows`. The token column aligns its pills to that
 /// row's vertical centre so they read as the payload of that specific hop
 /// rather than floating detached beside the diagram.
 const _tokenRowCenter =
     SequenceDiagram.laneHeaderHeight +
-    5 * SequenceDiagram.rowHeight +
+    3 * SequenceDiagram.rowHeight +
     SequenceDiagram.rowHeight / 2;
 const _tokenColumnTop = _tokenRowCenter - 32;
 
-/// Slide 14 — `/oauth-flow` (10 steps, A11) ⭐⭐. The deck's longest
-/// animation: the full OAuth2 authorization-code round trip **as a phone
-/// actually performs it**, hop by hop, across four lanes.
+/// Slide 14 — `/oauth-flow` (8 steps, A11) ⭐⭐. The deck's longest
+/// animation: one login, and then the hour afterwards.
 ///
-/// Two details separate this from the web flow every tutorial draws, and both
-/// are on the diagram deliberately:
-///
-/// - The login happens in an **in-app browser tab** the app cannot read, and
-///   the answer comes back as a **deep link** to a redirect URI the app
-///   registered. There is no page for the app to scrape and no password for
-///   it to see.
-/// - The code is exchanged with a **PKCE verifier, not a client secret**. A
-///   shipped app is a public client: anything compiled into it can be pulled
-///   back out of the binary, so it cannot hold a secret at all. Bootcampers
-///   who have only seen the server-side flow will reach for one — this is
-///   where to stop them.
-///
-/// Step 8 is the one the slide exists for — no hop, no interaction, just an
+/// Step 6 is the one the slide exists for — no hop, no interaction, just an
 /// hour passing and the access token quietly expiring while nobody notices.
-/// Step 10 replays step 9's failed request in green, proving the silent
-/// refresh actually worked.
+/// Step 8 replays step 7's failed request in green, proving the silent
+/// refresh actually worked, and that is the whole argument: the user logged
+/// in once, this morning, and has not been asked since.
+///
+/// Deliberately *not* on this slide: the browser hop, PKCE, and the client
+/// secret a shipped app must not hold. All three are real and all three are
+/// the wrong lesson for a room meeting refresh tokens for the first time —
+/// see [oauthLanes].
 class OauthFlowBody extends StatelessWidget {
   const OauthFlowBody({required this.step, super.key});
 
   final int step;
 
-  bool get _accessExpired => step == 8 || step == 9;
+  bool get _accessExpired => step == 6 || step == 7;
 
   @override
   Widget build(BuildContext context) {
@@ -145,7 +114,7 @@ class OauthFlowBody extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(top: _tokenColumnTop),
                       child: StepReveal(
-                        atStep: 6,
+                        atStep: 4,
                         dimWhenPast: false,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -167,7 +136,7 @@ class OauthFlowBody extends StatelessWidget {
                               expired: false,
                             ),
                             const SizedBox(height: Tokens.gapMd),
-                            const Callout(atStep: 8, text: '1 hour later.'),
+                            const Callout(atStep: 6, text: '1 hour later.'),
                           ],
                         ),
                       ),
@@ -179,13 +148,12 @@ class OauthFlowBody extends StatelessWidget {
               SizedBox(
                 width: _diagramWidth,
                 child: StepReveal(
-                  atStep: 1,
+                  atStep: 4,
                   dimWhenPast: false,
                   child: Text(
-                    'The tab is Chrome Custom Tabs on Android and '
-                    'ASWebAuthenticationSession on iOS — never a WebView you '
-                    'own. Your app never sees the password, and it holds no '
-                    'client secret: a shipped binary cannot keep one.',
+                    'Two tokens, two jobs. The short one proves who you are '
+                    'on every request. The long one buys a new short one, '
+                    'quietly, so nobody is ever asked to log in twice.',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: pal.textSecondary,
