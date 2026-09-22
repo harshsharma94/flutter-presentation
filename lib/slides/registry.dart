@@ -3,6 +3,9 @@ import 'package:gopay_flutter_deck/slides/s00_open/homework_slide.dart';
 import 'package:gopay_flutter_deck/slides/s00_open/roadmap_slide.dart';
 import 'package:gopay_flutter_deck/slides/s00_open/title_slide.dart';
 import 'package:gopay_flutter_deck/slides/s01_structure/structure_slide.dart';
+import 'package:gopay_flutter_deck/slides/s02_api/api_gap_slide.dart';
+import 'package:gopay_flutter_deck/slides/s02_api/http_clients_slide.dart';
+import 'package:gopay_flutter_deck/slides/s02_api/live_first_request_slide.dart';
 import 'package:gopay_flutter_deck/slides/slide_spec.dart';
 
 /// The ordered list of every slide in the deck. This is the single source of
@@ -59,5 +62,39 @@ final List<SlideSpec> slideRegistry = [
         'same structure they used in Android, renamed. The rule that '
         'matters: feature-first beats type-first as soon as you have two '
         'features.',
+  ),
+
+  // §2 API
+  SlideSpec(
+    route: '/api-gap',
+    section: '§2 API',
+    steps: 3,
+    body: (step) => ApiGapBody(step: step),
+    speakerNotes: 'The phone and the internet don\'t just talk to each '
+        'other — nothing bridges them yet. Let the empty space sit for a '
+        'second before you advance. Step 2 is the naive, direct attempt '
+        'failing; step 3 is the shape that actually works: Dio speaks '
+        'HTTP, Repository decides when to call it, Model shapes what '
+        'comes back. That three-box chain is what the rest of today '
+        'builds inside.',
+  ),
+  SlideSpec(
+    route: '/http-clients',
+    section: '§2 API',
+    steps: 4,
+    body: (step) => HttpClientsBody(step: step),
+    speakerNotes: 'Dio is not new. It\'s the interceptor+client pair they '
+        'already know. Don\'t sell it — just name the mapping and move to '
+        'code.',
+  ),
+  SlideSpec(
+    route: '/live-first-request',
+    section: '§2 API',
+    body: (step) => LiveFirstRequestBody(step: step),
+    speakerNotes: 'Type it live, don\'t paste. `final dio = Dio(); final '
+        'r = await dio.get(\'https://api.unsplash.com/photos\', options: '
+        'Options(headers: {\'Authorization\': \'Client-ID \$key\'})); '
+        'print(r.data);` — expect a 401 first if you "forget" the '
+        'header. That\'s deliberate; it sets up slide 15.',
   ),
 ];

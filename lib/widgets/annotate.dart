@@ -26,6 +26,7 @@ class AnimatedArrow extends StatelessWidget {
     required this.atStep,
     this.color = Palette.textSecondary,
     this.curved = false,
+    this.dashed = false,
     super.key,
   });
 
@@ -34,6 +35,13 @@ class AnimatedArrow extends StatelessWidget {
   final int atStep;
   final Color color;
   final bool curved;
+
+  /// Draws the line as a dash pattern (reusing [DashedBox]'s segmenting)
+  /// instead of a solid stroke — for a line that reads as "attempted" or
+  /// "in progress" rather than resolved. A4 (slide 6, `/api-gap`) uses this
+  /// for the first, failed crossing attempt, then a plain solid
+  /// [AnimatedArrow] for the completed one.
+  final bool dashed;
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +60,7 @@ class AnimatedArrow extends StatelessWidget {
           progress: progress,
           color: color,
           curved: curved,
+          dashed: dashed,
         ),
       ),
     );
@@ -81,6 +90,7 @@ class ArrowPainter extends CustomPainter {
     required this.progress,
     required this.color,
     this.curved = false,
+    this.dashed = false,
   });
 
   final Offset from;
@@ -88,6 +98,7 @@ class ArrowPainter extends CustomPainter {
   final double progress;
   final Color color;
   final bool curved;
+  final bool dashed;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -112,7 +123,8 @@ class ArrowPainter extends CustomPainter {
       ..strokeCap = StrokeCap.round;
 
     final end = (metric.length * progress).clamp(0.0, metric.length);
-    canvas.drawPath(metric.extractPath(0, end), linePaint);
+    final drawn = metric.extractPath(0, end);
+    canvas.drawPath(dashed ? _dashPath(drawn) : drawn, linePaint);
 
     if (progress > _headThreshold) {
       _paintArrowhead(canvas, metric, linePaint);
@@ -146,7 +158,9 @@ class ArrowPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant ArrowPainter oldDelegate) =>
-      progress != oldDelegate.progress || color != oldDelegate.color;
+      progress != oldDelegate.progress ||
+      color != oldDelegate.color ||
+      dashed != oldDelegate.dashed;
 }
 
 /// The dash pattern for [DashedBox]'s border.
