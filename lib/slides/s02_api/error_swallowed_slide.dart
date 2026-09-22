@@ -29,7 +29,7 @@ const _phoneWidth = 110.0;
 /// separate, deliberately non-finite case; see [_Spinner]'s own rationale.
 const _waitDuration = Duration(seconds: 4);
 
-/// Slide 12 — `/error-swallowed` (3 steps, A9). The section's emotional
+/// Slide 11 — `/error-swallowed` (3 steps, A9). The section's emotional
 /// beat: an empty `catch` block, then the spinner that never resolves, then
 /// the person who gave up waiting on it.
 class ErrorSwallowedBody extends StatelessWidget {
@@ -82,7 +82,8 @@ class ErrorSwallowedBody extends StatelessWidget {
               const StepReveal(
                 atStep: 3,
                 dimWhenPast: false,
-                child: Icon(Icons.touch_app, color: Palette.textSecondary, size: 32),
+                child: Icon(Icons.touch_app,
+                    color: Palette.textSecondary, size: 32),
               ),
               const SizedBox(height: Tokens.gapSm),
               const Callout(
@@ -97,7 +98,7 @@ class ErrorSwallowedBody extends StatelessWidget {
 }
 
 /// The wait spinner — the deck's second deliberate exception to the
-/// no-`AnimationController` rule, matching the precedent set on slide 9: a
+/// no-`AnimationController` rule, matching the precedent set on slide 8: a
 /// genuinely repeating [AnimationController], not a finite illusion.
 ///
 /// An earlier version of this widget used a [TweenAnimationBuilder] tweening
@@ -110,7 +111,7 @@ class ErrorSwallowedBody extends StatelessWidget {
 /// talking about a request that supposedly never stopped, undercutting the
 /// slide's own punchline.
 ///
-/// So, as with slide 9's spinner: this is *ambient* motion standing for "the
+/// So, as with slide 8's spinner: this is *ambient* motion standing for "the
 /// request is still out there," which must not be presenter-controlled or
 /// finite, because the point is that it does not stop on its own. Every
 /// other detail on this slide — which elements are visible, the clock text,
@@ -118,7 +119,7 @@ class ErrorSwallowedBody extends StatelessWidget {
 /// runs on its own clock, and it starts turning once [waiting] flips true
 /// and never stops. `test/support/pump.dart`'s bounded pumps (not
 /// `pumpAndSettle`) are what make this compatible with the smoke test — see
-/// that file's own rationale, established for slide 9.
+/// that file's own rationale, established for slide 8.
 class _Spinner extends StatefulWidget {
   const _Spinner({required this.waiting});
 
@@ -128,7 +129,8 @@ class _Spinner extends StatefulWidget {
   State<_Spinner> createState() => _SpinnerState();
 }
 
-class _SpinnerState extends State<_Spinner> with SingleTickerProviderStateMixin {
+class _SpinnerState extends State<_Spinner>
+    with SingleTickerProviderStateMixin {
   late final AnimationController _controller = AnimationController(
     vsync: this,
     duration: const Duration(milliseconds: 1400),
@@ -157,7 +159,8 @@ class _SpinnerState extends State<_Spinner> with SingleTickerProviderStateMixin 
   @override
   Widget build(BuildContext context) => RotationTransition(
         turns: _controller,
-        child: const Icon(Icons.autorenew, size: 28, color: Palette.textSecondary),
+        child:
+            const Icon(Icons.autorenew, size: 28, color: Palette.textSecondary),
       );
 }
 
@@ -179,7 +182,7 @@ class _ClockText extends StatelessWidget {
           style: const TextStyle(
             color: Palette.textSecondary,
             fontFamily: 'JetBrainsMono',
-            fontSize: 18,
+            fontSize: 22,
           ),
         ),
       );

@@ -14,7 +14,7 @@ const _arrowY = 24.0;
 
 double _slabLeft(int i) => i * (_slabWidth + Tokens.gapLg);
 
-/// Slide 27 — `/dependency-rule` (4 steps, A20). Arrows point inward, toward
+/// Slide 26 — `/dependency-rule` (4 steps, A20). Arrows point inward, toward
 /// Domain. Step 3 flips one, and Domain stops being testable on its own.
 class DependencyRuleBody extends StatelessWidget {
   const DependencyRuleBody({required this.step, super.key});
@@ -35,7 +35,7 @@ class DependencyRuleBody extends StatelessWidget {
             children: [
               const Text(
                 'The one rule: dependencies point inward.',
-                style: TextStyle(color: Palette.textPrimary, fontSize: 24),
+                style: TextStyle(color: Palette.textPrimary, fontSize: 29),
               ),
               const SizedBox(height: Tokens.gapMd),
               SizedBox(
@@ -89,7 +89,8 @@ class DependencyRuleBody extends StatelessWidget {
                         until: 2,
                         dimWhenPast: false,
                         child: AnimatedArrow(
-                          from: Offset(_slabLeft(2) + _slabWidth * 0.3, _arrowY),
+                          from:
+                              Offset(_slabLeft(2) + _slabWidth * 0.3, _arrowY),
                           to: Offset(_slabLeft(1) + _slabWidth * 0.7, _arrowY),
                           atStep: 2,
                           curved: true,
@@ -102,7 +103,8 @@ class DependencyRuleBody extends StatelessWidget {
                         atStep: 3,
                         dimWhenPast: false,
                         child: AnimatedArrow(
-                          from: Offset(_slabLeft(1) + _slabWidth * 0.7, _arrowY),
+                          from:
+                              Offset(_slabLeft(1) + _slabWidth * 0.7, _arrowY),
                           to: Offset(_slabLeft(2) + _slabWidth * 0.3, _arrowY),
                           atStep: 3,
                           curved: true,
@@ -155,7 +157,7 @@ class _TestPanel extends StatelessWidget {
               'test/domain/featured_test.dart',
               style: TextStyle(
                 fontFamily: 'JetBrainsMono',
-                fontSize: 13,
+                fontSize: 16,
                 color: Palette.textSecondary,
               ),
             ),
@@ -164,14 +166,14 @@ class _TestPanel extends StatelessWidget {
               'SocketException: Failed host lookup: api.unsplash.com',
               style: TextStyle(
                 fontFamily: 'JetBrainsMono',
-                fontSize: 15,
+                fontSize: 18,
                 color: Palette.red,
               ),
             ),
             SizedBox(height: Tokens.gapXs),
             Text(
               'To test one business rule you now need a network.',
-              style: TextStyle(color: Palette.textSecondary, fontSize: 15),
+              style: TextStyle(color: Palette.textSecondary, fontSize: 18),
             ),
           ],
         ),

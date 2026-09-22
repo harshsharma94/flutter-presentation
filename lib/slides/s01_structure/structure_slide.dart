@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bootcamp_deck/theme/palette.dart';
 import 'package:flutter_bootcamp_deck/theme/tokens.dart';
 import 'package:flutter_bootcamp_deck/widgets/annotate.dart';
-import 'package:flutter_bootcamp_deck/widgets/roadmap_spine.dart';
 import 'package:flutter_bootcamp_deck/widgets/step_reveal.dart';
 
 /// One entry in the `lib/` assembly (steps 1-6). [role] is null only for the
@@ -58,7 +57,7 @@ double _folderCenterX(int i) => _folderLeft(i) + _folderBoxWidth / 2;
 double _androidRowCenterY(int j) =>
     _androidColumnTop + j * _androidRowPitch + _androidRowHeight / 2;
 
-/// Slide 5 — `/structure` (9 steps, A3). `lib/` assembles feature-first,
+/// Slide 43 — `/structure` (8 steps, A3). `lib/` assembles feature-first,
 /// folder by folder; step 7 draws the same shape out of the Android project
 /// they already know; steps 8-9 land the two rules that matter.
 class StructureBody extends StatelessWidget {
@@ -73,14 +72,6 @@ class StructureBody extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              SizedBox(
-                width: _canvasWidth,
-                child: Align(
-                  alignment: Alignment.topRight,
-                  child: RoadmapSpine(activeNode: 0, compact: true),
-                ),
-              ),
-              const SizedBox(height: Tokens.gapSm),
               SizedBox(
                 width: _canvasWidth,
                 height: _canvasHeight,
@@ -129,14 +120,13 @@ class StructureBody extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: Tokens.gapMd),
+              // The two aphorisms that used to close this slide are gone:
+              // they read as filler next to the diagram and cost two extra
+              // steps of animation for no new information. Say them out
+              // loud if they land in the room; they are in the notes.
               const Callout(
                 atStep: 8,
-                text: 'Files that change together live together',
-              ),
-              const SizedBox(height: Tokens.gapXs),
-              const Callout(
-                atStep: 9,
-                text: "If you can't name the folder, you don't understand the feature yet.",
+                text: 'Same structure you used in Android. Renamed.',
               ),
             ],
           ),
@@ -164,14 +154,16 @@ class _FolderBox extends StatelessWidget {
           Text(
             item.name,
             textAlign: TextAlign.center,
-            style: TextStyle(color: color, fontSize: 13, fontWeight: FontWeight.w600),
+            style: TextStyle(
+                color: color, fontSize: 16, fontWeight: FontWeight.w600),
           ),
           if (item.role case final role?) ...[
             const SizedBox(height: 4),
             Text(
               role,
               textAlign: TextAlign.center,
-              style: const TextStyle(color: Palette.textSecondary, fontSize: 9),
+              style:
+                  const TextStyle(color: Palette.textSecondary, fontSize: 11),
             ),
           ],
         ],
@@ -194,6 +186,7 @@ class _AndroidRow extends StatelessWidget {
           border: Border.all(color: Palette.green, width: Tokens.strokeWidth),
           borderRadius: BorderRadius.circular(Tokens.radius),
         ),
-        child: Text(label, style: const TextStyle(color: Palette.green, fontSize: 13)),
+        child: Text(label,
+            style: const TextStyle(color: Palette.green, fontSize: 16)),
       );
 }

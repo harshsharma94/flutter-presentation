@@ -4,7 +4,7 @@ import 'package:flutter_bootcamp_deck/theme/tokens.dart';
 import 'package:flutter_bootcamp_deck/widgets/layer_slab.dart';
 import 'package:flutter_bootcamp_deck/widgets/step_reveal.dart';
 
-/// Slide 28 — `/testability` (3 steps, A21). Data slides out, a fake slides
+/// Slide 27 — `/testability` (3 steps, A21). Data slides out, a fake slides
 /// in, and **Domain does not move**. If the Domain slab shifts by a pixel
 /// the animation is lying about what swapping an implementation costs, so
 /// it is laid out in a fixed-width slot that never changes size.
@@ -39,8 +39,8 @@ class TestabilityBody extends StatelessWidget {
                   // Fixed slot: both the real and the fake occupy exactly
                   // this box, so nothing to its left can shift.
                   SizedBox(
-                    width: 320,
-                    height: 108,
+                    width: 360,
+                    height: 150,
                     child: Stack(
                       children: [
                         AnimatedSlide(
@@ -50,7 +50,7 @@ class TestabilityBody extends StatelessWidget {
                           child: const LayerSlab(
                             name: 'PhotoRepository',
                             subtitle: 'real Dio',
-                            width: 320,
+                            width: 360,
                             bands: [networkBand],
                           ),
                         ),
@@ -61,7 +61,7 @@ class TestabilityBody extends StatelessWidget {
                           child: const LayerSlab(
                             name: 'FakePhotoRepository',
                             subtitle: 'a list in memory',
-                            width: 320,
+                            width: 360,
                             bands: [
                               Band(
                                 label: 'return const [Photo(...)];',
@@ -79,7 +79,8 @@ class TestabilityBody extends StatelessWidget {
               StepReveal(
                 atStep: 1,
                 dimWhenPast: false,
-                child: _Timer(millis: swapped ? '3ms' : '2400ms', fast: swapped),
+                child:
+                    _Timer(millis: swapped ? '3ms' : '2400ms', fast: swapped),
               ),
               const SizedBox(height: Tokens.gapMd),
               const StepReveal(
@@ -87,7 +88,7 @@ class TestabilityBody extends StatelessWidget {
                 dimWhenPast: false,
                 child: Text(
                   'Domain never moved. That is the whole return on the rule.',
-                  style: TextStyle(color: Palette.textSecondary, fontSize: 18),
+                  style: TextStyle(color: Palette.textSecondary, fontSize: 22),
                 ),
               ),
             ],
@@ -110,14 +111,14 @@ class _Timer extends StatelessWidget {
         children: [
           const Text(
             'one domain test: ',
-            style: TextStyle(color: Palette.textSecondary, fontSize: 20),
+            style: TextStyle(color: Palette.textSecondary, fontSize: 24),
           ),
           AnimatedDefaultTextStyle(
             duration: Tokens.travel,
             curve: Tokens.curve,
             style: TextStyle(
               fontFamily: 'JetBrainsMono',
-              fontSize: 28,
+              fontSize: 34,
               color: fast ? Palette.green : Palette.amber,
             ),
             child: Text(millis),

@@ -3,7 +3,6 @@ import 'package:flutter_bootcamp_deck/theme/palette.dart';
 import 'package:flutter_bootcamp_deck/theme/tokens.dart';
 import 'package:flutter_bootcamp_deck/widgets/annotate.dart';
 import 'package:flutter_bootcamp_deck/widgets/phone_frame.dart';
-import 'package:flutter_bootcamp_deck/widgets/roadmap_spine.dart';
 import 'package:flutter_bootcamp_deck/widgets/step_reveal.dart';
 
 /// Fixed canvas the phone, cloud, gap-crossing arrows and the three
@@ -15,7 +14,7 @@ const _canvasWidth = 900.0;
 const _canvasHeight = 260.0;
 const _canvasSize = Size(_canvasWidth, _canvasHeight);
 
-const _phoneWidth = 110.0;
+const _phoneWidth = 150.0;
 const _phoneHeight = _phoneWidth * 19.5 / 9;
 const _phoneTop = 10.0;
 const _laneY = _phoneTop + _phoneHeight / 2;
@@ -27,21 +26,14 @@ const _cloudTop = _laneY - _cloudSize / 2;
 /// Where the failed, dashed attempt (step 2) stops — the literal "gap".
 const _gapMidX = (_phoneWidth + _cloudLeft) / 2;
 
-const _boxWidth = 140.0;
-const _boxHeight = 64.0;
-const _boxGap = 35.0;
-const _boxesLeft =
-    _phoneWidth + ((_cloudLeft - _phoneWidth) - (3 * _boxWidth + 2 * _boxGap)) / 2;
-const _boxTop = _laneY - _boxHeight / 2;
-
-double _boxLeft(int i) => _boxesLeft + i * (_boxWidth + _boxGap);
-
-const _boxLabels = ['Dio', 'Repository', 'Model'];
-
-/// Slide 6 — `/api-gap` (3 steps, A4). Opens §2: a phone that wants data and
-/// the internet that has it, nothing bridging them yet — then the dashed,
-/// failed attempt, then the three-box Dio/Repository/Model chain that
-/// actually closes it.
+/// Slide 5 — `/api-gap` (3 steps, A4). Opens §1 API: a phone that wants
+/// data and a server that has it, with nothing between them — then the
+/// naive attempt that fails, then the request that works.
+///
+/// This slide used to end on a Dio → Repository → Model chain. It was cut:
+/// none of those three words means anything to the room yet, so the payoff
+/// step was naming three unknowns instead of showing one idea. Dio arrives
+/// on the next slide, Repository after the break, Model in §3.
 class ApiGapBody extends StatelessWidget {
   const ApiGapBody({required this.step, super.key});
 
@@ -54,14 +46,6 @@ class ApiGapBody extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              SizedBox(
-                width: _canvasWidth,
-                child: Align(
-                  alignment: Alignment.topRight,
-                  child: RoadmapSpine(activeNode: 1, compact: true),
-                ),
-              ),
-              const SizedBox(height: Tokens.gapSm),
               SizedBox.fromSize(
                 size: _canvasSize,
                 child: Stack(
@@ -115,28 +99,23 @@ class ApiGapBody extends StatelessWidget {
                         child: const _ErrorPulse(),
                       ),
                     ),
-                    // Step 3: the three boxes that close the gap.
-                    for (var i = 0; i < _boxLabels.length; i++)
-                      Positioned(
-                        left: _boxLeft(i),
-                        top: _boxTop,
-                        width: _boxWidth,
-                        height: _boxHeight,
-                        child: StepReveal(
-                          atStep: 3,
-                          slideFrom: Offset(-0.1 - 0.03 * i, 0),
-                          dimWhenPast: false,
-                          child: _ArchBox(label: _boxLabels[i]),
-                        ),
-                      ),
-                    // Step 3: the completed crossing, drawn straight through
-                    // the three boxes above.
+                    // Step 3: the crossing that works, and the one line
+                    // of code that makes it.
                     Positioned.fill(
                       child: AnimatedArrow(
-                        from: Offset(_phoneWidth, _laneY),
-                        to: Offset(_cloudLeft, _laneY),
+                        from: Offset(_phoneWidth + 8, _laneY),
+                        to: Offset(_cloudLeft - 8, _laneY),
                         atStep: 3,
                         color: Palette.blue,
+                      ),
+                    ),
+                    Positioned(
+                      left: _phoneWidth + 20,
+                      top: _laneY - 44,
+                      child: const StepReveal(
+                        atStep: 3,
+                        dimWhenPast: false,
+                        child: _RequestLabel(),
                       ),
                     ),
                   ],
@@ -148,22 +127,29 @@ class ApiGapBody extends StatelessWidget {
       );
 }
 
-class _ArchBox extends StatelessWidget {
-  const _ArchBox({required this.label});
-
-  final String label;
+/// The request itself, written the way they will type it in a minute —
+/// a URL and a verb, nothing they have to take on faith.
+class _RequestLabel extends StatelessWidget {
+  const _RequestLabel();
 
   @override
   Widget build(BuildContext context) => Container(
-        alignment: Alignment.center,
+        padding: const EdgeInsets.symmetric(
+          horizontal: Tokens.gapSm,
+          vertical: Tokens.gapXs,
+        ),
         decoration: BoxDecoration(
           color: Palette.surface,
           border: Border.all(color: Palette.blue, width: Tokens.strokeWidth),
           borderRadius: BorderRadius.circular(Tokens.radius),
         ),
-        child: Text(
-          label,
-          style: const TextStyle(color: Palette.blue, fontSize: 18, fontWeight: FontWeight.w600),
+        child: const Text(
+          'GET https://api.unsplash.com/photos',
+          style: TextStyle(
+            fontFamily: 'JetBrainsMono',
+            color: Palette.blue,
+            fontSize: 21,
+          ),
         ),
       );
 }
@@ -181,7 +167,8 @@ class _ErrorPulse extends StatelessWidget {
         tween: Tween(begin: 0.4, end: 1.0),
         duration: Tokens.fade,
         curve: Tokens.curve,
-        builder: (context, scale, child) => Transform.scale(scale: scale, child: child),
+        builder: (context, scale, child) =>
+            Transform.scale(scale: scale, child: child),
         child: const Icon(Icons.close, color: Palette.red, size: 28),
       );
 }

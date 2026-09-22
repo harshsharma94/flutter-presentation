@@ -5,18 +5,18 @@ import 'package:flutter_bootcamp_deck/widgets/annotate.dart';
 import 'package:flutter_bootcamp_deck/widgets/step_reveal.dart';
 
 const _canvasWidth = 860.0;
-const _canvasHeight = 250.0;
+const _canvasHeight = 290.0;
 
 const _callerX = 0.0;
 const _doorX = 300.0;
 const _sourceX = 600.0;
 const _laneY = 90.0;
 const _boxW = 210.0;
-const _boxH = 72.0;
+const _boxH = 96.0;
 
-/// Slide 29 — `/repository` (3 steps, A22). One door, two sources. The
+/// Slide 28 — `/repository` (3 steps, A22). One door, two sources. The
 /// caller knocks the same way whichever one answers — that is the entire
-/// pattern, and the reason slide 28's swap was free.
+/// pattern, and the reason slide 27's swap was free.
 class RepositoryBody extends StatelessWidget {
   const RepositoryBody({required this.step, super.key});
 
@@ -166,7 +166,8 @@ class _Box extends StatelessWidget {
             children: [
               Text(
                 label,
-                style: TextStyle(color: color, fontSize: 17, fontWeight: FontWeight.w600),
+                style: TextStyle(
+                    color: color, fontSize: 21, fontWeight: FontWeight.w600),
               ),
               Text(
                 sub,
@@ -175,7 +176,7 @@ class _Box extends StatelessWidget {
                 style: const TextStyle(
                   fontFamily: 'JetBrainsMono',
                   color: Palette.textSecondary,
-                  fontSize: 12,
+                  fontSize: 15,
                 ),
               ),
             ],

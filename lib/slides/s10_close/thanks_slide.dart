@@ -17,14 +17,14 @@ class ThanksBody extends StatelessWidget {
               'Thank you',
               style: TextStyle(
                 color: Palette.textPrimary,
-                fontSize: 88,
+                fontSize: 92,
                 fontWeight: FontWeight.w600,
               ),
             ),
             SizedBox(height: Tokens.gapSm),
             Text(
               'Questions — and then go break something.',
-              style: TextStyle(color: Palette.textSecondary, fontSize: 26),
+              style: TextStyle(color: Palette.textSecondary, fontSize: 32),
             ),
           ],
         ),

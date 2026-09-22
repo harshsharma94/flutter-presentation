@@ -29,7 +29,7 @@ class AssignmentBody extends StatelessWidget {
                   'Tonight',
                   style: TextStyle(
                     color: Palette.textPrimary,
-                    fontSize: 44,
+                    fontSize: 49,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -49,7 +49,7 @@ class AssignmentBody extends StatelessWidget {
                             style: const TextStyle(
                               fontFamily: 'JetBrainsMono',
                               color: Palette.blue,
-                              fontSize: 26,
+                              fontSize: 32,
                             ),
                           ),
                           const SizedBox(width: Tokens.gapSm),
@@ -59,7 +59,7 @@ class AssignmentBody extends StatelessWidget {
                               _tasks[i],
                               style: const TextStyle(
                                 color: Palette.textPrimary,
-                                fontSize: 26,
+                                fontSize: 32,
                                 height: 1.3,
                               ),
                             ),

@@ -18,7 +18,10 @@ const _groups = [
     title: 'Networking',
     links: [
       (label: 'pub.dev/packages/dio', note: 'official docs + interceptors'),
-      (label: 'docs.flutter.dev/cookbook/networking', note: 'the short version'),
+      (
+        label: 'docs.flutter.dev/cookbook/networking',
+        note: 'the short version'
+      ),
     ],
   ),
   (
@@ -28,15 +31,24 @@ const _groups = [
         label: 'docs.flutter.dev/data-and-backend/serialization/json',
         note: 'official',
       ),
-      (label: 'pub.dev/packages/json_serializable', note: 'when hand-writing hurts'),
+      (
+        label: 'pub.dev/packages/json_serializable',
+        note: 'when hand-writing hurts'
+      ),
     ],
   ),
   (
     title: 'Architecture',
     links: [
       (label: 'docs.flutter.dev/app-architecture', note: "Flutter's own guide"),
-      (label: 'blog.cleancoder.com — The Clean Architecture', note: 'the source'),
-      (label: 'samnewman.io/patterns/architectural/bff', note: 'BFF, first-hand'),
+      (
+        label: 'blog.cleancoder.com — The Clean Architecture',
+        note: 'the source'
+      ),
+      (
+        label: 'samnewman.io/patterns/architectural/bff',
+        note: 'BFF, first-hand'
+      ),
     ],
   ),
   (
@@ -47,7 +59,10 @@ const _groups = [
         note: 'how to choose',
       ),
       (label: 'pub.dev/packages/provider', note: 'what we used'),
-      (label: 'Flutter Widget of the Week — InheritedWidget', note: '3 minutes'),
+      (
+        label: 'Flutter Widget of the Week — InheritedWidget',
+        note: '3 minutes'
+      ),
     ],
   ),
   (
@@ -55,7 +70,10 @@ const _groups = [
     links: [
       (label: 'docs.flutter.dev/perf/best-practices', note: 'rebuild scope'),
       (label: 'unsplash.com/documentation', note: "today's API"),
-      (label: 'github.com/mkobuolys/flutter_deck', note: 'this deck is built with it'),
+      (
+        label: 'github.com/mkobuolys/flutter_deck',
+        note: 'this deck is built with it'
+      ),
     ],
   ),
 ];
@@ -113,7 +131,7 @@ class _Group extends StatelessWidget {
             title,
             style: const TextStyle(
               color: Palette.blue,
-              fontSize: 19,
+              fontSize: 23,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -133,7 +151,7 @@ class _Group extends StatelessWidget {
                       style: const TextStyle(
                         fontFamily: 'JetBrainsMono',
                         color: Palette.textPrimary,
-                        fontSize: 14,
+                        fontSize: 17,
                       ),
                     ),
                   ),
@@ -142,7 +160,7 @@ class _Group extends StatelessWidget {
                     link.note,
                     style: const TextStyle(
                       color: Palette.textSecondary,
-                      fontSize: 12,
+                      fontSize: 15,
                     ),
                   ),
                 ],

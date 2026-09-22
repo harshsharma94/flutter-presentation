@@ -32,8 +32,8 @@ const _highlights = <int, List<int>>{
   5: [3, 4, 5, 6],
 };
 
-/// Slide 20 — `/from-json-code` (5 steps). The anatomy of the mapping they
-/// just watched fly across slide 19, one highlighted line at a time.
+/// Slide 19 — `/from-json-code` (5 steps). The anatomy of the mapping they
+/// just watched fly across slide 18, one highlighted line at a time.
 class FromJsonCodeBody extends StatelessWidget {
   const FromJsonCodeBody({required this.step, super.key});
 
@@ -60,13 +60,15 @@ class FromJsonCodeBody extends StatelessWidget {
                 const SizedBox(height: Tokens.gapMd),
                 const Callout(
                   atStep: 4,
-                  text: "factory = a constructor that doesn't have to return a new instance.",
+                  text:
+                      "factory = a constructor that doesn't have to return a new instance.",
                   color: Palette.blue,
                 ),
                 const SizedBox(height: Tokens.gapXs),
                 const Callout(
                   atStep: 5,
-                  text: 'Four Strings positionally is a bug waiting to happen — slide 42.',
+                  text:
+                      'Four Strings positionally is a bug waiting to happen — slide 41.',
                   color: Palette.amber,
                 ),
               ],

@@ -11,19 +11,27 @@ import 'package:flutter_bootcamp_deck/widgets/step_reveal.dart';
 /// phones and code actually render. Sized to stay clear of both the fhd and
 /// hd smoke-test viewports once the caption/callout row and outer padding
 /// are added.
-const _canvasWidth = 900.0;
-const _canvasHeight = 500.0;
+const _canvasWidth = 980.0;
+const _canvasHeight = 620.0;
 const _canvasSize = Size(_canvasWidth, _canvasHeight);
 
-const _phoneWidth = 120.0;
+const _phoneWidth = 168.0;
 const _phoneHeight = _phoneWidth * 19.5 / 9;
 const _phoneTop = 10.0;
-const _phoneBottom = _phoneTop + _phoneHeight;
 
-const _leftPhoneCenterX = _canvasWidth * 0.27;
-const _rightPhoneCenterX = _canvasWidth * 0.73;
+/// The two screens sit at different heights rather than shoulder to
+/// shoulder. Levelled, they read as one duplicated screenshot; staggered,
+/// they read as two screens of the same app — which is the point, since
+/// both are fed by the one list underneath.
+const _phoneStagger = 54.0;
+const _leftPhoneTop = _phoneTop;
+const _rightPhoneTop = _phoneTop + _phoneStagger;
+const _phoneBottom = _rightPhoneTop + _phoneHeight;
 
-const _codeTop = _phoneBottom + 40;
+const _leftPhoneCenterX = _canvasWidth * 0.26;
+const _rightPhoneCenterX = _canvasWidth * 0.74;
+
+const _codeTop = _phoneBottom + 34;
 const _codeInset = 110.0;
 
 const _hardcodedListCode = '''
@@ -42,82 +50,91 @@ class BeautifulLieBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Center(
-        child: Padding(
-          padding: const EdgeInsets.all(Tokens.gapLg),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox.fromSize(
-                size: _canvasSize,
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    _tiltedPhone(
-                      left: _leftPhoneCenterX - _phoneWidth / 2,
-                      child: const _ListScreenPreview(),
-                    ),
-                    _tiltedPhone(
-                      left: _rightPhoneCenterX - _phoneWidth / 2,
-                      child: const _DetailScreenPreview(),
-                    ),
-                    Positioned(
-                      left: _codeInset,
-                      right: _codeInset,
-                      top: _codeTop,
-                      child: StepReveal(
-                        atStep: 2,
-                        dimWhenPast: false,
-                        child: const CodePanel(
-                          code: _hardcodedListCode,
-                          fileName: 'lib/data/hardcoded_photos.dart',
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Padding(
+            padding: const EdgeInsets.all(Tokens.gapLg),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox.fromSize(
+                  size: _canvasSize,
+                  child: Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      _tiltedPhone(
+                        left: _leftPhoneCenterX - _phoneWidth / 2,
+                        top: _leftPhoneTop,
+                        child: const _ListScreenPreview(),
+                      ),
+                      _tiltedPhone(
+                        left: _rightPhoneCenterX - _phoneWidth / 2,
+                        top: _rightPhoneTop,
+                        child: const _DetailScreenPreview(),
+                      ),
+                      Positioned(
+                        left: _codeInset,
+                        right: _codeInset,
+                        top: _codeTop,
+                        child: StepReveal(
+                          atStep: 2,
+                          dimWhenPast: false,
+                          child: const CodePanel(
+                            code: _hardcodedListCode,
+                            fileName: 'lib/data/product_list.dart',
+                          ),
                         ),
                       ),
-                    ),
-                    Positioned.fill(
-                      child: AnimatedArrow(
-                        from: Offset(_leftPhoneCenterX, _codeTop),
-                        to: Offset(_leftPhoneCenterX, _phoneBottom),
-                        atStep: 2,
+                      Positioned.fill(
+                        child: AnimatedArrow(
+                          from: Offset(_leftPhoneCenterX, _codeTop),
+                          to: Offset(
+                              _leftPhoneCenterX, _leftPhoneTop + _phoneHeight),
+                          atStep: 2,
+                        ),
+                      ),
+                      Positioned.fill(
+                        child: AnimatedArrow(
+                          from: Offset(_rightPhoneCenterX, _codeTop),
+                          to: Offset(_rightPhoneCenterX,
+                              _rightPhoneTop + _phoneHeight),
+                          atStep: 2,
+                        ),
+                      ),
+                      Positioned.fill(
+                        child: AnimatedArrow(
+                          from: Offset(_codeInset, _codeTop + 90),
+                          to: Offset(
+                              _canvasSize.width - _codeInset, _codeTop + 90),
+                          atStep: 3,
+                          color: Palette.red,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: Tokens.gapMd),
+                Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    StepReveal(
+                      atStep: 1,
+                      until: 1,
+                      child: const Text(
+                        'Yesterday.',
+                        style: TextStyle(
+                            color: Palette.textSecondary, fontSize: 24),
                       ),
                     ),
-                    Positioned.fill(
-                      child: AnimatedArrow(
-                        from: Offset(_rightPhoneCenterX, _codeTop),
-                        to: Offset(_rightPhoneCenterX, _phoneBottom),
-                        atStep: 2,
-                      ),
-                    ),
-                    Positioned.fill(
-                      child: AnimatedArrow(
-                        from: Offset(_codeInset, _codeTop + 90),
-                        to: Offset(_canvasSize.width - _codeInset, _codeTop + 90),
-                        atStep: 3,
-                        color: Palette.red,
-                      ),
+                    const Callout(
+                      atStep: 3,
+                      text: 'Today: we delete this.',
+                      color: Palette.red,
                     ),
                   ],
                 ),
-              ),
-              const SizedBox(height: Tokens.gapMd),
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  StepReveal(
-                    atStep: 1,
-                    until: 1,
-                    child: const Text(
-                      'Yesterday.',
-                      style: TextStyle(color: Palette.textSecondary, fontSize: 20),
-                    ),
-                  ),
-                  const Callout(
-                    atStep: 3,
-                    text: 'Today: we delete this.',
-                    color: Palette.red,
-                  ),
-                ],
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       );
@@ -128,9 +145,14 @@ class BeautifulLieBody extends StatelessWidget {
   /// built around. Animated with a [TweenAnimationBuilder] (the same
   /// step-driven technique [AnimatedArrow] uses) rather than an
   /// [AnimationController], so stepping backward untilts it cleanly.
-  Widget _tiltedPhone({required double left, required Widget child}) => Positioned(
+  Widget _tiltedPhone({
+    required double left,
+    required double top,
+    required Widget child,
+  }) =>
+      Positioned(
         left: left,
-        top: _phoneTop,
+        top: top,
         child: TweenAnimationBuilder<double>(
           tween: Tween(begin: 0.0, end: step >= 2 ? -0.21 : 0.0),
           duration: Tokens.travel,
@@ -193,8 +215,12 @@ class _DetailScreenPreview extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: const [
-                  Text('Alex', style: TextStyle(color: Palette.textPrimary, fontSize: 10)),
-                  Text('128 ♥', style: TextStyle(color: Palette.textSecondary, fontSize: 10)),
+                  Text('Alex',
+                      style:
+                          TextStyle(color: Palette.textPrimary, fontSize: 12)),
+                  Text('128 ♥',
+                      style: TextStyle(
+                          color: Palette.textSecondary, fontSize: 12)),
                 ],
               ),
             ),

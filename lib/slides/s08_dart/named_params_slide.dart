@@ -16,7 +16,7 @@ Photo(
   isFavourite: true,
 );''';
 
-/// Slide 42 — `/named-params` (3 steps, A33). The same `CodePanel` receives
+/// Slide 41 — `/named-params` (3 steps, A33). The same `CodePanel` receives
 /// named-argument code on step 3, so `animateCodeUpdate` morphs the
 /// arguments into place rather than cutting to a new block.
 class NamedParamsBody extends StatelessWidget {
@@ -64,7 +64,7 @@ class NamedParamsBody extends StatelessWidget {
                     child: Text(
                       'Which is which? And what happens when someone swaps '
                       'two of them?',
-                      style: TextStyle(color: Palette.amber, fontSize: 20),
+                      style: TextStyle(color: Palette.amber, fontSize: 24),
                     ),
                   ),
                 ),
@@ -95,7 +95,7 @@ class _Question extends StatelessWidget {
         ),
         child: const Text(
           '?',
-          style: TextStyle(color: Palette.amber, fontSize: 20),
+          style: TextStyle(color: Palette.amber, fontSize: 24),
         ),
       );
 }

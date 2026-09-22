@@ -18,7 +18,7 @@ const _circleALeft = 40.0;
 const _circleBLeft = _canvasWidth - _circleSize - 40.0;
 const _circleCenterY = _canvasHeight / 2;
 
-/// Slide 10 — `/future-states` (3 steps, A7). One circle standing in for a
+/// Slide 9 — `/future-states` (3 steps, A7). One circle standing in for a
 /// `Future`: outlined and pending, then filled in for the outcome a demo
 /// always shows — data — then a second, branch-drawn circle for the outcome
 /// a demo never does: the error.
@@ -38,7 +38,7 @@ class FutureStatesBody extends StatelessWidget {
             children: [
               const Text(
                 'A Future settles exactly one way.',
-                style: TextStyle(color: Palette.textPrimary, fontSize: 24),
+                style: TextStyle(color: Palette.textPrimary, fontSize: 29),
               ),
               const SizedBox(height: Tokens.gapLg),
               SizedBox.fromSize(
@@ -48,7 +48,8 @@ class FutureStatesBody extends StatelessWidget {
                   children: [
                     Positioned.fill(
                       child: AnimatedArrow(
-                        from: Offset(_circleALeft + _circleSize, _circleCenterY),
+                        from:
+                            Offset(_circleALeft + _circleSize, _circleCenterY),
                         to: Offset(_circleBLeft, _circleCenterY),
                         atStep: 3,
                         color: Palette.red,
@@ -88,7 +89,8 @@ class FutureStatesBody extends StatelessWidget {
 /// One circle: an outline that fills solid once [filled], with [label]
 /// cross-fading beneath it.
 class _OutcomeCircle extends StatelessWidget {
-  const _OutcomeCircle({required this.filled, required this.color, required this.label});
+  const _OutcomeCircle(
+      {required this.filled, required this.color, required this.label});
 
   final bool filled;
   final Color color;
@@ -116,7 +118,7 @@ class _OutcomeCircle extends StatelessWidget {
               child: Text(
                 label,
                 key: ValueKey(label),
-                style: TextStyle(color: color, fontSize: 16),
+                style: TextStyle(color: color, fontSize: 20),
               ),
             ),
           ],
@@ -143,7 +145,8 @@ class _PulseOnce extends StatelessWidget {
         tween: Tween(begin: 0.85, end: 1.0),
         duration: Tokens.fade,
         curve: Tokens.curve,
-        builder: (context, scale, child) => Transform.scale(scale: scale, child: child),
+        builder: (context, scale, child) =>
+            Transform.scale(scale: scale, child: child),
         child: child,
       );
 }

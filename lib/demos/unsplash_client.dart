@@ -10,7 +10,7 @@ export 'photo.dart' show Photo;
 /// Result of a [UnsplashClient.getPhotos] call.
 ///
 /// [fromFixture] records whether [photos] came from the live Unsplash API or
-/// the bundled offline fixture, so callers (slide 11) can show an honest
+/// the bundled offline fixture, so callers (slide 10) can show an honest
 /// "offline fixture" chip instead of pretending every photo is live.
 class PhotoResult {
   const PhotoResult({required this.photos, required this.fromFixture});

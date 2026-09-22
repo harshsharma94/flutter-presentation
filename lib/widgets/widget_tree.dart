@@ -1,4 +1,4 @@
-/// The shared widget tree for §6 (slides 31-38): the same tree, built once,
+/// The shared widget tree for §5 State (slides 30-35): the same tree, built once,
 /// that the audience watches evolve across nine consecutive slides — first
 /// drowning in prop-drilled parameters, then shedding them as an
 /// `InheritedWidget` arrives, then pulsing with `ChangeNotifier` listeners,
@@ -75,7 +75,7 @@ class TreeNode {
   final bool subscribed;
 }
 
-/// The canonical 5-level tree reused across slides 31-38:
+/// The canonical 5-level tree reused across slide 29-37:
 /// `PhotoApp -> HomeScreen -> PhotoGrid -> PhotoTile x2 -> LikeButton`.
 ///
 /// `photos` (and the `onLike` callback threaded back up) is the state A23
@@ -134,12 +134,12 @@ const demoTree = TreeNode(
 /// that agree exactly with what [WidgetTreeView] rendered — no risk of the
 /// two disagreeing because one read different ambient constraints than the
 /// other.
-const treeCanvasSize = Size(640, 560);
+const treeCanvasSize = Size(760, 660);
 
 /// Fixed width for every node box, regardless of [WidgetTreeView.showParams]
 /// or how many parameters a node carries — chips wrap inside this width,
 /// never widen it.
-const _nodeWidth = 148.0;
+const _nodeWidth = 186.0;
 
 /// Nominal box height used only to centre [treeNodePositions]' anchor point
 /// against a node's *label-only* box — deliberately not the taller height a
@@ -147,7 +147,7 @@ const _nodeWidth = 148.0;
 /// (and therefore [Positioned.top]) never moves when
 /// [WidgetTreeView.showParams] toggles; the box simply grows downward past
 /// it.
-const _nodeBaseHeight = 56.0;
+const _nodeBaseHeight = 70.0;
 
 const _labelFontSize = 15.0;
 const _chipFontSize = 11.0;

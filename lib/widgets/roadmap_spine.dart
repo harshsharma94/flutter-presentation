@@ -4,7 +4,7 @@ import 'package:flutter_bootcamp_deck/theme/tokens.dart';
 
 /// The day's five-node roadmap — API · Auth · Data · Architecture · State —
 /// built full-size on slide 3 (`/roadmap`) and reused in [compact] form as
-/// the section-opening chip on slides 5, 6, 15, 19, 25, 31, 39, 42, 44.
+/// the section-opening chip on slide 43, 6, 15, 19, 25, 31, 39, 42, 44.
 ///
 /// [activeNode] is 0-5: 0 means no node has started yet (every node reads as
 /// upcoming); node `n` (1-5) renders lit in [Palette.blue]; nodes before it

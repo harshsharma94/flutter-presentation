@@ -43,4 +43,4 @@ final deckDarkTheme = FlutterDeckThemeData(theme: _base(Brightness.dark));
 final deckLightTheme = FlutterDeckThemeData(theme: _base(Brightness.light));
 
 /// Monospace style for every code and JSON surface in the deck.
-const deckCodeStyle = TextStyle(fontFamily: _mono, fontSize: 22, height: 1.45);
+const deckCodeStyle = TextStyle(fontFamily: _mono, fontSize: 24, height: 1.4);

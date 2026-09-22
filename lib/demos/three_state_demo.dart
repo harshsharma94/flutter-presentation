@@ -28,7 +28,7 @@ const _loadingLines = [1, 2];
 const _errorLines = [3, 4];
 const _dataLines = [5, 6];
 
-/// Slide 11's live centerpiece (A8) — genuinely interactive, unlike every
+/// Slide 10's live centerpiece (A8) — genuinely interactive, unlike every
 /// other slide in the deck. A real [PhoneFrame] plus three [FilledButton]s
 /// drive a real [AnimatedSwitcher] between the three states a `Future<T>`
 /// can render as, with a [CodePanel] beside it whose `highlightedLines`
@@ -166,7 +166,7 @@ class _ErrorView extends StatelessWidget {
           children: [
             Icon(Icons.error_outline, color: Palette.red, size: 32),
             SizedBox(height: Tokens.gapSm),
-            Text('Something went wrong.', style: TextStyle(color: Palette.red, fontSize: 14)),
+            Text('Something went wrong.', style: TextStyle(color: Palette.red, fontSize: 17)),
           ],
         ),
       );
@@ -200,17 +200,17 @@ class _DataView extends StatelessWidget {
             children: [
               Text(
                 photo.author,
-                style: const TextStyle(color: Palette.textPrimary, fontSize: 16),
+                style: const TextStyle(color: Palette.textPrimary, fontSize: 20),
               ),
               Text(
                 '${photo.likes} ♥',
-                style: const TextStyle(color: Palette.textSecondary, fontSize: 13),
+                style: const TextStyle(color: Palette.textSecondary, fontSize: 16),
               ),
               if (fromFixture) ...[
                 const SizedBox(height: 4),
                 const Text(
                   '(offline fixture)',
-                  style: TextStyle(color: Palette.textSecondary, fontSize: 11),
+                  style: TextStyle(color: Palette.textSecondary, fontSize: 13),
                 ),
               ],
             ],

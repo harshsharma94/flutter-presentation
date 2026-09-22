@@ -37,7 +37,7 @@ const _jsonLines = [
   (text: '}', consumedAt: null),
 ];
 
-/// Slide 19 — `/json-to-dart` (6 steps, A14 + A15). Four keys lift out of the
+/// Slide 18 — `/json-to-dart` (6 steps, A14 + A15). Four keys lift out of the
 /// raw response, fly a curved path, and land as named arguments on a real
 /// constructor. Step 5 reverses one — that is `toJson`. Step 6 names the
 /// thing they already use on their own platform, and why Dart can't.
@@ -59,7 +59,7 @@ class JsonToDartBody extends StatelessWidget {
                   width: _canvasWidth,
                   child: Text(
                     'One response. One constructor. Four wires.',
-                    style: TextStyle(color: Palette.textPrimary, fontSize: 24),
+                    style: TextStyle(color: Palette.textPrimary, fontSize: 29),
                   ),
                 ),
                 const SizedBox(height: Tokens.gapSm),
@@ -144,9 +144,12 @@ class JsonToDartBody extends StatelessWidget {
                     firstStep: 6,
                     stepsPerRow: 0,
                     rows: [
-                      CorrelationRow(platform: 'Android', concept: 'Gson / Moshi / kotlinx'),
+                      CorrelationRow(
+                          platform: 'Android',
+                          concept: 'Gson / Moshi / kotlinx'),
                       CorrelationRow(platform: 'iOS', concept: 'Codable'),
-                      CorrelationRow(platform: 'Java/Spring', concept: 'Jackson'),
+                      CorrelationRow(
+                          platform: 'Java/Spring', concept: 'Jackson'),
                       CorrelationRow(platform: 'Go', concept: 'encoding/json'),
                     ],
                   ),
@@ -154,7 +157,8 @@ class JsonToDartBody extends StatelessWidget {
                 const SizedBox(height: Tokens.gapSm),
                 const Callout(
                   atStep: 6,
-                  text: "Dart has no runtime reflection. That's why you write this one.",
+                  text:
+                      "Dart has no runtime reflection. That's why you write this one.",
                   color: Palette.amber,
                 ),
               ],
@@ -192,7 +196,7 @@ class _ShellLine extends StatelessWidget {
             text,
             style: const TextStyle(
               fontFamily: 'JetBrainsMono',
-              fontSize: 16,
+              fontSize: 20,
               height: 1.0,
               color: Palette.blue,
             ),

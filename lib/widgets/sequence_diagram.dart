@@ -1,8 +1,8 @@
 /// A reusable step-driven sequence diagram: fixed vertical "lanes" (actors)
 /// and a stack of horizontal "hops" (messages) between them, one per row.
 ///
-/// Built for slide 16's nine-step OAuth2 flow (`/oauth-flow`) and reused,
-/// smaller, on slides 17 and 18 — getting the lane/row geometry right once
+/// Built for slide 15's nine-step OAuth2 flow (`/oauth-flow`) and reused,
+/// smaller, on slide 16 and 18 — getting the lane/row geometry right once
 /// is worth it. Every hop is gated by [StepReveal], so the whole diagram is
 /// presenter-paced and reverses cleanly like every other primitive in this
 /// deck: no [AnimationController], no timer.
@@ -25,7 +25,7 @@ class SequenceLane {
 
 /// One message between two lanes, revealed at [atStep].
 ///
-/// When [from] equals [to] the hop is a same-lane event (slide 16 step 2,
+/// When [from] equals [to] the hop is a same-lane event (slide 15 step 2,
 /// "user logs in") and renders as a small badge rather than a crossing
 /// arrow.
 ///
@@ -73,7 +73,7 @@ class SequenceDiagram extends StatelessWidget {
   static const laneHeaderHeight = 34.0;
 
   /// Vertical space each hop row occupies. Exposed so a caller that needs
-  /// to align extra content (slide 16's token pills) with a specific hop
+  /// to align extra content (slide 15's token pills) with a specific hop
   /// can compute that row's y-offset the same way this widget does.
   static const rowHeight = 36.0;
 
@@ -177,7 +177,7 @@ class _LaneHeader extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           style: const TextStyle(
             color: Palette.textPrimary,
-            fontSize: 13,
+            fontSize: 16,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -233,7 +233,7 @@ class _HopRow extends StatelessWidget {
                       textAlign: TextAlign.center,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(color: color, fontSize: 12, fontWeight: FontWeight.w500),
+                      style: TextStyle(color: color, fontSize: 15, fontWeight: FontWeight.w500),
                     ),
                   ),
                   Positioned(
@@ -255,7 +255,7 @@ class _HopRow extends StatelessWidget {
   }
 }
 
-/// A same-lane hop's badge (slide 16 step 2: "user logs in", no crossing).
+/// A same-lane hop's badge (slide 15 step 2: "user logs in", no crossing).
 /// Returns a [Positioned] directly, so it must sit inside a [Stack] — see
 /// its use in [_HopRow.build].
 class _SelfBadge extends StatelessWidget {
@@ -282,7 +282,7 @@ class _SelfBadge extends StatelessWidget {
               textAlign: TextAlign.center,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(color: color, fontSize: 11),
+              style: TextStyle(color: color, fontSize: 13),
             ),
           ],
         ),
@@ -292,7 +292,7 @@ class _SelfBadge extends StatelessWidget {
 /// One token, rendered as a pill whose *width* — not a caption — carries its
 /// lifetime: a short-lived access token draws narrow, a long-lived refresh
 /// token draws wide. [expired] collapses it toward zero width and greys it,
-/// for slide 16 step 7's silent, unattended expiry.
+/// for slide 15 step 7's silent, unattended expiry.
 class TokenPill extends StatelessWidget {
   const TokenPill({
     required this.label,
@@ -341,7 +341,7 @@ class TokenPill extends StatelessWidget {
           overflow: TextOverflow.clip,
           style: TextStyle(
             color: displayColor,
-            fontSize: 12,
+            fontSize: 15,
             fontFamily: 'JetBrainsMono',
             fontWeight: FontWeight.w600,
           ),

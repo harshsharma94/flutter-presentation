@@ -54,7 +54,7 @@ class DesignToTreeBody extends StatelessWidget {
                     const Text(
                       'Read it as a hierarchy before you type it.',
                       style:
-                          TextStyle(color: Palette.textPrimary, fontSize: 22),
+                          TextStyle(color: Palette.textPrimary, fontSize: 27),
                     ),
                     const SizedBox(height: Tokens.gapMd),
                     for (var i = 0; i < _beats.length; i++)
@@ -95,7 +95,7 @@ class _TreeLine extends StatelessWidget {
             style: TextStyle(
               fontFamily: 'JetBrainsMono',
               color: Palette.textSecondary,
-              fontSize: 15,
+              fontSize: 18,
             ),
           ),
           Flexible(
@@ -115,7 +115,7 @@ class _TreeLine extends StatelessWidget {
                 style: const TextStyle(
                   fontFamily: 'JetBrainsMono',
                   color: Palette.blue,
-                  fontSize: 14,
+                  fontSize: 17,
                 ),
               ),
             ),

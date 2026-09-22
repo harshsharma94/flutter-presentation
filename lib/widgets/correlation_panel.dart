@@ -29,9 +29,9 @@ class CorrelationPanel extends StatelessWidget {
 
   /// How many steps separate one row's reveal from the next. The default of
   /// 1 is the usual "one row per step, arrow lands with the last row"
-  /// choreography (slide 7). Pass 0 to reveal every row — and the arrow and
+  /// choreography (slide 6). Pass 0 to reveal every row — and the arrow and
   /// [flutterLabel] box — together on a single step, for a slide that only
-  /// has one step left in its budget to spend on the correlation (slide 9's
+  /// has one step left in its budget to spend on the correlation (slide 8's
   /// closing beat).
   final int stepsPerRow;
 
@@ -58,14 +58,14 @@ class CorrelationPanel extends StatelessWidget {
                           rows[i].platform,
                           style: const TextStyle(
                             color: Palette.textSecondary,
-                            fontSize: 16,
+                            fontSize: 20,
                           ),
                         ),
                         Text(
                           rows[i].concept,
                           style: const TextStyle(
                             color: Palette.green,
-                            fontSize: 24,
+                            fontSize: 29,
                           ),
                         ),
                       ],
@@ -96,7 +96,7 @@ class CorrelationPanel extends StatelessWidget {
               child: Text(
                 flutterLabel,
                 textAlign: TextAlign.center,
-                style: const TextStyle(color: Palette.blue, fontSize: 32),
+                style: const TextStyle(color: Palette.blue, fontSize: 36),
               ),
             ),
           ),

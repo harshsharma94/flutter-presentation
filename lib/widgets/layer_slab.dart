@@ -3,7 +3,7 @@ import 'package:flutter_bootcamp_deck/theme/palette.dart';
 import 'package:flutter_bootcamp_deck/theme/tokens.dart';
 
 /// One colour-coded concern. The *same* [Band] values are reused across
-/// slides 25 and 26 so the sort reads as the same bands moving, not new
+/// slide 24 and 26 so the sort reads as the same bands moving, not new
 /// bands appearing.
 class Band {
   const Band({required this.label, required this.color});
@@ -12,8 +12,8 @@ class Band {
   final Color color;
 }
 
-/// The four concerns tangled together in one file on slide 25 and sorted
-/// into three layers on slide 26.
+/// The four concerns tangled together in one file on slide 24 and sorted
+/// into three layers on slide 25.
 const uiBand = Band(label: 'build() — Column, ListView', color: Palette.blue);
 const uiBand2 = Band(label: 'build() — error Text, spinner', color: Palette.blue);
 const networkBand = Band(label: 'dio.get(…)', color: Palette.green);
@@ -23,7 +23,7 @@ const rulesBand = Band(label: 'if (likes > 100) featured = true', color: Palette
 const rulesBand2 = Band(label: 'sort by likes desc', color: Palette.red);
 
 /// A named layer holding [bands]. [onFire] tints the slab red — used on
-/// slide 27 when the dependency rule is broken and the Domain layer stops
+/// slide 26 when the dependency rule is broken and the Domain layer stops
 /// being independently testable.
 class LayerSlab extends StatelessWidget {
   const LayerSlab({
@@ -70,7 +70,7 @@ class LayerSlab extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       color: onFire ? Palette.red : Palette.textPrimary,
-                      fontSize: 18,
+                      fontSize: 22,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -84,7 +84,7 @@ class LayerSlab extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         color: Palette.textSecondary,
-                        fontSize: 14,
+                        fontSize: 17,
                       ),
                     ),
                   ),
@@ -102,7 +102,7 @@ class LayerSlab extends StatelessWidget {
 }
 
 /// A single band, rendered identically wherever it appears — that visual
-/// identity is what carries the continuity between slides 25 and 26.
+/// identity is what carries the continuity between slide 24 and 26.
 class BandRow extends StatelessWidget {
   const BandRow({required this.band, super.key});
 
@@ -122,7 +122,7 @@ class BandRow extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
             fontFamily: 'JetBrainsMono',
-            fontSize: 13,
+            fontSize: 16,
             color: band.color,
           ),
         ),

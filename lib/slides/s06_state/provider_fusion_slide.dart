@@ -7,7 +7,7 @@ import 'package:flutter_bootcamp_deck/widgets/step_reveal.dart';
 const _boxW = 260.0;
 const _boxH = 112.0;
 
-/// Slide 35 — `/provider-fusion` (3 steps, A27). The two halves they now
+/// Slide 34 — `/provider-fusion` (3 steps, A27). The two halves they now
 /// understand slide together: an InheritedWidget that can't change, and a
 /// ChangeNotifier that can't be reached. Provider is the pair, packaged.
 class ProviderFusionBody extends StatelessWidget {
@@ -36,7 +36,8 @@ class ProviderFusionBody extends StatelessWidget {
                     AnimatedAlign(
                       duration: Tokens.travel,
                       curve: Tokens.curve,
-                      alignment: fused ? Alignment.center : Alignment.centerLeft,
+                      alignment:
+                          fused ? Alignment.center : Alignment.centerLeft,
                       child: AnimatedOpacity(
                         duration: Tokens.travel,
                         opacity: fused ? 0.0 : 1.0,
@@ -50,7 +51,8 @@ class ProviderFusionBody extends StatelessWidget {
                     AnimatedAlign(
                       duration: Tokens.travel,
                       curve: Tokens.curve,
-                      alignment: fused ? Alignment.center : Alignment.centerRight,
+                      alignment:
+                          fused ? Alignment.center : Alignment.centerRight,
                       child: AnimatedOpacity(
                         duration: Tokens.travel,
                         opacity: fused ? 0.0 : 1.0,
@@ -125,13 +127,15 @@ class _Box extends StatelessWidget {
           children: [
             Text(
               title,
-              style: TextStyle(color: color, fontSize: 17, fontWeight: FontWeight.w600),
+              style: TextStyle(
+                  color: color, fontSize: 21, fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 2),
             Text(
               sub,
               textAlign: TextAlign.center,
-              style: const TextStyle(color: Palette.textSecondary, fontSize: 13, height: 1.3),
+              style: const TextStyle(
+                  color: Palette.textSecondary, fontSize: 16, height: 1.3),
             ),
           ],
         ),
@@ -153,13 +157,13 @@ class _LineCounter extends StatelessWidget {
           children: [
             const Text(
               'lines of wiring: ',
-              style: TextStyle(color: Palette.textSecondary, fontSize: 20),
+              style: TextStyle(color: Palette.textSecondary, fontSize: 24),
             ),
             AnimatedDefaultTextStyle(
               duration: Tokens.travel,
               style: TextStyle(
                 fontFamily: 'JetBrainsMono',
-                fontSize: 30,
+                fontSize: 34,
                 color: lines <= 10 ? Palette.green : Palette.amber,
               ),
               child: Text('$lines'),

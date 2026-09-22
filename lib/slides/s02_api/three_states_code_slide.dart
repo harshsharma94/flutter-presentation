@@ -21,8 +21,8 @@ const _loadingLines = [3, 4];
 const _errorLines = [5, 6];
 const _dataLines = [7, 8];
 
-/// Slide 13 — `/three-states-code` (3 steps). The `switch` over a sealed
-/// result type that slide 11's demo runs for real; `highlightedLines` walks
+/// Slide 12 — `/three-states-code` (3 steps). The `switch` over a sealed
+/// result type that slide 10's demo runs for real; `highlightedLines` walks
 /// loading → error → data, one branch per step.
 class ThreeStatesCodeBody extends StatelessWidget {
   const ThreeStatesCodeBody({required this.step, super.key});
@@ -37,25 +37,28 @@ class ThreeStatesCodeBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Center(
-        child: Padding(
-          padding: const EdgeInsets.all(Tokens.gapMd),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text(
-                'One result. Three branches.',
-                style: TextStyle(color: Palette.textPrimary, fontSize: 24),
-              ),
-              const SizedBox(height: Tokens.gapMd),
-              ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 560),
-                child: CodePanel(
-                  code: _switchCode,
-                  fileName: 'photo_view.dart',
-                  highlightedLines: _highlightedLines,
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Padding(
+            padding: const EdgeInsets.all(Tokens.gapMd),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  'One result. Three branches.',
+                  style: TextStyle(color: Palette.textPrimary, fontSize: 29),
                 ),
-              ),
-            ],
+                const SizedBox(height: Tokens.gapMd),
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 560),
+                  child: CodePanel(
+                    code: _switchCode,
+                    fileName: 'photo_view.dart',
+                    highlightedLines: _highlightedLines,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       );

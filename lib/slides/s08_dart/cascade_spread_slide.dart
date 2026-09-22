@@ -27,7 +27,7 @@ Column(
   ],
 )''';
 
-/// Slide 43 — `/cascade-spread` (2 steps, A34). Ninety seconds. They will
+/// Slide 42 — `/cascade-spread` (2 steps, A34). Ninety seconds. They will
 /// meet both in the codebase today; they do not need a lecture.
 class CascadeSpreadBody extends StatelessWidget {
   const CascadeSpreadBody({required this.step, super.key});
@@ -46,7 +46,7 @@ class CascadeSpreadBody extends StatelessWidget {
               children: [
                 const Text(
                   '..  cascade — same object, no repeated variable',
-                  style: TextStyle(color: Palette.textSecondary, fontSize: 18),
+                  style: TextStyle(color: Palette.textSecondary, fontSize: 22),
                 ),
                 const SizedBox(height: Tokens.gapXs),
                 SizedBox(
@@ -59,7 +59,8 @@ class CascadeSpreadBody extends StatelessWidget {
                   dimWhenPast: false,
                   child: Text(
                     '...  spread — a list, flattened into a child list',
-                    style: TextStyle(color: Palette.textSecondary, fontSize: 18),
+                    style:
+                        TextStyle(color: Palette.textSecondary, fontSize: 22),
                   ),
                 ),
                 const SizedBox(height: Tokens.gapXs),

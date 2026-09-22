@@ -24,7 +24,7 @@ MultiProvider(
   child: const PhotoApp(),
 )''';
 
-/// Slide 41 — `/di-testing` (2 steps, A32). Slide 28's idea, now at the
+/// Slide 40 — `/di-testing` (2 steps, A32). Slide 27's idea, now at the
 /// wiring level: one line, and the entire tree below is under test.
 class DiTestingBody extends StatelessWidget {
   const DiTestingBody({required this.step, super.key});
@@ -44,9 +44,8 @@ class DiTestingBody extends StatelessWidget {
                   width: 820,
                   child: CodePanel(
                     code: step >= 2 ? _fake : _real,
-                    fileName: step >= 2
-                        ? 'test/widget_test.dart'
-                        : 'lib/main.dart',
+                    fileName:
+                        step >= 2 ? 'test/widget_test.dart' : 'lib/main.dart',
                     highlightedLines: step >= 2 ? const [4] : const [],
                   ),
                 ),

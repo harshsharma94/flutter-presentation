@@ -5,7 +5,7 @@ import 'package:flutter_bootcamp_deck/theme/tokens.dart';
 /// A rounded 9:19.5 phone silhouette around [child], for slides that show a
 /// screenshot or live demo "on a phone" rather than floating in space.
 class PhoneFrame extends StatelessWidget {
-  const PhoneFrame({required this.child, this.width = 300, super.key});
+  const PhoneFrame({required this.child, this.width = 360, super.key});
 
   final Widget child;
   final double width;

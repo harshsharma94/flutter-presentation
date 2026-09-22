@@ -39,12 +39,13 @@ const _blockWidth = 170.0;
 const _blockHeight = 40.0;
 
 /// Centred over the [_stalledFrom]..[_stalledTo] tick range.
-const _blockLeft =
-    _lanesLeft + (_stalledFrom + _stalledTo) / 2 / _frameCount * _lanesWidth - _blockWidth / 2;
+const _blockLeft = _lanesLeft +
+    (_stalledFrom + _stalledTo) / 2 / _frameCount * _lanesWidth -
+    _blockWidth / 2;
 const _blockTopInMainLane = _mainLaneCenterY - _blockHeight / 2;
 const _blockTopInSecondLane = _secondLaneCenterY - _blockHeight / 2;
 
-/// Slide 9 — `/async-await` (4 steps, A6) ⭐ PROTECTED. One of four slides in
+/// Slide 8 — `/async-await` (4 steps, A6) ⭐ PROTECTED. One of four slides in
 /// the deck where the animation *is* the explanation rather than an
 /// illustration of one — see the file-level rationale on [_Spinner] for the
 /// single detail that makes or breaks it.
@@ -63,7 +64,8 @@ class AsyncAwaitBody extends StatelessWidget {
   bool get _isBlocked => step == 2;
   bool get _isSuspended => step == 3;
 
-  double get _blockTop => _isSuspended ? _blockTopInSecondLane : _blockTopInMainLane;
+  double get _blockTop =>
+      _isSuspended ? _blockTopInSecondLane : _blockTopInMainLane;
 
   @override
   Widget build(BuildContext context) => Center(
@@ -85,7 +87,8 @@ class AsyncAwaitBody extends StatelessWidget {
                         until: 1,
                         child: const Text(
                           '60 fps.',
-                          style: TextStyle(color: Palette.textPrimary, fontSize: 20),
+                          style: TextStyle(
+                              color: Palette.textPrimary, fontSize: 24),
                         ),
                       ),
                     ),
@@ -117,8 +120,9 @@ class AsyncAwaitBody extends StatelessWidget {
                             child: Text(
                               'await — suspended',
                               style: TextStyle(
-                                color: Palette.blue.withValues(alpha: Tokens.dimmed),
-                                fontSize: 14,
+                                color: Palette.blue
+                                    .withValues(alpha: Tokens.dimmed),
+                                fontSize: 17,
                               ),
                             ),
                           ),
@@ -138,7 +142,8 @@ class AsyncAwaitBody extends StatelessWidget {
                         duration: Tokens.fade,
                         curve: Tokens.curve,
                         opacity: step >= 2 ? 1.0 : 0.0,
-                        child: IgnorePointer(child: _FetchBlock(blocked: _isBlocked)),
+                        child: IgnorePointer(
+                            child: _FetchBlock(blocked: _isBlocked)),
                       ),
                     ),
                     Positioned(
@@ -170,7 +175,8 @@ class AsyncAwaitBody extends StatelessWidget {
                   CorrelationRow(platform: 'Kotlin', concept: 'suspend'),
                   CorrelationRow(platform: 'Swift', concept: 'async/await'),
                   CorrelationRow(platform: 'Go', concept: 'goroutine'),
-                  CorrelationRow(platform: 'Java', concept: 'CompletableFuture'),
+                  CorrelationRow(
+                      platform: 'Java', concept: 'CompletableFuture'),
                 ],
               ),
             ],
@@ -198,7 +204,8 @@ class _FetchBlock extends StatelessWidget {
       ),
       child: Text(
         'fetchPhotos()',
-        style: TextStyle(color: color, fontFamily: 'JetBrainsMono', fontSize: 16),
+        style:
+            TextStyle(color: color, fontFamily: 'JetBrainsMono', fontSize: 20),
       ),
     );
   }
@@ -233,7 +240,8 @@ class _Spinner extends StatefulWidget {
   State<_Spinner> createState() => _SpinnerState();
 }
 
-class _SpinnerState extends State<_Spinner> with SingleTickerProviderStateMixin {
+class _SpinnerState extends State<_Spinner>
+    with SingleTickerProviderStateMixin {
   late final AnimationController _controller = AnimationController(
     vsync: this,
     duration: const Duration(milliseconds: 1400),

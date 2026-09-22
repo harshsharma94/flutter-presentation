@@ -71,7 +71,9 @@ class BffVsNonBffBody extends StatelessWidget {
                       json: _bareJson,
                       client: _bareClient,
                       showClient: step >= 2,
-                      lines: step >= 4 ? 'client rules: 41 and climbing' : 'client rules: 31',
+                      lines: step >= 4
+                          ? 'client rules: 41 and climbing'
+                          : 'client rules: 31',
                       showLines: step >= 3,
                     ),
                   ],
@@ -118,7 +120,8 @@ class _Side extends StatelessWidget {
           children: [
             Text(
               label,
-              style: TextStyle(color: color, fontSize: 17, fontWeight: FontWeight.w600),
+              style: TextStyle(
+                  color: color, fontSize: 21, fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: Tokens.gapXs),
             CodePanel(code: json, language: 'json'),
@@ -131,7 +134,7 @@ class _Side extends StatelessWidget {
                 style: TextStyle(
                   fontFamily: 'JetBrainsMono',
                   color: color,
-                  fontSize: 16,
+                  fontSize: 20,
                 ),
               ),
           ],

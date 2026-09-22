@@ -26,7 +26,7 @@ class LiveBadge extends StatelessWidget {
             'LIVE',
             style: TextStyle(
               color: Palette.red,
-              fontSize: 20,
+              fontSize: 24,
               letterSpacing: 4,
               fontWeight: FontWeight.w600,
             ),
@@ -54,7 +54,7 @@ class LiveSlideBody extends StatelessWidget {
               textAlign: TextAlign.center,
               style: const TextStyle(
                 color: Palette.textPrimary,
-                fontSize: 48,
+                fontSize: 54,
                 height: 1.25,
               ),
             ),

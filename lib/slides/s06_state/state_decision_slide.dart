@@ -24,7 +24,7 @@ const _rows = [
   ),
 ];
 
-/// Slide 37 — `/state-decision` (4 steps, A29). The whole of §6, as a table
+/// Slide 36 — `/state-decision` (4 steps, A29). The whole of §5, as a table
 /// they can hold in their head.
 class StateDecisionBody extends StatelessWidget {
   const StateDecisionBody({required this.step, super.key});
@@ -60,7 +60,8 @@ class StateDecisionBody extends StatelessWidget {
                   child: Text(
                     'Bloc / Riverpod exist for when this starts to hurt. '
                     'Not before.',
-                    style: TextStyle(color: Palette.textSecondary, fontSize: 20),
+                    style:
+                        TextStyle(color: Palette.textSecondary, fontSize: 24),
                   ),
                 ),
               ],
@@ -96,7 +97,7 @@ class _Row extends StatelessWidget {
                 style: TextStyle(
                   fontFamily: 'JetBrainsMono',
                   color: color,
-                  fontSize: 22,
+                  fontSize: 27,
                 ),
               ),
             ),
@@ -104,14 +105,16 @@ class _Row extends StatelessWidget {
               width: 360,
               child: Text(
                 when,
-                style: const TextStyle(color: Palette.textPrimary, fontSize: 21),
+                style:
+                    const TextStyle(color: Palette.textPrimary, fontSize: 26),
               ),
             ),
             SizedBox(
               width: 340,
               child: Text(
                 example,
-                style: const TextStyle(color: Palette.textSecondary, fontSize: 17),
+                style:
+                    const TextStyle(color: Palette.textSecondary, fontSize: 21),
               ),
             ),
           ],

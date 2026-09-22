@@ -10,7 +10,7 @@ import 'package:flutter_bootcamp_deck/widgets/widget_tree.dart';
 const _modelWidth = 200.0;
 const _modelHeight = 76.0;
 
-/// Slide 34 — `/change-notifier` (9 steps, A26). Hybrid: a step-driven
+/// Slide 33 — `/change-notifier` (9 steps, A26). Hybrid: a step-driven
 /// diagram *plus* a genuinely tappable button wired to a real
 /// [CounterModel]. Every arrow is labelled with the real method name.
 class ChangeNotifierBody extends StatefulWidget {
@@ -50,8 +50,8 @@ class _ChangeNotifierBodyState extends State<ChangeNotifierBody> {
     // Two listeners, two entry points. Converging both lines on one pixel
     // stacked their arrowheads and read as a single thick blob, so each
     // line lands on its own point along the model box's left edge.
-    const anchorA = Offset(treeCanvasWidthAnchor, modelTop + _modelHeight * 0.3);
-    const anchorB = Offset(treeCanvasWidthAnchor, modelTop + _modelHeight * 0.75);
+    final anchorA = Offset(modelLeft, modelTop + _modelHeight * 0.3);
+    final anchorB = Offset(modelLeft, modelTop + _modelHeight * 0.75);
 
     return Center(
       child: Padding(
@@ -178,15 +178,20 @@ class _ChangeNotifierBodyState extends State<ChangeNotifierBody> {
                     const SizedBox(height: Tokens.gapSm),
                     const Text(
                       'This button is real. Tap it.',
-                      style: TextStyle(color: Palette.textSecondary, fontSize: 16),
+                      style:
+                          TextStyle(color: Palette.textSecondary, fontSize: 20),
                     ),
                     const SizedBox(height: Tokens.gapMd),
                     const CorrelationPanel(
                       flutterLabel: 'ChangeNotifier',
                       firstStep: 7,
                       rows: [
-                        CorrelationRow(platform: 'Android', concept: 'LiveData / StateFlow'),
-                        CorrelationRow(platform: 'iOS', concept: 'ObservableObject / @Published'),
+                        CorrelationRow(
+                            platform: 'Android',
+                            concept: 'LiveData / StateFlow'),
+                        CorrelationRow(
+                            platform: 'iOS',
+                            concept: 'ObservableObject / @Published'),
                         CorrelationRow(
                           platform: 'Java/Spring',
                           concept: 'PropertyChangeListener',
@@ -204,10 +209,6 @@ class _ChangeNotifierBodyState extends State<ChangeNotifierBody> {
   }
 }
 
-/// The model's anchor x, expressed against the tree canvas so the
-/// `addListener` lines land on the box's left edge.
-const treeCanvasWidthAnchor = 640.0 - _modelWidth / 2;
-
 class _ModelBox extends StatelessWidget {
   const _ModelBox({required this.likes, required this.step});
 
@@ -217,7 +218,7 @@ class _ModelBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
         width: _modelWidth,
-        height: _modelHeight,
+        constraints: const BoxConstraints(minHeight: _modelHeight),
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: Palette.surface,
@@ -225,13 +226,14 @@ class _ModelBox extends StatelessWidget {
           borderRadius: BorderRadius.circular(Tokens.radius),
         ),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text(
               'CounterModel',
               style: TextStyle(
                 color: Palette.blue,
-                fontSize: 16,
+                fontSize: 20,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -240,7 +242,7 @@ class _ModelBox extends StatelessWidget {
               style: const TextStyle(
                 fontFamily: 'JetBrainsMono',
                 color: Palette.textPrimary,
-                fontSize: 15,
+                fontSize: 18,
               ),
             ),
             if (step >= 4)
@@ -249,7 +251,7 @@ class _ModelBox extends StatelessWidget {
                 style: TextStyle(
                   fontFamily: 'JetBrainsMono',
                   color: Palette.green,
-                  fontSize: 11,
+                  fontSize: 13,
                 ),
               ),
           ],
@@ -279,7 +281,8 @@ class _Pulse extends StatelessWidget {
               height: 120,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                border: Border.all(color: Palette.green, width: Tokens.strokeWidth),
+                border:
+                    Border.all(color: Palette.green, width: Tokens.strokeWidth),
               ),
             ),
           ),

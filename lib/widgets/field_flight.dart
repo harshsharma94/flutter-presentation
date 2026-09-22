@@ -65,7 +65,7 @@ class FieldFlight extends StatelessWidget {
                     text: TextSpan(
                       style: const TextStyle(
                         fontFamily: 'JetBrainsMono',
-                        fontSize: 16,
+                        fontSize: 20,
                         height: 1.0,
                       ),
                       children: [
@@ -119,7 +119,7 @@ class JsonSourceLine extends StatelessWidget {
           text,
           style: const TextStyle(
             fontFamily: 'JetBrainsMono',
-            fontSize: 16,
+            fontSize: 20,
             height: 1.0,
             color: Palette.textPrimary,
           ),

@@ -8,7 +8,7 @@ import 'package:flutter_bootcamp_deck/widgets/rebuild_flash.dart';
 /// they are three different answers to "how much of my tree rebuilds?".
 enum ReadMode { watch, read, consumer }
 
-/// Slide 36's live demo. The same widget tree, rendered as real widgets
+/// Slide 35's live demo. The same widget tree, rendered as real widgets
 /// under a real [CounterModel], rebuilt through whichever reader is
 /// selected. Nothing here is staged: the flashes come from
 /// [RebuildFlash.build], the readout from [RebuildTally].
@@ -85,7 +85,7 @@ class _RebuildScopeDemoState extends State<RebuildScopeDemo> {
                     style: const TextStyle(
                       fontFamily: 'JetBrainsMono',
                       color: Palette.green,
-                      fontSize: 18,
+                      fontSize: 22,
                     ),
                   ),
                 ),
@@ -112,7 +112,7 @@ class _RebuildScopeDemoState extends State<RebuildScopeDemo> {
                 style: const TextStyle(
                   fontFamily: 'JetBrainsMono',
                   color: Palette.textPrimary,
-                  fontSize: 20,
+                  fontSize: 24,
                 ),
               ),
             ),
@@ -125,7 +125,7 @@ class _RebuildScopeDemoState extends State<RebuildScopeDemo> {
                     'read() never subscribes. The model says '
                     '${_model.likes}; the tree still says 0, nothing '
                     'rebuilt, and no flash fired.',
-                    style: const TextStyle(color: Palette.amber, fontSize: 16),
+                    style: const TextStyle(color: Palette.amber, fontSize: 20),
                   ),
                 ),
               ),
@@ -211,7 +211,7 @@ class _Node extends StatelessWidget {
           children: [
             Text(
               label,
-              style: const TextStyle(color: Palette.textSecondary, fontSize: 12),
+              style: const TextStyle(color: Palette.textSecondary, fontSize: 15),
             ),
             const SizedBox(height: 4),
             child,
@@ -238,7 +238,7 @@ class _Leaf extends StatelessWidget {
           style: const TextStyle(
             fontFamily: 'JetBrainsMono',
             color: Palette.blue,
-            fontSize: 13,
+            fontSize: 16,
           ),
         ),
       );

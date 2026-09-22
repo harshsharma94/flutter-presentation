@@ -39,7 +39,7 @@ class AnimatedArrow extends StatelessWidget {
 
   /// Draws the line as a dash pattern (reusing [DashedBox]'s segmenting)
   /// instead of a solid stroke — for a line that reads as "attempted" or
-  /// "in progress" rather than resolved. A4 (slide 6, `/api-gap`) uses this
+  /// "in progress" rather than resolved. A4 (slide 5, `/api-gap`) uses this
   /// for the first, failed crossing attempt, then a plain solid
   /// [AnimatedArrow] for the completed one.
   final bool dashed;

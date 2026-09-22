@@ -8,12 +8,12 @@ import 'package:flutter_bootcamp_deck/widgets/widget_tree.dart';
 
 /// The scope box is drawn *beside* the root rather than inserted into
 /// [demoTree] itself. Inserting a node would add a level, which changes
-/// `treeNodePositions`' row height and shifts every node — and slides 31-35
+/// `treeNodePositions`' row height and shifts every node — and slide 29-34
 /// depend on the tree never jumping across a slide boundary.
 const _scopeWidth = 170.0;
 const _scopeHeight = 68.0;
 
-/// Slide 32 — `/inherited-widget` (8 steps, A24). The same tree as slide 31,
+/// Slide 31 — `/inherited-widget` (8 steps, A24). The same tree as slide 30,
 /// with the chips falling away and an ancestor-chain lookup travelling up to
 /// a scope that sits at the root.
 class InheritedWidgetBody extends StatelessWidget {
@@ -113,7 +113,7 @@ class InheritedWidgetBody extends StatelessWidget {
                           '    <PhotoScope>()',
                           style: TextStyle(
                             fontFamily: 'JetBrainsMono',
-                            fontSize: 15,
+                            fontSize: 18,
                             color: Palette.blue,
                             height: 1.4,
                           ),
@@ -136,9 +136,12 @@ class InheritedWidgetBody extends StatelessWidget {
                       flutterLabel: 'InheritedWidget',
                       firstStep: 6,
                       rows: [
-                        CorrelationRow(platform: 'Android', concept: 'CompositionLocal'),
-                        CorrelationRow(platform: 'iOS', concept: '@Environment'),
-                        CorrelationRow(platform: 'Web', concept: 'React Context'),
+                        CorrelationRow(
+                            platform: 'Android', concept: 'CompositionLocal'),
+                        CorrelationRow(
+                            platform: 'iOS', concept: '@Environment'),
+                        CorrelationRow(
+                            platform: 'Web', concept: 'React Context'),
                       ],
                     ),
                   ],
@@ -158,7 +161,7 @@ class _ScopeBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
         width: _scopeWidth,
-        height: _scopeHeight,
+        constraints: const BoxConstraints(minHeight: _scopeHeight),
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: Palette.surface,
@@ -173,13 +176,13 @@ class _ScopeBox extends StatelessWidget {
               'PhotoScope',
               style: TextStyle(
                 color: Palette.blue,
-                fontSize: 16,
+                fontSize: 20,
                 fontWeight: FontWeight.w600,
               ),
             ),
             Text(
               'InheritedWidget',
-              style: TextStyle(color: Palette.textSecondary, fontSize: 12),
+              style: TextStyle(color: Palette.textSecondary, fontSize: 15),
             ),
           ],
         ),
@@ -205,7 +208,7 @@ class _Note extends StatelessWidget {
           slideFrom: const Offset(0.06, 0),
           child: Text(
             text,
-            style: TextStyle(color: color, fontSize: 18, height: 1.35),
+            style: TextStyle(color: color, fontSize: 22, height: 1.35),
           ),
         ),
       );

@@ -6,7 +6,8 @@ import 'package:flutter_bootcamp_deck/widgets/annotate.dart';
 const _failures = [
   (
     platform: 'Android',
-    error: 'SocketException: Permission denied (maybe missing INTERNET permission)',
+    error:
+        'SocketException: Permission denied (maybe missing INTERNET permission)',
   ),
   (
     platform: 'macOS',
@@ -19,7 +20,7 @@ const _failures = [
   ),
 ];
 
-/// Slide 14 — `/when-it-breaks` (3 steps). Three platform-specific ways the
+/// Slide 13 — `/when-it-breaks` (3 steps). Three platform-specific ways the
 /// same request dies before it ever reaches `catch` — a reference card for
 /// the moment someone's app hangs mid-workshop, not a lesson to teach cold.
 class WhenItBreaksBody extends StatelessWidget {

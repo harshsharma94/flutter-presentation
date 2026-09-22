@@ -25,7 +25,7 @@ part 'photo.g.dart';
 @JsonSerializable()
 class Photo { ... }''';
 
-/// Slide 23 — `/codegen` (2 steps, A17). Optional. Frame it as "you now know
+/// Slide 22 — `/codegen` (2 steps, A17). Optional. Frame it as "you now know
 /// exactly what this generates" — which is the only reason it was worth
 /// writing by hand first.
 class CodegenBody extends StatelessWidget {
@@ -81,7 +81,7 @@ class _Terminal extends StatelessWidget {
               r'$ dart run build_runner build',
               style: TextStyle(
                 fontFamily: 'JetBrainsMono',
-                fontSize: 16,
+                fontSize: 20,
                 color: Palette.green,
               ),
             ),
@@ -90,7 +90,7 @@ class _Terminal extends StatelessWidget {
               '[INFO] Succeeded after 1.2s with 1 output (photo.g.dart)',
               style: TextStyle(
                 fontFamily: 'JetBrainsMono',
-                fontSize: 14,
+                fontSize: 17,
                 color: Palette.textSecondary,
               ),
             ),

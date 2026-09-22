@@ -33,7 +33,7 @@ class PaymentRowData {
 
 /// A neutral reconstruction of a "select payment method" screen — generic
 /// rows, synthetic balances, no real product. It exists to be read as a
-/// hierarchy on slide 44 and annotated against a contract on slides 45-47.
+/// hierarchy on slide 44 and annotated against a contract on slide 45-47.
 const paymentRows = [
   PaymentRowData(
     id: 'row-rewards',
@@ -136,7 +136,7 @@ class PaymentMethodsScreen extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         color: Palette.textPrimary,
-                        fontSize: 16,
+                        fontSize: 20,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -157,7 +157,7 @@ class PaymentMethodsScreen extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       color: Palette.textPrimary,
-                      fontSize: 14,
+                      fontSize: 17,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -165,7 +165,7 @@ class PaymentMethodsScreen extends StatelessWidget {
                     'Swipe left to set as default',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(color: Palette.textSecondary, fontSize: 11),
+                    style: TextStyle(color: Palette.textSecondary, fontSize: 13),
                   ),
                 ],
               ),
@@ -194,7 +194,7 @@ class PaymentMethodsScreen extends StatelessWidget {
                     'Continue',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 14,
+                      fontSize: 17,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -239,14 +239,14 @@ class PaymentRow extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         color: Palette.textPrimary,
-                        fontSize: 13,
+                        fontSize: 16,
                       ),
                     ),
                     Text(
                       data.subtitle,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(color: _subtitleColor, fontSize: 11),
+                      style: TextStyle(color: _subtitleColor, fontSize: 13),
                     ),
                   ],
                 ),

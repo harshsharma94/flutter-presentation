@@ -28,7 +28,7 @@ runApp(
 // anywhere below, at any depth:
 final repo = context.read<PhotoRepository>();''';
 
-/// Slide 40 — `/di-multiprovider` (5 steps, A31). The spaghetti collapses
+/// Slide 39 — `/di-multiprovider` (5 steps, A31). The spaghetti collapses
 /// into a list. Provider is already in the app for state, so this costs zero
 /// new packages.
 class DiMultiproviderBody extends StatelessWidget {
@@ -60,7 +60,7 @@ class DiMultiproviderBody extends StatelessWidget {
                   child: Text(
                     'Declared once, at the top. Read where it is used. '
                     'Nothing in between changes.',
-                    style: TextStyle(color: Palette.green, fontSize: 19),
+                    style: TextStyle(color: Palette.green, fontSize: 23),
                   ),
                 ),
                 const SizedBox(height: Tokens.gapSm),
@@ -75,7 +75,8 @@ class DiMultiproviderBody extends StatelessWidget {
                         platform: 'Android',
                         concept: 'Hilt @Module / Koin module {}',
                       ),
-                      CorrelationRow(platform: 'iOS', concept: 'init injection'),
+                      CorrelationRow(
+                          platform: 'iOS', concept: 'init injection'),
                       CorrelationRow(
                         platform: 'Java/Spring',
                         concept: '@Bean / @Configuration',
@@ -91,7 +92,8 @@ class DiMultiproviderBody extends StatelessWidget {
                   child: Text(
                     'get_it exists and is fine. You do not need it today — '
                     'Provider is already here.',
-                    style: TextStyle(color: Palette.textSecondary, fontSize: 17),
+                    style:
+                        TextStyle(color: Palette.textSecondary, fontSize: 21),
                   ),
                 ),
               ],

@@ -3,7 +3,6 @@ import 'package:flutter_bootcamp_deck/theme/palette.dart';
 import 'package:flutter_bootcamp_deck/theme/tokens.dart';
 import 'package:flutter_bootcamp_deck/widgets/annotate.dart';
 import 'package:flutter_bootcamp_deck/widgets/phone_frame.dart';
-import 'package:flutter_bootcamp_deck/widgets/roadmap_spine.dart';
 import 'package:flutter_bootcamp_deck/widgets/step_reveal.dart';
 
 /// Fixed canvas the phone, the API icon and the request's round trip are laid
@@ -15,7 +14,7 @@ const _canvasWidth = 760.0;
 const _canvasHeight = 260.0;
 const _canvasSize = Size(_canvasWidth, _canvasHeight);
 
-const _phoneWidth = 110.0;
+const _phoneWidth = 150.0;
 const _phoneHeight = _phoneWidth * 19.5 / 9;
 const _phoneTop = 10.0;
 const _laneY = _phoneTop + _phoneHeight / 2;
@@ -41,9 +40,9 @@ const _serverEdgeX = _serverLeft - 8;
 /// rejected it.
 const _stampX = _serverLeft - 70;
 
-/// Slide 15 — `/auth-401` (3 steps, A10). Opens §3 Auth: a request with no
+/// Slide 14 — `/auth-401` (3 steps, A10). Opens §2 Auth: a request with no
 /// credential bounces off the API stamped 401; a key is what gets it
-/// through. The key is deliberately unexplained here — slide 16 is the
+/// through. The key is deliberately unexplained here — slide 15 is the
 /// whole mechanism behind getting one and keeping it valid.
 class Auth401Body extends StatelessWidget {
   const Auth401Body({required this.step, super.key});
@@ -59,14 +58,6 @@ class Auth401Body extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              SizedBox(
-                width: _canvasWidth,
-                child: Align(
-                  alignment: Alignment.topRight,
-                  child: RoadmapSpine(activeNode: 1, compact: true),
-                ),
-              ),
-              const SizedBox(height: Tokens.gapSm),
               SizedBox.fromSize(
                 size: _canvasSize,
                 child: Stack(
@@ -218,7 +209,8 @@ class _PhoneScreen extends StatelessWidget {
             duration: Tokens.fade,
             curve: Tokens.curve,
             opacity: granted ? 1.0 : 0.0,
-            child: const Icon(Icons.check_circle, color: Palette.blue, size: 26),
+            child:
+                const Icon(Icons.check_circle, color: Palette.blue, size: 26),
           ),
         ),
       );
@@ -232,14 +224,16 @@ class _StampBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        padding: const EdgeInsets.symmetric(horizontal: Tokens.gapSm, vertical: Tokens.gapXs),
+        padding: const EdgeInsets.symmetric(
+            horizontal: Tokens.gapSm, vertical: Tokens.gapXs),
         decoration: BoxDecoration(
           border: Border.all(color: Palette.red, width: Tokens.strokeWidth),
           borderRadius: BorderRadius.circular(Tokens.radius),
         ),
         child: const Text(
           '401',
-          style: TextStyle(color: Palette.red, fontSize: 16, fontWeight: FontWeight.w700),
+          style: TextStyle(
+              color: Palette.red, fontSize: 20, fontWeight: FontWeight.w700),
         ),
       );
 }
@@ -255,11 +249,11 @@ class _ErrorPulse extends StatelessWidget {
         tween: Tween(begin: 0.4, end: 1.0),
         duration: Tokens.fade,
         curve: Tokens.curve,
-        builder: (context, scale, child) => Transform.scale(scale: scale, child: child),
+        builder: (context, scale, child) =>
+            Transform.scale(scale: scale, child: child),
         child: const Icon(Icons.close, color: Palette.red, size: 28),
       );
 }
-
 
 /// A small label riding beside a traffic lane, so each arrow says what it
 /// carries instead of relying on colour alone.
@@ -283,7 +277,7 @@ class _LaneLabel extends StatelessWidget {
             style: TextStyle(
               fontFamily: 'JetBrainsMono',
               color: color,
-              fontSize: 13,
+              fontSize: 16,
             ),
           ),
         ],

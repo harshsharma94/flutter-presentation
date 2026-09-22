@@ -19,7 +19,7 @@ final photos = const [
 const _live = '''
 final photos = await repo.getPhotos();''';
 
-/// Slide 22 — `/delete-hardcoded` (3 steps, A16). The emotional peak of
+/// Slide 21 — `/delete-hardcoded` (3 steps, A16). The emotional peak of
 /// session 1: the Day-1 list they each typed by hand collapses into one
 /// line, and both screens fill from it.
 ///
@@ -82,7 +82,7 @@ class _PhotoPhone extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => PhoneFrame(
-        width: 180,
+        width: 220,
         child: ColoredBox(
           color: Palette.surface,
           child: filled
@@ -108,7 +108,7 @@ class _PlaceholderGrid extends StatelessWidget {
       );
 }
 
-/// Pulls from the same fixture-backed client as slides 8 and 11, so this
+/// Pulls from the same fixture-backed client as slide 7 and 11, so this
 /// never depends on the venue's wifi.
 class _LivePhotoGrid extends StatefulWidget {
   const _LivePhotoGrid({required this.offset});
@@ -133,7 +133,8 @@ class _LivePhotoGridState extends State<_LivePhotoGrid> {
               for (var i = 0; i < 6; i++)
                 _Tile(
                   color: Palette.base,
-                  imageUrl: photos[(i + widget.offset) % photos.length].imageUrl,
+                  imageUrl:
+                      photos[(i + widget.offset) % photos.length].imageUrl,
                 ),
             ],
           );
