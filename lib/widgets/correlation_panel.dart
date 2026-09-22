@@ -4,7 +4,7 @@ import 'package:flutter_bootcamp_deck/theme/tokens.dart';
 import 'package:flutter_bootcamp_deck/widgets/step_reveal.dart';
 
 class CorrelationRow {
-  const CorrelationRow({required this.platform, required this.concept});
+  CorrelationRow({required this.platform, required this.concept});
   final String platform;
   final String concept;
 }
@@ -37,6 +37,7 @@ class CorrelationPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pal = Palette.of(context);
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -50,20 +51,20 @@ class CorrelationPanel extends StatelessWidget {
                   atStep: firstStep + i * stepsPerRow,
                   dimWhenPast: false,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: Tokens.gapXs),
+                    padding: EdgeInsets.symmetric(vertical: Tokens.gapXs),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
                           rows[i].platform,
-                          style: const TextStyle(
-                            color: Palette.textSecondary,
+                          style: TextStyle(
+                            color: pal.textSecondary,
                             fontSize: 20,
                           ),
                         ),
                         Text(
                           rows[i].concept,
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: Palette.green,
                             fontSize: 29,
                           ),
@@ -75,28 +76,28 @@ class CorrelationPanel extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(width: Tokens.gapLg),
+        SizedBox(width: Tokens.gapLg),
         StepReveal(
           atStep: firstStep + (rows.length - 1) * stepsPerRow,
           dimWhenPast: false,
-          child: const Icon(Icons.arrow_forward,
-              color: Palette.textSecondary, size: 32),
+          child: Icon(Icons.arrow_forward, color: pal.textSecondary, size: 32),
         ),
-        const SizedBox(width: Tokens.gapLg),
+        SizedBox(width: Tokens.gapLg),
         Expanded(
           child: StepReveal(
             atStep: firstStep + (rows.length - 1) * stepsPerRow,
             dimWhenPast: false,
             child: Container(
-              padding: const EdgeInsets.all(Tokens.gapMd),
+              padding: EdgeInsets.all(Tokens.gapMd),
               decoration: BoxDecoration(
-                border: Border.all(color: Palette.blue, width: Tokens.strokeWidth),
+                border:
+                    Border.all(color: Palette.blue, width: Tokens.strokeWidth),
                 borderRadius: BorderRadius.circular(Tokens.radius),
               ),
               child: Text(
                 flutterLabel,
                 textAlign: TextAlign.center,
-                style: const TextStyle(color: Palette.blue, fontSize: 36),
+                style: TextStyle(color: Palette.blue, fontSize: 36),
               ),
             ),
           ),

@@ -87,7 +87,7 @@ class ReferencesBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Center(
         child: Padding(
-          padding: const EdgeInsets.all(Tokens.gapMd),
+          padding: EdgeInsets.all(Tokens.gapMd),
           child: FittedBox(
             fit: BoxFit.scaleDown,
             child: SizedBox(
@@ -123,49 +123,53 @@ class _Group extends StatelessWidget {
   final List<({String label, String note})> links;
 
   @override
-  Widget build(BuildContext context) => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            title,
-            style: const TextStyle(
-              color: Palette.blue,
-              fontSize: 23,
-              fontWeight: FontWeight.w600,
+  Widget build(BuildContext context) {
+    final pal = Palette.of(context);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          title,
+          style: TextStyle(
+            color: Palette.blue,
+            fontSize: 23,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        SizedBox(height: 4),
+        for (final link in links)
+          Padding(
+            padding: EdgeInsets.only(bottom: 3),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.baseline,
+              textBaseline: TextBaseline.alphabetic,
+              children: [
+                Flexible(
+                  child: Text(
+                    link.label,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontFamily: 'JetBrainsMono',
+                      color: pal.textPrimary,
+                      fontSize: 17,
+                    ),
+                  ),
+                ),
+                SizedBox(width: Tokens.gapXs),
+                Text(
+                  link.note,
+                  style: TextStyle(
+                    color: pal.textSecondary,
+                    fontSize: 15,
+                  ),
+                ),
+              ],
             ),
           ),
-          const SizedBox(height: 4),
-          for (final link in links)
-            Padding(
-              padding: const EdgeInsets.only(bottom: 3),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.baseline,
-                textBaseline: TextBaseline.alphabetic,
-                children: [
-                  Flexible(
-                    child: Text(
-                      link.label,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontFamily: 'JetBrainsMono',
-                        color: Palette.textPrimary,
-                        fontSize: 17,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: Tokens.gapXs),
-                  Text(
-                    link.note,
-                    style: const TextStyle(
-                      color: Palette.textSecondary,
-                      fontSize: 15,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-        ],
-      );
+      ],
+    );
+  }
 }

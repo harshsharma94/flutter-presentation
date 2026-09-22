@@ -8,7 +8,7 @@ sealed class ApiResult {}
 
 switch (result) {
   case Loading():
-    return const Spinner();
+    return Spinner();
   case ApiError(:final message):
     return ErrorView(message);
   case Data(:final photos):
@@ -36,30 +36,34 @@ class ThreeStatesCodeBody extends StatelessWidget {
       };
 
   @override
-  Widget build(BuildContext context) => Center(
-        child: FittedBox(
-          fit: BoxFit.scaleDown,
-          child: Padding(
-            padding: const EdgeInsets.all(Tokens.gapMd),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Text(
-                  'One result. Three branches.',
-                  style: TextStyle(color: Palette.textPrimary, fontSize: 29),
+  Widget build(BuildContext context) {
+    final pal = Palette.of(context);
+
+    return Center(
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Padding(
+          padding: EdgeInsets.all(Tokens.gapMd),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'One result. Three branches.',
+                style: TextStyle(color: pal.textPrimary, fontSize: 29),
+              ),
+              SizedBox(height: Tokens.gapMd),
+              ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: 560),
+                child: CodePanel(
+                  code: _switchCode,
+                  fileName: 'photo_view.dart',
+                  highlightedLines: _highlightedLines,
                 ),
-                const SizedBox(height: Tokens.gapMd),
-                ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 560),
-                  child: CodePanel(
-                    code: _switchCode,
-                    fileName: 'photo_view.dart',
-                    highlightedLines: _highlightedLines,
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
-      );
+      ),
+    );
+  }
 }

@@ -16,7 +16,7 @@ import 'package:flutter_bootcamp_deck/widgets/step_reveal.dart';
 
 /// One vertical actor lane — e.g. `App`, `Browser`, `Auth Server`, `API`.
 class SequenceLane {
-  const SequenceLane({required this.id, required this.label});
+  SequenceLane({required this.id, required this.label});
 
   /// Stable id [SequenceHop.from]/[SequenceHop.to] refer to. Not shown.
   final String id;
@@ -35,7 +35,7 @@ class SequenceLane {
 /// the same [from]/[to] pair, so it lands on the same line rather than
 /// opening a new one.
 class SequenceHop {
-  const SequenceHop({
+  SequenceHop({
     required this.from,
     required this.to,
     required this.label,
@@ -49,7 +49,7 @@ class SequenceHop {
   final String label;
   final int atStep;
 
-  /// Defaults to [Palette.textSecondary] — ordinary connective annotation.
+  /// Defaults to [pal.textSecondary] — ordinary connective annotation.
   /// Pass [Palette.red] / [Palette.green] only for an actual error or a
   /// replayed success, per the deck's semantic palette.
   final Color? color;
@@ -63,7 +63,8 @@ class SequenceHop {
 /// `dimWhenPast` behaviour, not bespoke logic — so the current hop always
 /// reads as the one in motion.
 class SequenceDiagram extends StatelessWidget {
-  const SequenceDiagram({required this.lanes, required this.hops, this.width = 860, super.key});
+  const SequenceDiagram(
+      {required this.lanes, required this.hops, this.width = 860, super.key});
 
   final List<SequenceLane> lanes;
   final List<SequenceHop> hops;
@@ -104,7 +105,8 @@ class SequenceDiagram extends StatelessWidget {
     return rows;
   }
 
-  int get _rowCount => hops.isEmpty ? 0 : _rows.reduce((a, b) => a > b ? a : b) + 1;
+  int get _rowCount =>
+      hops.isEmpty ? 0 : _rows.reduce((a, b) => a > b ? a : b) + 1;
 
   /// Total pixel height this diagram renders at, for a caller sizing its
   /// own layout around it (e.g. a [SizedBox] ancestor).
@@ -116,6 +118,7 @@ class SequenceDiagram extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pal = Palette.of(context);
     final rows = _rows;
 
     return SizedBox(
@@ -131,7 +134,8 @@ class SequenceDiagram extends StatelessWidget {
               left: _laneCenterX(i),
               top: laneHeaderHeight,
               bottom: 0,
-              child: Container(width: 1, color: Palette.textSecondary.withValues(alpha: 0.15)),
+              child: Container(
+                  width: 1, color: pal.textSecondary.withValues(alpha: 0.15)),
             ),
           for (var i = 0; i < lanes.length; i++)
             Positioned(
@@ -163,25 +167,29 @@ class _LaneHeader extends StatelessWidget {
   final String label;
 
   @override
-  Widget build(BuildContext context) => Container(
-        alignment: Alignment.center,
-        padding: const EdgeInsets.symmetric(horizontal: Tokens.gapXs),
-        decoration: BoxDecoration(
-          border: Border.all(color: Palette.textSecondary, width: Tokens.strokeWidth),
-          borderRadius: BorderRadius.circular(Tokens.radius),
+  Widget build(BuildContext context) {
+    final pal = Palette.of(context);
+
+    return Container(
+      alignment: Alignment.center,
+      padding: EdgeInsets.symmetric(horizontal: Tokens.gapXs),
+      decoration: BoxDecoration(
+        border: Border.all(color: pal.textSecondary, width: Tokens.strokeWidth),
+        borderRadius: BorderRadius.circular(Tokens.radius),
+      ),
+      child: Text(
+        label,
+        textAlign: TextAlign.center,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: TextStyle(
+          color: pal.textPrimary,
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
         ),
-        child: Text(
-          label,
-          textAlign: TextAlign.center,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: const TextStyle(
-            color: Palette.textPrimary,
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      );
+      ),
+    );
+  }
 }
 
 /// One hop's full row: either a crossing arrow with a label above it, or —
@@ -210,7 +218,8 @@ class _HopRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = hop.color ?? Palette.textSecondary;
+    final pal = Palette.of(context);
+    final color = hop.color ?? pal.textSecondary;
 
     return Positioned(
       left: 0,
@@ -225,7 +234,8 @@ class _HopRow extends StatelessWidget {
               ? [_SelfBadge(x: fromX, label: hop.label, color: color)]
               : [
                   Positioned(
-                    left: ((fromX + toX) / 2 - labelBoxWidth / 2).clamp(0.0, double.infinity),
+                    left: ((fromX + toX) / 2 - labelBoxWidth / 2)
+                        .clamp(0.0, double.infinity),
                     top: 0,
                     width: labelBoxWidth,
                     child: Text(
@@ -233,7 +243,10 @@ class _HopRow extends StatelessWidget {
                       textAlign: TextAlign.center,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(color: color, fontSize: 15, fontWeight: FontWeight.w500),
+                      style: TextStyle(
+                          color: color,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500),
                     ),
                   ),
                   Positioned(
@@ -276,7 +289,7 @@ class _SelfBadge extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(Icons.check_circle, color: color, size: 18),
-            const SizedBox(height: 2),
+            SizedBox(height: 2),
             Text(
               label,
               textAlign: TextAlign.center,
@@ -315,9 +328,11 @@ class TokenPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final displayColor = expired ? Palette.textSecondary : color;
-    final displayWidth =
-        expired ? _minWidth : (_maxWidth * widthFactor).clamp(_minWidth, _maxWidth);
+    final pal = Palette.of(context);
+    final displayColor = expired ? pal.textSecondary : color;
+    final displayWidth = expired
+        ? _minWidth
+        : (_maxWidth * widthFactor).clamp(_minWidth, _maxWidth);
 
     return AnimatedContainer(
       duration: Tokens.travel,

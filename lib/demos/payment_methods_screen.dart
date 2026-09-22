@@ -12,7 +12,7 @@ enum RowTone { normal, info, error }
 /// One payment method row, described entirely by data. Nothing here is
 /// hard-coded per-row in the widget layer — which is the whole BFF argument.
 class PaymentRowData {
-  const PaymentRowData({
+  PaymentRowData({
     required this.id,
     required this.icon,
     required this.title,
@@ -34,7 +34,7 @@ class PaymentRowData {
 /// A neutral reconstruction of a "select payment method" screen — generic
 /// rows, synthetic balances, no real product. It exists to be read as a
 /// hierarchy on slide 44 and annotated against a contract on slide 45-47.
-const paymentRows = [
+final paymentRows = [
   PaymentRowData(
     id: 'row-rewards',
     icon: Icons.stars_outlined,
@@ -111,99 +111,103 @@ class PaymentMethodsScreen extends StatelessWidget {
   bool _lit(String id) => highlightedRegions.contains(id);
 
   @override
-  Widget build(BuildContext context) => Container(
-        width: width,
-        padding: const EdgeInsets.all(Tokens.gapSm),
-        decoration: BoxDecoration(
-          color: Palette.surface,
-          borderRadius: BorderRadius.circular(Tokens.radius),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _Region(
-              id: 'header',
-              lit: _lit('header'),
-              child: const Row(
-                children: [
-                  Icon(Icons.arrow_back, color: Palette.textPrimary, size: 20),
-                  SizedBox(width: Tokens.gapXs),
-                  Expanded(
-                    child: Text(
-                      'Select payment method',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        color: Palette.textPrimary,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: Tokens.gapSm),
-            _Region(
-              id: 'section-title',
-              lit: _lit('section-title'),
-              child: const Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Payment methods',
+  Widget build(BuildContext context) {
+    final pal = Palette.of(context);
+
+    return Container(
+      width: width,
+      padding: EdgeInsets.all(Tokens.gapSm),
+      decoration: BoxDecoration(
+        color: pal.surface,
+        borderRadius: BorderRadius.circular(Tokens.radius),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _Region(
+            id: 'header',
+            lit: _lit('header'),
+            child: Row(
+              children: [
+                Icon(Icons.arrow_back, color: pal.textPrimary, size: 20),
+                SizedBox(width: Tokens.gapXs),
+                Expanded(
+                  child: Text(
+                    'Select payment method',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                      color: Palette.textPrimary,
-                      fontSize: 17,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  Text(
-                    'Swipe left to set as default',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(color: Palette.textSecondary, fontSize: 13),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: Tokens.gapXs),
-            for (final row in paymentRows)
-              _Region(
-                id: row.id,
-                lit: _lit(row.id),
-                child: PaymentRow(data: row),
-              ),
-            const SizedBox(height: Tokens.gapSm),
-            _Region(
-              id: 'cta',
-              lit: _lit('cta'),
-              child: SizedBox(
-                width: double.infinity,
-                child: Container(
-                  alignment: Alignment.center,
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  decoration: BoxDecoration(
-                    color: Palette.blue,
-                    borderRadius: BorderRadius.circular(Tokens.radius),
-                  ),
-                  child: const Text(
-                    'Continue',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 17,
+                      color: pal.textPrimary,
+                      fontSize: 20,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
+              ],
+            ),
+          ),
+          SizedBox(height: Tokens.gapSm),
+          _Region(
+            id: 'section-title',
+            lit: _lit('section-title'),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Payment methods',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: pal.textPrimary,
+                    fontSize: 17,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                Text(
+                  'Swipe left to set as default',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(color: pal.textSecondary, fontSize: 13),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: Tokens.gapXs),
+          for (final row in paymentRows)
+            _Region(
+              id: row.id,
+              lit: _lit(row.id),
+              child: PaymentRow(data: row),
+            ),
+          SizedBox(height: Tokens.gapSm),
+          _Region(
+            id: 'cta',
+            lit: _lit('cta'),
+            child: SizedBox(
+              width: double.infinity,
+              child: Container(
+                alignment: Alignment.center,
+                padding: EdgeInsets.symmetric(vertical: 10),
+                decoration: BoxDecoration(
+                  color: Palette.blue,
+                  borderRadius: BorderRadius.circular(Tokens.radius),
+                ),
+                child: Text(
+                  'Continue',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 17,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
               ),
             ),
-          ],
-        ),
-      );
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 /// One row. The three things the server controls — the description's tone,
@@ -214,64 +218,68 @@ class PaymentRow extends StatelessWidget {
 
   final PaymentRowData data;
 
-  Color get _subtitleColor => switch (data.tone) {
-        RowTone.normal => Palette.textSecondary,
+  Color _subtitleColor(DeckColors pal) => switch (data.tone) {
+        RowTone.normal => pal.textSecondary,
         RowTone.info => Palette.amber,
         RowTone.error => Palette.red,
       };
 
   @override
-  Widget build(BuildContext context) => Opacity(
-        opacity: data.enabled ? 1.0 : Tokens.dimmed,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 6),
-          child: Row(
-            children: [
-              Icon(data.icon, color: Palette.textPrimary, size: 20),
-              const SizedBox(width: Tokens.gapXs),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      data.title,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        color: Palette.textPrimary,
-                        fontSize: 16,
-                      ),
+  Widget build(BuildContext context) {
+    final pal = Palette.of(context);
+
+    return Opacity(
+      opacity: data.enabled ? 1.0 : Tokens.dimmed,
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 6),
+        child: Row(
+          children: [
+            Icon(data.icon, color: pal.textPrimary, size: 20),
+            SizedBox(width: Tokens.gapXs),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    data.title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: pal.textPrimary,
+                      fontSize: 16,
                     ),
-                    Text(
-                      data.subtitle,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(color: _subtitleColor, fontSize: 13),
-                    ),
-                  ],
-                ),
+                  ),
+                  Text(
+                    data.subtitle,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(color: _subtitleColor(pal), fontSize: 13),
+                  ),
+                ],
               ),
-              switch (data.cta) {
-                RowCta.radio => const Icon(
-                    Icons.radio_button_unchecked,
-                    color: Palette.textSecondary,
-                    size: 18,
-                  ),
-                RowCta.info => const Icon(
-                    Icons.info_outline,
-                    color: Palette.amber,
-                    size: 18,
-                  ),
-                RowCta.none => const Icon(
-                    Icons.chevron_right,
-                    color: Palette.textSecondary,
-                    size: 18,
-                  ),
-              },
-            ],
-          ),
+            ),
+            switch (data.cta) {
+              RowCta.radio => Icon(
+                  Icons.radio_button_unchecked,
+                  color: pal.textSecondary,
+                  size: 18,
+                ),
+              RowCta.info => Icon(
+                  Icons.info_outline,
+                  color: Palette.amber,
+                  size: 18,
+                ),
+              RowCta.none => Icon(
+                  Icons.chevron_right,
+                  color: pal.textSecondary,
+                  size: 18,
+                ),
+            },
+          ],
         ),
-      );
+      ),
+    );
+  }
 }
 
 /// Wraps a region so a slide can outline it without changing its layout.
@@ -287,7 +295,7 @@ class _Region extends StatelessWidget {
         key: ValueKey('region-$id'),
         duration: Tokens.fade,
         curve: Tokens.curve,
-        padding: const EdgeInsets.all(2),
+        padding: EdgeInsets.all(2),
         decoration: BoxDecoration(
           border: Border.all(
             color: lit ? Palette.blue : Colors.transparent,

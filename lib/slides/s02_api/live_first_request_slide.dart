@@ -12,5 +12,5 @@ class LiveFirstRequestBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) =>
-      const LiveSlideBody(goal: 'One GET. Print the JSON.');
+      LiveSlideBody(goal: 'One GET. Print the JSON.');
 }

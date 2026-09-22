@@ -9,24 +9,28 @@ class BreakBody extends StatelessWidget {
   final int step;
 
   @override
-  Widget build(BuildContext context) => const Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              'Break.',
-              style: TextStyle(
-                color: Palette.textPrimary,
-                fontSize: 100,
-                fontWeight: FontWeight.w600,
-              ),
+  Widget build(BuildContext context) {
+    final pal = Palette.of(context);
+
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            'Break.',
+            style: TextStyle(
+              color: pal.textPrimary,
+              fontSize: 100,
+              fontWeight: FontWeight.w600,
             ),
-            SizedBox(height: Tokens.gapSm),
-            Text(
-              'Back in 15.',
-              style: TextStyle(color: Palette.textSecondary, fontSize: 34),
-            ),
-          ],
-        ),
-      );
+          ),
+          SizedBox(height: Tokens.gapSm),
+          Text(
+            'Back in 15.',
+            style: TextStyle(color: pal.textSecondary, fontSize: 34),
+          ),
+        ],
+      ),
+    );
+  }
 }

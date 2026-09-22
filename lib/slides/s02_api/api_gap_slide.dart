@@ -40,91 +40,95 @@ class ApiGapBody extends StatelessWidget {
   final int step;
 
   @override
-  Widget build(BuildContext context) => Center(
-        child: Padding(
-          padding: const EdgeInsets.all(Tokens.gapLg),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox.fromSize(
-                size: _canvasSize,
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    Positioned(
-                      left: 0,
-                      top: _phoneTop,
-                      child: const PhoneFrame(
-                        width: _phoneWidth,
-                        child: ColoredBox(color: Palette.surface),
-                      ),
+  Widget build(BuildContext context) {
+    final pal = Palette.of(context);
+
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.all(Tokens.gapLg),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox.fromSize(
+              size: _canvasSize,
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  Positioned(
+                    left: 0,
+                    top: _phoneTop,
+                    child: PhoneFrame(
+                      width: _phoneWidth,
+                      child: ColoredBox(color: pal.surface),
                     ),
-                    Positioned(
-                      left: _cloudLeft,
-                      top: _cloudTop,
-                      child: const Icon(
-                        Icons.cloud_outlined,
-                        size: _cloudSize,
-                        color: Palette.textSecondary,
-                      ),
+                  ),
+                  Positioned(
+                    left: _cloudLeft,
+                    top: _cloudTop,
+                    child: Icon(
+                      Icons.cloud_outlined,
+                      size: _cloudSize,
+                      color: pal.textSecondary,
                     ),
-                    // Step 2: the failed, dashed attempt — halts at the
-                    // midpoint of the gap, never reaches the cloud. Wrapped
-                    // in `StepReveal(..., until: 2, ...)` so it disappears
-                    // once step 3's completed crossing takes over — a
-                    // `Positioned` must stay the direct `Stack` child, with
-                    // `StepReveal` nested inside it (not the other way
-                    // round), or `Positioned`'s parent data never reaches
-                    // the `Stack`.
-                    Positioned.fill(
-                      child: StepReveal(
-                        atStep: 2,
-                        until: 2,
-                        dimWhenPast: false,
-                        child: AnimatedArrow(
-                          from: Offset(_phoneWidth, _laneY),
-                          to: const Offset(_gapMidX, _laneY),
-                          atStep: 2,
-                          dashed: true,
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      left: _gapMidX - 14,
-                      top: _laneY - 14,
-                      child: StepReveal(
-                        atStep: 2,
-                        until: 2,
-                        dimWhenPast: false,
-                        child: const _ErrorPulse(),
-                      ),
-                    ),
-                    // Step 3: the crossing that works, and the one line
-                    // of code that makes it.
-                    Positioned.fill(
+                  ),
+                  // Step 2: the failed, dashed attempt — halts at the
+                  // midpoint of the gap, never reaches the cloud. Wrapped
+                  // in `StepReveal(..., until: 2, ...)` so it disappears
+                  // once step 3's completed crossing takes over — a
+                  // `Positioned` must stay the direct `Stack` child, with
+                  // `StepReveal` nested inside it (not the other way
+                  // round), or `Positioned`'s parent data never reaches
+                  // the `Stack`.
+                  Positioned.fill(
+                    child: StepReveal(
+                      atStep: 2,
+                      until: 2,
+                      dimWhenPast: false,
                       child: AnimatedArrow(
-                        from: Offset(_phoneWidth + 8, _laneY),
-                        to: Offset(_cloudLeft - 8, _laneY),
-                        atStep: 3,
-                        color: Palette.blue,
+                        from: Offset(_phoneWidth, _laneY),
+                        to: Offset(_gapMidX, _laneY),
+                        atStep: 2,
+                        dashed: true,
                       ),
                     ),
-                    Positioned(
-                      left: _phoneWidth + 20,
-                      top: _laneY - 44,
-                      child: const StepReveal(
-                        atStep: 3,
-                        dimWhenPast: false,
-                        child: _RequestLabel(),
-                      ),
+                  ),
+                  Positioned(
+                    left: _gapMidX - 14,
+                    top: _laneY - 14,
+                    child: StepReveal(
+                      atStep: 2,
+                      until: 2,
+                      dimWhenPast: false,
+                      child: const _ErrorPulse(),
                     ),
-                  ],
-                ),
+                  ),
+                  // Step 3: the crossing that works, and the one line
+                  // of code that makes it.
+                  Positioned.fill(
+                    child: AnimatedArrow(
+                      from: Offset(_phoneWidth + 8, _laneY),
+                      to: Offset(_cloudLeft - 8, _laneY),
+                      atStep: 3,
+                      color: Palette.blue,
+                    ),
+                  ),
+                  Positioned(
+                    left: _phoneWidth + 20,
+                    top: _laneY - 44,
+                    child: StepReveal(
+                      atStep: 3,
+                      dimWhenPast: false,
+                      child: _RequestLabel(),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-      );
+      ),
+    );
+  }
 }
 
 /// The request itself, written the way they will type it in a minute —
@@ -133,25 +137,29 @@ class _RequestLabel extends StatelessWidget {
   const _RequestLabel();
 
   @override
-  Widget build(BuildContext context) => Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: Tokens.gapSm,
-          vertical: Tokens.gapXs,
+  Widget build(BuildContext context) {
+    final pal = Palette.of(context);
+
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: Tokens.gapSm,
+        vertical: Tokens.gapXs,
+      ),
+      decoration: BoxDecoration(
+        color: pal.surface,
+        border: Border.all(color: Palette.blue, width: Tokens.strokeWidth),
+        borderRadius: BorderRadius.circular(Tokens.radius),
+      ),
+      child: Text(
+        'GET https://api.unsplash.com/photos',
+        style: TextStyle(
+          fontFamily: 'JetBrainsMono',
+          color: Palette.blue,
+          fontSize: 21,
         ),
-        decoration: BoxDecoration(
-          color: Palette.surface,
-          border: Border.all(color: Palette.blue, width: Tokens.strokeWidth),
-          borderRadius: BorderRadius.circular(Tokens.radius),
-        ),
-        child: const Text(
-          'GET https://api.unsplash.com/photos',
-          style: TextStyle(
-            fontFamily: 'JetBrainsMono',
-            color: Palette.blue,
-            fontSize: 21,
-          ),
-        ),
-      );
+      ),
+    );
+  }
 }
 
 /// A small "×" that scales in once (rather than fading in flat), so the
@@ -169,6 +177,6 @@ class _ErrorPulse extends StatelessWidget {
         curve: Tokens.curve,
         builder: (context, scale, child) =>
             Transform.scale(scale: scale, child: child),
-        child: const Icon(Icons.close, color: Palette.red, size: 28),
+        child: Icon(Icons.close, color: Palette.red, size: 28),
       );
 }

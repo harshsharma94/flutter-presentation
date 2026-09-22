@@ -11,5 +11,5 @@ class HomeworkBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) =>
-      const LiveSlideBody(goal: 'Show us what you built.');
+      LiveSlideBody(goal: 'Show us what you built.');
 }

@@ -7,7 +7,7 @@ import 'package:flutter_bootcamp_deck/widgets/widget_tree.dart';
 
 /// Step 4 doubles the load on every middle node: a second piece of state
 /// arrives and has to be threaded through widgets that still don't use it.
-const _crowdedTree = TreeNode(
+final _crowdedTree = TreeNode(
   id: 'photo-app',
   label: 'PhotoApp',
   children: [
@@ -143,12 +143,12 @@ class _Note extends StatelessWidget {
   const _Note({
     required this.atStep,
     required this.text,
-    this.color = Palette.textPrimary,
+    this.color,
   });
 
   final int atStep;
   final String text;
-  final Color color;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) => Padding(

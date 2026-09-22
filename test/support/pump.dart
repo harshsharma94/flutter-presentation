@@ -27,7 +27,8 @@ Future<void> pumpBody(
     ..devicePixelRatio = 1.0;
   addTearDown(tester.view.reset);
 
-  final deckTheme = brightness == Brightness.dark ? deckDarkTheme : deckLightTheme;
+  final deckTheme =
+      brightness == Brightness.dark ? deckDarkTheme : deckLightTheme;
   await tester.pumpWidget(
     MaterialApp(
       theme: deckTheme.materialTheme,

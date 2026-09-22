@@ -27,74 +27,78 @@ class UnsplashRealityBody extends StatelessWidget {
   final int step;
 
   @override
-  Widget build(BuildContext context) => Center(
-        child: Padding(
-          padding: const EdgeInsets.all(Tokens.gapLg),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text(
-                'What Unsplash actually needs.',
-                style: TextStyle(color: Palette.textPrimary, fontSize: 32),
-              ),
-              const SizedBox(height: Tokens.gapMd),
-              StepReveal(
-                atStep: 1,
-                dimWhenPast: false,
-                child: SizedBox(
-                  width: _fullDiagramWidth * _scale,
-                  height: _fullDiagramHeight * _scale,
-                  child: OverflowBox(
-                    maxWidth: _fullDiagramWidth,
-                    maxHeight: _fullDiagramHeight,
-                    child: Opacity(
-                      opacity: Tokens.dimmed,
-                      child: Transform.scale(
-                        scale: _scale,
-                        alignment: Alignment.topLeft,
-                        child: const SequenceDiagram(
-                          lanes: oauthLanes,
-                          hops: oauthHops,
-                          width: _fullDiagramWidth,
-                        ),
+  Widget build(BuildContext context) {
+    final pal = Palette.of(context);
+
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.all(Tokens.gapLg),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'What Unsplash actually needs.',
+              style: TextStyle(color: pal.textPrimary, fontSize: 32),
+            ),
+            SizedBox(height: Tokens.gapMd),
+            StepReveal(
+              atStep: 1,
+              dimWhenPast: false,
+              child: SizedBox(
+                width: _fullDiagramWidth * _scale,
+                height: _fullDiagramHeight * _scale,
+                child: OverflowBox(
+                  maxWidth: _fullDiagramWidth,
+                  maxHeight: _fullDiagramHeight,
+                  child: Opacity(
+                    opacity: Tokens.dimmed,
+                    child: Transform.scale(
+                      scale: _scale,
+                      alignment: Alignment.topLeft,
+                      child: SequenceDiagram(
+                        lanes: oauthLanes,
+                        hops: oauthHops,
+                        width: _fullDiagramWidth,
                       ),
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: Tokens.gapMd),
-              StepReveal(
-                atStep: 1,
-                dimWhenPast: false,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: Tokens.gapMd,
-                    vertical: Tokens.gapSm,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Palette.surface,
-                    border: Border.all(
-                        color: Palette.blue, width: Tokens.strokeWidth),
-                    borderRadius: BorderRadius.circular(Tokens.radius),
-                  ),
-                  child: const Text(
-                    _headerLine,
-                    style: TextStyle(
-                      color: Palette.blue,
-                      fontFamily: 'JetBrainsMono',
-                      fontSize: 22,
-                    ),
+            ),
+            SizedBox(height: Tokens.gapMd),
+            StepReveal(
+              atStep: 1,
+              dimWhenPast: false,
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: Tokens.gapMd,
+                  vertical: Tokens.gapSm,
+                ),
+                decoration: BoxDecoration(
+                  color: pal.surface,
+                  border: Border.all(
+                      color: Palette.blue, width: Tokens.strokeWidth),
+                  borderRadius: BorderRadius.circular(Tokens.radius),
+                ),
+                child: Text(
+                  _headerLine,
+                  style: TextStyle(
+                    color: Palette.blue,
+                    fontFamily: 'JetBrainsMono',
+                    fontSize: 22,
                   ),
                 ),
               ),
-              const SizedBox(height: Tokens.gapMd),
-              const Callout(
-                atStep: 2,
-                text: '--dart-define. Never in git.',
-                color: Palette.red,
-              ),
-            ],
-          ),
+            ),
+            SizedBox(height: Tokens.gapMd),
+            Callout(
+              atStep: 2,
+              text: '--dart-define. Never in git.',
+              color: Palette.red,
+            ),
+          ],
         ),
-      );
+      ),
+    );
+  }
 }

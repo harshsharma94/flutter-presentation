@@ -68,121 +68,123 @@ class AsyncAwaitBody extends StatelessWidget {
       _isSuspended ? _blockTopInSecondLane : _blockTopInMainLane;
 
   @override
-  Widget build(BuildContext context) => Center(
-        child: Padding(
-          padding: const EdgeInsets.all(Tokens.gapLg),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox.fromSize(
-                size: _canvasSize,
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    Positioned(
-                      left: _lanesLeft,
-                      top: 0,
-                      child: StepReveal(
-                        atStep: 1,
-                        until: 1,
-                        child: const Text(
-                          '60 fps.',
-                          style: TextStyle(
-                              color: Palette.textPrimary, fontSize: 24),
-                        ),
+  Widget build(BuildContext context) {
+    final pal = Palette.of(context);
+
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.all(Tokens.gapLg),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox.fromSize(
+              size: _canvasSize,
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  Positioned(
+                    left: _lanesLeft,
+                    top: 0,
+                    child: StepReveal(
+                      atStep: 1,
+                      until: 1,
+                      child: Text(
+                        '60 fps.',
+                        style: TextStyle(color: pal.textPrimary, fontSize: 24),
                       ),
                     ),
-                    Positioned(
-                      left: _lanesLeft,
-                      top: _mainLaneTop,
-                      width: _lanesWidth,
+                  ),
+                  Positioned(
+                    left: _lanesLeft,
+                    top: _mainLaneTop,
+                    width: _lanesWidth,
+                    height: _laneHeight,
+                    child: FrameStrip(
+                      frameCount: _frameCount,
+                      stalledFrom: _stalledFrom,
+                      stalledTo: _stalledTo,
+                      stalled: _isBlocked,
                       height: _laneHeight,
-                      child: FrameStrip(
-                        frameCount: _frameCount,
-                        stalledFrom: _stalledFrom,
-                        stalledTo: _stalledTo,
-                        stalled: _isBlocked,
-                        height: _laneHeight,
-                      ),
                     ),
-                    Positioned(
-                      left: _lanesLeft,
-                      top: _secondLaneTop,
-                      width: _lanesWidth,
-                      height: _laneHeight,
-                      child: DashedBox(
-                        atStep: 3,
-                        color: Palette.blue,
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: Tokens.gapSm),
-                            child: Text(
-                              'await — suspended',
-                              style: TextStyle(
-                                color: Palette.blue
-                                    .withValues(alpha: Tokens.dimmed),
-                                fontSize: 17,
-                              ),
+                  ),
+                  Positioned(
+                    left: _lanesLeft,
+                    top: _secondLaneTop,
+                    width: _lanesWidth,
+                    height: _laneHeight,
+                    child: DashedBox(
+                      atStep: 3,
+                      color: Palette.blue,
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Padding(
+                          padding: EdgeInsets.only(left: Tokens.gapSm),
+                          child: Text(
+                            'await — suspended',
+                            style: TextStyle(
+                              color:
+                                  Palette.blue.withValues(alpha: Tokens.dimmed),
+                              fontSize: 17,
                             ),
                           ),
                         ),
                       ),
                     ),
-                    // The floating `fetchPhotos()` call: hidden at step 1,
-                    // then repositioned between the main and suspended
-                    // lanes purely as a function of `step` — see
-                    // [_blockTop].
-                    AnimatedPositioned(
-                      duration: Tokens.travel,
+                  ),
+                  // The floating `fetchPhotos()` call: hidden at step 1,
+                  // then repositioned between the main and suspended
+                  // lanes purely as a function of `step` — see
+                  // [_blockTop].
+                  AnimatedPositioned(
+                    duration: Tokens.travel,
+                    curve: Tokens.curve,
+                    left: _blockLeft,
+                    top: _blockTop,
+                    child: AnimatedOpacity(
+                      duration: Tokens.fade,
                       curve: Tokens.curve,
-                      left: _blockLeft,
-                      top: _blockTop,
-                      child: AnimatedOpacity(
-                        duration: Tokens.fade,
-                        curve: Tokens.curve,
-                        opacity: step >= 2 ? 1.0 : 0.0,
-                        child: IgnorePointer(
-                            child: _FetchBlock(blocked: _isBlocked)),
-                      ),
+                      opacity: step >= 2 ? 1.0 : 0.0,
+                      child: IgnorePointer(
+                          child: _FetchBlock(blocked: _isBlocked)),
                     ),
-                    Positioned(
-                      left: _blockLeft,
-                      top: _blockTopInMainLane + _blockHeight + Tokens.gapXs,
-                      child: const Callout(
-                        atStep: 2,
-                        text: 'blocked · 2.3s · 138 frames dropped',
-                        color: Palette.red,
-                      ),
+                  ),
+                  Positioned(
+                    left: _blockLeft,
+                    top: _blockTopInMainLane + _blockHeight + Tokens.gapXs,
+                    child: Callout(
+                      atStep: 2,
+                      text: 'blocked · 2.3s · 138 frames dropped',
+                      color: Palette.red,
                     ),
-                    Positioned(
-                      left: _phoneLeft,
-                      top: 0,
-                      child: PhoneFrame(
-                        width: _phoneWidth,
-                        child: Center(child: _Spinner(step: step)),
-                      ),
+                  ),
+                  Positioned(
+                    left: _phoneLeft,
+                    top: 0,
+                    child: PhoneFrame(
+                      width: _phoneWidth,
+                      child: Center(child: _Spinner(step: step)),
                     ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: Tokens.gapMd),
-              const CorrelationPanel(
-                flutterLabel: 'await',
-                firstStep: 4,
-                stepsPerRow: 0,
-                rows: [
-                  CorrelationRow(platform: 'Kotlin', concept: 'suspend'),
-                  CorrelationRow(platform: 'Swift', concept: 'async/await'),
-                  CorrelationRow(platform: 'Go', concept: 'goroutine'),
-                  CorrelationRow(
-                      platform: 'Java', concept: 'CompletableFuture'),
+                  ),
                 ],
               ),
-            ],
-          ),
+            ),
+            SizedBox(height: Tokens.gapMd),
+            CorrelationPanel(
+              flutterLabel: 'await',
+              firstStep: 4,
+              stepsPerRow: 0,
+              rows: [
+                CorrelationRow(platform: 'Kotlin', concept: 'suspend'),
+                CorrelationRow(platform: 'Swift', concept: 'async/await'),
+                CorrelationRow(platform: 'Go', concept: 'goroutine'),
+                CorrelationRow(platform: 'Java', concept: 'CompletableFuture'),
+              ],
+            ),
+          ],
         ),
-      );
+      ),
+    );
+  }
 }
 
 class _FetchBlock extends StatelessWidget {
@@ -192,13 +194,14 @@ class _FetchBlock extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pal = Palette.of(context);
     final color = blocked ? Palette.red : Palette.blue;
     return Container(
       width: _blockWidth,
       height: _blockHeight,
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        color: Palette.surface,
+        color: pal.surface,
         border: Border.all(color: color, width: Tokens.strokeWidth),
         borderRadius: BorderRadius.circular(Tokens.radius),
       ),
@@ -244,7 +247,7 @@ class _SpinnerState extends State<_Spinner>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller = AnimationController(
     vsync: this,
-    duration: const Duration(milliseconds: 1400),
+    duration: Duration(milliseconds: 1400),
   );
 
   bool get _frozen => widget.step == 2;
@@ -272,16 +275,20 @@ class _SpinnerState extends State<_Spinner>
   }
 
   @override
-  Widget build(BuildContext context) => SizedBox(
-        width: 28,
-        height: 28,
-        child: RotationTransition(
-          turns: _controller,
-          child: Icon(
-            Icons.autorenew,
-            size: 28,
-            color: _frozen ? Palette.red : Palette.textPrimary,
-          ),
+  Widget build(BuildContext context) {
+    final pal = Palette.of(context);
+
+    return SizedBox(
+      width: 28,
+      height: 28,
+      child: RotationTransition(
+        turns: _controller,
+        child: Icon(
+          Icons.autorenew,
+          size: 28,
+          color: _frozen ? Palette.red : pal.textPrimary,
         ),
-      );
+      ),
+    );
+  }
 }

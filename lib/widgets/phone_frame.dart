@@ -12,6 +12,7 @@ class PhoneFrame extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pal = Palette.of(context);
     final height = width * 19.5 / 9;
     final outerRadius = width * 0.12;
     final innerRadius = outerRadius - Tokens.strokeWidth;
@@ -19,11 +20,11 @@ class PhoneFrame extends StatelessWidget {
     return Container(
       width: width,
       height: height,
-      padding: const EdgeInsets.all(Tokens.strokeWidth),
+      padding: EdgeInsets.all(Tokens.strokeWidth),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(outerRadius),
         border: Border.all(
-          color: Palette.textSecondary,
+          color: pal.textSecondary,
           width: Tokens.strokeWidth,
         ),
       ),
@@ -39,7 +40,7 @@ class PhoneFrame extends StatelessWidget {
                 width: width * 0.32,
                 height: width * 0.07,
                 decoration: BoxDecoration(
-                  color: Palette.textSecondary,
+                  color: pal.textSecondary,
                   borderRadius: BorderRadius.circular(width * 0.035),
                 ),
               ),

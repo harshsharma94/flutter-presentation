@@ -23,6 +23,7 @@ class InheritedWidgetBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pal = Palette.of(context);
     final positions = treeNodePositions(demoTree, treeCanvasSize);
     final rootAt = positions['photo-app']!;
     final scopeLeft = rootAt.dx + 100;
@@ -39,7 +40,7 @@ class InheritedWidgetBody extends StatelessWidget {
 
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(Tokens.gapMd),
+        padding: EdgeInsets.all(Tokens.gapMd),
         child: FittedBox(
           fit: BoxFit.scaleDown,
           child: Row(
@@ -66,7 +67,7 @@ class InheritedWidgetBody extends StatelessWidget {
                       child: StepReveal(
                         atStep: 1,
                         dimWhenPast: false,
-                        slideFrom: const Offset(0.4, 0),
+                        slideFrom: Offset(0.4, 0),
                         child: const _ScopeBox(),
                       ),
                     ),
@@ -81,7 +82,7 @@ class InheritedWidgetBody extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(width: Tokens.gapLg),
+              SizedBox(width: Tokens.gapLg),
               SizedBox(
                 width: 440,
                 child: Column(
@@ -101,14 +102,14 @@ class InheritedWidgetBody extends StatelessWidget {
                     StepReveal(
                       atStep: 3,
                       child: Container(
-                        padding: const EdgeInsets.all(Tokens.gapSm),
-                        margin: const EdgeInsets.only(bottom: Tokens.gapSm),
+                        padding: EdgeInsets.all(Tokens.gapSm),
+                        margin: EdgeInsets.only(bottom: Tokens.gapSm),
                         decoration: BoxDecoration(
-                          color: Palette.base,
+                          color: pal.base,
                           border: Border.all(color: Palette.blue, width: 1),
                           borderRadius: BorderRadius.circular(Tokens.radius),
                         ),
-                        child: const Text(
+                        child: Text(
                           'context.dependOnInheritedWidgetOfExactType\n'
                           '    <PhotoScope>()',
                           style: TextStyle(
@@ -131,8 +132,8 @@ class InheritedWidgetBody extends StatelessWidget {
                           'rebuild. The rest stay dark.',
                       color: Palette.green,
                     ),
-                    const SizedBox(height: Tokens.gapXs),
-                    const CorrelationPanel(
+                    SizedBox(height: Tokens.gapXs),
+                    CorrelationPanel(
                       flutterLabel: 'InheritedWidget',
                       firstStep: 6,
                       rows: [
@@ -159,53 +160,57 @@ class _ScopeBox extends StatelessWidget {
   const _ScopeBox();
 
   @override
-  Widget build(BuildContext context) => Container(
-        width: _scopeWidth,
-        constraints: const BoxConstraints(minHeight: _scopeHeight),
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: Palette.surface,
-          border: Border.all(color: Palette.blue, width: Tokens.strokeWidth),
-          borderRadius: BorderRadius.circular(Tokens.radius),
-        ),
-        child: const Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'PhotoScope',
-              style: TextStyle(
-                color: Palette.blue,
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-              ),
+  Widget build(BuildContext context) {
+    final pal = Palette.of(context);
+
+    return Container(
+      width: _scopeWidth,
+      constraints: BoxConstraints(minHeight: _scopeHeight),
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: pal.surface,
+        border: Border.all(color: Palette.blue, width: Tokens.strokeWidth),
+        borderRadius: BorderRadius.circular(Tokens.radius),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'PhotoScope',
+            style: TextStyle(
+              color: Palette.blue,
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
             ),
-            Text(
-              'InheritedWidget',
-              style: TextStyle(color: Palette.textSecondary, fontSize: 15),
-            ),
-          ],
-        ),
-      );
+          ),
+          Text(
+            'InheritedWidget',
+            style: TextStyle(color: pal.textSecondary, fontSize: 15),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 class _Note extends StatelessWidget {
   const _Note({
     required this.atStep,
     required this.text,
-    this.color = Palette.textPrimary,
+    this.color,
   });
 
   final int atStep;
   final String text;
-  final Color color;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(bottom: Tokens.gapSm),
+        padding: EdgeInsets.only(bottom: Tokens.gapSm),
         child: StepReveal(
           atStep: atStep,
-          slideFrom: const Offset(0.06, 0),
+          slideFrom: Offset(0.06, 0),
           child: Text(
             text,
             style: TextStyle(color: color, fontSize: 22, height: 1.35),

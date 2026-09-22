@@ -24,11 +24,12 @@ class RepositoryBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pal = Palette.of(context);
     final offline = step >= 3;
 
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(Tokens.gapLg),
+        padding: EdgeInsets.all(Tokens.gapLg),
         child: FittedBox(
           fit: BoxFit.scaleDown,
           child: Column(
@@ -40,7 +41,7 @@ class RepositoryBody extends StatelessWidget {
                 child: Stack(
                   clipBehavior: Clip.none,
                   children: [
-                    const Positioned(
+                    Positioned(
                       left: _callerX,
                       top: _laneY,
                       child: _Box(
@@ -49,13 +50,13 @@ class RepositoryBody extends StatelessWidget {
                         color: Palette.blue,
                       ),
                     ),
-                    const Positioned(
+                    Positioned(
                       left: _doorX,
                       top: _laneY,
                       child: _Box(
                         label: 'PhotoRepository',
                         sub: 'one method, one return type',
-                        color: Palette.textPrimary,
+                        color: pal.textPrimary,
                       ),
                     ),
                     Positioned(
@@ -74,7 +75,7 @@ class RepositoryBody extends StatelessWidget {
                       child: _Box(
                         label: 'Local cache',
                         sub: 'last good response',
-                        color: offline ? Palette.green : Palette.textSecondary,
+                        color: offline ? Palette.green : pal.textSecondary,
                         faded: !offline,
                       ),
                     ),
@@ -82,8 +83,8 @@ class RepositoryBody extends StatelessWidget {
                     // same arrow, never redrawn in another colour.
                     Positioned.fill(
                       child: AnimatedArrow(
-                        from: const Offset(_boxW, _laneY + _boxH / 2),
-                        to: const Offset(_doorX, _laneY + _boxH / 2),
+                        from: Offset(_boxW, _laneY + _boxH / 2),
+                        to: Offset(_doorX, _laneY + _boxH / 2),
                         atStep: 1,
                         color: Palette.blue,
                       ),
@@ -93,7 +94,7 @@ class RepositoryBody extends StatelessWidget {
                         atStep: 2,
                         until: 2,
                         dimWhenPast: false,
-                        child: const AnimatedArrow(
+                        child: AnimatedArrow(
                           from: Offset(_doorX + _boxW, _laneY + _boxH / 2),
                           to: Offset(_sourceX, _laneY - 70 + _boxH / 2),
                           atStep: 2,
@@ -106,7 +107,7 @@ class RepositoryBody extends StatelessWidget {
                       child: StepReveal(
                         atStep: 3,
                         dimWhenPast: false,
-                        child: const AnimatedArrow(
+                        child: AnimatedArrow(
                           from: Offset(_doorX + _boxW, _laneY + _boxH / 2),
                           to: Offset(_sourceX, _laneY + 70 + _boxH / 2),
                           atStep: 3,
@@ -118,7 +119,7 @@ class RepositoryBody extends StatelessWidget {
                   ],
                 ),
               ),
-              const Callout(
+              Callout(
                 atStep: 3,
                 text: 'The network dropped. HomeScreen never found out.',
                 color: Palette.green,
@@ -145,42 +146,46 @@ class _Box extends StatelessWidget {
   final bool faded;
 
   @override
-  Widget build(BuildContext context) => AnimatedOpacity(
+  Widget build(BuildContext context) {
+    final pal = Palette.of(context);
+
+    return AnimatedOpacity(
+      duration: Tokens.travel,
+      curve: Tokens.curve,
+      opacity: faded ? Tokens.dimmed : 1.0,
+      child: AnimatedContainer(
         duration: Tokens.travel,
         curve: Tokens.curve,
-        opacity: faded ? Tokens.dimmed : 1.0,
-        child: AnimatedContainer(
-          duration: Tokens.travel,
-          curve: Tokens.curve,
-          width: _boxW,
-          height: _boxH,
-          padding: const EdgeInsets.symmetric(horizontal: Tokens.gapSm),
-          decoration: BoxDecoration(
-            color: Palette.surface,
-            border: Border.all(color: color, width: Tokens.strokeWidth),
-            borderRadius: BorderRadius.circular(Tokens.radius),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                label,
-                style: TextStyle(
-                    color: color, fontSize: 21, fontWeight: FontWeight.w600),
-              ),
-              Text(
-                sub,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontFamily: 'JetBrainsMono',
-                  color: Palette.textSecondary,
-                  fontSize: 15,
-                ),
-              ),
-            ],
-          ),
+        width: _boxW,
+        height: _boxH,
+        padding: EdgeInsets.symmetric(horizontal: Tokens.gapSm),
+        decoration: BoxDecoration(
+          color: pal.surface,
+          border: Border.all(color: color, width: Tokens.strokeWidth),
+          borderRadius: BorderRadius.circular(Tokens.radius),
         ),
-      );
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              label,
+              style: TextStyle(
+                  color: color, fontSize: 21, fontWeight: FontWeight.w600),
+            ),
+            Text(
+              sub,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontFamily: 'JetBrainsMono',
+                color: pal.textSecondary,
+                fontSize: 15,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }

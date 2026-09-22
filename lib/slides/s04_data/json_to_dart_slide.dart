@@ -47,132 +47,134 @@ class JsonToDartBody extends StatelessWidget {
   final int step;
 
   @override
-  Widget build(BuildContext context) => Center(
-        child: Padding(
-          padding: const EdgeInsets.all(Tokens.gapLg),
-          child: FittedBox(
-            fit: BoxFit.scaleDown,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const SizedBox(
-                  width: _canvasWidth,
-                  child: Text(
-                    'One response. One constructor. Four wires.',
-                    style: TextStyle(color: Palette.textPrimary, fontSize: 29),
-                  ),
+  Widget build(BuildContext context) {
+    final pal = Palette.of(context);
+
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.all(Tokens.gapLg),
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                width: _canvasWidth,
+                child: Text(
+                  'One response. One constructor. Four wires.',
+                  style: TextStyle(color: pal.textPrimary, fontSize: 29),
                 ),
-                const SizedBox(height: Tokens.gapSm),
-                SizedBox(
-                  width: _canvasWidth,
-                  height: _canvasHeight,
-                  child: Stack(
-                    clipBehavior: Clip.none,
-                    children: [
-                      // Raw response, left.
-                      Positioned(
-                        left: 0,
-                        top: _blockTop,
-                        width: _jsonRight,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            for (final line in _jsonLines)
-                              SizedBox(
-                                height: _lineHeight,
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: JsonSourceLine(
-                                    text: line.text,
-                                    consumedAt: line.consumedAt,
-                                  ),
+              ),
+              SizedBox(height: Tokens.gapSm),
+              SizedBox(
+                width: _canvasWidth,
+                height: _canvasHeight,
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    // Raw response, left.
+                    Positioned(
+                      left: 0,
+                      top: _blockTop,
+                      width: _jsonRight,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          for (final line in _jsonLines)
+                            SizedBox(
+                              height: _lineHeight,
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: JsonSourceLine(
+                                  text: line.text,
+                                  consumedAt: line.consumedAt,
                                 ),
                               ),
-                          ],
-                        ),
+                            ),
+                        ],
                       ),
-                      // Constructor shell, right. The arguments themselves
-                      // are placed by each FieldFlight as it lands.
-                      Positioned(
-                        left: _dartLeft,
-                        top: _blockTop,
-                        child: const _ConstructorShell(),
-                      ),
-                      for (var i = 0; i < _fields.length; i++)
-                        Positioned.fill(
-                          child: FieldFlight(
-                            jsonKey: _fields[i].key,
-                            jsonValue: _fields[i].accessor,
-                            dartParam: _fields[i].param,
-                            atStep: i + 1,
-                            from: Offset(_jsonRight, _rowY(i)),
-                            to: Offset(_dartLeft + 16, _rowY(i)),
-                          ),
-                        ),
-                      // Step 5: the same wire, backwards.
+                    ),
+                    // Constructor shell, right. The arguments themselves
+                    // are placed by each FieldFlight as it lands.
+                    Positioned(
+                      left: _dartLeft,
+                      top: _blockTop,
+                      child: const _ConstructorShell(),
+                    ),
+                    for (var i = 0; i < _fields.length; i++)
                       Positioned.fill(
-                        child: StepReveal(
-                          atStep: 5,
-                          until: 5,
-                          dimWhenPast: false,
-                          child: AnimatedArrow(
-                            from: Offset(_dartLeft, _rowY(1) + _lineHeight),
-                            to: Offset(_jsonRight + 8, _rowY(1) + _lineHeight),
-                            atStep: 5,
-                            curved: true,
-                            color: Palette.green,
-                          ),
+                        child: FieldFlight(
+                          jsonKey: _fields[i].key,
+                          jsonValue: _fields[i].accessor,
+                          dartParam: _fields[i].param,
+                          atStep: i + 1,
+                          from: Offset(_jsonRight, _rowY(i)),
+                          to: Offset(_dartLeft + 16, _rowY(i)),
                         ),
                       ),
-                      Positioned(
-                        left: _jsonRight + 40,
-                        top: _rowY(3) + 12,
-                        child: const Callout(
+                    // Step 5: the same wire, backwards.
+                    Positioned.fill(
+                      child: StepReveal(
+                        atStep: 5,
+                        until: 5,
+                        dimWhenPast: false,
+                        child: AnimatedArrow(
+                          from: Offset(_dartLeft, _rowY(1) + _lineHeight),
+                          to: Offset(_jsonRight + 8, _rowY(1) + _lineHeight),
                           atStep: 5,
-                          text: 'toJson() — the same wires, backwards',
+                          curved: true,
                           color: Palette.green,
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                    Positioned(
+                      left: _jsonRight + 40,
+                      top: _rowY(3) + 12,
+                      child: Callout(
+                        atStep: 5,
+                        text: 'toJson() — the same wires, backwards',
+                        color: Palette.green,
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: Tokens.gapSm),
-                const SizedBox(
-                  width: _canvasWidth,
-                  child: CorrelationPanel(
-                    flutterLabel: 'fromJson (by hand)',
-                    firstStep: 6,
-                    stepsPerRow: 0,
-                    rows: [
-                      CorrelationRow(
-                          platform: 'Android',
-                          concept: 'Gson / Moshi / kotlinx'),
-                      CorrelationRow(platform: 'iOS', concept: 'Codable'),
-                      CorrelationRow(
-                          platform: 'Java/Spring', concept: 'Jackson'),
-                      CorrelationRow(platform: 'Go', concept: 'encoding/json'),
-                    ],
-                  ),
+              ),
+              SizedBox(height: Tokens.gapSm),
+              SizedBox(
+                width: _canvasWidth,
+                child: CorrelationPanel(
+                  flutterLabel: 'fromJson (by hand)',
+                  firstStep: 6,
+                  stepsPerRow: 0,
+                  rows: [
+                    CorrelationRow(
+                        platform: 'Android', concept: 'Gson / Moshi / kotlinx'),
+                    CorrelationRow(platform: 'iOS', concept: 'Codable'),
+                    CorrelationRow(platform: 'Java/Spring', concept: 'Jackson'),
+                    CorrelationRow(platform: 'Go', concept: 'encoding/json'),
+                  ],
                 ),
-                const SizedBox(height: Tokens.gapSm),
-                const Callout(
-                  atStep: 6,
-                  text:
-                      "Dart has no runtime reflection. That's why you write this one.",
-                  color: Palette.amber,
-                ),
-              ],
-            ),
+              ),
+              SizedBox(height: Tokens.gapSm),
+              Callout(
+                atStep: 6,
+                text:
+                    "Dart has no runtime reflection. That's why you write this one.",
+                color: Palette.amber,
+              ),
+            ],
           ),
         ),
-      );
+      ),
+    );
+  }
 }
 
 class _ConstructorShell extends StatelessWidget {
   const _ConstructorShell();
 
   @override
-  Widget build(BuildContext context) => const Column(
+  Widget build(BuildContext context) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _ShellLine('Photo('),
@@ -194,7 +196,7 @@ class _ShellLine extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: Text(
             text,
-            style: const TextStyle(
+            style: TextStyle(
               fontFamily: 'JetBrainsMono',
               fontSize: 20,
               height: 1.0,

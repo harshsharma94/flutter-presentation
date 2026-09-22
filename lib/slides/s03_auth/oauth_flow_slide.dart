@@ -9,7 +9,7 @@ import 'package:flutter_bootcamp_deck/widgets/step_reveal.dart';
 /// this exact configuration for its "the whole flow, shrunk" beat — the
 /// point there only lands if it is visibly the same diagram, not a redrawn
 /// approximation of it.
-const oauthLanes = [
+final oauthLanes = [
   SequenceLane(id: 'app', label: 'App'),
   SequenceLane(id: 'browser', label: 'Browser'),
   SequenceLane(id: 'auth', label: 'Auth Server'),
@@ -21,7 +21,7 @@ const oauthLanes = [
 /// step 9 carries two: the refresh call, then the replay of step 8's failed
 /// request (sharing its row; see [SequenceHop.replay]). See [oauthLanes] for
 /// why this is public.
-const oauthHops = [
+final oauthHops = [
   SequenceHop(from: 'app', to: 'browser', label: 'open /authorize', atStep: 1),
   SequenceHop(from: 'browser', to: 'browser', label: 'user logs in', atStep: 2),
   SequenceHop(from: 'auth', to: 'app', label: 'code', atStep: 3),
@@ -80,7 +80,7 @@ class OauthFlowBody extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SequenceDiagram(
+              SequenceDiagram(
                   lanes: oauthLanes, hops: oauthHops, width: _diagramWidth),
               const SizedBox(width: Tokens.gapLg),
               SizedBox(
@@ -102,7 +102,7 @@ class OauthFlowBody extends StatelessWidget {
                           expired: _accessExpired,
                         ),
                         const SizedBox(height: Tokens.gapXs),
-                        const TokenPill(
+                        TokenPill(
                           key: ValueKey('pill-refresh'),
                           label: 'eyJhbG...',
                           widthFactor: 0.9,

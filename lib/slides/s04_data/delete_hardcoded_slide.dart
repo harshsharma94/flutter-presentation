@@ -35,7 +35,7 @@ class DeleteHardcodedBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Center(
         child: Padding(
-          padding: const EdgeInsets.all(Tokens.gapLg),
+          padding: EdgeInsets.all(Tokens.gapLg),
           child: FittedBox(
             fit: BoxFit.scaleDown,
             child: Column(
@@ -52,14 +52,14 @@ class DeleteHardcodedBody extends StatelessWidget {
                         fileName: 'lib/screens/home_screen.dart',
                       ),
                     ),
-                    const SizedBox(width: Tokens.gapLg),
+                    SizedBox(width: Tokens.gapLg),
                     _PhotoPhone(filled: step >= 3, offset: 0),
-                    const SizedBox(width: Tokens.gapMd),
+                    SizedBox(width: Tokens.gapMd),
                     _PhotoPhone(filled: step >= 3, offset: 2),
                   ],
                 ),
-                const SizedBox(height: Tokens.gapMd),
-                const Callout(
+                SizedBox(height: Tokens.gapMd),
+                Callout(
                   atStep: 3,
                   text: 'One list. Two screens. Done.',
                   color: Palette.green,
@@ -81,31 +81,38 @@ class _PhotoPhone extends StatelessWidget {
   final int offset;
 
   @override
-  Widget build(BuildContext context) => PhoneFrame(
-        width: 220,
-        child: ColoredBox(
-          color: Palette.surface,
-          child: filled
-              ? _LivePhotoGrid(offset: offset)
-              : const _PlaceholderGrid(),
-        ),
-      );
+  Widget build(BuildContext context) {
+    final pal = Palette.of(context);
+
+    return PhoneFrame(
+      width: 220,
+      child: ColoredBox(
+        color: pal.surface,
+        child:
+            filled ? _LivePhotoGrid(offset: offset) : const _PlaceholderGrid(),
+      ),
+    );
+  }
 }
 
 class _PlaceholderGrid extends StatelessWidget {
   const _PlaceholderGrid();
 
   @override
-  Widget build(BuildContext context) => const _Grid(
-        children: [
-          _Tile(color: Palette.base),
-          _Tile(color: Palette.base),
-          _Tile(color: Palette.base),
-          _Tile(color: Palette.base),
-          _Tile(color: Palette.base),
-          _Tile(color: Palette.base),
-        ],
-      );
+  Widget build(BuildContext context) {
+    final pal = Palette.of(context);
+
+    return _Grid(
+      children: [
+        _Tile(color: pal.base),
+        _Tile(color: pal.base),
+        _Tile(color: pal.base),
+        _Tile(color: pal.base),
+        _Tile(color: pal.base),
+        _Tile(color: pal.base),
+      ],
+    );
+  }
 }
 
 /// Pulls from the same fixture-backed client as slide 7 and 11, so this
@@ -123,23 +130,26 @@ class _LivePhotoGridState extends State<_LivePhotoGrid> {
   late final Future<PhotoResult> _future = UnsplashClient().getPhotos();
 
   @override
-  Widget build(BuildContext context) => FutureBuilder<PhotoResult>(
-        future: _future,
-        builder: (context, snapshot) {
-          final photos = snapshot.data?.photos ?? const <Photo>[];
-          if (photos.isEmpty) return const _PlaceholderGrid();
-          return _Grid(
-            children: [
-              for (var i = 0; i < 6; i++)
-                _Tile(
-                  color: Palette.base,
-                  imageUrl:
-                      photos[(i + widget.offset) % photos.length].imageUrl,
-                ),
-            ],
-          );
-        },
-      );
+  Widget build(BuildContext context) {
+    final pal = Palette.of(context);
+
+    return FutureBuilder<PhotoResult>(
+      future: _future,
+      builder: (context, snapshot) {
+        final photos = snapshot.data?.photos ?? const <Photo>[];
+        if (photos.isEmpty) return const _PlaceholderGrid();
+        return _Grid(
+          children: [
+            for (var i = 0; i < 6; i++)
+              _Tile(
+                color: pal.base,
+                imageUrl: photos[(i + widget.offset) % photos.length].imageUrl,
+              ),
+          ],
+        );
+      },
+    );
+  }
 }
 
 class _Grid extends StatelessWidget {
@@ -149,9 +159,9 @@ class _Grid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.all(Tokens.gapXs),
+        padding: EdgeInsets.all(Tokens.gapXs),
         child: GridView.count(
-          physics: const NeverScrollableScrollPhysics(),
+          physics: NeverScrollableScrollPhysics(),
           crossAxisCount: 2,
           mainAxisSpacing: Tokens.gapXs,
           crossAxisSpacing: Tokens.gapXs,

@@ -9,24 +9,28 @@ class ThanksBody extends StatelessWidget {
   final int step;
 
   @override
-  Widget build(BuildContext context) => const Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              'Thank you',
-              style: TextStyle(
-                color: Palette.textPrimary,
-                fontSize: 92,
-                fontWeight: FontWeight.w600,
-              ),
+  Widget build(BuildContext context) {
+    final pal = Palette.of(context);
+
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            'Thank you',
+            style: TextStyle(
+              color: pal.textPrimary,
+              fontSize: 92,
+              fontWeight: FontWeight.w600,
             ),
-            SizedBox(height: Tokens.gapSm),
-            Text(
-              'Questions — and then go break something.',
-              style: TextStyle(color: Palette.textSecondary, fontSize: 32),
-            ),
-          ],
-        ),
-      );
+          ),
+          SizedBox(height: Tokens.gapSm),
+          Text(
+            'Questions — and then go break something.',
+            style: TextStyle(color: pal.textSecondary, fontSize: 32),
+          ),
+        ],
+      ),
+    );
+  }
 }

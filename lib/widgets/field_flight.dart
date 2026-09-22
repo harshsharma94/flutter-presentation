@@ -38,54 +38,58 @@ class FieldFlight extends StatelessWidget {
   final Color color;
 
   @override
-  Widget build(BuildContext context) => Stack(
-        clipBehavior: Clip.none,
-        children: [
-          Positioned.fill(
-            child: AnimatedArrow(
-              from: from,
-              to: to,
-              atStep: atStep,
-              curved: true,
-              color: color,
-            ),
+  Widget build(BuildContext context) {
+    final pal = Palette.of(context);
+
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Positioned.fill(
+          child: AnimatedArrow(
+            from: from,
+            to: to,
+            atStep: atStep,
+            curved: true,
+            color: color,
           ),
-          Positioned(
-            left: to.dx,
-            top: to.dy - _chipHeight / 2,
-            child: StepReveal(
-              atStep: atStep,
-              slideFrom: const Offset(-0.12, 0),
-              dimWhenPast: false,
-              child: SizedBox(
-                height: _chipHeight,
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: RichText(
-                    text: TextSpan(
-                      style: const TextStyle(
-                        fontFamily: 'JetBrainsMono',
-                        fontSize: 20,
-                        height: 1.0,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: '$dartParam: ',
-                          style: TextStyle(color: color),
-                        ),
-                        TextSpan(
-                          text: '$jsonValue,',
-                          style: const TextStyle(color: Palette.textSecondary),
-                        ),
-                      ],
+        ),
+        Positioned(
+          left: to.dx,
+          top: to.dy - _chipHeight / 2,
+          child: StepReveal(
+            atStep: atStep,
+            slideFrom: Offset(-0.12, 0),
+            dimWhenPast: false,
+            child: SizedBox(
+              height: _chipHeight,
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: RichText(
+                  text: TextSpan(
+                    style: TextStyle(
+                      fontFamily: 'JetBrainsMono',
+                      fontSize: 20,
+                      height: 1.0,
                     ),
+                    children: [
+                      TextSpan(
+                        text: '$dartParam: ',
+                        style: TextStyle(color: color),
+                      ),
+                      TextSpan(
+                        text: '$jsonValue,',
+                        style: TextStyle(color: pal.textSecondary),
+                      ),
+                    ],
                   ),
                 ),
               ),
             ),
           ),
-        ],
-      );
+        ),
+      ],
+    );
+  }
 }
 
 const _chipHeight = 24.0;
@@ -106,6 +110,7 @@ class JsonSourceLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pal = Palette.of(context);
     final step = StepScope.of(context);
     final spent = consumedAt != null && step >= consumedAt!;
 
@@ -117,11 +122,11 @@ class JsonSourceLine extends StatelessWidget {
         padding: EdgeInsets.only(left: indent * 16.0),
         child: Text(
           text,
-          style: const TextStyle(
+          style: TextStyle(
             fontFamily: 'JetBrainsMono',
             fontSize: 20,
             height: 1.0,
-            color: Palette.textPrimary,
+            color: pal.textPrimary,
           ),
         ),
       ),

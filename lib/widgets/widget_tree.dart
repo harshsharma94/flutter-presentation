@@ -42,7 +42,7 @@ import 'package:flutter_bootcamp_deck/theme/tokens.dart';
 /// which nodes are currently flashing, subscribed or on the traversal path
 /// is supplied per-render via [WidgetTreeView]'s own parameters instead.
 class TreeNode {
-  const TreeNode({
+  TreeNode({
     required this.id,
     required this.label,
     this.children = const [],
@@ -81,7 +81,7 @@ class TreeNode {
 /// `photos` (and the `onLike` callback threaded back up) is the state A23
 /// drags down through `HomeScreen` and `PhotoGrid` even though neither
 /// widget uses it directly, and which A24 lets those middle nodes shed.
-const demoTree = TreeNode(
+final demoTree = TreeNode(
   id: 'photo-app',
   label: 'PhotoApp',
   children: [
@@ -239,6 +239,7 @@ class WidgetTreeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pal = Palette.of(context);
     final positions = treeNodePositions(root, treeCanvasSize);
     final path = traversalTo == null ? null : _pathTo(root, traversalTo!);
     assert(
@@ -266,12 +267,13 @@ class WidgetTreeView extends StatelessWidget {
               // borders in an earlier version of this fix.
               curve: Curves.linear,
               builder: (context, progress, child) => CustomPaint(
-                key: const ValueKey('tree-edges'),
+                key: ValueKey('tree-edges'),
                 painter: TreeEdgePainter(
                   root: root,
                   positions: positions,
                   pathIds: path ?? const [],
                   progress: progress,
+                  baseColor: pal.textSecondary,
                 ),
               ),
             ),
@@ -353,11 +355,12 @@ Map<String, int> _pulseDelaysFor(List<String>? path) {
 /// inspects `ArrowPainter.progress` — far more robust than asserting on the
 /// exact sequence of canvas draw calls.
 class TreeEdgePainter extends CustomPainter {
-  const TreeEdgePainter({
+  TreeEdgePainter({
     required this.root,
     required this.positions,
     required this.pathIds,
     required this.progress,
+    required this.baseColor,
   });
 
   final TreeNode root;
@@ -376,10 +379,15 @@ class TreeEdgePainter extends CustomPainter {
   /// [edgeProgress].
   final double progress;
 
+  /// Colour for edges that are not lit. Passed in rather than read from a
+  /// palette constant, so the tree follows whichever theme is running —
+  /// a painter has no context to resolve one for itself.
+  final Color baseColor;
+
   @override
   void paint(Canvas canvas, Size size) {
     final basePaint = Paint()
-      ..color = Palette.textSecondary
+      ..color = baseColor
       ..strokeWidth = Tokens.strokeWidth
       ..style = PaintingStyle.stroke;
     final litPaint = Paint()
@@ -492,78 +500,85 @@ class _NodeBox extends StatelessWidget {
     return Tokens.fade;
   }
 
-  Color get _borderColor =>
-      flashing || _onPath ? Palette.blue : Palette.textSecondary;
+  Color _borderColor(DeckColors pal) =>
+      flashing || _onPath ? Palette.blue : pal.textSecondary;
 
   @override
-  Widget build(BuildContext context) => Stack(
-        clipBehavior: Clip.none,
-        children: [
-          AnimatedContainer(
-            key: ValueKey('flash-${node.id}'),
-            duration: _borderDuration,
-            curve: Tokens.curve,
-            width: _nodeWidth,
-            padding: const EdgeInsets.all(Tokens.gapSm),
-            decoration: BoxDecoration(
-              color: Palette.surface,
-              border: Border.all(color: _borderColor, width: Tokens.strokeWidth),
-              borderRadius: BorderRadius.circular(Tokens.radius),
-              boxShadow: flashing
-                  ? const [
-                      BoxShadow(
-                        color: _flashGlowColor,
-                        blurRadius: _glowBlur,
-                        spreadRadius: _glowSpread,
-                      ),
-                    ]
-                  : null,
+  Widget build(BuildContext context) {
+    final pal = Palette.of(context);
+
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        AnimatedContainer(
+          key: ValueKey('flash-${node.id}'),
+          duration: _borderDuration,
+          curve: Tokens.curve,
+          width: _nodeWidth,
+          padding: EdgeInsets.all(Tokens.gapSm),
+          decoration: BoxDecoration(
+            color: pal.surface,
+            border: Border.all(
+              color: _borderColor(pal),
+              width: Tokens.strokeWidth,
             ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  node.label,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    color: Palette.textPrimary,
-                    fontSize: _labelFontSize,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                if (showParams && node.params.isNotEmpty) ...[
-                  const SizedBox(height: Tokens.gapXs),
-                  Wrap(
-                    alignment: WrapAlignment.center,
-                    spacing: _chipSpacing,
-                    runSpacing: _chipSpacing,
-                    children: [
-                      for (final param in node.params) _ParamChip(param),
-                    ],
-                  ),
-                ],
-              ],
-            ),
+            borderRadius: BorderRadius.circular(Tokens.radius),
+            boxShadow: flashing
+                ? const [
+                    BoxShadow(
+                      color: _flashGlowColor,
+                      blurRadius: _glowBlur,
+                      spreadRadius: _glowSpread,
+                    ),
+                  ]
+                : null,
           ),
-          Positioned(
-            top: -_subscribedDotSize / 2,
-            right: -_subscribedDotSize / 2,
-            child: AnimatedOpacity(
-              duration: Tokens.fade,
-              curve: Tokens.curve,
-              opacity: subscribed ? 1.0 : 0.0,
-              child: Container(
-                width: _subscribedDotSize,
-                height: _subscribedDotSize,
-                decoration: const BoxDecoration(
-                  color: Palette.blue,
-                  shape: BoxShape.circle,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                node.label,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: pal.textPrimary,
+                  fontSize: _labelFontSize,
+                  fontWeight: FontWeight.w600,
                 ),
+              ),
+              if (showParams && node.params.isNotEmpty) ...[
+                SizedBox(height: Tokens.gapXs),
+                Wrap(
+                  alignment: WrapAlignment.center,
+                  spacing: _chipSpacing,
+                  runSpacing: _chipSpacing,
+                  children: [
+                    for (final param in node.params) _ParamChip(param),
+                  ],
+                ),
+              ],
+            ],
+          ),
+        ),
+        Positioned(
+          top: -_subscribedDotSize / 2,
+          right: -_subscribedDotSize / 2,
+          child: AnimatedOpacity(
+            duration: Tokens.fade,
+            curve: Tokens.curve,
+            opacity: subscribed ? 1.0 : 0.0,
+            child: Container(
+              width: _subscribedDotSize,
+              height: _subscribedDotSize,
+              decoration: BoxDecoration(
+                color: Palette.blue,
+                shape: BoxShape.circle,
               ),
             ),
           ),
-        ],
-      );
+        ),
+      ],
+    );
+  }
 }
 
 /// A small label under a node showing one parameter name, for
@@ -574,25 +589,29 @@ class _ParamChip extends StatelessWidget {
   final String text;
 
   @override
-  Widget build(BuildContext context) => Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: _chipHorizontalPadding,
-          vertical: _chipVerticalPadding,
+  Widget build(BuildContext context) {
+    final pal = Palette.of(context);
+
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: _chipHorizontalPadding,
+        vertical: _chipVerticalPadding,
+      ),
+      decoration: BoxDecoration(
+        color: pal.base,
+        border: Border.all(
+          color: pal.textSecondary,
+          width: _chipBorderWidth,
         ),
-        decoration: BoxDecoration(
-          color: Palette.base,
-          border: Border.all(
-            color: Palette.textSecondary,
-            width: _chipBorderWidth,
-          ),
-          borderRadius: BorderRadius.circular(_chipRadius),
+        borderRadius: BorderRadius.circular(_chipRadius),
+      ),
+      child: Text(
+        text,
+        style: TextStyle(
+          color: pal.textSecondary,
+          fontSize: _chipFontSize,
         ),
-        child: Text(
-          text,
-          style: const TextStyle(
-            color: Palette.textSecondary,
-            fontSize: _chipFontSize,
-          ),
-        ),
-      );
+      ),
+    );
+  }
 }

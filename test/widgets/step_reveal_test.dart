@@ -48,7 +48,8 @@ void main() {
     expect(_opacity(tester), 0.0);
   });
 
-  testWidgets('StepScope.of throws a useful error when missing', (tester) async {
+  testWidgets('StepScope.of throws a useful error when missing',
+      (tester) async {
     await tester.pumpWidget(const MaterialApp(
       home: StepReveal(atStep: 1, child: Text('hello')),
     ));

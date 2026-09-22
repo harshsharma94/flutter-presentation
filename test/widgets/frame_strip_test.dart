@@ -8,7 +8,8 @@ void main() {
   testWidgets('all ticks flow green when not stalled', (tester) async {
     await pumpBody(
       tester,
-      const FrameStrip(frameCount: 60, stalled: false, stalledFrom: 20, stalledTo: 45),
+      const FrameStrip(
+          frameCount: 60, stalled: false, stalledFrom: 20, stalledTo: 45),
     );
     final painter = stripPainterOf(tester);
     expect(painter.stalled, isFalse);
@@ -18,7 +19,8 @@ void main() {
   testWidgets('stalled range turns red', (tester) async {
     await pumpBody(
       tester,
-      const FrameStrip(frameCount: 60, stalled: true, stalledFrom: 20, stalledTo: 45),
+      const FrameStrip(
+          frameCount: 60, stalled: true, stalledFrom: 20, stalledTo: 45),
     );
     final painter = stripPainterOf(tester);
     expect(painter.colorAt(30), Palette.red);

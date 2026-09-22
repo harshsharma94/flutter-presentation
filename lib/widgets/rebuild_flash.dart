@@ -48,13 +48,15 @@ class RebuildTallyScope extends InheritedWidget {
   final RebuildTally tally;
 
   static RebuildTally of(BuildContext context) {
-    final scope = context.dependOnInheritedWidgetOfExactType<RebuildTallyScope>();
+    final scope =
+        context.dependOnInheritedWidgetOfExactType<RebuildTallyScope>();
     assert(scope != null, 'RebuildFlash needs a RebuildTallyScope ancestor.');
     return scope!.tally;
   }
 
   @override
-  bool updateShouldNotify(RebuildTallyScope oldWidget) => tally != oldWidget.tally;
+  bool updateShouldNotify(RebuildTallyScope oldWidget) =>
+      tally != oldWidget.tally;
 }
 
 /// Flashes [Palette.blue] whenever Flutter rebuilds it — the flash is

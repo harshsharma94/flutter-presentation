@@ -36,7 +36,7 @@ class CodegenBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Center(
         child: Padding(
-          padding: const EdgeInsets.all(Tokens.gapLg),
+          padding: EdgeInsets.all(Tokens.gapLg),
           child: FittedBox(
             fit: BoxFit.scaleDown,
             child: Column(
@@ -49,8 +49,8 @@ class CodegenBody extends StatelessWidget {
                     fileName: 'lib/models/photo.dart',
                   ),
                 ),
-                const SizedBox(height: Tokens.gapMd),
-                const StepReveal(
+                SizedBox(height: Tokens.gapMd),
+                StepReveal(
                   atStep: 2,
                   dimWhenPast: false,
                   child: _Terminal(),
@@ -66,35 +66,39 @@ class _Terminal extends StatelessWidget {
   const _Terminal();
 
   @override
-  Widget build(BuildContext context) => Container(
-        width: 720,
-        padding: const EdgeInsets.all(Tokens.gapSm),
-        decoration: BoxDecoration(
-          color: Palette.base,
-          border: Border.all(color: Palette.textSecondary, width: 1),
-          borderRadius: BorderRadius.circular(Tokens.radius),
-        ),
-        child: const Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              r'$ dart run build_runner build',
-              style: TextStyle(
-                fontFamily: 'JetBrainsMono',
-                fontSize: 20,
-                color: Palette.green,
-              ),
+  Widget build(BuildContext context) {
+    final pal = Palette.of(context);
+
+    return Container(
+      width: 720,
+      padding: EdgeInsets.all(Tokens.gapSm),
+      decoration: BoxDecoration(
+        color: pal.base,
+        border: Border.all(color: pal.textSecondary, width: 1),
+        borderRadius: BorderRadius.circular(Tokens.radius),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            r'$ dart run build_runner build',
+            style: TextStyle(
+              fontFamily: 'JetBrainsMono',
+              fontSize: 20,
+              color: Palette.green,
             ),
-            SizedBox(height: Tokens.gapXs),
-            Text(
-              '[INFO] Succeeded after 1.2s with 1 output (photo.g.dart)',
-              style: TextStyle(
-                fontFamily: 'JetBrainsMono',
-                fontSize: 17,
-                color: Palette.textSecondary,
-              ),
+          ),
+          SizedBox(height: Tokens.gapXs),
+          Text(
+            '[INFO] Succeeded after 1.2s with 1 output (photo.g.dart)',
+            style: TextStyle(
+              fontFamily: 'JetBrainsMono',
+              fontSize: 17,
+              color: pal.textSecondary,
             ),
-          ],
-        ),
-      );
+          ),
+        ],
+      ),
+    );
+  }
 }

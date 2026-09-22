@@ -6,7 +6,7 @@ import 'package:flutter_bootcamp_deck/widgets/correlation_panel.dart';
 import '../support/pump.dart';
 
 void main() {
-  const panel = CorrelationPanel(
+  final panel = CorrelationPanel(
     flutterLabel: 'Dio',
     rows: [
       CorrelationRow(platform: 'Android', concept: 'Retrofit + OkHttp'),

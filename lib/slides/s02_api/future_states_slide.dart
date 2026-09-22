@@ -30,60 +30,63 @@ class FutureStatesBody extends StatelessWidget {
   bool get _resolved => step >= 2;
 
   @override
-  Widget build(BuildContext context) => Center(
-        child: Padding(
-          padding: const EdgeInsets.all(Tokens.gapLg),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text(
-                'A Future settles exactly one way.',
-                style: TextStyle(color: Palette.textPrimary, fontSize: 29),
-              ),
-              const SizedBox(height: Tokens.gapLg),
-              SizedBox.fromSize(
-                size: _canvasSize,
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    Positioned.fill(
-                      child: AnimatedArrow(
-                        from:
-                            Offset(_circleALeft + _circleSize, _circleCenterY),
-                        to: Offset(_circleBLeft, _circleCenterY),
-                        atStep: 3,
+  Widget build(BuildContext context) {
+    final pal = Palette.of(context);
+
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.all(Tokens.gapLg),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'A Future settles exactly one way.',
+              style: TextStyle(color: pal.textPrimary, fontSize: 29),
+            ),
+            SizedBox(height: Tokens.gapLg),
+            SizedBox.fromSize(
+              size: _canvasSize,
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  Positioned.fill(
+                    child: AnimatedArrow(
+                      from: Offset(_circleALeft + _circleSize, _circleCenterY),
+                      to: Offset(_circleBLeft, _circleCenterY),
+                      atStep: 3,
+                      color: Palette.red,
+                    ),
+                  ),
+                  Positioned(
+                    left: _circleALeft,
+                    top: _circleTop,
+                    child: _OutcomeCircle(
+                      filled: _resolved,
+                      color: Palette.blue,
+                      label: _resolved ? 'data' : 'pending',
+                    ),
+                  ),
+                  Positioned(
+                    left: _circleBLeft,
+                    top: _circleTop,
+                    child: StepReveal(
+                      atStep: 3,
+                      dimWhenPast: false,
+                      child: const _OutcomeCircle(
+                        filled: true,
                         color: Palette.red,
+                        label: 'error',
                       ),
                     ),
-                    Positioned(
-                      left: _circleALeft,
-                      top: _circleTop,
-                      child: _OutcomeCircle(
-                        filled: _resolved,
-                        color: Palette.blue,
-                        label: _resolved ? 'data' : 'pending',
-                      ),
-                    ),
-                    Positioned(
-                      left: _circleBLeft,
-                      top: _circleTop,
-                      child: StepReveal(
-                        atStep: 3,
-                        dimWhenPast: false,
-                        child: const _OutcomeCircle(
-                          filled: true,
-                          color: Palette.red,
-                          label: 'error',
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-      );
+      ),
+    );
+  }
 }
 
 /// One circle: an outline that fills solid once [filled], with [label]
@@ -112,7 +115,7 @@ class _OutcomeCircle extends StatelessWidget {
                 border: Border.all(color: color, width: Tokens.strokeWidth),
               ),
             ),
-            const SizedBox(height: Tokens.gapSm),
+            SizedBox(height: Tokens.gapSm),
             AnimatedSwitcher(
               duration: Tokens.fade,
               child: Text(

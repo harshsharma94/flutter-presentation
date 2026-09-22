@@ -8,7 +8,7 @@ import 'package:flutter_bootcamp_deck/widgets/step_reveal.dart';
 /// Which bands have landed in the file by each step. They arrive interleaved
 /// on purpose — that is what a real god file looks like, not four tidy
 /// blocks.
-const _arrivals = <int, List<Band>>{
+final _arrivals = <int, List<Band>>{
   1: [uiBand, networkBand],
   2: [parseBand, uiBand2],
   3: [rulesBand, networkBand2, rulesBand2],
@@ -24,36 +24,37 @@ class GodFileBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pal = Palette.of(context);
     final bands = <Band>[
       for (var s = 1; s <= step && s <= 3; s++) ..._arrivals[s]!,
     ];
 
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(Tokens.gapLg),
+        padding: EdgeInsets.all(Tokens.gapLg),
         child: FittedBox(
           fit: BoxFit.scaleDown,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text(
+              Text(
                 'home_screen.dart',
                 style: TextStyle(
                   fontFamily: 'JetBrainsMono',
-                  color: Palette.textSecondary,
+                  color: pal.textSecondary,
                   fontSize: 22,
                 ),
               ),
-              const SizedBox(height: Tokens.gapSm),
+              SizedBox(height: Tokens.gapSm),
               AnimatedContainer(
                 duration: Tokens.travel,
                 curve: Tokens.curve,
                 width: 560,
-                padding: const EdgeInsets.all(Tokens.gapSm),
+                padding: EdgeInsets.all(Tokens.gapSm),
                 decoration: BoxDecoration(
-                  color: Palette.surface,
+                  color: pal.surface,
                   border: Border.all(
-                    color: step >= 4 ? Palette.red : Palette.textSecondary,
+                    color: step >= 4 ? Palette.red : pal.textSecondary,
                     width: Tokens.strokeWidth,
                   ),
                   borderRadius: BorderRadius.circular(Tokens.radius),
@@ -63,14 +64,14 @@ class GodFileBody extends StatelessWidget {
                   children: [
                     for (final band in bands) ...[
                       BandRow(band: band),
-                      const SizedBox(height: 6),
+                      SizedBox(height: 6),
                     ],
-                    if (bands.isEmpty) const SizedBox(height: 40),
+                    if (bands.isEmpty) SizedBox(height: 40),
                   ],
                 ),
               ),
-              const SizedBox(height: Tokens.gapMd),
-              const StepReveal(
+              SizedBox(height: Tokens.gapMd),
+              StepReveal(
                 atStep: 4,
                 dimWhenPast: false,
                 child: Row(

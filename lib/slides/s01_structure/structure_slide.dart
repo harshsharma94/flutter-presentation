@@ -68,7 +68,7 @@ class StructureBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Center(
         child: Padding(
-          padding: const EdgeInsets.all(Tokens.gapLg),
+          padding: EdgeInsets.all(Tokens.gapLg),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -85,7 +85,7 @@ class StructureBody extends StatelessWidget {
                         width: _folderBoxWidth,
                         child: StepReveal(
                           atStep: _folders[i].revealStep,
-                          slideFrom: const Offset(-0.08, 0),
+                          slideFrom: Offset(-0.08, 0),
                           dimWhenPast: false,
                           child: _FolderBox(item: _folders[i]),
                         ),
@@ -101,7 +101,7 @@ class StructureBody extends StatelessWidget {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             for (var j = 0; j < _androidItems.length; j++) ...[
-                              if (j > 0) const SizedBox(height: _androidRowGap),
+                              if (j > 0) SizedBox(height: _androidRowGap),
                               _AndroidRow(label: _androidItems[j]),
                             ],
                           ],
@@ -119,12 +119,12 @@ class StructureBody extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: Tokens.gapMd),
+              SizedBox(height: Tokens.gapMd),
               // The two aphorisms that used to close this slide are gone:
               // they read as filler next to the diagram and cost two extra
               // steps of animation for no new information. Say them out
               // loud if they land in the room; they are in the notes.
-              const Callout(
+              Callout(
                 atStep: 8,
                 text: 'Same structure you used in Android. Renamed.',
               ),
@@ -141,9 +141,10 @@ class _FolderBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = item.role == null ? Palette.textSecondary : Palette.blue;
+    final pal = Palette.of(context);
+    final color = item.role == null ? pal.textSecondary : Palette.blue;
     return Container(
-      padding: const EdgeInsets.all(6),
+      padding: EdgeInsets.all(6),
       decoration: BoxDecoration(
         border: Border.all(color: color, width: Tokens.strokeWidth),
         borderRadius: BorderRadius.circular(Tokens.radius),
@@ -158,12 +159,11 @@ class _FolderBox extends StatelessWidget {
                 color: color, fontSize: 16, fontWeight: FontWeight.w600),
           ),
           if (item.role case final role?) ...[
-            const SizedBox(height: 4),
+            SizedBox(height: 4),
             Text(
               role,
               textAlign: TextAlign.center,
-              style:
-                  const TextStyle(color: Palette.textSecondary, fontSize: 11),
+              style: TextStyle(color: pal.textSecondary, fontSize: 11),
             ),
           ],
         ],
@@ -181,12 +181,12 @@ class _AndroidRow extends StatelessWidget {
   Widget build(BuildContext context) => Container(
         height: _androidRowHeight,
         alignment: Alignment.centerLeft,
-        padding: const EdgeInsets.symmetric(horizontal: 10),
+        padding: EdgeInsets.symmetric(horizontal: 10),
         decoration: BoxDecoration(
           border: Border.all(color: Palette.green, width: Tokens.strokeWidth),
           borderRadius: BorderRadius.circular(Tokens.radius),
         ),
-        child: Text(label,
-            style: const TextStyle(color: Palette.green, fontSize: 16)),
+        child:
+            Text(label, style: TextStyle(color: Palette.green, fontSize: 16)),
       );
 }

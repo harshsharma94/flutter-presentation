@@ -15,11 +15,12 @@ class TestabilityBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pal = Palette.of(context);
     final swapped = step >= 2;
 
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(Tokens.gapLg),
+        padding: EdgeInsets.all(Tokens.gapLg),
         child: FittedBox(
           fit: BoxFit.scaleDown,
           child: Column(
@@ -29,13 +30,13 @@ class TestabilityBody extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const LayerSlab(
+                  LayerSlab(
                     name: 'Domain',
                     subtitle: 'unchanged',
                     width: 300,
                     bands: [rulesBand],
                   ),
-                  const SizedBox(width: Tokens.gapLg),
+                  SizedBox(width: Tokens.gapLg),
                   // Fixed slot: both the real and the fake occupy exactly
                   // this box, so nothing to its left can shift.
                   SizedBox(
@@ -46,8 +47,8 @@ class TestabilityBody extends StatelessWidget {
                         AnimatedSlide(
                           duration: Tokens.travel,
                           curve: Tokens.curve,
-                          offset: swapped ? const Offset(0, -1.6) : Offset.zero,
-                          child: const LayerSlab(
+                          offset: swapped ? Offset(0, -1.6) : Offset.zero,
+                          child: LayerSlab(
                             name: 'PhotoRepository',
                             subtitle: 'real Dio',
                             width: 360,
@@ -57,8 +58,8 @@ class TestabilityBody extends StatelessWidget {
                         AnimatedSlide(
                           duration: Tokens.travel,
                           curve: Tokens.curve,
-                          offset: swapped ? Offset.zero : const Offset(0, 1.6),
-                          child: const LayerSlab(
+                          offset: swapped ? Offset.zero : Offset(0, 1.6),
+                          child: LayerSlab(
                             name: 'FakePhotoRepository',
                             subtitle: 'a list in memory',
                             width: 360,
@@ -75,20 +76,20 @@ class TestabilityBody extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: Tokens.gapLg),
+              SizedBox(height: Tokens.gapLg),
               StepReveal(
                 atStep: 1,
                 dimWhenPast: false,
                 child:
                     _Timer(millis: swapped ? '3ms' : '2400ms', fast: swapped),
               ),
-              const SizedBox(height: Tokens.gapMd),
-              const StepReveal(
+              SizedBox(height: Tokens.gapMd),
+              StepReveal(
                 atStep: 3,
                 dimWhenPast: false,
                 child: Text(
                   'Domain never moved. That is the whole return on the rule.',
-                  style: TextStyle(color: Palette.textSecondary, fontSize: 22),
+                  style: TextStyle(color: pal.textSecondary, fontSize: 22),
                 ),
               ),
             ],
@@ -106,23 +107,27 @@ class _Timer extends StatelessWidget {
   final bool fast;
 
   @override
-  Widget build(BuildContext context) => Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Text(
-            'one domain test: ',
-            style: TextStyle(color: Palette.textSecondary, fontSize: 24),
+  Widget build(BuildContext context) {
+    final pal = Palette.of(context);
+
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          'one domain test: ',
+          style: TextStyle(color: pal.textSecondary, fontSize: 24),
+        ),
+        AnimatedDefaultTextStyle(
+          duration: Tokens.travel,
+          curve: Tokens.curve,
+          style: TextStyle(
+            fontFamily: 'JetBrainsMono',
+            fontSize: 34,
+            color: fast ? Palette.green : Palette.amber,
           ),
-          AnimatedDefaultTextStyle(
-            duration: Tokens.travel,
-            curve: Tokens.curve,
-            style: TextStyle(
-              fontFamily: 'JetBrainsMono',
-              fontSize: 34,
-              color: fast ? Palette.green : Palette.amber,
-            ),
-            child: Text(millis),
-          ),
-        ],
-      );
+          child: Text(millis),
+        ),
+      ],
+    );
+  }
 }

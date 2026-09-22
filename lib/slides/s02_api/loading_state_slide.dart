@@ -13,7 +13,7 @@ class LoadingStateBody extends StatelessWidget {
   final int step;
 
   @override
-  Widget build(BuildContext context) => const Center(
+  Widget build(BuildContext context) => Center(
         child: Padding(
           padding: EdgeInsets.all(Tokens.gapLg),
           child: ThreeStateDemo(),

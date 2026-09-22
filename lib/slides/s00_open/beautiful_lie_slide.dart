@@ -35,7 +35,7 @@ const _codeTop = _phoneBottom + 34;
 const _codeInset = 110.0;
 
 const _hardcodedListCode = '''
-const List<Photo> photos = [
+List<Photo> photos = [
   Photo(id: '1', author: 'Alex', likes: 128),
   Photo(id: '2', author: 'Sam', likes: 64),
 ];''';
@@ -49,95 +49,98 @@ class BeautifulLieBody extends StatelessWidget {
   final int step;
 
   @override
-  Widget build(BuildContext context) => Center(
-        child: FittedBox(
-          fit: BoxFit.scaleDown,
-          child: Padding(
-            padding: const EdgeInsets.all(Tokens.gapLg),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox.fromSize(
-                  size: _canvasSize,
-                  child: Stack(
-                    clipBehavior: Clip.none,
-                    children: [
-                      _tiltedPhone(
-                        left: _leftPhoneCenterX - _phoneWidth / 2,
-                        top: _leftPhoneTop,
-                        child: const _ListScreenPreview(),
-                      ),
-                      _tiltedPhone(
-                        left: _rightPhoneCenterX - _phoneWidth / 2,
-                        top: _rightPhoneTop,
-                        child: const _DetailScreenPreview(),
-                      ),
-                      Positioned(
-                        left: _codeInset,
-                        right: _codeInset,
-                        top: _codeTop,
-                        child: StepReveal(
-                          atStep: 2,
-                          dimWhenPast: false,
-                          child: const CodePanel(
-                            code: _hardcodedListCode,
-                            fileName: 'lib/data/product_list.dart',
-                          ),
-                        ),
-                      ),
-                      Positioned.fill(
-                        child: AnimatedArrow(
-                          from: Offset(_leftPhoneCenterX, _codeTop),
-                          to: Offset(
-                              _leftPhoneCenterX, _leftPhoneTop + _phoneHeight),
-                          atStep: 2,
-                        ),
-                      ),
-                      Positioned.fill(
-                        child: AnimatedArrow(
-                          from: Offset(_rightPhoneCenterX, _codeTop),
-                          to: Offset(_rightPhoneCenterX,
-                              _rightPhoneTop + _phoneHeight),
-                          atStep: 2,
-                        ),
-                      ),
-                      Positioned.fill(
-                        child: AnimatedArrow(
-                          from: Offset(_codeInset, _codeTop + 90),
-                          to: Offset(
-                              _canvasSize.width - _codeInset, _codeTop + 90),
-                          atStep: 3,
-                          color: Palette.red,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: Tokens.gapMd),
-                Stack(
-                  alignment: Alignment.center,
+  Widget build(BuildContext context) {
+    final pal = Palette.of(context);
+
+    return Center(
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Padding(
+          padding: EdgeInsets.all(Tokens.gapLg),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox.fromSize(
+                size: _canvasSize,
+                child: Stack(
+                  clipBehavior: Clip.none,
                   children: [
-                    StepReveal(
-                      atStep: 1,
-                      until: 1,
-                      child: const Text(
-                        'Yesterday.',
-                        style: TextStyle(
-                            color: Palette.textSecondary, fontSize: 24),
+                    _tiltedPhone(
+                      left: _leftPhoneCenterX - _phoneWidth / 2,
+                      top: _leftPhoneTop,
+                      child: const _ListScreenPreview(),
+                    ),
+                    _tiltedPhone(
+                      left: _rightPhoneCenterX - _phoneWidth / 2,
+                      top: _rightPhoneTop,
+                      child: const _DetailScreenPreview(),
+                    ),
+                    Positioned(
+                      left: _codeInset,
+                      right: _codeInset,
+                      top: _codeTop,
+                      child: StepReveal(
+                        atStep: 2,
+                        dimWhenPast: false,
+                        child: CodePanel(
+                          code: _hardcodedListCode,
+                          fileName: 'lib/data/product_list.dart',
+                        ),
                       ),
                     ),
-                    const Callout(
-                      atStep: 3,
-                      text: 'Today: we delete this.',
-                      color: Palette.red,
+                    Positioned.fill(
+                      child: AnimatedArrow(
+                        from: Offset(_leftPhoneCenterX, _codeTop),
+                        to: Offset(
+                            _leftPhoneCenterX, _leftPhoneTop + _phoneHeight),
+                        atStep: 2,
+                      ),
+                    ),
+                    Positioned.fill(
+                      child: AnimatedArrow(
+                        from: Offset(_rightPhoneCenterX, _codeTop),
+                        to: Offset(
+                            _rightPhoneCenterX, _rightPhoneTop + _phoneHeight),
+                        atStep: 2,
+                      ),
+                    ),
+                    Positioned.fill(
+                      child: AnimatedArrow(
+                        from: Offset(_codeInset, _codeTop + 90),
+                        to: Offset(
+                            _canvasSize.width - _codeInset, _codeTop + 90),
+                        atStep: 3,
+                        color: Palette.red,
+                      ),
                     ),
                   ],
                 ),
-              ],
-            ),
+              ),
+              SizedBox(height: Tokens.gapMd),
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  StepReveal(
+                    atStep: 1,
+                    until: 1,
+                    child: Text(
+                      'Yesterday.',
+                      style: TextStyle(color: pal.textSecondary, fontSize: 24),
+                    ),
+                  ),
+                  Callout(
+                    atStep: 3,
+                    text: 'Today: we delete this.',
+                    color: Palette.red,
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
-      );
+      ),
+    );
+  }
 
   /// Wraps [child] in a [PhoneFrame], positioned at [left] on the canvas,
   /// and tilts it back on the X axis once the deck reaches step 2 — the
@@ -175,27 +178,31 @@ class _ListScreenPreview extends StatelessWidget {
   const _ListScreenPreview();
 
   @override
-  Widget build(BuildContext context) => ColoredBox(
-        color: Palette.surface,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(8, 24, 8, 8),
-          child: Wrap(
-            spacing: 6,
-            runSpacing: 6,
-            children: [
-              for (var i = 0; i < 6; i++)
-                Container(
-                  width: 38,
-                  height: 38,
-                  decoration: BoxDecoration(
-                    color: Palette.base,
-                    borderRadius: BorderRadius.circular(6),
-                  ),
+  Widget build(BuildContext context) {
+    final pal = Palette.of(context);
+
+    return ColoredBox(
+      color: pal.surface,
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(8, 24, 8, 8),
+        child: Wrap(
+          spacing: 6,
+          runSpacing: 6,
+          children: [
+            for (var i = 0; i < 6; i++)
+              Container(
+                width: 38,
+                height: 38,
+                decoration: BoxDecoration(
+                  color: pal.base,
+                  borderRadius: BorderRadius.circular(6),
                 ),
-            ],
-          ),
+              ),
+          ],
         ),
-      );
+      ),
+    );
+  }
 }
 
 /// A stand-in for Day 1's detail screen: a full-bleed photo placeholder with
@@ -204,27 +211,29 @@ class _DetailScreenPreview extends StatelessWidget {
   const _DetailScreenPreview();
 
   @override
-  Widget build(BuildContext context) => ColoredBox(
-        color: Palette.base,
-        child: Stack(
-          children: [
-            Positioned(
-              left: 8,
-              right: 8,
-              bottom: 10,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
-                  Text('Alex',
-                      style:
-                          TextStyle(color: Palette.textPrimary, fontSize: 12)),
-                  Text('128 ♥',
-                      style: TextStyle(
-                          color: Palette.textSecondary, fontSize: 12)),
-                ],
-              ),
+  Widget build(BuildContext context) {
+    final pal = Palette.of(context);
+
+    return ColoredBox(
+      color: pal.base,
+      child: Stack(
+        children: [
+          Positioned(
+            left: 8,
+            right: 8,
+            bottom: 10,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Alex',
+                    style: TextStyle(color: pal.textPrimary, fontSize: 12)),
+                Text('128 ♥',
+                    style: TextStyle(color: pal.textSecondary, fontSize: 12)),
+              ],
             ),
-          ],
-        ),
-      );
+          ),
+        ],
+      ),
+    );
+  }
 }

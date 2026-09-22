@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_bootcamp_deck/theme/palette.dart';
 import 'package:flutter_bootcamp_deck/theme/tokens.dart';
 import 'package:flutter_bootcamp_deck/widgets/widget_tree.dart';
 
@@ -7,7 +8,7 @@ import '../support/pump.dart';
 
 void main() {
   testWidgets('renders every node label', (tester) async {
-    await pumpBody(tester, const WidgetTreeView(root: demoTree));
+    await pumpBody(tester, WidgetTreeView(root: demoTree));
     expect(find.text('PhotoApp'), findsOneWidget);
     expect(find.text('PhotoTile'), findsWidgets);
   });
@@ -15,7 +16,7 @@ void main() {
   testWidgets('shows parameters threaded through a node', (tester) async {
     await pumpBody(
       tester,
-      const WidgetTreeView(root: demoTree, showParams: true),
+      WidgetTreeView(root: demoTree, showParams: true),
     );
     expect(find.textContaining('photos'), findsWidgets);
   });
@@ -23,7 +24,7 @@ void main() {
   testWidgets('flashing nodes are highlighted', (tester) async {
     await pumpBody(
       tester,
-      const WidgetTreeView(root: demoTree, flashing: {'tile-1'}),
+      WidgetTreeView(root: demoTree, flashing: {'tile-1'}),
     );
     expect(find.byKey(const ValueKey('flash-tile-1')), findsOneWidget);
   });
@@ -53,13 +54,13 @@ void main() {
       };
 
   testWidgets('showParams moves no node', (tester) async {
-    await pumpBody(tester, const WidgetTreeView(root: demoTree));
+    await pumpBody(tester, WidgetTreeView(root: demoTree));
     final beforeX = dxByNode(tester);
     final beforeY = dyByNode(tester);
 
     await pumpBody(
       tester,
-      const WidgetTreeView(root: demoTree, showParams: true),
+      WidgetTreeView(root: demoTree, showParams: true),
     );
     expect(dxByNode(tester), beforeX);
     expect(dyByNode(tester), beforeY);
@@ -67,13 +68,13 @@ void main() {
 
   testWidgets('flashing, subscribed and traversalTo move no node',
       (tester) async {
-    await pumpBody(tester, const WidgetTreeView(root: demoTree));
+    await pumpBody(tester, WidgetTreeView(root: demoTree));
     final beforeX = dxByNode(tester);
     final beforeY = dyByNode(tester);
 
     await pumpBody(
       tester,
-      const WidgetTreeView(
+      WidgetTreeView(
         root: demoTree,
         flashing: {'tile-1'},
         subscribed: {'like-1', 'like-2'},
@@ -108,18 +109,17 @@ void main() {
       .painter! as TreeEdgePainter;
 
   testWidgets('no traversal means no path and no lit edges', (tester) async {
-    await pumpBody(tester, const WidgetTreeView(root: demoTree));
+    await pumpBody(tester, WidgetTreeView(root: demoTree));
     final painter = edgePainter(tester);
     expect(painter.pathIds, isEmpty);
     expect(painter.edgeProgress('tile-2', 'like-2'), 0.0);
   });
 
-  testWidgets(
-      'settled traversal fully lights every edge on the ancestor path',
+  testWidgets('settled traversal fully lights every edge on the ancestor path',
       (tester) async {
     await pumpBody(
       tester,
-      const WidgetTreeView(root: demoTree, traversalTo: 'like-2'),
+      WidgetTreeView(root: demoTree, traversalTo: 'like-2'),
     );
     // pumpBody settles the animation, so progress has reached 1.0 and every
     // edge on the like-2 -> tile-2 -> photo-grid -> home-screen -> photo-app
@@ -147,13 +147,15 @@ void main() {
   // `edgeProgress`, so an empty map is fine here.
   const path = ['photo-app', 'home-screen', 'photo-grid', 'tile-2', 'like-2'];
 
-  test('the edge nearest the target lights well before the edge nearest '
+  test(
+      'the edge nearest the target lights well before the edge nearest '
       'the root, for the same overall progress', () {
-    const painter = TreeEdgePainter(
+    final painter = TreeEdgePainter(
       root: demoTree,
       positions: {},
       pathIds: path,
       progress: 0.5,
+      baseColor: Palette.textSecondary,
     );
     // Halfway through the overall animation, the edge leading into the
     // target is already fully lit...
@@ -165,22 +167,24 @@ void main() {
   });
 
   test('an edge off the traversal path never lights, at any progress', () {
-    const painter = TreeEdgePainter(
+    final painter = TreeEdgePainter(
       root: demoTree,
       positions: {},
       pathIds: path,
       progress: 1.0,
+      baseColor: Palette.textSecondary,
     );
     expect(painter.edgeProgress('photo-grid', 'tile-1'), 0.0);
     expect(painter.edgeProgress('tile-1', 'like-1'), 0.0);
   });
 
   test('with no active traversal, no edge ever lights', () {
-    const painter = TreeEdgePainter(
+    final painter = TreeEdgePainter(
       root: demoTree,
       positions: {},
       pathIds: [],
       progress: 1.0,
+      baseColor: Palette.textSecondary,
     );
     expect(painter.edgeProgress('tile-2', 'like-2'), 0.0);
   });
@@ -210,7 +214,7 @@ void main() {
     addTearDown(tester.view.reset);
 
     await tester.pumpWidget(
-      const MaterialApp(
+      MaterialApp(
         home: Scaffold(
           body: WidgetTreeView(root: demoTree, traversalTo: 'like-2'),
         ),

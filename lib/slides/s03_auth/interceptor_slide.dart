@@ -28,7 +28,7 @@ const _refreshLines = [2];
 const _updateHeaderLines = [3];
 const _retryLines = [4, 5];
 
-const _miniLanes = [
+final _miniLanes = [
   SequenceLane(id: 'app', label: 'App'),
   SequenceLane(id: 'auth', label: 'Auth Server'),
   SequenceLane(id: 'api', label: 'API'),
@@ -36,7 +36,7 @@ const _miniLanes = [
 
 /// The same four-step shape as the code beside it — slide 15's diagram,
 /// zoomed to just the hops this interceptor triggers.
-const _hops = [
+final _hops = [
   SequenceHop(
       from: 'app', to: 'api', label: '401', atStep: 1, color: Palette.red),
   SequenceHop(from: 'app', to: 'auth', label: 'refresh()', atStep: 2),
@@ -54,7 +54,7 @@ const _hops = [
 const _codeWidth = 880.0;
 const _miniDiagramWidth = 300.0;
 
-const _rows = [
+final _rows = [
   CorrelationRow(platform: 'Android', concept: 'OkHttp Authenticator'),
   CorrelationRow(platform: 'iOS', concept: 'URLSession delegate'),
   CorrelationRow(platform: 'Java / Spring', concept: 'Spring filter'),
@@ -98,7 +98,7 @@ class AuthInterceptorBody extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: Tokens.gapSm),
-                    const SequenceDiagram(
+                    SequenceDiagram(
                       lanes: _miniLanes,
                       hops: _hops,
                       width: _miniDiagramWidth,
@@ -112,7 +112,7 @@ class AuthInterceptorBody extends StatelessWidget {
                 // inside a 720p viewport hands its child unbounded
                 // constraints. Letting it inherit the Column's width worked
                 // only while nothing above it was unbounded.
-                const SizedBox(
+                SizedBox(
                   width: _codeWidth + Tokens.gapSm + _miniDiagramWidth,
                   child: CorrelationPanel(
                     flutterLabel: 'Dio Interceptor',

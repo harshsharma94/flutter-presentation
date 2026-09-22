@@ -16,52 +16,56 @@ class TitleBody extends StatelessWidget {
   final int step;
 
   @override
-  Widget build(BuildContext context) => Center(
-        child: Padding(
-          padding: const EdgeInsets.all(Tokens.gapXl),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Flutter Bootcamp',
-                style: TextStyle(
-                  color: Palette.blue,
-                  fontSize: 34,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 1,
-                ),
+  Widget build(BuildContext context) {
+    final pal = Palette.of(context);
+
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.all(Tokens.gapXl),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Flutter Bootcamp',
+              style: TextStyle(
+                color: Palette.blue,
+                fontSize: 34,
+                fontWeight: FontWeight.w600,
+                letterSpacing: 1,
               ),
-              const SizedBox(height: Tokens.gapSm),
-              const Text(
-                'Day 2 — Making It Real',
-                style: TextStyle(
-                  color: Palette.textPrimary,
-                  fontSize: 58,
-                  fontWeight: FontWeight.w600,
-                  height: 1.1,
-                ),
+            ),
+            SizedBox(height: Tokens.gapSm),
+            Text(
+              'Day 2 — Making It Real',
+              style: TextStyle(
+                color: pal.textPrimary,
+                fontSize: 58,
+                fontWeight: FontWeight.w600,
+                height: 1.1,
               ),
-              const SizedBox(height: Tokens.gapXl),
-              const Text(
-                'Coach: Harsh Sharma · Assistant coaches: Harsh, Abhas',
-                style: TextStyle(color: Palette.textSecondary, fontSize: 22),
+            ),
+            SizedBox(height: Tokens.gapXl),
+            Text(
+              'Coach: Harsh Sharma · Assistant coaches: Harsh, Abhas',
+              style: TextStyle(color: pal.textSecondary, fontSize: 22),
+            ),
+            SizedBox(height: Tokens.gapMd),
+            // Doubles as the room's first instruction: the navigation
+            // drawer (`.`) is where the theme toggle lives, and they will
+            // need the drawer again to jump sections.
+            Text(
+              'Dark side or light side? Press  .  and choose — '
+              'we find your lack of contrast disturbing.',
+              style: TextStyle(
+                color: Palette.green,
+                fontSize: 21,
+                fontStyle: FontStyle.italic,
               ),
-              const SizedBox(height: Tokens.gapMd),
-              // Doubles as the room's first instruction: the navigation
-              // drawer (`.`) is where the theme toggle lives, and they will
-              // need the drawer again to jump sections.
-              const Text(
-                'Dark side or light side? Press  .  and choose — '
-                'we find your lack of contrast disturbing.',
-                style: TextStyle(
-                  color: Palette.green,
-                  fontSize: 21,
-                  fontStyle: FontStyle.italic,
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
-      );
+      ),
+    );
+  }
 }

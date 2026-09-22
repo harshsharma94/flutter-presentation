@@ -42,42 +42,45 @@ class DiProblemBody extends StatelessWidget {
   final int step;
 
   @override
-  Widget build(BuildContext context) => Center(
-        child: Padding(
-          padding: const EdgeInsets.all(Tokens.gapLg),
-          child: FittedBox(
-            fit: BoxFit.scaleDown,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(
-                  width: 820,
-                  child: CodePanel(
-                    code: step >= 3 ? _four : _three,
-                    fileName: 'lib/main.dart',
-                  ),
+  Widget build(BuildContext context) {
+    final pal = Palette.of(context);
+
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.all(Tokens.gapLg),
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                width: 820,
+                child: CodePanel(
+                  code: step >= 3 ? _four : _three,
+                  fileName: 'lib/main.dart',
                 ),
-                const SizedBox(height: Tokens.gapMd),
-                const StepReveal(
-                  atStep: 2,
-                  until: 2,
-                  dimWhenPast: false,
-                  child: Text(
-                    'Nothing in the middle uses these. They are just in the '
-                    'way.',
-                    style:
-                        TextStyle(color: Palette.textSecondary, fontSize: 23),
-                  ),
+              ),
+              SizedBox(height: Tokens.gapMd),
+              StepReveal(
+                atStep: 2,
+                until: 2,
+                dimWhenPast: false,
+                child: Text(
+                  'Nothing in the middle uses these. They are just in the '
+                  'way.',
+                  style: TextStyle(color: pal.textSecondary, fontSize: 23),
                 ),
-                const Callout(
-                  atStep: 3,
-                  text: 'One new dependency. Six edited constructors. '
-                      'Every time.',
-                  color: Palette.red,
-                ),
-              ],
-            ),
+              ),
+              Callout(
+                atStep: 3,
+                text: 'One new dependency. Six edited constructors. '
+                    'Every time.',
+                color: Palette.red,
+              ),
+            ],
           ),
         ),
-      );
+      ),
+    );
+  }
 }

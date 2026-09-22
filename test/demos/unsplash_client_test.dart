@@ -95,8 +95,7 @@ void main() {
     expect(result.photos.first.author, 'Flutter Bootcamp');
   });
 
-  test('loads the real bundled fixture via the default asset loader',
-      () async {
+  test('loads the real bundled fixture via the default asset loader', () async {
     TestWidgetsFlutterBinding.ensureInitialized();
     final client = UnsplashClient(accessKey: '');
     final result = await client.getPhotos();

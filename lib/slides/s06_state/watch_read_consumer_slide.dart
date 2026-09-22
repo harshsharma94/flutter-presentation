@@ -11,23 +11,27 @@ class WatchReadConsumerBody extends StatelessWidget {
   final int step;
 
   @override
-  Widget build(BuildContext context) => Center(
-        child: Padding(
-          padding: const EdgeInsets.all(Tokens.gapMd),
-          child: FittedBox(
-            fit: BoxFit.scaleDown,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Text(
-                  'Same notifier. Three readers. Watch what rebuilds.',
-                  style: TextStyle(color: Palette.textPrimary, fontSize: 29),
-                ),
-                const SizedBox(height: Tokens.gapMd),
-                const RebuildScopeDemo(),
-              ],
-            ),
+  Widget build(BuildContext context) {
+    final pal = Palette.of(context);
+
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.all(Tokens.gapMd),
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Same notifier. Three readers. Watch what rebuilds.',
+                style: TextStyle(color: pal.textPrimary, fontSize: 29),
+              ),
+              SizedBox(height: Tokens.gapMd),
+              RebuildScopeDemo(),
+            ],
           ),
         ),
-      );
+      ),
+    );
+  }
 }

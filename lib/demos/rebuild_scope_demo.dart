@@ -39,99 +39,104 @@ class _RebuildScopeDemoState extends State<RebuildScopeDemo> {
   }
 
   @override
-  Widget build(BuildContext context) => RebuildTallyScope(
-        tally: _tally,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SegmentedButton<ReadMode>(
-                  segments: const [
-                    ButtonSegment(
-                      value: ReadMode.watch,
-                      label: Text('context.watch (root)'),
-                    ),
-                    ButtonSegment(
-                      value: ReadMode.read,
-                      label: Text('context.read'),
-                    ),
-                    ButtonSegment(
-                      value: ReadMode.consumer,
-                      label: Text('Consumer (leaf)'),
-                    ),
-                  ],
-                  selected: {_mode},
-                  onSelectionChanged: (s) => _setMode(s.first),
-                ),
-                const SizedBox(width: Tokens.gapMd),
-                FilledButton.icon(
-                  key: const ValueKey('rebuild-increment'),
-                  onPressed: _model.increment,
-                  icon: const Icon(Icons.favorite),
-                  label: const Text('like'),
-                ),
-                const SizedBox(width: Tokens.gapMd),
-                // The model's own value, read live and rendered *outside*
-                // the tree. Without this, `read` mode looks broken rather
-                // than instructive: the tap genuinely changes the model,
-                // and the lesson is that the tree below did not hear about
-                // it. You cannot see that unless you can see both numbers.
-                ListenableBuilder(
-                  listenable: _model,
-                  builder: (context, _) => Text(
-                    'model.likes = ${_model.likes}',
-                    style: const TextStyle(
-                      fontFamily: 'JetBrainsMono',
-                      color: Palette.green,
-                      fontSize: 22,
-                    ),
+  Widget build(BuildContext context) {
+    final pal = Palette.of(context);
+
+    return RebuildTallyScope(
+      tally: _tally,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SegmentedButton<ReadMode>(
+                segments: const [
+                  ButtonSegment(
+                    value: ReadMode.watch,
+                    label: Text('context.watch (root)'),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: Tokens.gapMd),
-            // `watch` at the root means the whole subtree is inside the
-            // listening builder. `read` and `consumer` leave the subtree
-            // outside it — which is the entire difference.
-            if (_mode == ReadMode.watch)
+                  ButtonSegment(
+                    value: ReadMode.read,
+                    label: Text('context.read'),
+                  ),
+                  ButtonSegment(
+                    value: ReadMode.consumer,
+                    label: Text('Consumer (leaf)'),
+                  ),
+                ],
+                selected: {_mode},
+                onSelectionChanged: (s) => _setMode(s.first),
+              ),
+              SizedBox(width: Tokens.gapMd),
+              FilledButton.icon(
+                key: ValueKey('rebuild-increment'),
+                onPressed: _model.increment,
+                icon: Icon(Icons.favorite),
+                label: Text('like'),
+              ),
+              SizedBox(width: Tokens.gapMd),
+              // The model's own value, read live and rendered *outside*
+              // the tree. Without this, `read` mode looks broken rather
+              // than instructive: the tap genuinely changes the model,
+              // and the lesson is that the tree below did not hear about
+              // it. You cannot see that unless you can see both numbers.
               ListenableBuilder(
                 listenable: _model,
-                builder: (context, _) => _Tree(likes: _model.likes, liveLeafOnly: false),
-              )
-            else if (_mode == ReadMode.read)
-              _Tree(likes: _model.likes, liveLeafOnly: false)
-            else
-              _Tree(likes: _model.likes, liveLeafOnly: true, model: _model),
-            const SizedBox(height: Tokens.gapMd),
-            ListenableBuilder(
-              listenable: _tally,
-              builder: (context, _) => Text(
-                'widget builds since you switched: ${_tally.total}',
-                style: const TextStyle(
-                  fontFamily: 'JetBrainsMono',
-                  color: Palette.textPrimary,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-            if (_mode == ReadMode.read)
-              Padding(
-                padding: const EdgeInsets.only(top: Tokens.gapXs),
-                child: ListenableBuilder(
-                  listenable: _model,
-                  builder: (context, _) => Text(
-                    'read() never subscribes. The model says '
-                    '${_model.likes}; the tree still says 0, nothing '
-                    'rebuilt, and no flash fired.',
-                    style: const TextStyle(color: Palette.amber, fontSize: 20),
+                builder: (context, _) => Text(
+                  'model.likes = ${_model.likes}',
+                  style: TextStyle(
+                    fontFamily: 'JetBrainsMono',
+                    color: Palette.green,
+                    fontSize: 22,
                   ),
                 ),
               ),
-          ],
-        ),
-      );
+            ],
+          ),
+          SizedBox(height: Tokens.gapMd),
+          // `watch` at the root means the whole subtree is inside the
+          // listening builder. `read` and `consumer` leave the subtree
+          // outside it — which is the entire difference.
+          if (_mode == ReadMode.watch)
+            ListenableBuilder(
+              listenable: _model,
+              builder: (context, _) =>
+                  _Tree(likes: _model.likes, liveLeafOnly: false),
+            )
+          else if (_mode == ReadMode.read)
+            _Tree(likes: _model.likes, liveLeafOnly: false)
+          else
+            _Tree(likes: _model.likes, liveLeafOnly: true, model: _model),
+          SizedBox(height: Tokens.gapMd),
+          ListenableBuilder(
+            listenable: _tally,
+            builder: (context, _) => Text(
+              'widget builds since you switched: ${_tally.total}',
+              style: TextStyle(
+                fontFamily: 'JetBrainsMono',
+                color: pal.textPrimary,
+                fontSize: 24,
+              ),
+            ),
+          ),
+          if (_mode == ReadMode.read)
+            Padding(
+              padding: EdgeInsets.only(top: Tokens.gapXs),
+              child: ListenableBuilder(
+                listenable: _model,
+                builder: (context, _) => Text(
+                  'read() never subscribes. The model says '
+                  '${_model.likes}; the tree still says 0, nothing '
+                  'rebuilt, and no flash fired.',
+                  style: TextStyle(color: Palette.amber, fontSize: 20),
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
 }
 
 /// The demo tree as real widgets. [liveLeafOnly] puts the listening builder
@@ -164,7 +169,7 @@ class _Tree extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       _tile('tile-1', 'like-1'),
-                      const SizedBox(width: Tokens.gapSm),
+                      SizedBox(width: Tokens.gapSm),
                       _tile('tile-2', 'like-2'),
                     ],
                   ),
@@ -199,25 +204,29 @@ class _Node extends StatelessWidget {
   final Widget child;
 
   @override
-  Widget build(BuildContext context) => Container(
-        padding: const EdgeInsets.all(Tokens.gapXs),
-        margin: const EdgeInsets.all(3),
-        decoration: BoxDecoration(
-          border: Border.all(color: Palette.textSecondary, width: 1),
-          borderRadius: BorderRadius.circular(Tokens.radius),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              label,
-              style: const TextStyle(color: Palette.textSecondary, fontSize: 15),
-            ),
-            const SizedBox(height: 4),
-            child,
-          ],
-        ),
-      );
+  Widget build(BuildContext context) {
+    final pal = Palette.of(context);
+
+    return Container(
+      padding: EdgeInsets.all(Tokens.gapXs),
+      margin: EdgeInsets.all(3),
+      decoration: BoxDecoration(
+        border: Border.all(color: pal.textSecondary, width: 1),
+        borderRadius: BorderRadius.circular(Tokens.radius),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            label,
+            style: TextStyle(color: pal.textSecondary, fontSize: 15),
+          ),
+          SizedBox(height: 4),
+          child,
+        ],
+      ),
+    );
+  }
 }
 
 class _Leaf extends StatelessWidget {
@@ -227,15 +236,15 @@ class _Leaf extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        padding: const EdgeInsets.symmetric(horizontal: Tokens.gapSm, vertical: 6),
-        margin: const EdgeInsets.all(3),
+        padding: EdgeInsets.symmetric(horizontal: Tokens.gapSm, vertical: 6),
+        margin: EdgeInsets.all(3),
         decoration: BoxDecoration(
           border: Border.all(color: Palette.blue, width: 1),
           borderRadius: BorderRadius.circular(Tokens.radius),
         ),
         child: Text(
           'LikeButton  $likes',
-          style: const TextStyle(
+          style: TextStyle(
             fontFamily: 'JetBrainsMono',
             color: Palette.blue,
             fontSize: 16,

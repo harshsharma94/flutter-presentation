@@ -17,11 +17,12 @@ class ProviderFusionBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pal = Palette.of(context);
     final fused = step >= 2;
 
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(Tokens.gapLg),
+        padding: EdgeInsets.all(Tokens.gapLg),
         child: FittedBox(
           fit: BoxFit.scaleDown,
           child: Column(
@@ -67,24 +68,24 @@ class ProviderFusionBody extends StatelessWidget {
                       duration: Tokens.travel,
                       curve: Tokens.curve,
                       opacity: fused ? 1.0 : 0.0,
-                      child: const _Box(
+                      child: _Box(
                         title: 'ChangeNotifierProvider',
                         sub: 'both, with the boilerplate gone',
-                        color: Palette.textPrimary,
+                        color: pal.textPrimary,
                         width: 360,
                       ),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: Tokens.gapLg),
+              SizedBox(height: Tokens.gapLg),
               StepReveal(
                 atStep: 1,
                 dimWhenPast: false,
                 child: _LineCounter(lines: step >= 3 ? 6 : 38),
               ),
-              const SizedBox(height: Tokens.gapMd),
-              const Callout(
+              SizedBox(height: Tokens.gapMd),
+              Callout(
                 atStep: 3,
                 text: 'Same behaviour. You just stop writing the plumbing.',
                 color: Palette.green,
@@ -111,35 +112,39 @@ class _Box extends StatelessWidget {
   final double width;
 
   @override
-  Widget build(BuildContext context) => Container(
-        width: width,
-        constraints: const BoxConstraints(minHeight: _boxH),
-        alignment: Alignment.center,
-        padding: const EdgeInsets.all(Tokens.gapXs),
-        decoration: BoxDecoration(
-          color: Palette.surface,
-          border: Border.all(color: color, width: Tokens.strokeWidth),
-          borderRadius: BorderRadius.circular(Tokens.radius),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              title,
-              style: TextStyle(
-                  color: color, fontSize: 21, fontWeight: FontWeight.w600),
-            ),
-            const SizedBox(height: 2),
-            Text(
-              sub,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                  color: Palette.textSecondary, fontSize: 16, height: 1.3),
-            ),
-          ],
-        ),
-      );
+  Widget build(BuildContext context) {
+    final pal = Palette.of(context);
+
+    return Container(
+      width: width,
+      constraints: BoxConstraints(minHeight: _boxH),
+      alignment: Alignment.center,
+      padding: EdgeInsets.all(Tokens.gapXs),
+      decoration: BoxDecoration(
+        color: pal.surface,
+        border: Border.all(color: color, width: Tokens.strokeWidth),
+        borderRadius: BorderRadius.circular(Tokens.radius),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            title,
+            style: TextStyle(
+                color: color, fontSize: 21, fontWeight: FontWeight.w600),
+          ),
+          SizedBox(height: 2),
+          Text(
+            sub,
+            textAlign: TextAlign.center,
+            style:
+                TextStyle(color: pal.textSecondary, fontSize: 16, height: 1.3),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 class _LineCounter extends StatelessWidget {
@@ -148,27 +153,31 @@ class _LineCounter extends StatelessWidget {
   final int lines;
 
   @override
-  Widget build(BuildContext context) => TweenAnimationBuilder<double>(
-        tween: Tween(begin: lines.toDouble(), end: lines.toDouble()),
-        duration: Tokens.travel,
-        curve: Tokens.curve,
-        builder: (context, value, child) => Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Text(
-              'lines of wiring: ',
-              style: TextStyle(color: Palette.textSecondary, fontSize: 24),
+  Widget build(BuildContext context) {
+    final pal = Palette.of(context);
+
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: lines.toDouble(), end: lines.toDouble()),
+      duration: Tokens.travel,
+      curve: Tokens.curve,
+      builder: (context, value, child) => Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            'lines of wiring: ',
+            style: TextStyle(color: pal.textSecondary, fontSize: 24),
+          ),
+          AnimatedDefaultTextStyle(
+            duration: Tokens.travel,
+            style: TextStyle(
+              fontFamily: 'JetBrainsMono',
+              fontSize: 34,
+              color: lines <= 10 ? Palette.green : Palette.amber,
             ),
-            AnimatedDefaultTextStyle(
-              duration: Tokens.travel,
-              style: TextStyle(
-                fontFamily: 'JetBrainsMono',
-                fontSize: 34,
-                color: lines <= 10 ? Palette.green : Palette.amber,
-              ),
-              child: Text('$lines'),
-            ),
-          ],
-        ),
-      );
+            child: Text('$lines'),
+          ),
+        ],
+      ),
+    );
+  }
 }

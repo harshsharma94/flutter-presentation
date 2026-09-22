@@ -3,7 +3,7 @@ import 'package:flutter_bootcamp_deck/theme/palette.dart';
 import 'package:flutter_bootcamp_deck/theme/tokens.dart';
 import 'package:flutter_bootcamp_deck/widgets/correlation_panel.dart';
 
-const _rows = [
+final _rows = [
   CorrelationRow(platform: 'Android', concept: 'Retrofit + OkHttp'),
   CorrelationRow(platform: 'iOS', concept: 'URLSession / Alamofire'),
   CorrelationRow(
@@ -21,23 +21,27 @@ class HttpClientsBody extends StatelessWidget {
   final int step;
 
   @override
-  Widget build(BuildContext context) => Center(
-        child: Padding(
-          padding: const EdgeInsets.all(Tokens.gapLg),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text(
-                'The HTTP client you already have.',
-                style: TextStyle(color: Palette.textPrimary, fontSize: 34),
-              ),
-              const SizedBox(height: Tokens.gapLg),
-              ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 960),
-                child: const CorrelationPanel(flutterLabel: 'Dio', rows: _rows),
-              ),
-            ],
-          ),
+  Widget build(BuildContext context) {
+    final pal = Palette.of(context);
+
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.all(Tokens.gapLg),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'The HTTP client you already have.',
+              style: TextStyle(color: pal.textPrimary, fontSize: 34),
+            ),
+            SizedBox(height: Tokens.gapLg),
+            ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: 960),
+              child: CorrelationPanel(flutterLabel: 'Dio', rows: _rows),
+            ),
+          ],
         ),
-      );
+      ),
+    );
+  }
 }

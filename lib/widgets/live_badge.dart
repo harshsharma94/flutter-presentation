@@ -16,13 +16,13 @@ class LiveBadge extends StatelessWidget {
           Container(
             width: 14,
             height: 14,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               color: Palette.red,
               shape: BoxShape.circle,
             ),
           ),
-          const SizedBox(width: Tokens.gapSm),
-          const Text(
+          SizedBox(width: Tokens.gapSm),
+          Text(
             'LIVE',
             style: TextStyle(
               color: Palette.red,
@@ -43,22 +43,26 @@ class LiveSlideBody extends StatelessWidget {
   final String goal;
 
   @override
-  Widget build(BuildContext context) => Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const LiveBadge(),
-            const SizedBox(height: Tokens.gapLg),
-            Text(
-              goal,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                color: Palette.textPrimary,
-                fontSize: 54,
-                height: 1.25,
-              ),
+  Widget build(BuildContext context) {
+    final pal = Palette.of(context);
+
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          LiveBadge(),
+          SizedBox(height: Tokens.gapLg),
+          Text(
+            goal,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: pal.textPrimary,
+              fontSize: 54,
+              height: 1.25,
             ),
-          ],
-        ),
-      );
+          ),
+        ],
+      ),
+    );
+  }
 }

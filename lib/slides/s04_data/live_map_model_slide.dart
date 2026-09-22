@@ -8,7 +8,7 @@ class LiveMapModelBody extends StatelessWidget {
   final int step;
 
   @override
-  Widget build(BuildContext context) => const LiveSlideBody(
+  Widget build(BuildContext context) => LiveSlideBody(
         goal: "Map the response onto yesterday's model.",
       );
 }

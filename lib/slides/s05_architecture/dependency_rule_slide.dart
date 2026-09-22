@@ -23,21 +23,22 @@ class DependencyRuleBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pal = Palette.of(context);
     final broken = step >= 3;
 
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(Tokens.gapLg),
+        padding: EdgeInsets.all(Tokens.gapLg),
         child: FittedBox(
           fit: BoxFit.scaleDown,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text(
+              Text(
                 'The one rule: dependencies point inward.',
-                style: TextStyle(color: Palette.textPrimary, fontSize: 29),
+                style: TextStyle(color: pal.textPrimary, fontSize: 29),
               ),
-              const SizedBox(height: Tokens.gapMd),
+              SizedBox(height: Tokens.gapMd),
               SizedBox(
                 width: _canvasWidth,
                 height: _canvasHeight,
@@ -47,7 +48,7 @@ class DependencyRuleBody extends StatelessWidget {
                     Positioned(
                       left: _slabLeft(0),
                       top: _slabY,
-                      child: const LayerSlab(
+                      child: LayerSlab(
                         name: 'Presentation',
                         width: _slabWidth,
                         bands: [uiBand],
@@ -60,13 +61,13 @@ class DependencyRuleBody extends StatelessWidget {
                         name: 'Domain',
                         width: _slabWidth,
                         onFire: broken,
-                        bands: const [rulesBand],
+                        bands: [rulesBand],
                       ),
                     ),
                     Positioned(
                       left: _slabLeft(2),
                       top: _slabY,
-                      child: const LayerSlab(
+                      child: LayerSlab(
                         name: 'Data',
                         width: _slabWidth,
                         bands: [networkBand],
@@ -115,7 +116,7 @@ class DependencyRuleBody extends StatelessWidget {
                     Positioned(
                       left: _slabLeft(1) + _slabWidth * 0.5,
                       top: 150,
-                      child: const Callout(
+                      child: Callout(
                         atStep: 3,
                         text: "import 'package:dio/dio.dart'; — inside Domain",
                         color: Palette.red,
@@ -124,8 +125,8 @@ class DependencyRuleBody extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: Tokens.gapMd),
-              const StepReveal(
+              SizedBox(height: Tokens.gapMd),
+              StepReveal(
                 atStep: 4,
                 dimWhenPast: false,
                 child: _TestPanel(),
@@ -142,40 +143,44 @@ class _TestPanel extends StatelessWidget {
   const _TestPanel();
 
   @override
-  Widget build(BuildContext context) => Container(
-        width: 700,
-        padding: const EdgeInsets.all(Tokens.gapSm),
-        decoration: BoxDecoration(
-          color: Palette.base,
-          border: Border.all(color: Palette.red, width: Tokens.strokeWidth),
-          borderRadius: BorderRadius.circular(Tokens.radius),
-        ),
-        child: const Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'test/domain/featured_test.dart',
-              style: TextStyle(
-                fontFamily: 'JetBrainsMono',
-                fontSize: 16,
-                color: Palette.textSecondary,
-              ),
+  Widget build(BuildContext context) {
+    final pal = Palette.of(context);
+
+    return Container(
+      width: 700,
+      padding: EdgeInsets.all(Tokens.gapSm),
+      decoration: BoxDecoration(
+        color: pal.base,
+        border: Border.all(color: Palette.red, width: Tokens.strokeWidth),
+        borderRadius: BorderRadius.circular(Tokens.radius),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'test/domain/featured_test.dart',
+            style: TextStyle(
+              fontFamily: 'JetBrainsMono',
+              fontSize: 16,
+              color: pal.textSecondary,
             ),
-            SizedBox(height: Tokens.gapXs),
-            Text(
-              'SocketException: Failed host lookup: api.unsplash.com',
-              style: TextStyle(
-                fontFamily: 'JetBrainsMono',
-                fontSize: 18,
-                color: Palette.red,
-              ),
+          ),
+          SizedBox(height: Tokens.gapXs),
+          Text(
+            'SocketException: Failed host lookup: api.unsplash.com',
+            style: TextStyle(
+              fontFamily: 'JetBrainsMono',
+              fontSize: 18,
+              color: Palette.red,
             ),
-            SizedBox(height: Tokens.gapXs),
-            Text(
-              'To test one business rule you now need a network.',
-              style: TextStyle(color: Palette.textSecondary, fontSize: 18),
-            ),
-          ],
-        ),
-      );
+          ),
+          SizedBox(height: Tokens.gapXs),
+          Text(
+            'To test one business rule you now need a network.',
+            style: TextStyle(color: pal.textSecondary, fontSize: 18),
+          ),
+        ],
+      ),
+    );
+  }
 }

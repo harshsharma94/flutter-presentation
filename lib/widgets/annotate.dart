@@ -25,7 +25,7 @@ class AnimatedArrow extends StatelessWidget {
     required this.from,
     required this.to,
     required this.atStep,
-    this.color = Palette.textSecondary,
+    this.color,
     this.curved = false,
     this.dashed = false,
     super.key,
@@ -34,7 +34,7 @@ class AnimatedArrow extends StatelessWidget {
   final Offset from;
   final Offset to;
   final int atStep;
-  final Color color;
+  final Color? color;
   final bool curved;
 
   /// Draws the line as a dash pattern (reusing [DashedBox]'s segmenting)
@@ -46,6 +46,7 @@ class AnimatedArrow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pal = Palette.of(context);
     final arrived = StepScope.of(context) >= atStep;
 
     return TweenAnimationBuilder<double>(
@@ -59,7 +60,7 @@ class AnimatedArrow extends StatelessWidget {
           from: from,
           to: to,
           progress: progress,
-          color: color,
+          color: color ?? pal.textSecondary,
           curved: curved,
           dashed: dashed,
         ),
@@ -136,7 +137,8 @@ class ArrowPainter extends CustomPainter {
     final delta = to - from;
     if (delta.distance == 0) return from;
     final normal = Offset(-delta.dy, delta.dx) / delta.distance;
-    return Offset((from.dx + to.dx) / 2, (from.dy + to.dy) / 2) + normal * _curveBow;
+    return Offset((from.dx + to.dx) / 2, (from.dy + to.dy) / 2) +
+        normal * _curveBow;
   }
 
   void _paintArrowhead(
@@ -158,8 +160,10 @@ class ArrowPainter extends CustomPainter {
     // with a vertical component. Derive the direction from the vector
     // instead.
     final direction = math.atan2(tangent.vector.dy, tangent.vector.dx);
-    final left = tip - Offset.fromDirection(direction - _headAngle, _headLength);
-    final right = tip - Offset.fromDirection(direction + _headAngle, _headLength);
+    final left =
+        tip - Offset.fromDirection(direction - _headAngle, _headLength);
+    final right =
+        tip - Offset.fromDirection(direction + _headAngle, _headLength);
 
     canvas.drawPath(
       Path()
@@ -188,22 +192,27 @@ class DashedBox extends StatelessWidget {
   const DashedBox({
     required this.atStep,
     required this.child,
-    this.color = Palette.textSecondary,
+    this.color,
     super.key,
   });
 
   final int atStep;
   final Widget child;
-  final Color color;
+  final Color? color;
 
   @override
-  Widget build(BuildContext context) => StepReveal(
-        atStep: atStep,
-        child: CustomPaint(
-          foregroundPainter: _DashedBorderPainter(color: color),
-          child: child,
-        ),
-      );
+  Widget build(BuildContext context) {
+    final pal = Palette.of(context);
+
+    return StepReveal(
+      atStep: atStep,
+      child: CustomPaint(
+        foregroundPainter:
+            _DashedBorderPainter(color: color ?? pal.textSecondary),
+        child: child,
+      ),
+    );
+  }
 }
 
 class _DashedBorderPainter extends CustomPainter {
@@ -239,7 +248,8 @@ Path _dashPath(Path source) {
     var distance = 0.0;
     var draw = true;
     while (distance < metric.length) {
-      final next = (distance + (draw ? _dashWidth : _dashGap)).clamp(0.0, metric.length);
+      final next =
+          (distance + (draw ? _dashWidth : _dashGap)).clamp(0.0, metric.length);
       if (draw) {
         dashed.addPath(metric.extractPath(distance, next), Offset.zero);
       }
@@ -261,27 +271,38 @@ class Callout extends StatelessWidget {
   const Callout({
     required this.atStep,
     required this.text,
-    this.color = Palette.textSecondary,
+    this.color,
     super.key,
   });
 
   final int atStep;
   final String text;
-  final Color color;
+  final Color? color;
 
   @override
-  Widget build(BuildContext context) => StepReveal(
-        atStep: atStep,
-        child: Container(
-          padding: const EdgeInsets.symmetric(
-            horizontal: Tokens.gapSm,
-            vertical: Tokens.gapXs,
-          ),
-          decoration: BoxDecoration(
-            border: Border.all(color: color, width: _calloutBorderWidth),
-            borderRadius: BorderRadius.circular(Tokens.radius),
-          ),
-          child: Text(text, style: TextStyle(color: color, fontSize: _calloutFontSize)),
+  Widget build(BuildContext context) {
+    final pal = Palette.of(context);
+
+    return StepReveal(
+      atStep: atStep,
+      child: Container(
+        padding: const EdgeInsets.symmetric(
+          horizontal: Tokens.gapSm,
+          vertical: Tokens.gapXs,
         ),
-      );
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: color ?? pal.textSecondary,
+            width: _calloutBorderWidth,
+          ),
+          borderRadius: BorderRadius.circular(Tokens.radius),
+        ),
+        child: Text(text,
+            style: TextStyle(
+              color: color ?? pal.textSecondary,
+              fontSize: _calloutFontSize,
+            )),
+      ),
+    );
+  }
 }

@@ -21,7 +21,7 @@ runApp(
       Provider(create: (c) => PhotoRepository(c.read<Dio>())),
       ChangeNotifierProvider(create: (_) => CounterModel()),
     ],
-    child: const PhotoApp(),
+    child: PhotoApp(),
   ),
 );
 
@@ -37,68 +37,70 @@ class DiMultiproviderBody extends StatelessWidget {
   final int step;
 
   @override
-  Widget build(BuildContext context) => Center(
-        child: Padding(
-          padding: const EdgeInsets.all(Tokens.gapLg),
-          child: FittedBox(
-            fit: BoxFit.scaleDown,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(
-                  width: 820,
-                  child: CodePanel(
-                    code: step >= 2 ? _wired : _tangled,
-                    fileName: 'lib/main.dart',
-                  ),
+  Widget build(BuildContext context) {
+    final pal = Palette.of(context);
+
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.all(Tokens.gapLg),
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                width: 820,
+                child: CodePanel(
+                  code: step >= 2 ? _wired : _tangled,
+                  fileName: 'lib/main.dart',
                 ),
-                const SizedBox(height: Tokens.gapMd),
-                const StepReveal(
-                  atStep: 2,
-                  until: 5,
-                  dimWhenPast: false,
-                  child: Text(
-                    'Declared once, at the top. Read where it is used. '
-                    'Nothing in between changes.',
-                    style: TextStyle(color: Palette.green, fontSize: 23),
-                  ),
+              ),
+              SizedBox(height: Tokens.gapMd),
+              StepReveal(
+                atStep: 2,
+                until: 5,
+                dimWhenPast: false,
+                child: Text(
+                  'Declared once, at the top. Read where it is used. '
+                  'Nothing in between changes.',
+                  style: TextStyle(color: Palette.green, fontSize: 23),
                 ),
-                const SizedBox(height: Tokens.gapSm),
-                const SizedBox(
-                  width: 900,
-                  child: CorrelationPanel(
-                    flutterLabel: 'MultiProvider',
-                    firstStep: 3,
-                    stepsPerRow: 0,
-                    rows: [
-                      CorrelationRow(
-                        platform: 'Android',
-                        concept: 'Hilt @Module / Koin module {}',
-                      ),
-                      CorrelationRow(
-                          platform: 'iOS', concept: 'init injection'),
-                      CorrelationRow(
-                        platform: 'Java/Spring',
-                        concept: '@Bean / @Configuration',
-                      ),
-                      CorrelationRow(platform: 'Go', concept: 'wire'),
-                    ],
-                  ),
+              ),
+              SizedBox(height: Tokens.gapSm),
+              SizedBox(
+                width: 900,
+                child: CorrelationPanel(
+                  flutterLabel: 'MultiProvider',
+                  firstStep: 3,
+                  stepsPerRow: 0,
+                  rows: [
+                    CorrelationRow(
+                      platform: 'Android',
+                      concept: 'Hilt @Module / Koin module {}',
+                    ),
+                    CorrelationRow(platform: 'iOS', concept: 'init injection'),
+                    CorrelationRow(
+                      platform: 'Java/Spring',
+                      concept: '@Bean / @Configuration',
+                    ),
+                    CorrelationRow(platform: 'Go', concept: 'wire'),
+                  ],
                 ),
-                const SizedBox(height: Tokens.gapSm),
-                const StepReveal(
-                  atStep: 5,
-                  dimWhenPast: false,
-                  child: Text(
-                    'get_it exists and is fine. You do not need it today — '
-                    'Provider is already here.',
-                    style:
-                        TextStyle(color: Palette.textSecondary, fontSize: 21),
-                  ),
+              ),
+              SizedBox(height: Tokens.gapSm),
+              StepReveal(
+                atStep: 5,
+                dimWhenPast: false,
+                child: Text(
+                  'get_it exists and is fine. You do not need it today — '
+                  'Provider is already here.',
+                  style: TextStyle(color: pal.textSecondary, fontSize: 21),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
-      );
+      ),
+    );
+  }
 }

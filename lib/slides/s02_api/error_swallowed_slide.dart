@@ -40,61 +40,64 @@ class ErrorSwallowedBody extends StatelessWidget {
   bool get _waiting => step >= 2;
 
   @override
-  Widget build(BuildContext context) => Center(
-        child: Padding(
-          padding: const EdgeInsets.all(Tokens.gapLg),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SizedBox(
-                    width: _codeWidth,
-                    child: StepReveal(
-                      atStep: 1,
-                      child: const CodePanel(
-                        code: _tryCatchCode,
-                        fileName: 'photo_repository.dart',
-                        highlightedLines: _catchLine,
+  Widget build(BuildContext context) {
+    final pal = Palette.of(context);
+
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.all(Tokens.gapLg),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  width: _codeWidth,
+                  child: StepReveal(
+                    atStep: 1,
+                    child: CodePanel(
+                      code: _tryCatchCode,
+                      fileName: 'photo_repository.dart',
+                      highlightedLines: _catchLine,
+                    ),
+                  ),
+                ),
+                SizedBox(width: Tokens.gapLg),
+                StepReveal(
+                  atStep: 2,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      PhoneFrame(
+                        width: _phoneWidth,
+                        child: Center(child: _Spinner(waiting: _waiting)),
                       ),
-                    ),
+                      SizedBox(height: Tokens.gapSm),
+                      _ClockText(waiting: _waiting),
+                    ],
                   ),
-                  const SizedBox(width: Tokens.gapLg),
-                  StepReveal(
-                    atStep: 2,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        PhoneFrame(
-                          width: _phoneWidth,
-                          child: Center(child: _Spinner(waiting: _waiting)),
-                        ),
-                        const SizedBox(height: Tokens.gapSm),
-                        _ClockText(waiting: _waiting),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: Tokens.gapLg),
-              const StepReveal(
-                atStep: 3,
-                dimWhenPast: false,
-                child: Icon(Icons.touch_app,
-                    color: Palette.textSecondary, size: 32),
-              ),
-              const SizedBox(height: Tokens.gapSm),
-              const Callout(
-                atStep: 3,
-                text: "They didn't file a bug. They left.",
-                color: Palette.red,
-              ),
-            ],
-          ),
+                ),
+              ],
+            ),
+            SizedBox(height: Tokens.gapLg),
+            StepReveal(
+              atStep: 3,
+              dimWhenPast: false,
+              child: Icon(Icons.touch_app, color: pal.textSecondary, size: 32),
+            ),
+            SizedBox(height: Tokens.gapSm),
+            Callout(
+              atStep: 3,
+              text: "They didn't file a bug. They left.",
+              color: Palette.red,
+            ),
+          ],
         ),
-      );
+      ),
+    );
+  }
 }
 
 /// The wait spinner — the deck's second deliberate exception to the
@@ -133,7 +136,7 @@ class _SpinnerState extends State<_Spinner>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller = AnimationController(
     vsync: this,
-    duration: const Duration(milliseconds: 1400),
+    duration: Duration(milliseconds: 1400),
   );
 
   @override
@@ -157,11 +160,14 @@ class _SpinnerState extends State<_Spinner>
   }
 
   @override
-  Widget build(BuildContext context) => RotationTransition(
-        turns: _controller,
-        child:
-            const Icon(Icons.autorenew, size: 28, color: Palette.textSecondary),
-      );
+  Widget build(BuildContext context) {
+    final pal = Palette.of(context);
+
+    return RotationTransition(
+      turns: _controller,
+      child: Icon(Icons.autorenew, size: 28, color: pal.textSecondary),
+    );
+  }
 }
 
 /// "5s" ticking up to "30s" — the same finite-target technique as [_Spinner],
@@ -173,17 +179,21 @@ class _ClockText extends StatelessWidget {
   final bool waiting;
 
   @override
-  Widget build(BuildContext context) => TweenAnimationBuilder<double>(
-        tween: Tween(begin: 5.0, end: waiting ? 30.0 : 5.0),
-        duration: _waitDuration,
-        curve: Tokens.curve,
-        builder: (context, seconds, child) => Text(
-          '${seconds.round()}s',
-          style: const TextStyle(
-            color: Palette.textSecondary,
-            fontFamily: 'JetBrainsMono',
-            fontSize: 22,
-          ),
+  Widget build(BuildContext context) {
+    final pal = Palette.of(context);
+
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 5.0, end: waiting ? 30.0 : 5.0),
+      duration: _waitDuration,
+      curve: Tokens.curve,
+      builder: (context, seconds, child) => Text(
+        '${seconds.round()}s',
+        style: TextStyle(
+          color: pal.textSecondary,
+          fontFamily: 'JetBrainsMono',
+          fontSize: 22,
         ),
-      );
+      ),
+    );
+  }
 }

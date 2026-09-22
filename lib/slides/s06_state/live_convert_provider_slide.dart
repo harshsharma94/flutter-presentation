@@ -8,7 +8,7 @@ class LiveConvertProviderBody extends StatelessWidget {
   final int step;
 
   @override
-  Widget build(BuildContext context) => const LiveSlideBody(
+  Widget build(BuildContext context) => LiveSlideBody(
         goal: 'Convert both screens to Provider.',
       );
 }

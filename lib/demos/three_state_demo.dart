@@ -15,7 +15,7 @@ const _codeWidth = 400.0;
 const _demoCode = '''
 switch (state) {
   case Loading():
-    return const Spinner();
+    return Spinner();
   case ApiError():
     return ErrorView();
   case Data(:final photos):
@@ -85,7 +85,7 @@ class _ThreeStateDemoState extends State<ThreeStateDemo> {
         return const _ErrorView(key: ValueKey('state-error'));
       case _DemoState.data:
         return _DataView(
-          key: const ValueKey('state-data'),
+          key: ValueKey('state-data'),
           photo: _photo,
           fromFixture: _fromFixture,
         );
@@ -102,22 +102,24 @@ class _ThreeStateDemoState extends State<ThreeStateDemo> {
             children: [
               PhoneFrame(
                 width: _phoneWidth,
-                child: AnimatedSwitcher(duration: Tokens.fade, child: _content()),
+                child:
+                    AnimatedSwitcher(duration: Tokens.fade, child: _content()),
               ),
-              const SizedBox(height: Tokens.gapMd),
+              SizedBox(height: Tokens.gapMd),
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  FilledButton(onPressed: _selectLoading, child: const Text('loading')),
-                  const SizedBox(width: Tokens.gapSm),
-                  FilledButton(onPressed: _selectError, child: const Text('error')),
-                  const SizedBox(width: Tokens.gapSm),
-                  FilledButton(onPressed: _selectData, child: const Text('data')),
+                  FilledButton(
+                      onPressed: _selectLoading, child: Text('loading')),
+                  SizedBox(width: Tokens.gapSm),
+                  FilledButton(onPressed: _selectError, child: Text('error')),
+                  SizedBox(width: Tokens.gapSm),
+                  FilledButton(onPressed: _selectData, child: Text('data')),
                 ],
               ),
             ],
           ),
-          const SizedBox(width: Tokens.gapLg),
+          SizedBox(width: Tokens.gapLg),
           SizedBox(
             width: _codeWidth,
             child: CodePanel(
@@ -145,28 +147,34 @@ class _LoadingView extends StatelessWidget {
   static const _spinDuration = Duration(seconds: 3);
 
   @override
-  Widget build(BuildContext context) => Center(
-        child: TweenAnimationBuilder<double>(
-          tween: Tween(begin: 0.0, end: math.pi * 2 * 6),
-          duration: _spinDuration,
-          curve: Tokens.curve,
-          builder: (context, angle, child) => Transform.rotate(angle: angle, child: child),
-          child: const Icon(Icons.autorenew, size: 32, color: Palette.textSecondary),
-        ),
-      );
+  Widget build(BuildContext context) {
+    final pal = Palette.of(context);
+
+    return Center(
+      child: TweenAnimationBuilder<double>(
+        tween: Tween(begin: 0.0, end: math.pi * 2 * 6),
+        duration: _spinDuration,
+        curve: Tokens.curve,
+        builder: (context, angle, child) =>
+            Transform.rotate(angle: angle, child: child),
+        child: Icon(Icons.autorenew, size: 32, color: pal.textSecondary),
+      ),
+    );
+  }
 }
 
 class _ErrorView extends StatelessWidget {
   const _ErrorView({super.key});
 
   @override
-  Widget build(BuildContext context) => const Center(
+  Widget build(BuildContext context) => Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(Icons.error_outline, color: Palette.red, size: 32),
             SizedBox(height: Tokens.gapSm),
-            Text('Something went wrong.', style: TextStyle(color: Palette.red, fontSize: 17)),
+            Text('Something went wrong.',
+                style: TextStyle(color: Palette.red, fontSize: 17)),
           ],
         ),
       );
@@ -180,16 +188,17 @@ class _DataView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pal = Palette.of(context);
     final photo = this.photo;
     if (photo == null) {
-      return const Center(
-        child: Text('No photos.', style: TextStyle(color: Palette.textSecondary)),
+      return Center(
+        child: Text('No photos.', style: TextStyle(color: pal.textSecondary)),
       );
     }
     return Stack(
       fit: StackFit.expand,
       children: [
-        const ColoredBox(color: Palette.surface),
+        ColoredBox(color: pal.surface),
         Positioned(
           left: 12,
           right: 12,
@@ -200,17 +209,17 @@ class _DataView extends StatelessWidget {
             children: [
               Text(
                 photo.author,
-                style: const TextStyle(color: Palette.textPrimary, fontSize: 20),
+                style: TextStyle(color: pal.textPrimary, fontSize: 20),
               ),
               Text(
                 '${photo.likes} ♥',
-                style: const TextStyle(color: Palette.textSecondary, fontSize: 16),
+                style: TextStyle(color: pal.textSecondary, fontSize: 16),
               ),
               if (fromFixture) ...[
-                const SizedBox(height: 4),
-                const Text(
+                SizedBox(height: 4),
+                Text(
                   '(offline fixture)',
-                  style: TextStyle(color: Palette.textSecondary, fontSize: 13),
+                  style: TextStyle(color: pal.textSecondary, fontSize: 13),
                 ),
               ],
             ],

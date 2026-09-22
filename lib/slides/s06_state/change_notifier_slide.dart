@@ -33,6 +33,7 @@ class _ChangeNotifierBodyState extends State<ChangeNotifierBody> {
 
   @override
   Widget build(BuildContext context) {
+    final pal = Palette.of(context);
     final step = widget.step;
     final positions = treeNodePositions(demoTree, treeCanvasSize);
     final leafA = positions['like-1']!;
@@ -55,7 +56,7 @@ class _ChangeNotifierBodyState extends State<ChangeNotifierBody> {
 
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(Tokens.gapMd),
+        padding: EdgeInsets.all(Tokens.gapMd),
         child: FittedBox(
           fit: BoxFit.scaleDown,
           child: Row(
@@ -87,7 +88,7 @@ class _ChangeNotifierBodyState extends State<ChangeNotifierBody> {
                         child: StepReveal(
                           atStep: 1,
                           dimWhenPast: false,
-                          slideFrom: const Offset(0.3, 0),
+                          slideFrom: Offset(0.3, 0),
                           child: _ModelBox(likes: _model.likes, step: step),
                         ),
                       ),
@@ -123,7 +124,7 @@ class _ChangeNotifierBodyState extends State<ChangeNotifierBody> {
                       Positioned(
                         left: modelLeft - 60,
                         top: modelTop + _modelHeight + Tokens.gapSm,
-                        child: const Callout(
+                        child: Callout(
                           atStep: 2,
                           text: 'addListener()',
                           color: Palette.green,
@@ -146,7 +147,7 @@ class _ChangeNotifierBodyState extends State<ChangeNotifierBody> {
                         child: StepReveal(
                           atStep: 6,
                           dimWhenPast: false,
-                          child: const Callout(
+                          child: Callout(
                             atStep: 6,
                             text: 'dispose() — the line is gone, the next '
                                 'pulse skips it',
@@ -158,7 +159,7 @@ class _ChangeNotifierBodyState extends State<ChangeNotifierBody> {
                   ),
                 ),
               ),
-              const SizedBox(width: Tokens.gapMd),
+              SizedBox(width: Tokens.gapMd),
               SizedBox(
                 width: 420,
                 child: Column(
@@ -169,20 +170,19 @@ class _ChangeNotifierBodyState extends State<ChangeNotifierBody> {
                       atStep: 3,
                       dimWhenPast: false,
                       child: FilledButton.icon(
-                        key: const ValueKey('increment'),
+                        key: ValueKey('increment'),
                         onPressed: _model.increment,
-                        icon: const Icon(Icons.favorite),
-                        label: const Text('counter.increment()'),
+                        icon: Icon(Icons.favorite),
+                        label: Text('counter.increment()'),
                       ),
                     ),
-                    const SizedBox(height: Tokens.gapSm),
-                    const Text(
+                    SizedBox(height: Tokens.gapSm),
+                    Text(
                       'This button is real. Tap it.',
-                      style:
-                          TextStyle(color: Palette.textSecondary, fontSize: 20),
+                      style: TextStyle(color: pal.textSecondary, fontSize: 20),
                     ),
-                    const SizedBox(height: Tokens.gapMd),
-                    const CorrelationPanel(
+                    SizedBox(height: Tokens.gapMd),
+                    CorrelationPanel(
                       flutterLabel: 'ChangeNotifier',
                       firstStep: 7,
                       rows: [
@@ -216,47 +216,51 @@ class _ModelBox extends StatelessWidget {
   final int step;
 
   @override
-  Widget build(BuildContext context) => Container(
-        width: _modelWidth,
-        constraints: const BoxConstraints(minHeight: _modelHeight),
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: Palette.surface,
-          border: Border.all(color: Palette.blue, width: Tokens.strokeWidth),
-          borderRadius: BorderRadius.circular(Tokens.radius),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              'CounterModel',
-              style: TextStyle(
-                color: Palette.blue,
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-              ),
+  Widget build(BuildContext context) {
+    final pal = Palette.of(context);
+
+    return Container(
+      width: _modelWidth,
+      constraints: BoxConstraints(minHeight: _modelHeight),
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: pal.surface,
+        border: Border.all(color: Palette.blue, width: Tokens.strokeWidth),
+        borderRadius: BorderRadius.circular(Tokens.radius),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'CounterModel',
+            style: TextStyle(
+              color: Palette.blue,
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
             ),
+          ),
+          Text(
+            'likes: $likes',
+            style: TextStyle(
+              fontFamily: 'JetBrainsMono',
+              color: pal.textPrimary,
+              fontSize: 18,
+            ),
+          ),
+          if (step >= 4)
             Text(
-              'likes: $likes',
-              style: const TextStyle(
+              'notifyListeners()',
+              style: TextStyle(
                 fontFamily: 'JetBrainsMono',
-                color: Palette.textPrimary,
-                fontSize: 18,
+                color: Palette.green,
+                fontSize: 13,
               ),
             ),
-            if (step >= 4)
-              const Text(
-                'notifyListeners()',
-                style: TextStyle(
-                  fontFamily: 'JetBrainsMono',
-                  color: Palette.green,
-                  fontSize: 13,
-                ),
-              ),
-          ],
-        ),
-      );
+        ],
+      ),
+    );
+  }
 }
 
 /// A ring that expands and fades once per notification. Keyed on [tick] so
@@ -270,7 +274,7 @@ class _Pulse extends StatelessWidget {
   Widget build(BuildContext context) => TweenAnimationBuilder<double>(
         key: ValueKey(tick),
         tween: Tween(begin: 0.0, end: 1.0),
-        duration: const Duration(milliseconds: 700),
+        duration: Duration(milliseconds: 700),
         curve: Curves.easeOut,
         builder: (context, t, child) => Opacity(
           opacity: (1 - t).clamp(0.0, 1.0),
