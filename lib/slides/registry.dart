@@ -34,6 +34,13 @@ import 'package:flutter_bootcamp_deck/slides/s06_state/inherited_widget_slide.da
 import 'package:flutter_bootcamp_deck/slides/s06_state/provider_fusion_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s06_state/state_problem_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s06_state/watch_read_consumer_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s06_state/live_convert_provider_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s06_state/state_decision_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s07_di/di_multiprovider_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s07_di/di_problem_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s07_di/di_testing_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s08_dart/cascade_spread_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s08_dart/named_params_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/slide_spec.dart';
 
 /// The ordered list of every slide in the deck. This is the single source of
@@ -428,5 +435,81 @@ final List<SlideSpec> slideRegistry = [
         'drop. Then ask which one they would reach for by default. The '
         'read() mode is the trap worth showing: the number never moves '
         'because read never subscribes.',
+  ),
+
+  SlideSpec(
+    route: '/state-decision',
+    section: '§6 State',
+    steps: 4,
+    body: (step) => StateDecisionBody(step: step),
+    speakerNotes: 'Three rows, and the honest advice is to start at the top '
+        'and only move down when something forces you. Most screens never '
+        'leave row one. Step 4 matters for the ones who have already read '
+        'about Bloc: those tools solve problems they do not have yet.',
+  ),
+  SlideSpec(
+    route: '/live-convert-provider',
+    section: '§6 State',
+    body: (step) => LiveConvertProviderBody(step: step),
+    speakerNotes: 'List screen first, then detail. The detail screen is the '
+        'interesting one — ask whether it should read the provider or take '
+        'the model as a constructor argument. Both are defensible; make '
+        'them argue it.',
+  ),
+
+  // §7 DI
+  SlideSpec(
+    route: '/di-problem',
+    section: '§7 DI',
+    steps: 3,
+    body: (step) => DiProblemBody(step: step),
+    speakerNotes: 'This is slide 31 again, but for services instead of '
+        'data — say that, they will see it. Step 3 is the cost that '
+        'actually shows up in review: adding one dependency means editing '
+        'every constructor between main and the leaf.',
+  ),
+  SlideSpec(
+    route: '/di-multiprovider',
+    section: '§7 DI',
+    steps: 5,
+    body: (step) => DiMultiproviderBody(step: step),
+    speakerNotes: 'Say it explicitly: Provider is already in the app for '
+        'state, so DI costs them zero new packages and zero build_runner. '
+        'Note that Provider(create:) is lazy by default. Mention get_it '
+        'exists in one sentence and move on — do not teach it.',
+  ),
+  SlideSpec(
+    route: '/di-testing',
+    section: '§7 DI',
+    steps: 2,
+    body: (step) => DiTestingBody(step: step),
+    speakerNotes: 'Callback to slide 28 — same idea, now at the wiring '
+        'level. This is the answer to "why bother with DI": one line, and '
+        'the whole tree is testable. Point out the type argument on '
+        'Provider<PhotoRepository> — that is what makes the swap '
+        'type-safe.',
+  ),
+
+  // §8 Dart bits
+  SlideSpec(
+    route: '/named-params',
+    section: '§8 Dart',
+    steps: 3,
+    body: (step) => NamedParamsBody(step: step),
+    speakerNotes: 'Ask them, before step 2, which argument is which. '
+        'Someone will get it wrong. That is the slide. Then the morph — '
+        'same call, readable at the call site, and now the compiler '
+        'enforces required.',
+  ),
+  SlideSpec(
+    route: '/cascade-spread',
+    section: '§8 Dart',
+    steps: 2,
+    body: (step) => CascadeSpreadBody(step: step),
+    speakerNotes: 'Ninety seconds total. They will meet both in the '
+        'codebase today; they do not need a lecture. If anyone asks: '
+        'cascade returns the receiver, which is why it chains, and spread '
+        'is what lets you build a children list conditionally without a '
+        'helper function.',
   ),
 ];
