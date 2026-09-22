@@ -7,11 +7,20 @@
 /// The visual continuity across those slides is the whole pedagogical
 /// device, so [WidgetTreeView] lays nodes out **deterministically from
 /// [WidgetTreeView.root]** — a node's position depends only on the tree's
-/// shape, never on [WidgetTreeView.flashing], [WidgetTreeView.subscribed],
-/// [WidgetTreeView.traversalTo] or [WidgetTreeView.showParams]. Every node
-/// box is a fixed [_nodeWidth] regardless of whether its parameter chips are
-/// showing, so turning `showParams` on only makes a box taller (pushing
-/// later rows down), never shifts it sideways.
+/// shape (depth -> vertical band, index within that depth -> horizontal
+/// slot), never on [WidgetTreeView.flashing], [WidgetTreeView.subscribed],
+/// [WidgetTreeView.traversalTo] or [WidgetTreeView.showParams]. That
+/// computation is [treeNodePositions] — a pure function of `(root, size)`,
+/// exported so a slide composing something *outside* the tree (A26's model
+/// box, sitting beside the tree it belongs to) can place it and draw
+/// connectors that land on the right nodes, sharing this widget's own
+/// coordinate space rather than guessing at it.
+///
+/// Nodes render as [Positioned] boxes inside a [Stack] anchored at those
+/// computed points, with parent-child edges painted by a [CustomPainter]
+/// layered beneath them — so toggling any flag never moves a node (the
+/// position map does not take flags as input at all), and the result still
+/// reads as a tree rather than a stack of boxes.
 ///
 /// All motion here is implicit — [AnimatedContainer] reacting to changed
 /// `flashing`/`subscribed`/`traversalTo` inputs — so there is no
@@ -40,7 +49,8 @@ class TreeNode {
 
   /// Stable identity used to target this node from
   /// [WidgetTreeView.flashing], [WidgetTreeView.subscribed] and
-  /// [WidgetTreeView.traversalTo].
+  /// [WidgetTreeView.traversalTo], and as the key into [treeNodePositions]'s
+  /// result.
   final String id;
 
   final String label;
@@ -112,13 +122,28 @@ const demoTree = TreeNode(
   ],
 );
 
+/// The fixed canvas [WidgetTreeView] lays [demoTree] out inside, regardless
+/// of whatever ambient constraints a given slide surrounds it with. Fixed
+/// rather than derived from `LayoutBuilder` so that a slide composing
+/// something outside the tree (A26's model box) can call
+/// `treeNodePositions(demoTree, treeCanvasSize)` itself and get coordinates
+/// that agree exactly with what [WidgetTreeView] rendered — no risk of the
+/// two disagreeing because one read different ambient constraints than the
+/// other.
+const treeCanvasSize = Size(640, 560);
+
 /// Fixed width for every node box, regardless of [WidgetTreeView.showParams]
-/// or how many parameters a node carries. This is what keeps a node's
-/// horizontal position identical whether or not its chips are showing:
-/// toggling `showParams` only changes a box's height (chips wrap inside this
-/// width), never its column, and each level's row divides its width evenly
-/// by sibling count alone.
+/// or how many parameters a node carries — chips wrap inside this width,
+/// never widen it.
 const _nodeWidth = 148.0;
+
+/// Nominal box height used only to centre [treeNodePositions]' anchor point
+/// against a node's *label-only* box — deliberately not the taller height a
+/// node reaches once its parameter chips are showing, so a node's anchor
+/// (and therefore [Positioned.top]) never moves when
+/// [WidgetTreeView.showParams] toggles; the box simply grows downward past
+/// it.
+const _nodeBaseHeight = 56.0;
 
 const _labelFontSize = 15.0;
 const _chipFontSize = 11.0;
@@ -128,13 +153,12 @@ const _chipVerticalPadding = 2.0;
 const _chipBorderWidth = 1.0;
 const _chipRadius = 6.0;
 
-/// Height of the small stub a subscribed leaf grows above its box — a
-/// symbolic stand-in for the `addListener()` line A26 draws from leaf to
-/// model. It stays local to the node, rather than routed to the model's true
-/// on-screen position, because [WidgetTreeView] lays levels out as
-/// independent rows rather than absolute coordinates (see class doc).
-const _connectorWidth = Tokens.strokeWidth;
-const _connectorHeight = Tokens.gapSm;
+/// Diameter of the small badge a subscribed leaf shows at its box's corner —
+/// a marker that *this* node has a live subscription. It deliberately does
+/// not attempt to draw a line to the model box: that box's position is a
+/// composition decision for the slide that places it (see [treeNodePositions]
+/// doc), not something [WidgetTreeView] can know about its own tree.
+const _subscribedDotSize = 10.0;
 
 const _glowBlur = 12.0;
 const _glowSpread = 2.0;
@@ -144,12 +168,40 @@ const _glowSpread = 2.0;
 /// `const [BoxShadow(...)]` list.
 const _flashGlowColor = Color(0x66118EEA);
 
-/// Renders [root] as a `Column` of per-depth `Row`s, one bordered box per
-/// node. See the library doc for the determinism guarantee that makes this
-/// safe to reuse, unchanged in shape, across slides 31-38.
+/// Computes every node's centre point in [size], purely from [root]'s shape:
+/// depth gives the vertical band (`size.height` split evenly across tree
+/// depth), and a node's index among its level's siblings gives the
+/// horizontal slot (that level's share of `size.width` split evenly across
+/// however many siblings share it). Same `(root, size)` in, same positions
+/// out, always — no [WidgetTreeView] flag is a parameter here, so none of
+/// them can perturb layout.
 ///
-/// - [flashing] / [subscribed] retarget which node ids are lit or connected
-///   for this render, without mutating [root] (see [TreeNode]).
+/// [WidgetTreeView] uses this internally against [treeCanvasSize]; it is
+/// exported so a slide can call it with that same size to place something
+/// of its own (a model box, a connector) in the tree's coordinate space.
+Map<String, Offset> treeNodePositions(TreeNode root, Size size) {
+  final levels = _levelsOf(root);
+  final rowHeight = size.height / levels.length;
+  final positions = <String, Offset>{};
+  for (var depth = 0; depth < levels.length; depth++) {
+    final level = levels[depth];
+    final columnWidth = size.width / level.length;
+    final y = (depth + 0.5) * rowHeight;
+    for (var index = 0; index < level.length; index++) {
+      final x = (index + 0.5) * columnWidth;
+      positions[level[index].id] = Offset(x, y);
+    }
+  }
+  return positions;
+}
+
+/// Renders [root] inside a [treeCanvasSize] [Stack]: one bordered box per
+/// node, [Positioned] at its [treeNodePositions] anchor, with parent-child
+/// edges painted beneath them by [_TreeEdgePainter]. See the library doc for
+/// the determinism guarantee this layout is built around.
+///
+/// - [flashing] / [subscribed] retarget which node ids are lit or marked for
+///   this render, without mutating [root] (see [TreeNode]).
 /// - [traversalTo] drives the A24 "reaching up the tree" pulse: every node
 ///   on the ancestor path from [root] down to that id lights up, each with
 ///   an [AnimatedContainer] duration that grows with its distance from
@@ -176,38 +228,34 @@ class WidgetTreeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final levels = _levelsOf(root);
+    final positions = treeNodePositions(root, treeCanvasSize);
     final pulseDelays = _pulseDelaysTo(root, traversalTo);
+    final nodes = _levelsOf(root).expand((level) => level);
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        for (var i = 0; i < levels.length; i++) ...[
-          if (i > 0) const SizedBox(height: Tokens.gapMd),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              for (final node in levels[i])
-                Expanded(
-                  child: Center(
-                    child: Padding(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: Tokens.gapXs),
-                      child: _NodeBox(
-                        node: node,
-                        flashing: node.flashing || flashing.contains(node.id),
-                        subscribed:
-                            node.subscribed || subscribed.contains(node.id),
-                        pulseDelay: pulseDelays[node.id],
-                        showParams: showParams,
-                      ),
-                    ),
-                  ),
-                ),
-            ],
+    return SizedBox.fromSize(
+      size: treeCanvasSize,
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Positioned.fill(
+            child: CustomPaint(
+              painter: _TreeEdgePainter(root: root, positions: positions),
+            ),
           ),
+          for (final node in nodes)
+            Positioned(
+              left: positions[node.id]!.dx - _nodeWidth / 2,
+              top: positions[node.id]!.dy - _nodeBaseHeight / 2,
+              child: _NodeBox(
+                node: node,
+                flashing: node.flashing || flashing.contains(node.id),
+                subscribed: node.subscribed || subscribed.contains(node.id),
+                pulseDelay: pulseDelays[node.id],
+                showParams: showParams,
+              ),
+            ),
         ],
-      ],
+      ),
     );
   }
 }
@@ -253,6 +301,45 @@ Map<String, int> _pulseDelaysTo(TreeNode root, String? targetId) {
   };
 }
 
+/// Paints every parent-child edge of [root] as a straight line between the
+/// two nodes' [positions] — laid beneath the node boxes in the [Stack], so
+/// the (opaque) boxes visually occlude each line down to touching their own
+/// border. This is the sole thing that makes [WidgetTreeView] read as a
+/// tree rather than a stack of independently placed boxes.
+class _TreeEdgePainter extends CustomPainter {
+  const _TreeEdgePainter({required this.root, required this.positions});
+
+  final TreeNode root;
+  final Map<String, Offset> positions;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Palette.textSecondary
+      ..strokeWidth = Tokens.strokeWidth
+      ..style = PaintingStyle.stroke;
+    _paintEdges(canvas, root, paint);
+  }
+
+  void _paintEdges(Canvas canvas, TreeNode node, Paint paint) {
+    final from = positions[node.id];
+    if (from == null) return;
+    for (final child in node.children) {
+      final to = positions[child.id];
+      if (to != null) canvas.drawLine(from, to, paint);
+      _paintEdges(canvas, child, paint);
+    }
+  }
+
+  // The tree's shape (and therefore `positions`) is static for the lifetime
+  // of a slide's `demoTree`; repainting unconditionally is cheap for the
+  // handful of edges this tree ever has and avoids depending on Map
+  // equality (a freshly computed Map is never `==` its predecessor even
+  // when every entry matches).
+  @override
+  bool shouldRepaint(covariant _TreeEdgePainter oldDelegate) => true;
+}
+
 class _NodeBox extends StatelessWidget {
   const _NodeBox({
     required this.node,
@@ -283,16 +370,9 @@ class _NodeBox extends StatelessWidget {
       flashing || _onPath ? Palette.blue : Palette.textSecondary;
 
   @override
-  Widget build(BuildContext context) => Column(
-        mainAxisSize: MainAxisSize.min,
+  Widget build(BuildContext context) => Stack(
+        clipBehavior: Clip.none,
         children: [
-          AnimatedContainer(
-            duration: Tokens.fade,
-            curve: Tokens.curve,
-            width: _connectorWidth,
-            height: subscribed ? _connectorHeight : 0,
-            color: Palette.blue,
-          ),
           AnimatedContainer(
             key: ValueKey('flash-${node.id}'),
             duration: _borderDuration,
@@ -337,6 +417,23 @@ class _NodeBox extends StatelessWidget {
                   ),
                 ],
               ],
+            ),
+          ),
+          Positioned(
+            top: -_subscribedDotSize / 2,
+            right: -_subscribedDotSize / 2,
+            child: AnimatedOpacity(
+              duration: Tokens.fade,
+              curve: Tokens.curve,
+              opacity: subscribed ? 1.0 : 0.0,
+              child: Container(
+                width: _subscribedDotSize,
+                height: _subscribedDotSize,
+                decoration: const BoxDecoration(
+                  color: Palette.blue,
+                  shape: BoxShape.circle,
+                ),
+              ),
             ),
           ),
         ],
