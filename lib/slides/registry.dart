@@ -432,10 +432,16 @@ final List<SlideSpec> slideRegistry = [
     steps: 3,
     body: (step) => ProviderFusionBody(step: step),
     speakerNotes:
-        'Say it as arithmetic: InheritedWidget solves reach, '
-        'ChangeNotifier solves change, and neither solves the other. '
-        'Provider is not a new concept — it is the two they just learned, '
-        'wired together so they stop writing the wrapper from slide 27.',
+        'Say it as arithmetic, because that is how it is drawn: '
+        'InheritedWidget solves reach and cannot change; ChangeNotifier '
+        'changes and cannot be found; neither solves the other. Both boxes '
+        'stay on screen when the third arrives — point at all three and '
+        'say Provider IS those two, it does not replace them. That is the '
+        'whole slide, and it is why nobody should feel they are learning a '
+        'new library here. Step 3 is the receipt: that is the exact '
+        'wrapper from slide 27, and the three lines beside it are what '
+        'delete it. Let them read it rather than telling them it is '
+        'shorter.',
   ),
   SlideSpec(
     route: '/watch-read-consumer',

@@ -12,7 +12,11 @@ class PhotoScope extends InheritedWidget {
   final List<Photo> photos;   // final. always final.
 }''';
 
-const _wrapped = '''
+/// Public because `/provider-fusion` shows this exact snippet again as the
+/// thing `ChangeNotifierProvider` deletes. The point there only lands if it is
+/// visibly the same code they read here, character for character — a
+/// paraphrase would make it an assertion rather than a receipt.
+const photoScopeHostCode = '''
 class _PhotoScopeHostState extends State<PhotoScopeHost> {
   List<Photo> _photos = const [];
 
@@ -70,7 +74,7 @@ class InheritedLimitsBody extends StatelessWidget {
                       atStep: 2,
                       dimWhenPast: false,
                       child: CodePanel(
-                        code: _wrapped,
+                        code: photoScopeHostCode,
                         fileName: 'lib/state/photo_scope_host.dart',
                       ),
                     ),
