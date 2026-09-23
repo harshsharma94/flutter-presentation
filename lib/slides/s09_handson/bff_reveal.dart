@@ -11,7 +11,7 @@ const _canvasWidth = 1120.0;
 const _canvasHeight = 470.0;
 const _jsonLeft = 470.0;
 
-/// The shared choreography behind slides 40-42: one row of the screen, the
+/// The shared choreography behind slides 38-40: one row of the screen, the
 /// contract fragment that produced it, and the Dart property that fragment
 /// drives. Only the row, the JSON and the binding change between the three
 /// slides — the beats do not, which is the point: the client code is the

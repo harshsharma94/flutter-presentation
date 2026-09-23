@@ -34,8 +34,6 @@ import 'package:flutter_bootcamp_deck/slides/s06_state/state_decision_slide.dart
 import 'package:flutter_bootcamp_deck/slides/s07_di/di_multiprovider_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s07_di/di_problem_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s07_di/di_testing_slide.dart';
-import 'package:flutter_bootcamp_deck/slides/s08_dart/cascade_spread_slide.dart';
-import 'package:flutter_bootcamp_deck/slides/s08_dart/named_params_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s09_handson/assignment_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s09_handson/bff_row_error_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s09_handson/bff_row_plain_slide.dart';
@@ -509,35 +507,10 @@ final List<SlideSpec> slideRegistry = [
         'type-safe.',
   ),
 
-  // §7 Dart bits
-  SlideSpec(
-    route: '/named-params',
-    section: '§7 Dart',
-    steps: 3,
-    body: (step) => NamedParamsBody(step: step),
-    speakerNotes:
-        'Ask them, before step 2, which argument is which. '
-        'Someone will get it wrong. That is the slide. Then the morph — '
-        'same call, readable at the call site, and now the compiler '
-        'enforces required.',
-  ),
-  SlideSpec(
-    route: '/cascade-spread',
-    section: '§7 Dart',
-    steps: 2,
-    body: (step) => CascadeSpreadBody(step: step),
-    speakerNotes:
-        'Ninety seconds total. They will meet both in the '
-        'codebase today; they do not need a lecture. If anyone asks: '
-        'cascade returns the receiver, which is why it chains, and spread '
-        'is what lets you build a children list conditionally without a '
-        'helper function.',
-  ),
-
-  // §8 Folder structure
+  // §7 Folder structure
   SlideSpec(
     route: '/structure',
-    section: '§8 Folder structure',
+    section: '§7 Folder structure',
     steps: 8,
     body: (step) => StructureBody(step: step),
     speakerNotes:
@@ -547,10 +520,10 @@ final List<SlideSpec> slideRegistry = [
         'features.',
   ),
 
-  // §9 Hands-on
+  // §8 Hands-on
   SlideSpec(
     route: '/design-to-tree',
-    section: '§9 Hands-on',
+    section: '§8 Hands-on',
     steps: 7,
     body: (step) => DesignToTreeBody(step: step),
     speakerNotes:
@@ -561,7 +534,7 @@ final List<SlideSpec> slideRegistry = [
   ),
   SlideSpec(
     route: '/bff-row-plain',
-    section: '§9 Hands-on',
+    section: '§8 Hands-on',
     steps: 4,
     body: (step) => BffRowPlainBody(step: step),
     speakerNotes:
@@ -572,7 +545,7 @@ final List<SlideSpec> slideRegistry = [
   ),
   SlideSpec(
     route: '/bff-row-warning',
-    section: '§9 Hands-on',
+    section: '§8 Hands-on',
     steps: 4,
     body: (step) => BffRowWarningBody(step: step),
     speakerNotes:
@@ -583,7 +556,7 @@ final List<SlideSpec> slideRegistry = [
   ),
   SlideSpec(
     route: '/bff-row-error',
-    section: '§9 Hands-on',
+    section: '§8 Hands-on',
     steps: 4,
     body: (step) => BffRowErrorBody(step: step),
     speakerNotes:
@@ -594,11 +567,11 @@ final List<SlideSpec> slideRegistry = [
   ),
   SlideSpec(
     route: '/bff-vs-nonbff',
-    section: '§9 Hands-on',
+    section: '§8 Hands-on',
     steps: 4,
     body: (step) => BffVsNonBffBody(step: step),
     speakerNotes:
-        'Optional — cut this if time is short, slides 40-42 '
+        'Optional — cut this if time is short, slides 38-40 '
         'already made the point. If you run it, be fair to the right-hand '
         'side: a raw resource contract is the right call when the client '
         'genuinely owns presentation, or when several very different '
@@ -606,7 +579,7 @@ final List<SlideSpec> slideRegistry = [
   ),
   SlideSpec(
     route: '/assignment',
-    section: '§9 Hands-on',
+    section: '§8 Hands-on',
     steps: 3,
     body: (step) => AssignmentBody(step: step),
     speakerNotes:
@@ -615,10 +588,10 @@ final List<SlideSpec> slideRegistry = [
         'that gets asked about tomorrow.',
   ),
 
-  // §10 Close
+  // §9 Close
   SlideSpec(
     route: '/references',
-    section: '§10 References',
+    section: '§9 References',
     steps: 6,
     body: (step) => ReferencesBody(step: step),
     speakerNotes:
@@ -629,7 +602,7 @@ final List<SlideSpec> slideRegistry = [
   ),
   SlideSpec(
     route: '/thanks',
-    section: '§10 References',
+    section: '§9 References',
     chrome: false,
     body: (step) => ThanksBody(step: step),
     speakerNotes:

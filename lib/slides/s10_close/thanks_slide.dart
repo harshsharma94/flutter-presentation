@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bootcamp_deck/theme/palette.dart';
 import 'package:flutter_bootcamp_deck/theme/tokens.dart';
 
-/// Slide 46 — `/thanks` (1 step). Chrome off; the deck ends where it began.
+/// Slide 44 — `/thanks` (1 step). Chrome off; the deck ends where it began.
 class ThanksBody extends StatelessWidget {
   const ThanksBody({required this.step, super.key});
 

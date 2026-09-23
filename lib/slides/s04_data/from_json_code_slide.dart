@@ -66,7 +66,9 @@ class FromJsonCodeBody extends StatelessWidget {
             const SizedBox(height: Tokens.gapXs),
             const Callout(
               atStep: 5,
-              text: 'Four Strings positionally is a bug waiting to happen — slide 36.',
+              text:
+                  'Four Strings positionally is a bug waiting to happen. '
+                  'Named parameters, from day 1.',
               color: Palette.amber,
             ),
           ],
