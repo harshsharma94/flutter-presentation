@@ -52,6 +52,7 @@ class DiMultiproviderBody extends StatelessWidget {
                 width: 820,
                 child: CodePanel(
                   code: step >= 2 ? _wired : _tangled,
+                  sizedFor: const [_tangled, _wired],
                   fileName: 'lib/main.dart',
                 ),
               ),

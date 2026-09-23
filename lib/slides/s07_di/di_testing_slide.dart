@@ -44,6 +44,7 @@ class DiTestingBody extends StatelessWidget {
               width: 820,
               child: CodePanel(
                 code: step >= 2 ? _fake : _real,
+                sizedFor: const [_real, _fake],
                 fileName: step >= 2 ? 'test/widget_test.dart' : 'lib/main.dart',
                 highlightedLines: step >= 2 ? const [4] : const [],
               ),

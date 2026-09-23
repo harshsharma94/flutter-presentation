@@ -49,6 +49,7 @@ class DeleteHardcodedBody extends StatelessWidget {
                   width: 640,
                   child: CodePanel(
                     code: step >= 2 ? _live : _hardcoded,
+                    sizedFor: const [_hardcoded, _live],
                     fileName: 'lib/screens/home_screen.dart',
                   ),
                 ),

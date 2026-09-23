@@ -57,6 +57,7 @@ class DiProblemBody extends StatelessWidget {
                 width: 820,
                 child: CodePanel(
                   code: step >= 3 ? _four : _three,
+                  sizedFor: const [_three, _four],
                   fileName: 'lib/main.dart',
                 ),
               ),

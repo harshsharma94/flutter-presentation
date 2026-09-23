@@ -54,7 +54,10 @@ class CascadeSpreadBody extends StatelessWidget {
               SizedBox(height: Tokens.gapXs),
               SizedBox(
                 width: 820,
-                child: CodePanel(code: step >= 1 ? _cascade : _repeated),
+                child: CodePanel(
+                  code: step >= 1 ? _cascade : _repeated,
+                  sizedFor: const [_repeated, _cascade],
+                ),
               ),
               SizedBox(height: Tokens.gapLg),
               StepReveal(

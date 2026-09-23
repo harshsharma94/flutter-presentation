@@ -46,6 +46,7 @@ class CodegenBody extends StatelessWidget {
               width: 720,
               child: CodePanel(
                 code: step >= 1 ? _generated : _byHand,
+                sizedFor: const [_byHand, _generated],
                 fileName: 'lib/models/photo.dart',
               ),
             ),

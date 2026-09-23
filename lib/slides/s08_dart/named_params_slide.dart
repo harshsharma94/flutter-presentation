@@ -35,7 +35,10 @@ class NamedParamsBody extends StatelessWidget {
           children: [
             SizedBox(
               width: 820,
-              child: CodePanel(code: step >= 3 ? _named : _positional),
+              child: CodePanel(
+                code: step >= 3 ? _named : _positional,
+                sizedFor: const [_positional, _named],
+              ),
             ),
             const SizedBox(height: Tokens.gapLg),
             const StepReveal(
