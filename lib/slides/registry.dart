@@ -582,6 +582,6 @@ final List<SlideSpec> slideRegistry = [
     body: (step) => ThanksBody(step: step),
     speakerNotes:
         'Q&A. If it goes quiet, prompt with the one from slide '
-        '36: which reader would you reach for by default, and why?',
+        '30: which reader would you reach for by default, and why?',
   ),
 ];
