@@ -216,7 +216,7 @@ class _Node extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(label, style: TextStyle(color: pal.textSecondary, fontSize: 15)),
+          Text(label, style: TextStyle(color: pal.textSecondary, fontSize: 17)),
           SizedBox(height: 4),
           child,
         ],
@@ -243,7 +243,7 @@ class _Leaf extends StatelessWidget {
       style: TextStyle(
         fontFamily: 'JetBrainsMono',
         color: Palette.blue,
-        fontSize: 16,
+        fontSize: 18,
       ),
     ),
   );

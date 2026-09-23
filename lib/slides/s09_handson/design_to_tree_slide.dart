@@ -98,7 +98,7 @@ class _TreeLine extends StatelessWidget {
           style: TextStyle(
             fontFamily: 'JetBrainsMono',
             color: pal.textSecondary,
-            fontSize: 18,
+            fontSize: 20,
           ),
         ),
         Flexible(
@@ -118,7 +118,7 @@ class _TreeLine extends StatelessWidget {
               style: TextStyle(
                 fontFamily: 'JetBrainsMono',
                 color: Palette.blue,
-                fontSize: 17,
+                fontSize: 19,
               ),
             ),
           ),

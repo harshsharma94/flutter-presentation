@@ -171,7 +171,7 @@ class _Shape extends StatelessWidget {
         const SizedBox(height: Tokens.gapXs),
         Text(
           consequence,
-          style: TextStyle(color: color, fontSize: 18, height: 1.35),
+          style: TextStyle(color: color, fontSize: 20, height: 1.35),
         ),
       ],
     ],

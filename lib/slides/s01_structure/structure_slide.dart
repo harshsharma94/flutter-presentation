@@ -157,7 +157,7 @@ class _FolderBox extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
               color: color,
-              fontSize: 16,
+              fontSize: 18,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -189,6 +189,6 @@ class _AndroidRow extends StatelessWidget {
       border: Border.all(color: Palette.green, width: Tokens.strokeWidth),
       borderRadius: BorderRadius.circular(Tokens.radius),
     ),
-    child: Text(label, style: TextStyle(color: Palette.green, fontSize: 16)),
+    child: Text(label, style: TextStyle(color: Palette.green, fontSize: 18)),
   );
 }

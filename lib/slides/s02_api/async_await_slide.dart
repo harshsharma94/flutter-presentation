@@ -142,7 +142,7 @@ class AsyncAwaitBody extends StatelessWidget {
                         'UI isolate — the one thread that draws',
                         style: TextStyle(
                           color: pal.textSecondary,
-                          fontSize: 15,
+                          fontSize: 17,
                         ),
                       ),
                     ),
@@ -164,7 +164,7 @@ class AsyncAwaitBody extends StatelessWidget {
                                 color: Palette.blue.withValues(
                                   alpha: Tokens.dimmed,
                                 ),
-                                fontSize: 16,
+                                fontSize: 18,
                               ),
                             ),
                           ),
@@ -269,7 +269,7 @@ class AsyncAwaitBody extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Palette.amber,
-                      fontSize: 19,
+                      fontSize: 21,
                       height: 1.35,
                     ),
                   ),

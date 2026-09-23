@@ -136,12 +136,12 @@ class _Half extends StatelessWidget {
           Text(
             can,
             textAlign: TextAlign.center,
-            style: TextStyle(color: pal.textPrimary, fontSize: 17, height: 1.3),
+            style: TextStyle(color: pal.textPrimary, fontSize: 19, height: 1.3),
           ),
           Text(
             cannot,
             textAlign: TextAlign.center,
-            style: TextStyle(color: Palette.amber, fontSize: 17, height: 1.3),
+            style: TextStyle(color: Palette.amber, fontSize: 19, height: 1.3),
           ),
         ],
       ),
@@ -180,7 +180,7 @@ class _Result extends StatelessWidget {
           Text(
             'reaches every descendant,\nand changes',
             textAlign: TextAlign.center,
-            style: TextStyle(color: Palette.green, fontSize: 17, height: 1.3),
+            style: TextStyle(color: Palette.green, fontSize: 19, height: 1.3),
           ),
         ],
       ),
@@ -279,7 +279,7 @@ class _Panel extends StatelessWidget {
           padding: EdgeInsets.only(bottom: Tokens.gapXs),
           child: Text(
             caption,
-            style: TextStyle(color: captionColor, fontSize: 18),
+            style: TextStyle(color: captionColor, fontSize: 20),
           ),
         ),
         child,

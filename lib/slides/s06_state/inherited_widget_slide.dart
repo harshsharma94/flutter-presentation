@@ -121,7 +121,7 @@ class InheritedWidgetBody extends StatelessWidget {
                           '    <PhotoScope>()',
                           style: TextStyle(
                             fontFamily: 'JetBrainsMono',
-                            fontSize: 18,
+                            fontSize: 20,
                             color: Palette.blue,
                             height: 1.4,
                           ),
@@ -212,7 +212,7 @@ class _AlreadyUsingItPanel extends StatelessWidget {
             'MediaQuery.of(context).size',
             style: TextStyle(
               fontFamily: 'JetBrainsMono',
-              fontSize: 17,
+              fontSize: 19,
               color: pal.textPrimary,
               height: 1.5,
             ),
@@ -224,7 +224,7 @@ class _AlreadyUsingItPanel extends StatelessWidget {
             'scope up there and read it from a leaf — same shape, your data.',
             style: TextStyle(
               color: pal.textSecondary,
-              fontSize: 16,
+              fontSize: 18,
               height: 1.35,
             ),
           ),
@@ -264,7 +264,7 @@ class _ScopeBox extends StatelessWidget {
           ),
           Text(
             'InheritedWidget',
-            style: TextStyle(color: pal.textSecondary, fontSize: 15),
+            style: TextStyle(color: pal.textSecondary, fontSize: 17),
           ),
         ],
       ),

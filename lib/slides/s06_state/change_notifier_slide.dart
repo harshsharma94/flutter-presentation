@@ -227,7 +227,7 @@ class _Commentary extends StatelessWidget {
                 Text(
                   'Real button, real model. Tap it — this is the same call a '
                   'LikeButton makes when you tap the heart.',
-                  style: TextStyle(color: pal.textSecondary, fontSize: 18),
+                  style: TextStyle(color: pal.textSecondary, fontSize: 20),
                 ),
               ],
             ),
@@ -292,7 +292,7 @@ class _Line extends StatelessWidget {
       padding: EdgeInsets.only(bottom: Tokens.gapSm),
       child: Text(
         text,
-        style: TextStyle(color: color, fontSize: 19, height: 1.35),
+        style: TextStyle(color: color, fontSize: 21, height: 1.35),
       ),
     ),
   );
@@ -334,7 +334,7 @@ class _ModelBox extends StatelessWidget {
             style: TextStyle(
               fontFamily: 'JetBrainsMono',
               color: pal.textPrimary,
-              fontSize: 18,
+              fontSize: 20,
             ),
           ),
           if (step >= 4)
@@ -343,7 +343,7 @@ class _ModelBox extends StatelessWidget {
               style: TextStyle(
                 fontFamily: 'JetBrainsMono',
                 color: Palette.green,
-                fontSize: 13,
+                fontSize: 15,
               ),
             ),
         ],

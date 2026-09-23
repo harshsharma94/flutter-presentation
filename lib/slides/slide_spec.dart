@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_deck/flutter_deck.dart';
+import 'package:flutter_bootcamp_deck/widgets/slide_canvas.dart';
 import 'package:flutter_bootcamp_deck/widgets/step_scope.dart';
 
 /// One slide, described independently of flutter_deck.
@@ -55,10 +56,18 @@ class DeckSlide extends FlutterDeckSlideWidget {
 
   final SlideSpec spec;
 
+  /// Every slide goes through [SlideCanvas], which is what makes the deck
+  /// legible from the back of a room — see that class for the reasoning. It
+  /// is deliberately applied here, once, rather than in 41 slide bodies:
+  /// `slides_smoke_test.dart` pumps those bodies bare, so they keep being
+  /// tested at their natural size against a 1280x720 box.
   @override
   Widget build(BuildContext context) => FlutterDeckSlide.blank(
     builder: (context) => FlutterDeckSlideStepsBuilder(
-      builder: (context, step) => StepScope(step: step, child: spec.body(step)),
+      builder: (context, step) => StepScope(
+        step: step,
+        child: SlideCanvas(child: spec.body(step)),
+      ),
     ),
   );
 }

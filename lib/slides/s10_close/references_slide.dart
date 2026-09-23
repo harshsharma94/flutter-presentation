@@ -154,14 +154,21 @@ class _Group extends StatelessWidget {
                     style: TextStyle(
                       fontFamily: 'JetBrainsMono',
                       color: pal.textPrimary,
-                      fontSize: 17,
+                      fontSize: 19,
                     ),
                   ),
                 ),
                 SizedBox(width: Tokens.gapXs),
-                Text(
-                  link.note,
-                  style: TextStyle(color: pal.textSecondary, fontSize: 15),
+                // Flexible, like the label beside it. A fixed-width note next
+                // to a flexible label cannot shrink, so the row overflowed the
+                // moment the type got a little bigger.
+                Flexible(
+                  child: Text(
+                    link.note,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(color: pal.textSecondary, fontSize: 17),
+                  ),
                 ),
               ],
             ),

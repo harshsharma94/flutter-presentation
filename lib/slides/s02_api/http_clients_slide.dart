@@ -106,7 +106,7 @@ class _AddDioPanel extends StatelessWidget {
           Text(
             'Dio 5.x runs on Flutter 3.29.3 (Dart 3.7). No build_runner, no '
             'codegen — it is a plain package.',
-            style: TextStyle(color: pal.textSecondary, fontSize: 19),
+            style: TextStyle(color: pal.textSecondary, fontSize: 21),
           ),
         ],
       ),

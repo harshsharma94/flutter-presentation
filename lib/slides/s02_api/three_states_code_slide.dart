@@ -90,7 +90,7 @@ class ThreeStatesCodeBody extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: pal.textSecondary,
-                      fontSize: 19,
+                      fontSize: 21,
                       height: 1.35,
                     ),
                   ),

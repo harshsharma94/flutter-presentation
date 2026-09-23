@@ -196,7 +196,7 @@ class _LaneHeader extends StatelessWidget {
         overflow: TextOverflow.ellipsis,
         style: TextStyle(
           color: pal.textPrimary,
-          fontSize: 16,
+          fontSize: 18,
           fontWeight: FontWeight.w600,
         ),
       ),
@@ -265,7 +265,7 @@ class _HopRow extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           color: color,
-                          fontSize: 15,
+                          fontSize: 17,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -317,7 +317,7 @@ class _SelfBadge extends StatelessWidget {
           textAlign: TextAlign.center,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
-          style: TextStyle(color: color, fontSize: 13),
+          style: TextStyle(color: color, fontSize: 15),
         ),
       ],
     ),
@@ -378,7 +378,7 @@ class TokenPill extends StatelessWidget {
           overflow: TextOverflow.clip,
           style: TextStyle(
             color: displayColor,
-            fontSize: 15,
+            fontSize: 17,
             fontFamily: 'JetBrainsMono',
             fontWeight: FontWeight.w600,
           ),

@@ -91,7 +91,7 @@ class LayerSlab extends StatelessWidget {
                     subtitle!,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(color: pal.textSecondary, fontSize: 17),
+                    style: TextStyle(color: pal.textSecondary, fontSize: 19),
                   ),
                 ),
               ],
@@ -129,7 +129,7 @@ class BandRow extends StatelessWidget {
       overflow: TextOverflow.ellipsis,
       style: TextStyle(
         fontFamily: 'JetBrainsMono',
-        fontSize: 16,
+        fontSize: 18,
         color: band.color,
       ),
     ),

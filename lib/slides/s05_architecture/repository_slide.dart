@@ -183,7 +183,7 @@ class _Box extends StatelessWidget {
               style: TextStyle(
                 fontFamily: 'JetBrainsMono',
                 color: pal.textSecondary,
-                fontSize: 15,
+                fontSize: 17,
               ),
             ),
           ],

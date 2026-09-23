@@ -158,7 +158,7 @@ class _TestPanel extends StatelessWidget {
             'test/domain/featured_test.dart',
             style: TextStyle(
               fontFamily: 'JetBrainsMono',
-              fontSize: 16,
+              fontSize: 18,
               color: pal.textSecondary,
             ),
           ),
@@ -167,14 +167,14 @@ class _TestPanel extends StatelessWidget {
             'SocketException: Failed host lookup: api.unsplash.com',
             style: TextStyle(
               fontFamily: 'JetBrainsMono',
-              fontSize: 18,
+              fontSize: 20,
               color: Palette.red,
             ),
           ),
           SizedBox(height: Tokens.gapXs),
           Text(
             'To test one business rule you now need a network.',
-            style: TextStyle(color: pal.textSecondary, fontSize: 18),
+            style: TextStyle(color: pal.textSecondary, fontSize: 20),
           ),
         ],
       ),

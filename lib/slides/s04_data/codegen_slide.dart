@@ -90,7 +90,7 @@ class _Terminal extends StatelessWidget {
             '[INFO] Succeeded after 1.2s with 1 output (photo.g.dart)',
             style: TextStyle(
               fontFamily: 'JetBrainsMono',
-              fontSize: 17,
+              fontSize: 19,
               color: pal.textSecondary,
             ),
           ),

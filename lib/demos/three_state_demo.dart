@@ -135,7 +135,7 @@ class _ErrorView extends StatelessWidget {
         SizedBox(height: Tokens.gapSm),
         Text(
           'Something went wrong.',
-          style: TextStyle(color: Palette.red, fontSize: 17),
+          style: TextStyle(color: Palette.red, fontSize: 19),
         ),
       ],
     ),
@@ -175,13 +175,13 @@ class _DataView extends StatelessWidget {
               ),
               Text(
                 '${photo.likes} ♥',
-                style: TextStyle(color: pal.textSecondary, fontSize: 16),
+                style: TextStyle(color: pal.textSecondary, fontSize: 18),
               ),
               if (fromFixture) ...[
                 SizedBox(height: 4),
                 Text(
                   '(offline fixture)',
-                  style: TextStyle(color: pal.textSecondary, fontSize: 13),
+                  style: TextStyle(color: pal.textSecondary, fontSize: 15),
                 ),
               ],
             ],

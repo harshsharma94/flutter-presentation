@@ -289,7 +289,7 @@ class _LaneLabel extends StatelessWidget {
         style: TextStyle(
           fontFamily: 'JetBrainsMono',
           color: color,
-          fontSize: 16,
+          fontSize: 18,
         ),
       ),
     ],

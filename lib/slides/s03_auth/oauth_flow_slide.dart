@@ -156,7 +156,7 @@ class OauthFlowBody extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Palette.green,
-                      fontSize: 19,
+                      fontSize: 21,
                       height: 1.35,
                     ),
                   ),
@@ -176,7 +176,7 @@ class OauthFlowBody extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: pal.textSecondary,
-                      fontSize: 18,
+                      fontSize: 20,
                       height: 1.35,
                     ),
                   ),
