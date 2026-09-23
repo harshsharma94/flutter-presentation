@@ -69,3 +69,11 @@ void main() {
     });
   });
 }
+
+// Not tested here: the size of the characters the morph inserts and deletes.
+// `FlutterDeckCodeHighlight` loads its syntax theme asynchronously, and that
+// load never completes under `flutter_test`, so the widget falls back to a
+// plain `Text` of the whole snippet and the animated-span path — the only
+// place the defect lives — is never reached. A test written against it passes
+// identically with the fix reverted, which is worse than no test. See the
+// `DefaultTextStyle` note in `code_panel.dart`; that one is verified by eye.

@@ -28,6 +28,34 @@ import 'package:flutter_bootcamp_deck/theme/tokens.dart';
 /// ```dart
 /// CodePanel(code: step >= 2 ? _after : _before, sizedFor: [_before, _after])
 /// ```
+///
+/// ## Why the [DefaultTextStyle] wrapper exists
+///
+/// This one is a flutter_deck bug, worked around from outside.
+/// `FlutterDeckCodeHighlight` renders each *inserted* or *deleted* run of
+/// characters as a `WidgetSpan` wrapping its own `Text.rich`, and builds that
+/// inner `Text` with no `style` argument. A `Text` with no style resolves
+/// against the ambient [DefaultTextStyle], not against the enclosing span —
+/// so changed characters inherited Material's 14px body default in the
+/// default font family, while every unchanged character around them stayed at
+/// [deckCodeStyle]'s 24px mono. The highlighter's own token styles carry
+/// colour and weight but no size or family, so they merged over the wrong
+/// base and the diff came out tiny, proportional, and correctly coloured.
+///
+/// That is what reads as "the text animates in small and then jumps": it is
+/// not a transition from small to large at all — the inserted run is drawn at
+/// the wrong size for the whole animation, then snaps to the right one when
+/// the morph ends and the spans go static.
+///
+/// Merging [deckCodeStyle] into the ambient default gives that inner `Text`
+/// the size and family it should have had. `merge`, not a replacement, so the
+/// theme's own colour survives for any run the highlighter leaves unstyled.
+/// It costs nothing anywhere else: the file-name label and the main code body
+/// both pass their style explicitly, and an explicit style wins over the
+/// ambient default.
+///
+/// This cannot be pinned by a widget test — see the note in
+/// `test/widgets/code_panel_test.dart` for why.
 class CodePanel extends StatelessWidget {
   const CodePanel({
     required this.code,
@@ -61,20 +89,26 @@ class CodePanel extends StatelessWidget {
   Widget build(BuildContext context) => FlutterDeckCodeHighlightTheme(
     data: FlutterDeckCodeHighlightTheme.of(context)
         .copyWith(textStyle: deckCodeStyle),
-    child: sizedFor.isEmpty
-        ? _highlight(code, animate: true)
-        : Stack(
-            alignment: Alignment.topLeft,
-            children: [
-              for (final variant in sizedFor)
-                Opacity(
-                  opacity: 0,
-                  child: IgnorePointer(
-                    child: _highlight(variant, animate: false),
+    // See "Why the DefaultTextStyle wrapper exists" above. Without it, every
+    // character the morph inserts or deletes is drawn at Material's 14px
+    // body default in the default font family.
+    child: DefaultTextStyle.merge(
+      style: deckCodeStyle,
+      child: sizedFor.isEmpty
+          ? _highlight(code, animate: true)
+          : Stack(
+              alignment: Alignment.topLeft,
+              children: [
+                for (final variant in sizedFor)
+                  Opacity(
+                    opacity: 0,
+                    child: IgnorePointer(
+                      child: _highlight(variant, animate: false),
+                    ),
                   ),
-                ),
-              _highlight(code, animate: true),
-            ],
-          ),
+                _highlight(code, animate: true),
+              ],
+            ),
+    ),
   );
 }
