@@ -47,7 +47,7 @@ const _groups = [
       ),
       (
         label: 'samnewman.io/patterns/architectural/bff',
-        note: 'BFF, first-hand',
+        note: 'slide 38, left-hand shape — day 3',
       ),
     ],
   ),
@@ -78,7 +78,7 @@ const _groups = [
   ),
 ];
 
-/// Slide 43 — `/references` (6 steps).
+/// Slide 40 — `/references` (6 steps).
 class ReferencesBody extends StatelessWidget {
   const ReferencesBody({required this.step, super.key});
 

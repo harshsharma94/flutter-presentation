@@ -35,11 +35,8 @@ import 'package:flutter_bootcamp_deck/slides/s07_di/di_multiprovider_slide.dart'
 import 'package:flutter_bootcamp_deck/slides/s07_di/di_problem_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s07_di/di_testing_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s09_handson/assignment_slide.dart';
-import 'package:flutter_bootcamp_deck/slides/s09_handson/bff_row_error_slide.dart';
-import 'package:flutter_bootcamp_deck/slides/s09_handson/bff_row_plain_slide.dart';
-import 'package:flutter_bootcamp_deck/slides/s09_handson/bff_row_warning_slide.dart';
-import 'package:flutter_bootcamp_deck/slides/s09_handson/bff_vs_nonbff_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s09_handson/design_to_tree_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s09_handson/row_contract_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s10_close/references_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s10_close/thanks_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/slide_spec.dart';
@@ -539,49 +536,21 @@ final List<SlideSpec> slideRegistry = [
         'the answer is that the count comes from the server.',
   ),
   SlideSpec(
-    route: '/bff-row-plain',
+    route: '/row-contract',
     section: '§8 Hands-on',
     steps: 4,
-    body: (step) => BffRowPlainBody(step: step),
+    body: (step) => RowContractBody(step: step),
     speakerNotes:
-        'Start with the ordinary row so the next two read as the '
-        'same machinery with different data. Point at cta.type and say it '
-        'out loud: the client switches on a string the server sent, not on '
-        'which row this is.',
-  ),
-  SlideSpec(
-    route: '/bff-row-warning',
-    section: '§8 Hands-on',
-    steps: 4,
-    body: (step) => BffRowWarningBody(step: step),
-    speakerNotes:
-        'Same widget, different tone — and the tone came from '
-        'color_token, not from an if. Ask what the client would need to '
-        'change to add a fourth tone. Answer: nothing, if the token '
-        'mapping already covers it.',
-  ),
-  SlideSpec(
-    route: '/bff-row-error',
-    section: '§8 Hands-on',
-    steps: 4,
-    body: (step) => BffRowErrorBody(step: step),
-    speakerNotes:
-        'The disabled case, plus the per-platform action map. '
-        'Land the question at the end and actually wait for an answer: '
-        'design wants a new state — who ships? On the left nobody; on a '
-        'client-driven contract, everybody.',
-  ),
-  SlideSpec(
-    route: '/bff-vs-nonbff',
-    section: '§8 Hands-on',
-    steps: 4,
-    body: (step) => BffVsNonBffBody(step: step),
-    speakerNotes:
-        'Optional — cut this if time is short, slides 38-40 '
-        'already made the point. If you run it, be fair to the right-hand '
-        'side: a raw resource contract is the right call when the client '
-        'genuinely owns presentation, or when several very different '
-        'clients share one endpoint.',
+        'One row, two possible answers from the server. Tap 1 lights the '
+        'row; tap 2 draws the line to the response. Tap 3: every string on '
+        'that row — the title, the balance line, even which control to '
+        'draw — arrived in the response. Tap 4 is the same row as raw '
+        'fields, and the question to actually ask and wait for: design '
+        'wants the balance line reworded on Friday. Who ships? Be fair to '
+        'the second shape — it is the right call when the client genuinely '
+        'owns presentation, or when several very different clients share '
+        'one endpoint. Do not name the pattern or argue the trade-off '
+        'further; that is day 3.',
   ),
   SlideSpec(
     route: '/assignment',

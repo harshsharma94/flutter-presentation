@@ -5,12 +5,13 @@ import 'package:flutter_bootcamp_deck/theme/tokens.dart';
 /// How a row's trailing control behaves — the part the server chooses.
 enum RowCta { radio, info, none }
 
-/// The tone a description line carries. The point of §9 is that the *server*
+/// The tone a description line carries. The point of §8 is that the *server*
 /// picks this, not the client.
 enum RowTone { normal, info, error }
 
 /// One payment method row, described entirely by data. Nothing here is
-/// hard-coded per-row in the widget layer — which is the whole BFF argument.
+/// hard-coded per-row in the widget layer — which is the whole argument of
+/// slide 38, and the reason a response can reword a row without a release.
 class PaymentRowData {
   PaymentRowData({
     required this.id,
@@ -33,7 +34,7 @@ class PaymentRowData {
 
 /// A neutral reconstruction of a "select payment method" screen — generic
 /// rows, synthetic balances, no real product. It exists to be read as a
-/// hierarchy on slide 37 and annotated against a contract on slides 38-40.
+/// hierarchy on slide 37 and annotated against a contract on slide 38.
 final paymentRows = [
   PaymentRowData(
     id: 'row-rewards',

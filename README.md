@@ -53,8 +53,8 @@ purpose. The slide states the goal; the work happens in the editor.
 Delete one `SlideSpec` from `lib/slides/registry.dart`. That is the whole operation:
 the registry is the single source of truth for both `main.dart` and the smoke test.
 
-Pre-identified cut candidates if you are running long: `/codegen` (23),
-`/bff-vs-nonbff` (48), `/three-states-code` (13).
+Pre-identified cut candidates if you are running long: `/codegen` (19),
+`/state-decision` (31), `/three-states-code` (11).
 
 ## Tests
 
