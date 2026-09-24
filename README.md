@@ -85,6 +85,7 @@ teach, as plain single-file apps with no deck code in them:
 | `inherited_widget_color_example.dart` | 27–28 (the chip opens this one) | nothing — SDK only |
 | `inherited_widget_example.dart` | 27–28, photo version | nothing — SDK only |
 | `change_notifier_example.dart` | 29–31 | `provider` |
+| `unsplash_photo_models.dart` | 16–20 | nothing — SDK only |
 
 The colour example is the one to teach from: one value, set from a pushed detail
 screen, read by every screen — `Theme` in miniature. It keeps the two things
