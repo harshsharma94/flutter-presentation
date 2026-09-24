@@ -410,7 +410,7 @@ final List<SlideSpec> slideRegistry = [
   ),
   SlideSpec(
     route: '/inherited-widget',
-    source: 'lib/reference/inherited_widget_example.dart',
+    source: 'lib/reference/inherited_widget_color_example.dart',
     section: '§5 State',
     steps: 9,
     body: (step) => InheritedWidgetBody(step: step),
@@ -424,7 +424,7 @@ final List<SlideSpec> slideRegistry = [
   ),
   SlideSpec(
     route: '/inherited-limits',
-    source: 'lib/reference/inherited_widget_example.dart',
+    source: 'lib/reference/inherited_widget_color_example.dart',
     section: '§5 State',
     steps: 2,
     body: (step) => InheritedLimitsBody(step: step),

@@ -3,6 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_bootcamp_deck/reference/change_notifier_example.dart'
     as cn;
+import 'package:flutter_bootcamp_deck/reference/inherited_widget_color_example.dart'
+    as color;
 import 'package:flutter_bootcamp_deck/reference/inherited_widget_example.dart'
     as iw;
 
@@ -11,6 +13,52 @@ import 'package:flutter_bootcamp_deck/reference/inherited_widget_example.dart'
 /// than a hope — and it stays checked in CI, because the Pages deploy runs the
 /// suite first.
 void main() {
+  group('inherited_widget_color_example.dart', () {
+    Color background(WidgetTester tester, Type screen) => tester
+        .widget<Scaffold>(
+          find.descendant(
+            of: find.byType(screen),
+            matching: find.byType(Scaffold),
+          ),
+        )
+        .backgroundColor!;
+
+    testWidgets('a tap on the detail screen recolours the home screen', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        const color.AppColorHost(child: color.ColorExampleApp()),
+      );
+      expect(background(tester, color.HomeScreen), Colors.white);
+
+      await tester.tap(find.text('Open detail'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Mint'));
+      await tester.pump();
+
+      // The detail screen is subscribed, so it follows immediately…
+      expect(background(tester, color.DetailScreen), color.appColors['Mint']);
+
+      await tester.pageBack();
+      await tester.pumpAndSettle();
+
+      // …and so is home, which changed while it was underneath.
+      expect(background(tester, color.HomeScreen), color.appColors['Mint']);
+    });
+
+    testWidgets('a pushed screen finds the scope because it sits above '
+        'MaterialApp', (tester) async {
+      await tester.pumpWidget(
+        const color.AppColorHost(child: color.ColorExampleApp()),
+      );
+      await tester.tap(find.text('Open detail'));
+      await tester.pumpAndSettle();
+
+      final detail = tester.element(find.byType(color.DetailScreen));
+      expect(color.AppColorScope.of(detail).color, Colors.white);
+    });
+  });
+
   group('inherited_widget_example.dart', () {
     testWidgets('a like reaches both the tile and the total', (tester) async {
       await tester.pumpWidget(const iw.InheritedWidgetExampleApp());

@@ -66,12 +66,19 @@ teach, as plain single-file apps with no deck code in them:
 
 | File | Slides | Needs |
 |---|---|---|
-| `inherited_widget_example.dart` | 27–28 | nothing — SDK only |
+| `inherited_widget_color_example.dart` | 27–28 (the chip opens this one) | nothing — SDK only |
+| `inherited_widget_example.dart` | 27–28, photo version | nothing — SDK only |
 | `change_notifier_example.dart` | 29–31 | `provider` |
 
-They are the same photo app, so reading them side by side is the lesson: the
-`PhotoScopeHost` wrapper in the first is exactly what `ChangeNotifierProvider`
-deletes in the second. Run either live in class:
+The colour example is the one to teach from: one value, set from a pushed detail
+screen, read by every screen — `Theme` in miniature. It keeps the two things
+that matter (the scope, and the `StatefulWidget` wrapper slide 28 is about) and
+adds a lesson the photo version cannot: the scope has to sit *above*
+`MaterialApp`, or a pushed screen cannot find it.
+
+The photo version is the same photo app as the ChangeNotifier example, so read
+those two side by side to see what disappears: its `PhotoScopeHost` wrapper is
+exactly what `ChangeNotifierProvider` deletes. Run any of them live in class:
 
 ```bash
 fvm flutter run -d chrome -t lib/reference/change_notifier_example.dart
