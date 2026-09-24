@@ -49,7 +49,7 @@ class DiMultiproviderBody extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               SizedBox(
-                width: 820,
+                width: 1000,
                 child: CodePanel(
                   code: step >= 2 ? _wired : _tangled,
                   sizedFor: const [_tangled, _wired],

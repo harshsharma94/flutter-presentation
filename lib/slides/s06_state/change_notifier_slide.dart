@@ -165,7 +165,7 @@ class _ChangeNotifierBodyState extends State<ChangeNotifierBody> {
               ),
               SizedBox(width: Tokens.gapMd),
               SizedBox(
-                width: 460,
+                width: 780,
                 child: _Commentary(step: step, model: _model),
               ),
             ],

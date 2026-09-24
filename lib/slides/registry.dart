@@ -297,12 +297,18 @@ final List<SlideSpec> slideRegistry = [
   SlideSpec(
     route: '/codegen',
     section: '§3 Data',
-    steps: 2,
+    steps: 3,
     body: (step) => CodegenBody(step: step),
     speakerNotes:
         'Optional — only run this if you are ahead of schedule. '
         'Frame it as "you now understand exactly what it generates", which '
-        'is why we did it by hand first. One sentence on build_runner '
+        'is why we did it by hand first. The file on the left is whole, so '
+        'they can type it: point at the two readValue helpers and say why '
+        'they exist — @JsonSerializable maps a flat key for free, but '
+        'Unsplash nests the image under urls.regular and the photographer '
+        'under user.name, and codegen cannot guess a path. Step 2 is the '
+        'three packages, and the thing people get wrong: two of them are '
+        'dev dependencies. Step 3 runs it. One sentence on build_runner '
         'being a compile step, not magic, then move.',
   ),
 

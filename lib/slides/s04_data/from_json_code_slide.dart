@@ -50,7 +50,7 @@ class FromJsonCodeBody extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              width: 760,
+              width: 1080,
               child: CodePanel(
                 code: _code,
                 fileName: 'lib/models/photo.dart',

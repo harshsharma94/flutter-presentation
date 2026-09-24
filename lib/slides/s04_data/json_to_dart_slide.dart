@@ -9,13 +9,19 @@ import 'package:flutter_bootcamp_deck/widgets/step_reveal.dart';
 /// Fixed canvas the JSON block, the constructor block and the four curved
 /// field flights are laid out against, so every arrow's coordinates agree
 /// with where the text actually renders.
-const _canvasWidth = 900.0;
-const _canvasHeight = 230.0;
+const _canvasWidth = 1180.0;
+const _canvasHeight = 280.0;
 
 const _lineHeight = 26.0;
 const _blockTop = 14.0;
-const _jsonRight = 330.0;
-const _dartLeft = 560.0;
+const _jsonRight = 430.0;
+const _dartLeft = 720.0;
+
+/// The return trip gets its own lane under the block. Drawn at the
+/// height of the second field, as it was, the green arrow bowed straight
+/// through all four blue ones and read as a mistake rather than as a
+/// second journey.
+const _returnLaneY = 215.0;
 
 /// Field `i` (0-based) sits on source line `i + 1` — line 0 is the opening
 /// brace in both blocks.
@@ -119,8 +125,8 @@ class JsonToDartBody extends StatelessWidget {
                         until: 5,
                         dimWhenPast: false,
                         child: AnimatedArrow(
-                          from: Offset(_dartLeft, _rowY(1) + _lineHeight),
-                          to: Offset(_jsonRight + 8, _rowY(1) + _lineHeight),
+                          from: Offset(_dartLeft, _returnLaneY),
+                          to: Offset(_jsonRight + 8, _returnLaneY),
                           atStep: 5,
                           curved: true,
                           color: Palette.green,
@@ -128,8 +134,8 @@ class JsonToDartBody extends StatelessWidget {
                       ),
                     ),
                     Positioned(
-                      left: _jsonRight + 40,
-                      top: _rowY(3) + 12,
+                      left: _jsonRight + 20,
+                      top: _returnLaneY + 22,
                       child: Callout(
                         atStep: 5,
                         text: 'toJson() — the same wires, backwards',

@@ -89,8 +89,11 @@ class InheritedWidgetBody extends StatelessWidget {
                 ),
               ),
               SizedBox(width: Tokens.gapLg),
+              // 440 wide made this column 1789 tall — nearly square once
+              // the tree sat beside it, so the slide was scaled down to fit
+              // its height and left a third of the screen empty either side.
               SizedBox(
-                width: 440,
+                width: 900,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,

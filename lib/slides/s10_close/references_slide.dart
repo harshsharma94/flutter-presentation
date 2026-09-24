@@ -63,6 +63,10 @@ const _groups = [
         label: 'Flutter Widget of the Week — InheritedWidget',
         note: '3 minutes',
       ),
+      (
+        label: 'medium.com/flutter-community/inherited-widgets-bc3110821969',
+        note: 'the long version of slide 26',
+      ),
     ],
   ),
   (

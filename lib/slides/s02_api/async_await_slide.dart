@@ -11,12 +11,12 @@ import 'package:flutter_bootcamp_deck/widgets/step_reveal.dart';
 /// are laid out against — the same fixed-canvas-plus-`Positioned` convention
 /// every other diagram slide in this deck uses, so every coordinate below
 /// agrees with what actually renders.
-const _canvasWidth = 980.0;
+const _canvasWidth = 1300.0;
 const _canvasHeight = 230.0;
 const _canvasSize = Size(_canvasWidth, _canvasHeight);
 
 const _lanesLeft = 0.0;
-const _lanesWidth = 800.0;
+const _lanesWidth = 1120.0;
 
 const _mainLaneTop = 36.0;
 const _laneHeight = 36.0;

@@ -231,7 +231,7 @@ class _Receipt extends StatelessWidget {
           _Panel(
             caption: 'the wrapper from two slides ago',
             captionColor: Palette.amber,
-            width: 640,
+            width: 860,
             child: CodePanel(
               code: photoScopeHostCode,
               fileName: 'lib/state/photo_scope_host.dart',
@@ -241,7 +241,7 @@ class _Receipt extends StatelessWidget {
           _Panel(
             caption: 'what replaces it',
             captionColor: Palette.green,
-            width: 420,
+            width: 520,
             child: CodePanel(code: _providerLine, fileName: 'lib/main.dart'),
           ),
         ],

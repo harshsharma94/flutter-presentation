@@ -7,9 +7,9 @@ import 'package:flutter_bootcamp_deck/widgets/code_panel.dart';
 import 'package:flutter_bootcamp_deck/widgets/step_reveal.dart';
 
 const _screenWidth = 360.0;
-const _canvasWidth = 1180.0;
-const _canvasHeight = 560.0;
-const _panelLeft = 470.0;
+const _canvasWidth = 1420.0;
+const _canvasHeight = 700.0;
+const _panelLeft = 430.0;
 const _panelWidth = _canvasWidth - _panelLeft;
 
 /// The row this slide is about, and where its right edge sits inside
@@ -85,44 +85,50 @@ class RowContractBody extends StatelessWidget {
                     color: pal.textSecondary,
                   ),
                 ),
+                // One column, not two `Positioned`s. Shape A is taller
+                // than the fixed offset shape B used to sit at, so they
+                // overlapped the moment its consequence line appeared.
                 Positioned(
                   left: _panelLeft,
                   top: 0,
                   width: _panelWidth,
-                  child: StepReveal(
-                    atStep: 3,
-                    dimWhenPast: false,
-                    slideFrom: const Offset(0.06, 0),
-                    child: _Shape(
-                      label: 'The response describes the row',
-                      color: Palette.green,
-                      json: _describedJson,
-                      consequence:
-                          'Every word on that row came from the server. New '
-                          'copy, a new tone, a fourth payment method — the '
-                          'response changes and the app does not.',
-                      showConsequence: step >= 4,
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: _panelLeft,
-                  top: 290,
-                  width: _panelWidth,
-                  child: StepReveal(
-                    atStep: 4,
-                    dimWhenPast: false,
-                    slideFrom: const Offset(0.06, 0),
-                    child: _Shape(
-                      label: 'The response sends the raw fields',
-                      color: Palette.amber,
-                      json: _rawJson,
-                      consequence:
-                          'The client owns the words, the formatting and the '
-                          'control. Same new copy — and now somebody ships a '
-                          'release for it.',
-                      showConsequence: true,
-                    ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      StepReveal(
+                        atStep: 3,
+                        dimWhenPast: false,
+                        slideFrom: const Offset(0.06, 0),
+                        child: _Shape(
+                          label: 'The response describes the row',
+                          color: Palette.green,
+                          json: _describedJson,
+                          consequence:
+                              'Every word on that row came from the '
+                              'server. New copy, a new tone, a fourth '
+                              'payment method — the response changes and '
+                              'the app does not.',
+                          showConsequence: step >= 4,
+                        ),
+                      ),
+                      const SizedBox(height: Tokens.gapMd),
+                      StepReveal(
+                        atStep: 4,
+                        dimWhenPast: false,
+                        slideFrom: const Offset(0.06, 0),
+                        child: _Shape(
+                          label: 'The response sends the raw fields',
+                          color: Palette.amber,
+                          json: _rawJson,
+                          consequence:
+                              'The client owns the words, the formatting '
+                              'and the control. Same new copy — and now '
+                              'somebody ships a release for it.',
+                          showConsequence: true,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
