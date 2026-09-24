@@ -48,13 +48,29 @@ Controls, as flutter_deck actually binds them:
 
 | | |
 |---|---|
-| `←` `→` | step through animations; every step is reversible |
+| `←` `→` · `Page Up` `Page Down` | step through animations; every step is reversible. Page Up/Down is what a presentation clicker sends |
 | `.` | open the slide index (the navigation drawer) |
 | `M` | marker on/off |
 | **⋮** on the bottom bar | dark/light, fullscreen, presenter view |
 
 There is **no** keyboard shortcut for the theme. Slide 1 states both controls for
 the room; keep it accurate if these ever change.
+
+### Using a clicker
+
+A clicker is a USB keyboard that sends Page Down / Page Up, so it works with no
+setup. Four things to know before the session:
+
+- **Click the slide once after opening the page.** The browser only delivers
+  keys to the page that has focus. The same applies after switching windows.
+- **With presenter view open, focus the presenter window.** The clicker drives
+  whichever window has focus, and presenter view keeps the audience window in
+  sync.
+- **Don't press the clicker's blank-screen button.** On many models it sends
+  `.` or `B`, PowerPoint's black-screen keys, and `.` opens the slide index here.
+- **Don't press the start/stop button.** It sends `F5` and `Esc`: the browser
+  reloads the page (you land on the same slide, back at its first step) and
+  drops out of fullscreen.
 
 Slides 4, 7, 18, 25 and 33 are **live-coding slides** — they are nearly empty on
 purpose. The slide states the goal; the work happens in the editor.

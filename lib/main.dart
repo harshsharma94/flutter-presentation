@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_deck/flutter_deck.dart';
 import 'package:flutter_bootcamp_deck/slides/registry.dart';
 import 'package:flutter_bootcamp_deck/slides/slide_spec.dart';
@@ -23,6 +24,26 @@ class BootcampDeckApp extends StatelessWidget {
         imagePath: 'assets/images/logo.png',
       ),
       configuration: FlutterDeckConfiguration(
+        // A presentation clicker is a USB keyboard, and nearly every model
+        // sends Page Down / Page Up — the keys PowerPoint listens for.
+        // flutter_deck binds only the arrow keys by default, so a clicker did
+        // nothing. Both are bound now; the arrows keep working as before.
+        //
+        // Deliberately NOT added: Space and Enter (they would hijack a focused
+        // button on the interactive slides), and anything for a clicker's
+        // start/stop button — it sends F5, which a browser treats as reload.
+        controls: const FlutterDeckControlsConfiguration(
+          shortcuts: FlutterDeckShortcutsConfiguration(
+            nextSlide: {
+              SingleActivator(LogicalKeyboardKey.arrowRight),
+              SingleActivator(LogicalKeyboardKey.pageDown),
+            },
+            previousSlide: {
+              SingleActivator(LogicalKeyboardKey.arrowLeft),
+              SingleActivator(LogicalKeyboardKey.pageUp),
+            },
+          ),
+        ),
         transition: FlutterDeckTransition.fade(),
         slideSize: FlutterDeckSlideSize.fromAspectRatio(
           aspectRatio: FlutterDeckAspectRatio.ratio16x9(),
