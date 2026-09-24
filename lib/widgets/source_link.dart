@@ -8,6 +8,12 @@ import 'package:url_launcher/url_launcher.dart';
 const repoBlobUrl =
     'https://github.com/harshsharma94/flutter-presentation/blob/main';
 
+/// Opens [url] in a new browser tab, so the deck stays exactly where it was.
+/// Shared by every clickable link in the deck — the "full source" chips and
+/// the references slide.
+Future<bool> openInNewTab(Uri url) =>
+    launchUrl(url, webOnlyWindowName: '_blank');
+
 /// A small "full source" chip that opens a reference file on GitHub in a new
 /// tab.
 ///
@@ -43,7 +49,7 @@ class SourceLink extends StatelessWidget {
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(Tokens.radius),
-        onTap: () => launchUrl(url, webOnlyWindowName: '_blank'),
+        onTap: () => openInNewTab(url),
         child: Padding(
           padding: EdgeInsets.symmetric(
             horizontal: Tokens.gapSm,
