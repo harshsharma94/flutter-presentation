@@ -1,0 +1,89 @@
+# Builds the deck and publishes it to GitHub Pages.
+#
+# Why this exists: Pages was serving the repository root, which holds a README
+# and no index.html, so github.io rendered the README. The site has to be the
+# *output* of `flutter build web`, and that output is gitignored — so either it
+# gets committed (see README, "Publishing without Actions") or it gets built
+# here. This is the version that commits nothing.
+name: Deploy deck to Pages
+
+on:
+  push:
+    branches: [main]
+  # So a broken deck can be re-published, or a fix deployed, without a commit.
+  workflow_dispatch:
+
+# Least privilege: read the code, write only the Pages deployment.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Never let two deploys race; let a newer push supersede an in-flight one.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # The Flutter version lives in .fvmrc, which is what everyone builds
+      # with locally. Read it rather than repeating it, so CI cannot drift
+      # from the machine the deck was written on.
+      - name: Read Flutter version from .fvmrc
+        id: fvm
+        run: echo "version=$(jq -r .flutter .fvmrc)" >> "$GITHUB_OUTPUT"
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ steps.fvm.outputs.version }}
+          channel: stable
+          cache: true
+
+      - run: flutter pub get
+
+      # The same gates that run locally. A deck that does not analyse or whose
+      # slides throw should not reach the projector via a URL either.
+      - run: flutter analyze
+      - run: flutter test
+
+      # --base-href is the one that matters. A project page is served from
+      # /<repo>/, not from the domain root, so without this every asset path
+      # resolves one level too high and the page loads blank.
+      #
+      # --pwa-strategy=none for the same reason it is used locally: a service
+      # worker caches per origin and survives redeploys, so viewers would keep
+      # being served the slide deck they saw last week.
+      #
+      # No --dart-define here on purpose. UNSPLASH_ACCESS_KEY would be compiled
+      # into a public JavaScript bundle that anyone can read. The deck already
+      # falls back to a bundled fixture when the key is absent, which is what
+      # the live demo slides use anyway.
+      - name: Build web
+        run: |
+          flutter build web --release \
+            --base-href "/${GITHUB_REPOSITORY#*/}/" \
+            --pwa-strategy=none
+
+      # Pages runs Jekyll over branch sources and would skip anything starting
+      # with an underscore. The artifact path below bypasses Jekyll, but this
+      # costs nothing and keeps the output valid if it is ever served from a
+      # branch instead.
+      - run: touch build/web/.nojekyll
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: build/web
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

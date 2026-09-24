@@ -68,6 +68,43 @@ at 1920×1080 and 1280×720, asserting no exception and no overflow. That is the
 that actually matters — a slide breaking in front of an audience — and adding a
 `SlideSpec` adds its coverage automatically.
 
+## Publishing
+
+The deck is on GitHub Pages at
+<https://harshsharma94.github.io/flutter-presentation/>, built and deployed by
+`.github/workflows/pages.yml` on every push to `main`.
+
+**One-time setup:** repository → Settings → Pages → *Source* → **GitHub
+Actions**. Left on "Deploy from a branch" it serves the repository root, which
+holds a README and no `index.html` — which is why github.io renders the README.
+
+The flag that matters is `--base-href "/flutter-presentation/"`. A project page
+is served from `/<repo>/`, not from the domain root, so without it every asset
+path resolves one level too high and the page loads blank with a console full
+of 404s. The workflow derives it from the repository name, so a rename cannot
+break it.
+
+The build passes no `--dart-define`. `UNSPLASH_ACCESS_KEY` would be compiled
+into a public JavaScript bundle that anyone could read; the deck falls back to
+a bundled fixture without it, which is what the live-demo slides use anyway.
+
+### Publishing without Actions
+
+Pages can serve a folder on `main` instead — at the cost of committing the
+compiled output, about 3 MB of JavaScript, and rebuilding by hand on every
+content change:
+
+```bash
+fvm flutter build web --release \
+  --base-href "/flutter-presentation/" --pwa-strategy=none
+rm -rf docs && cp -R build/web docs && touch docs/.nojekyll
+git add -f docs
+```
+
+Commit and push that, then set Settings → Pages → *Source* → **Deploy from a
+branch** → `main` → `/docs`. The `-f` is needed because `build/` is gitignored,
+and `.nojekyll` stops Pages running Jekyll over the output.
+
 ## Building a shareable artifact
 
 ```bash
