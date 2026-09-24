@@ -31,6 +31,12 @@ final repo = context.read<PhotoRepository>();''';
 /// Slide 35 — `/di-multiprovider` (5 steps, A31). The spaghetti collapses
 /// into a list. Provider is already in the app for state, so this costs zero
 /// new packages.
+///
+/// Two columns, because one was making the slide half as wide as the screen.
+/// Stacked, the code panel and the correlation panel came to 1870 by 1407 —
+/// taller than a projector is deep, so it was scaled to its height and left a
+/// third of the width empty either side. Side by side the same content is
+/// about 2.3:1, which is roughly the shape of the screen it is projected onto.
 class DiMultiproviderBody extends StatelessWidget {
   const DiMultiproviderBody({required this.step, super.key});
 
@@ -42,60 +48,80 @@ class DiMultiproviderBody extends StatelessWidget {
 
     return Center(
       child: Padding(
-        padding: EdgeInsets.all(Tokens.gapLg),
+        padding: EdgeInsets.all(Tokens.gapMd),
         child: FittedBox(
           fit: BoxFit.scaleDown,
-          child: Column(
+          child: Row(
             mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                width: 1280,
-                child: CodePanel(
-                  code: step >= 2 ? _wired : _tangled,
-                  sizedFor: const [_tangled, _wired],
-                  fileName: 'lib/main.dart',
-                ),
-              ),
-              SizedBox(height: Tokens.gapMd),
-              StepReveal(
-                atStep: 2,
-                until: 5,
-                dimWhenPast: false,
-                child: Text(
-                  'Declared once, at the top. Read where it is used. '
-                  'Nothing in between changes.',
-                  style: TextStyle(color: Palette.green, fontSize: 23),
-                ),
-              ),
-              SizedBox(height: Tokens.gapSm),
-              SizedBox(
-                width: 1280,
-                child: CorrelationPanel(
-                  flutterLabel: 'MultiProvider',
-                  firstStep: 3,
-                  stepsPerRow: 0,
-                  rows: [
-                    CorrelationRow(
-                      platform: 'Android',
-                      concept: 'Hilt @Module / Koin module {}',
+                width: 980,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CodePanel(
+                      code: step >= 2 ? _wired : _tangled,
+                      sizedFor: const [_tangled, _wired],
+                      fileName: 'lib/main.dart',
                     ),
-                    CorrelationRow(platform: 'iOS', concept: 'init injection'),
-                    CorrelationRow(
-                      platform: 'Java/Spring',
-                      concept: '@Bean / @Configuration',
+                    SizedBox(height: Tokens.gapMd),
+                    StepReveal(
+                      atStep: 2,
+                      until: 5,
+                      dimWhenPast: false,
+                      child: Text(
+                        'Declared once, at the top. Read where it is used. '
+                        'Nothing in between changes.',
+                        style: TextStyle(color: Palette.green, fontSize: 23),
+                      ),
                     ),
-                    CorrelationRow(platform: 'Go', concept: 'wire'),
                   ],
                 ),
               ),
-              SizedBox(height: Tokens.gapSm),
-              StepReveal(
-                atStep: 5,
-                dimWhenPast: false,
-                child: Text(
-                  'get_it exists and is fine. You do not need it today — '
-                  'Provider is already here.',
-                  style: TextStyle(color: pal.textSecondary, fontSize: 21),
+              SizedBox(width: Tokens.gapLg),
+              SizedBox(
+                width: 860,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CorrelationPanel(
+                      flutterLabel: 'MultiProvider',
+                      firstStep: 3,
+                      stepsPerRow: 0,
+                      rows: [
+                        CorrelationRow(
+                          platform: 'Android',
+                          concept: 'Hilt @Module / Koin module {}',
+                        ),
+                        CorrelationRow(
+                          platform: 'iOS',
+                          concept: 'init injection',
+                        ),
+                        CorrelationRow(
+                          platform: 'Java/Spring',
+                          concept: '@Bean / @Configuration',
+                        ),
+                        CorrelationRow(platform: 'Go', concept: 'wire'),
+                      ],
+                    ),
+                    SizedBox(height: Tokens.gapLg),
+                    StepReveal(
+                      atStep: 5,
+                      dimWhenPast: false,
+                      child: Text(
+                        'get_it exists and is fine. You do not need it '
+                        'today — Provider is already here.',
+                        style: TextStyle(
+                          color: pal.textSecondary,
+                          fontSize: 21,
+                          height: 1.35,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
