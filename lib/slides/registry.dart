@@ -56,8 +56,13 @@ final List<SlideSpec> slideRegistry = [
     chrome: false,
     body: (step) => TitleBody(step: step),
     speakerNotes:
-        '30 seconds, no more. Names, then move — slide 2 is the '
-        'hook and you want them still settling in when it lands.',
+        '30 seconds, no more. Names, the two controls, then move — '
+        'slide 2 is the hook and you want them still settling in when it '
+        'lands. Demonstrate both hints rather than reading them: press . '
+        'so they see the index, then open the three-dot menu on the '
+        'floating bottom bar so anyone at a bad angle can flip to light '
+        'mode. There is NO keyboard shortcut for the theme; . is the '
+        'drawer. Marker is M, if someone asks.',
   ),
   SlideSpec(
     route: '/beautiful-lie',

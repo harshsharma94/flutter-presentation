@@ -39,11 +39,22 @@ The key is read via `String.fromEnvironment` and is never committed.
 ## Presenting
 
 - **Primary: Chrome.** `FlutterDeckWebClient` gives presenter view — speaker notes on a
-  second screen — for free. Open the navigation drawer to launch it.
+  second screen — for free. It is in the **⋮** menu on the floating controls bar, not
+  in the navigation drawer.
 - **Backup: macOS.** `fvm flutter run -d macos`. Needs the network entitlement in
   `macos/Runner/*.entitlements`, which is itself the teaching moment on slide 11.
-- Arrow keys step through animations; every step is reversible, so stepping backward
-  re-hides things correctly.
+
+Controls, as flutter_deck actually binds them:
+
+| | |
+|---|---|
+| `←` `→` | step through animations; every step is reversible |
+| `.` | open the slide index (the navigation drawer) |
+| `M` | marker on/off |
+| **⋮** on the bottom bar | dark/light, fullscreen, presenter view |
+
+There is **no** keyboard shortcut for the theme. Slide 1 states both controls for
+the room; keep it accurate if these ever change.
 
 Slides 4, 7, 18, 25 and 33 are **live-coding slides** — they are nearly empty on
 purpose. The slide states the goal; the work happens in the editor.

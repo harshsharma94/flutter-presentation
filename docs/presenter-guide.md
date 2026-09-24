@@ -12,9 +12,17 @@ Covers slides 1–12 (the API section). Extend as the deck settles.
 
 Nothing to type. Thirty seconds: names, then move.
 
-Ask them to pick dark or light. The toggle is in the navigation drawer — press
-`.` to open it. Do this now rather than mid-session; switching themes later
-costs you the room's attention for a minute.
+Demonstrate the two controls on the slide rather than reading them:
+
+- **`.`** opens the slide index. Useful mid-session to jump a section.
+- **⋮ on the floating bottom bar** is where dark/light lives, along with
+  presenter view and fullscreen. There is **no** keyboard shortcut for the
+  theme — `.` is the drawer, and an earlier version of this slide claimed
+  otherwise.
+
+Ask the room to pick dark or light now rather than mid-session; switching
+themes later costs you their attention for a minute. Marker is `M` if anyone
+asks, and arrow keys step through animations.
 
 ---
 
