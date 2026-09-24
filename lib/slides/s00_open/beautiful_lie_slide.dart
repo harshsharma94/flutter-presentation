@@ -23,7 +23,11 @@ const _phoneTop = 10.0;
 /// shoulder. Levelled, they read as one duplicated screenshot; staggered,
 /// they read as two screens of the same app — which is the point, since
 /// both are fed by the one list underneath.
-const _phoneStagger = 54.0;
+/// Both previews sit on one baseline. An earlier version offset the right
+/// one by 54 to suggest depth; on a projector it just read as a
+/// misalignment, which is a distracting first impression for a slide
+/// whose job is the hardcoded list underneath them.
+const _phoneStagger = 0.0;
 const _leftPhoneTop = _phoneTop;
 const _rightPhoneTop = _phoneTop + _phoneStagger;
 const _phoneBottom = _rightPhoneTop + _phoneHeight;

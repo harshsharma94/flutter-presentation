@@ -9,13 +9,13 @@ import 'package:flutter_bootcamp_deck/widgets/step_reveal.dart';
 /// Fixed canvas the JSON block, the constructor block and the four curved
 /// field flights are laid out against, so every arrow's coordinates agree
 /// with where the text actually renders.
-const _canvasWidth = 1180.0;
+const _canvasWidth = 1560.0;
 const _canvasHeight = 280.0;
 
 const _lineHeight = 26.0;
 const _blockTop = 14.0;
-const _jsonRight = 430.0;
-const _dartLeft = 720.0;
+const _jsonRight = 560.0;
+const _dartLeft = 940.0;
 
 /// The return trip gets its own lane under the block. Drawn at the
 /// height of the second field, as it was, the green arrow bowed straight

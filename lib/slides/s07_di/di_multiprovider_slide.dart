@@ -49,7 +49,7 @@ class DiMultiproviderBody extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               SizedBox(
-                width: 1000,
+                width: 1280,
                 child: CodePanel(
                   code: step >= 2 ? _wired : _tangled,
                   sizedFor: const [_tangled, _wired],
@@ -69,7 +69,7 @@ class DiMultiproviderBody extends StatelessWidget {
               ),
               SizedBox(height: Tokens.gapSm),
               SizedBox(
-                width: 900,
+                width: 1280,
                 child: CorrelationPanel(
                   flutterLabel: 'MultiProvider',
                   firstStep: 3,

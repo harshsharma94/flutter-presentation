@@ -78,9 +78,12 @@ Object? _userName(Map json, String key) =>
 /// exactly what this generates" — which is the only reason it was worth
 /// writing by hand first.
 ///
-/// Step 2 is the packages. It was missing: slide 6 tells them exactly how to
-/// add Dio and this slide used to jump straight to `build_runner build`,
-/// which fails on a project that has none of the three packages installed.
+/// Step 1 is the packages, before the file rather than after it: the
+/// annotations do not resolve until they are installed, and a room part-way
+/// through `pub add` is not reading a 26-line snippet. They were missing
+/// entirely — slide 6 tells them exactly how to add Dio, and this slide used
+/// to jump straight to `build_runner build`, which fails on a project that
+/// has none of the three installed.
 class CodegenBody extends StatelessWidget {
   const CodegenBody({required this.step, super.key});
 
@@ -99,7 +102,7 @@ class CodegenBody extends StatelessWidget {
             SizedBox(
               width: 940,
               child: CodePanel(
-                code: step >= 1 ? _generated : _byHand,
+                code: step >= 2 ? _generated : _byHand,
                 sizedFor: const [_byHand, _generated],
                 fileName: 'lib/models/photo.dart',
               ),
@@ -111,19 +114,22 @@ class CodegenBody extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // Packages first: they cannot type the file until the
+                  // annotations resolve, and a room half-way through an
+                  // install is not reading a 26-line snippet anyway.
                   StepReveal(
                     atStep: 1,
                     dimWhenPast: false,
-                    child: CodePanel(
-                      code: _readers,
-                      fileName: '… same file, under the class',
-                    ),
+                    child: _AddPackagesPanel(),
                   ),
                   SizedBox(height: Tokens.gapMd),
                   StepReveal(
                     atStep: 2,
                     dimWhenPast: false,
-                    child: _AddPackagesPanel(),
+                    child: CodePanel(
+                      code: _readers,
+                      fileName: '… same file, under the class',
+                    ),
                   ),
                   SizedBox(height: Tokens.gapMd),
                   StepReveal(atStep: 3, dimWhenPast: false, child: _Terminal()),
@@ -171,22 +177,8 @@ class _AddPackagesPanel extends StatelessWidget {
           ),
           SizedBox(height: Tokens.gapXs),
           Text(
-            'pubspec.yaml  →  dependencies:\n'
-            '                  json_annotation: ^4.9.0\n'
-            '                dev_dependencies:\n'
-            '                  json_serializable: ^6.9.0\n'
-            '                  build_runner: ^2.4.13',
-            style: TextStyle(
-              fontFamily: 'JetBrainsMono',
-              color: pal.textSecondary,
-              fontSize: 18,
-              height: 1.4,
-            ),
-          ),
-          SizedBox(height: Tokens.gapXs),
-          Text(
-            'Two of the three are dev dependencies — they run on your '
-            'machine, not on the phone, so they never ship.',
+            'Two of the three are dev: — they run on your machine, not on '
+            'the phone.',
             style: TextStyle(color: pal.textSecondary, fontSize: 18),
           ),
         ],

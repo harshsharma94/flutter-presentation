@@ -18,8 +18,8 @@ const _scopeHeight = 68.0;
 /// a scope that sits at the root.
 ///
 /// Step 9 is the one that makes the pattern feel ordinary rather than
-/// advanced: `Theme.of(context)` is an `InheritedWidget`, and they have been
-/// calling it since their first screen. It is also the homework nudge —
+/// advanced: `Theme.of(context)` is an `InheritedWidget`, and it is the one
+/// they will meet on their next screen. It is also the homework nudge —
 /// reading the theme from a leaf is the smallest possible version of this
 /// exercise, with no new package and nothing to install.
 class InheritedWidgetBody extends StatelessWidget {
@@ -180,9 +180,14 @@ class InheritedWidgetBody extends StatelessWidget {
   }
 }
 
-/// `.of(context)` is the tell. Two lookups they have already written, named
-/// as what they are, so tonight's exercise reads as "do the thing you have
-/// been doing, on purpose" rather than as a new technique.
+/// `.of(context)` is the tell. Two lookups they will reach for constantly,
+/// named as what they are, so the pattern reads as ordinary Flutter rather
+/// than as an advanced technique — and so tonight's exercise is recognisably
+/// the same shape.
+///
+/// It does *not* claim they have been using these since day 1. They have not,
+/// and a room told it already knows something it does not know stops
+/// trusting the next claim.
 class _AlreadyUsingItPanel extends StatelessWidget {
   const _AlreadyUsingItPanel();
 
@@ -202,7 +207,7 @@ class _AlreadyUsingItPanel extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            'You have been using one since day 1.',
+            'Two you will use constantly.',
             style: TextStyle(
               color: Palette.green,
               fontSize: 20,
@@ -222,9 +227,10 @@ class _AlreadyUsingItPanel extends StatelessWidget {
           ),
           SizedBox(height: Tokens.gapXs),
           Text(
-            'Both are InheritedWidgets. MaterialApp puts the theme at the '
-            'root; every .of(context) walks up to it. Tonight: put your own '
-            'scope up there and read it from a leaf — same shape, your data.',
+            'Both are InheritedWidgets, and .of(context) is the tell. '
+            'MaterialApp puts the theme at the root of every Flutter app; '
+            'that call walks up to it. Tonight: put your own scope up '
+            'there and read it from a leaf — same shape, your data.',
             style: TextStyle(
               color: pal.textSecondary,
               fontSize: 18,

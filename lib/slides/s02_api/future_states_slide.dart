@@ -4,32 +4,42 @@ import 'package:flutter_bootcamp_deck/theme/tokens.dart';
 import 'package:flutter_bootcamp_deck/widgets/annotate.dart';
 import 'package:flutter_bootcamp_deck/widgets/step_reveal.dart';
 
-/// Fixed canvas the two outcome circles and the branch arrow are laid out
+/// Fixed canvas the three circles and the two branch arrows are laid out
 /// against, mirroring every other diagram slide's fixed-canvas-plus-
-/// `Positioned` convention so the arrow's coordinates agree with where the
+/// `Positioned` convention so the arrows' coordinates agree with where the
 /// circles actually render.
-const _canvasWidth = 640.0;
-const _canvasHeight = 200.0;
+const _canvasWidth = 780.0;
+const _canvasHeight = 330.0;
 const _canvasSize = Size(_canvasWidth, _canvasHeight);
 
 const _circleSize = 96.0;
-const _circleTop = (_canvasHeight - _circleSize) / 2;
-const _circleALeft = 40.0;
-const _circleBLeft = _canvasWidth - _circleSize - 40.0;
-const _circleCenterY = _canvasHeight / 2;
+
+const _pendingLeft = 30.0;
+const _pendingCenterY = _canvasHeight / 2;
+const _pendingRight = _pendingLeft + _circleSize;
+
+const _outcomeLeft = _canvasWidth - _circleSize - 140.0;
+const _dataTop = 18.0;
+const _errorTop = _canvasHeight - _circleSize - 18.0;
+const _dataCenterY = _dataTop + _circleSize / 2;
+const _errorCenterY = _errorTop + _circleSize / 2;
 
 /// Slide 8 — `/future-states` (4 steps, A7). Defines the thing before the
 /// next slide animates it: a `Future` is a receipt for a value that does not
-/// exist yet. One circle stands in for it — outlined and pending, then
-/// filled for the outcome every demo shows (data), then a second circle for
-/// the one no demo shows (the error). Step 4 is the property that surprises
-/// people: it does not come with a cancel button.
+/// exist yet.
+///
+/// It is drawn as a **fork**, and that is the whole correction. An earlier
+/// version filled one circle from `pending` to `data` and then drew an arrow
+/// from `data` to a second circle marked `error` — which says a Future
+/// resolves with a value and *then* fails. It does not, and the slide's own
+/// heading says so: it settles exactly once, exactly one way. Two arrows
+/// leaving `pending`, with `or` between them, is the model; the data branch
+/// dims when the error branch arrives so the second is read as the
+/// alternative, never as what happened next.
 class FutureStatesBody extends StatelessWidget {
   const FutureStatesBody({required this.step, super.key});
 
   final int step;
-
-  bool get _resolved => step >= 2;
 
   @override
   Widget build(BuildContext context) {
@@ -59,29 +69,70 @@ class FutureStatesBody extends StatelessWidget {
                 child: Stack(
                   clipBehavior: Clip.none,
                   children: [
-                    Positioned.fill(
-                      child: AnimatedArrow(
-                        from: Offset(
-                          _circleALeft + _circleSize,
-                          _circleCenterY,
-                        ),
-                        to: Offset(_circleBLeft, _circleCenterY),
-                        atStep: 3,
-                        color: Palette.red,
-                      ),
-                    ),
                     Positioned(
-                      left: _circleALeft,
-                      top: _circleTop,
-                      child: _OutcomeCircle(
-                        filled: _resolved,
+                      left: _pendingLeft,
+                      top: _pendingCenterY - _circleSize / 2,
+                      child: const _OutcomeCircle(
+                        filled: false,
                         color: Palette.blue,
-                        label: _resolved ? 'data' : 'pending',
+                        label: 'pending',
+                      ),
+                    ),
+                    // The two branches. Neither follows the other.
+                    Positioned.fill(
+                      child: StepReveal(
+                        atStep: 2,
+                        child: AnimatedArrow(
+                          from: Offset(_pendingRight, _pendingCenterY - 12),
+                          to: Offset(_outcomeLeft - 8, _dataCenterY),
+                          atStep: 2,
+                          color: Palette.blue,
+                        ),
+                      ),
+                    ),
+                    Positioned.fill(
+                      child: StepReveal(
+                        atStep: 3,
+                        dimWhenPast: false,
+                        child: AnimatedArrow(
+                          from: Offset(_pendingRight, _pendingCenterY + 12),
+                          to: Offset(_outcomeLeft - 8, _errorCenterY),
+                          atStep: 3,
+                          color: Palette.red,
+                        ),
                       ),
                     ),
                     Positioned(
-                      left: _circleBLeft,
-                      top: _circleTop,
+                      left: _pendingRight + 120,
+                      top: _pendingCenterY - 18,
+                      child: StepReveal(
+                        atStep: 3,
+                        dimWhenPast: false,
+                        child: Text(
+                          'or',
+                          style: TextStyle(
+                            color: pal.textPrimary,
+                            fontSize: 30,
+                            fontStyle: FontStyle.italic,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      left: _outcomeLeft,
+                      top: _dataTop,
+                      child: StepReveal(
+                        atStep: 2,
+                        child: const _OutcomeCircle(
+                          filled: true,
+                          color: Palette.blue,
+                          label: 'data',
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      left: _outcomeLeft,
+                      top: _errorTop,
                       child: StepReveal(
                         atStep: 3,
                         dimWhenPast: false,
@@ -93,6 +144,25 @@ class FutureStatesBody extends StatelessWidget {
                       ),
                     ),
                   ],
+                ),
+              ),
+              SizedBox(height: Tokens.gapSm),
+              StepReveal(
+                atStep: 3,
+                dimWhenPast: false,
+                child: SizedBox(
+                  width: 900,
+                  child: Text(
+                    'One or the other. Never both, never neither, never '
+                    'twice — and the error branch is part of the model, not '
+                    'an edge case bolted onto it.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: pal.textSecondary,
+                      fontSize: 21,
+                      height: 1.35,
+                    ),
+                  ),
                 ),
               ),
               SizedBox(height: Tokens.gapMd),
@@ -108,7 +178,7 @@ class FutureStatesBody extends StatelessWidget {
                     ),
                     SizedBox(height: Tokens.gapXs),
                     SizedBox(
-                      width: 820,
+                      width: 900,
                       child: Text(
                         'You can stop caring about the answer. You cannot stop '
                         'the work — it finishes, and any error it throws still '
@@ -118,7 +188,7 @@ class FutureStatesBody extends StatelessWidget {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: pal.textSecondary,
-                          fontSize: 20,
+                          fontSize: 21,
                           height: 1.35,
                         ),
                       ),

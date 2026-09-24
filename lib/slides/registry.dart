@@ -139,13 +139,15 @@ final List<SlideSpec> slideRegistry = [
     speakerNotes:
         'Define it before the next slide animates it. A Future '
         'is a receipt: you get it immediately, the value arrives later, and '
-        'it settles exactly once — with a value or with an error. Step 3 is '
-        'the point: the error branch is native to the model, not an edge '
-        'case bolted on. Every await is choosing to handle two branches. '
-        'Step 4 is the one that surprises people — no cancel(). You can '
-        'ignore the result; the work still runs and the error still lands. '
-        'Cancelling the request is the client\'s job (Dio\'s CancelToken), '
-        'not the Future\'s.',
+        'it settles exactly once. Step 2 is the branch every demo shows. '
+        'Step 3 is the OTHER branch — say the word "or" out loud and point '
+        'at both arrows. It did not become data and then fail; one of the '
+        'two happens, once. The error branch is native to the model, not an '
+        'edge case bolted on, which is why every await is choosing to '
+        'handle two outcomes. Step 4 is the one that surprises people — no '
+        'cancel(). You can ignore the result; the work still runs and the '
+        'error still lands. Cancelling the request is the client\'s job '
+        '(Dio\'s CancelToken), not the Future\'s.',
   ),
   SlideSpec(
     route: '/async-await',
@@ -306,10 +308,12 @@ final List<SlideSpec> slideRegistry = [
         'they can type it: point at the two readValue helpers and say why '
         'they exist — @JsonSerializable maps a flat key for free, but '
         'Unsplash nests the image under urls.regular and the photographer '
-        'under user.name, and codegen cannot guess a path. Step 2 is the '
-        'three packages, and the thing people get wrong: two of them are '
-        'dev dependencies. Step 3 runs it. One sentence on build_runner '
-        'being a compile step, not magic, then move.',
+        'under user.name, and codegen cannot guess a path. Step 1 is the '
+        'three packages FIRST, and the thing people get wrong: two of them '
+        'are dev dependencies. Wait for the room before you advance — the '
+        'annotations do not resolve until pub get finishes. Step 2 is the '
+        'file, whole, so they can type it. Step 3 runs it: one sentence on '
+        'build_runner being a compile step, not magic, then move.',
   ),
 
   // §4 Architecture
@@ -451,11 +455,16 @@ final List<SlideSpec> slideRegistry = [
     section: '§5 State',
     body: (step) => WatchReadConsumerBody(step: step),
     speakerNotes:
-        'Hand over the keyboard. Do not assert that Consumer is '
-        'better — make them watch the flash region shrink and the counter '
-        'drop. Then ask which one they would reach for by default. The '
-        'read() mode is the trap worth showing: the number never moves '
-        'because read never subscribes.',
+        'Read the three legend entries FIRST — this is the only slide '
+        'that names context.watch, context.read and Consumer, and three API '
+        'names arriving at once will lose people otherwise. Say the '
+        'headline out loud: all three read the SAME CounterModel from the '
+        'same provider; the only difference is how much of the tree hears '
+        'about notifyListeners(). Then hand over the keyboard. Do not '
+        'assert that Consumer is better — make them watch the flash region '
+        'shrink and the rebuild counter drop. The read() mode is the trap '
+        'worth showing: the number never moves, because read never '
+        'subscribes. Then ask which one they would reach for by default.',
   ),
 
   SlideSpec(
