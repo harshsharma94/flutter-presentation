@@ -45,7 +45,7 @@ The key is read via `String.fromEnvironment` and is never committed.
 - Arrow keys step through animations; every step is reversible, so stepping backward
   re-hides things correctly.
 
-Slides 4, 7, 18, 24 and 32 are **live-coding slides** — they are nearly empty on
+Slides 4, 7, 18, 25 and 33 are **live-coding slides** — they are nearly empty on
 purpose. The slide states the goal; the work happens in the editor.
 
 ## Cutting a slide
@@ -131,7 +131,7 @@ Two conventions carry the whole deck:
 2. **Visibility is a pure function of `(step, theme)`.** Explanatory motion uses no
    `AnimationController` and no `Timer`, so every animation is presenter-paced and
    reverses cleanly. The exceptions are deliberate and few — an ambient spinner on slide
-   9, the notifier pulse on slide 28, the rebuild flashes on slide 30 — where the motion
+   9, the notifier pulse on slide 29, the rebuild flashes on slide 31 — where the motion
    *is* the lesson.
 
 Presenter material:

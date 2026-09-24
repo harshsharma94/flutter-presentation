@@ -74,16 +74,14 @@ Object? _userName(Map json, String key) =>
     (json['user']
         as Map<String, dynamic>)['name'];''';
 
-/// Slide 19 — `/codegen` (3 steps, A17). Optional. Frame it as "you now know
+/// Slide 20 — `/codegen` (2 steps, A17). Optional. Frame it as "you now know
 /// exactly what this generates" — which is the only reason it was worth
 /// writing by hand first.
 ///
-/// Step 1 is the packages, before the file rather than after it: the
-/// annotations do not resolve until they are installed, and a room part-way
-/// through `pub add` is not reading a 26-line snippet. They were missing
-/// entirely — slide 6 tells them exactly how to add Dio, and this slide used
-/// to jump straight to `build_runner build`, which fails on a project that
-/// has none of the three installed.
+/// The packages moved to their own slide before this one. Installing them and
+/// morphing the hand-written mapping into the generated form were happening
+/// on the same tap, which made the transition do two unrelated jobs at once —
+/// and the room cannot type this file until `pub get` has finished anyway.
 class CodegenBody extends StatelessWidget {
   const CodegenBody({required this.step, super.key});
 
@@ -102,7 +100,7 @@ class CodegenBody extends StatelessWidget {
             SizedBox(
               width: 940,
               child: CodePanel(
-                code: step >= 2 ? _generated : _byHand,
+                code: step >= 1 ? _generated : _byHand,
                 sizedFor: const [_byHand, _generated],
                 fileName: 'lib/models/photo.dart',
               ),
@@ -114,17 +112,8 @@ class CodegenBody extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Packages first: they cannot type the file until the
-                  // annotations resolve, and a room half-way through an
-                  // install is not reading a 26-line snippet anyway.
                   StepReveal(
                     atStep: 1,
-                    dimWhenPast: false,
-                    child: _AddPackagesPanel(),
-                  ),
-                  SizedBox(height: Tokens.gapMd),
-                  StepReveal(
-                    atStep: 2,
                     dimWhenPast: false,
                     child: CodePanel(
                       code: _readers,
@@ -132,7 +121,7 @@ class CodegenBody extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: Tokens.gapMd),
-                  StepReveal(atStep: 3, dimWhenPast: false, child: _Terminal()),
+                  StepReveal(atStep: 2, dimWhenPast: false, child: _Terminal()),
                 ],
               ),
             ),
@@ -141,50 +130,6 @@ class CodegenBody extends StatelessWidget {
       ),
     ),
   );
-}
-
-/// The three packages, stated the same way slide 6 states Dio — because the
-/// room that stalls on "add the dependency" is the same room either time, and
-/// two of these three are dev dependencies, which is the bit people get wrong.
-class _AddPackagesPanel extends StatelessWidget {
-  const _AddPackagesPanel();
-
-  @override
-  Widget build(BuildContext context) {
-    final pal = Palette.of(context);
-
-    return Container(
-      padding: EdgeInsets.all(Tokens.gapMd),
-      decoration: BoxDecoration(
-        color: pal.surface,
-        border: Border.all(color: Palette.blue, width: Tokens.strokeWidth),
-        borderRadius: BorderRadius.circular(Tokens.radius),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            r'$ flutter pub add json_annotation'
-            '\n'
-            r'$ flutter pub add dev:json_serializable dev:build_runner',
-            style: TextStyle(
-              fontFamily: 'JetBrainsMono',
-              color: Palette.green,
-              fontSize: 19,
-              height: 1.5,
-            ),
-          ),
-          SizedBox(height: Tokens.gapXs),
-          Text(
-            'Two of the three are dev: — they run on your machine, not on '
-            'the phone.',
-            style: TextStyle(color: pal.textSecondary, fontSize: 18),
-          ),
-        ],
-      ),
-    );
-  }
 }
 
 class _Terminal extends StatelessWidget {

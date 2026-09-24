@@ -3,11 +3,11 @@ import 'package:flutter_bootcamp_deck/demos/rebuild_scope_demo.dart';
 import 'package:flutter_bootcamp_deck/theme/palette.dart';
 import 'package:flutter_bootcamp_deck/theme/tokens.dart';
 
-/// Slide 30 — `/watch-read-consumer` (1 step, A28). Live and interactive,
+/// Slide 31 — `/watch-read-consumer` (1 step, A28). Live and interactive,
 /// not step-driven: hand over the keyboard. The flash region is the lesson.
 ///
 /// The legend beside the demo is not decoration. Nothing before this slide
-/// has shown `context.watch`, `context.read` or `Consumer` — slide 29 ends at
+/// has shown `context.watch`, `context.read` or `Consumer` — slide 30 ends at
 /// "`ChangeNotifierProvider` exists", and three unexplained API names then
 /// arrive at once on a slide with no steps to pace them. So each is written
 /// out as the line you would actually type, with what it subscribes to and

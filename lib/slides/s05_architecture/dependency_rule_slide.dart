@@ -12,7 +12,7 @@ const _slabWidth = 250.0;
 const _gapWidth = 110.0;
 const _arrowLaneHeight = 22.0;
 
-/// Slide 22 — `/dependency-rule` (4 steps, A20). Arrows point inward, toward
+/// Slide 23 — `/dependency-rule` (4 steps, A20). Arrows point inward, toward
 /// Domain. Step 3 flips one, and Domain stops being testable on its own.
 ///
 /// The arrows live in [_ArrowGap] boxes *between* the slabs, vertically

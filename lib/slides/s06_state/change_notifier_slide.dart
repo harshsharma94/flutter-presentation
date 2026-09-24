@@ -10,7 +10,7 @@ import 'package:flutter_bootcamp_deck/widgets/widget_tree.dart';
 const _modelWidth = 200.0;
 const _modelHeight = 76.0;
 
-/// Slide 28 — `/change-notifier` (7 steps, A26). Hybrid: a step-driven
+/// Slide 29 — `/change-notifier` (7 steps, A26). Hybrid: a step-driven
 /// diagram *plus* a genuinely tappable button wired to a real
 /// [CounterModel], so the numbers and the flashes are real events rather
 /// than a drawing of events.

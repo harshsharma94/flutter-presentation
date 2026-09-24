@@ -6,13 +6,13 @@ import 'package:flutter_bootcamp_deck/widgets/layer_slab.dart';
 import 'package:flutter_bootcamp_deck/widgets/step_reveal.dart';
 
 /// Step at which each layer's bands have finished arriving. The bands are
-/// the exact `Band` values slide 20 tangled together — sorting them is the
+/// the exact `Band` values slide 21 tangled together — sorting them is the
 /// whole animation.
 final _presentation = [uiBand, uiBand2];
 final _domain = [rulesBand, rulesBand2];
 final _data = [networkBand, networkBand2, parseBand];
 
-/// Slide 21 — `/three-layers` (3 steps, A19). Everyone in the room has
+/// Slide 22 — `/three-layers` (3 steps, A19). Everyone in the room has
 /// already built this, under three different names; then the Flutter one.
 ///
 /// An earlier version spent four taps filling the slabs band by band and

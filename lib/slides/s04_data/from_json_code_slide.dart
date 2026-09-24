@@ -4,7 +4,9 @@ import 'package:flutter_bootcamp_deck/theme/tokens.dart';
 import 'package:flutter_bootcamp_deck/widgets/annotate.dart';
 import 'package:flutter_bootcamp_deck/widgets/code_panel.dart';
 
-const _code = '''
+/// Public so `from_json_code_highlights_test.dart` can pin the line indices
+/// below against the source they are supposed to point at.
+const photoClassCode = '''
 class Photo {
   const Photo({
     required this.id,
@@ -21,15 +23,21 @@ class Photo {
       );
 }''';
 
-/// Which lines each step walks. Steps 1-3 march down the mapping itself,
-/// step 4 jumps back up to the `factory` keyword, step 5 lights the named
-/// parameters that make the call site readable.
-const _highlights = <int, List<int>>{
-  1: [10],
-  2: [11],
-  3: [12, 13],
-  4: [9],
-  5: [3, 4, 5, 6],
+/// Which lines each step walks, 0-indexed into [_code]. Steps 1-3 march down
+/// the mapping itself, step 4 jumps back up to the `factory` keyword, step 5
+/// lights the named parameters that make the call site readable.
+///
+/// Every entry here used to be one too high, so the `factory` callout came up
+/// while the `id:` line was lit. The trap is that a `'''` string looks like it
+/// starts with a newline and does not: Dart drops the newline immediately
+/// after the opening delimiter, so line 0 is `class Photo {`, not a blank.
+/// `from_json_code_highlights_test.dart` pins this.
+const photoClassHighlights = <int, List<int>>{
+  1: [9],
+  2: [10],
+  3: [11, 12],
+  4: [8],
+  5: [2, 3, 4, 5],
 };
 
 /// Slide 17 — `/from-json-code` (5 steps). The anatomy of the mapping they
@@ -52,9 +60,9 @@ class FromJsonCodeBody extends StatelessWidget {
             SizedBox(
               width: 1080,
               child: CodePanel(
-                code: _code,
+                code: photoClassCode,
                 fileName: 'lib/models/photo.dart',
-                highlightedLines: _highlights[step] ?? const [],
+                highlightedLines: photoClassHighlights[step] ?? const [],
               ),
             ),
             const SizedBox(height: Tokens.gapMd),

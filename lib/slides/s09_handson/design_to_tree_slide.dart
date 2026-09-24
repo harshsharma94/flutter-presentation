@@ -21,7 +21,7 @@ const _beats = [
   (region: 'cta', name: 'FilledButton', indent: 1),
 ];
 
-/// Slide 37 — `/design-to-tree` (7 steps, A35). A design on the left, a
+/// Slide 38 — `/design-to-tree` (7 steps, A35). A design on the left, a
 /// widget tree assembling itself on the right, one tap at a time.
 class DesignToTreeBody extends StatelessWidget {
   const DesignToTreeBody({required this.step, super.key});

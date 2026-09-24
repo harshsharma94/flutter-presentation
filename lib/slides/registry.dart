@@ -14,6 +14,7 @@ import 'package:flutter_bootcamp_deck/slides/s02_api/three_states_code_slide.dar
 import 'package:flutter_bootcamp_deck/slides/s03_auth/auth_401_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s03_auth/oauth_flow_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s03_auth/unsplash_reality_slide.dart';
+import 'package:flutter_bootcamp_deck/slides/s04_data/codegen_deps_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s04_data/codegen_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s04_data/from_json_code_slide.dart';
 import 'package:flutter_bootcamp_deck/slides/s04_data/json_to_dart_slide.dart';
@@ -271,7 +272,7 @@ final List<SlideSpec> slideRegistry = [
         'that lands: every platform they know does this with reflection or '
         'an annotation processor. Dart has no runtime reflection, so '
         'someone writes the mapping — either you, by hand, or build_runner '
-        'on slide 19.',
+        'on slide 20.',
   ),
   SlideSpec(
     route: '/from-json-code',
@@ -297,9 +298,24 @@ final List<SlideSpec> slideRegistry = [
         'map directly, that is the repository discussion after the break.',
   ),
   SlideSpec(
+    route: '/codegen-deps',
+    section: '§3 Data',
+    steps: 2,
+    body: (step) => CodegenDepsBody(step: step),
+    speakerNotes:
+        'Same shape as slide 6, and they know this shape now: two '
+        'commands, then everyone runs them. The split is the whole slide — '
+        'json_annotation ships inside the app because your code imports it; '
+        'json_serializable and build_runner carry the dev: prefix because '
+        'they run on your laptop and never reach the phone. That is the bit '
+        'people get wrong. Step 2: actually wait for pub get before you '
+        'advance. The next slide has a whole file on it for them to type, '
+        'and the annotations will not resolve until this finishes.',
+  ),
+  SlideSpec(
     route: '/codegen',
     section: '§3 Data',
-    steps: 3,
+    steps: 2,
     body: (step) => CodegenBody(step: step),
     speakerNotes:
         'Optional — only run this if you are ahead of schedule. '
@@ -308,12 +324,10 @@ final List<SlideSpec> slideRegistry = [
         'they can type it: point at the two readValue helpers and say why '
         'they exist — @JsonSerializable maps a flat key for free, but '
         'Unsplash nests the image under urls.regular and the photographer '
-        'under user.name, and codegen cannot guess a path. Step 1 is the '
-        'three packages FIRST, and the thing people get wrong: two of them '
-        'are dev dependencies. Wait for the room before you advance — the '
-        'annotations do not resolve until pub get finishes. Step 2 is the '
-        'file, whole, so they can type it. Step 3 runs it: one sentence on '
-        'build_runner being a compile step, not magic, then move.',
+        'under user.name, and codegen cannot guess a path. The file is '
+        'whole, so they can type it. Step 2 runs the generator: one '
+        'sentence on build_runner being a compile step, not magic, then '
+        'move.',
   ),
 
   // §4 Architecture
@@ -399,7 +413,7 @@ final List<SlideSpec> slideRegistry = [
         'finish travelling before you talk. Then say it out loud: the '
         'lookup is O(1), not a tree walk at runtime, because Flutter '
         'caches it per element. The animation shows the conceptual walk, '
-        'not the runtime cost. Step 5 is the payoff over slide 25: only '
+        'not the runtime cost. Step 5 is the payoff over slide 26: only '
         'subscribers rebuild.',
   ),
   SlideSpec(
@@ -446,7 +460,7 @@ final List<SlideSpec> slideRegistry = [
         'say Provider IS those two, it does not replace them. That is the '
         'whole slide, and it is why nobody should feel they are learning a '
         'new library here. Step 3 is the receipt: that is the exact '
-        'wrapper from slide 27, and the three lines beside it are what '
+        'wrapper from slide 28, and the three lines beside it are what '
         'delete it. Let them read it rather than telling them it is '
         'shorter.',
   ),
@@ -496,7 +510,7 @@ final List<SlideSpec> slideRegistry = [
     steps: 3,
     body: (step) => DiProblemBody(step: step),
     speakerNotes:
-        'This is slide 25 again, but for services instead of '
+        'This is slide 26 again, but for services instead of '
         'data — say that, they will see it. Step 3 is the cost that '
         'actually shows up in review: adding one dependency means editing '
         'every constructor between main and the leaf.',
@@ -518,7 +532,7 @@ final List<SlideSpec> slideRegistry = [
     steps: 2,
     body: (step) => DiTestingBody(step: step),
     speakerNotes:
-        'Slide 23\'s one door, now at the wiring '
+        'Slide 24\'s one door, now at the wiring '
         'level. This is the answer to "why bother with DI": one line, and '
         'the whole tree is testable. Point out the type argument on '
         'Provider<PhotoRepository> — that is what makes the swap '

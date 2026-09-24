@@ -11,11 +11,11 @@ const _canvasWidth = 1120.0;
 const _canvasHeight = 470.0;
 const _jsonLeft = 470.0;
 
-/// The shared choreography behind slides 38-40: one row of the screen, the
-/// contract fragment that produced it, and the Dart property that fragment
-/// drives. Only the row, the JSON and the binding change between the three
-/// slides — the beats do not, which is the point: the client code is the
-/// same in all three cases.
+/// The shared choreography behind three retired row slides: one row of the
+/// screen, the contract fragment that produced it, and the Dart property that
+/// fragment drives. Only the row, the JSON and the binding changed between
+/// them — the beats did not, which is why they collapsed into the single
+/// `/row-contract` slide. Kept unlinked, not deleted.
 class BffRevealBody extends StatelessWidget {
   const BffRevealBody({
     required this.step,

@@ -11,7 +11,7 @@ enum RowTone { normal, info, error }
 
 /// One payment method row, described entirely by data. Nothing here is
 /// hard-coded per-row in the widget layer — which is the whole argument of
-/// slide 38, and the reason a response can reword a row without a release.
+/// slide 39, and the reason a response can reword a row without a release.
 class PaymentRowData {
   PaymentRowData({
     required this.id,
@@ -34,7 +34,7 @@ class PaymentRowData {
 
 /// A neutral reconstruction of a "select payment method" screen — generic
 /// rows, synthetic balances, no real product. It exists to be read as a
-/// hierarchy on slide 37 and annotated against a contract on slide 38.
+/// hierarchy on slide 38 and annotated against a contract on slide 39.
 final paymentRows = [
   PaymentRowData(
     id: 'row-rewards',

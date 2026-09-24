@@ -57,7 +57,7 @@ double _folderCenterX(int i) => _folderLeft(i) + _folderBoxWidth / 2;
 double _androidRowCenterY(int j) =>
     _androidColumnTop + j * _androidRowPitch + _androidRowHeight / 2;
 
-/// Slide 36 — `/structure` (8 steps, A3). `lib/` assembles feature-first,
+/// Slide 37 — `/structure` (8 steps, A3). `lib/` assembles feature-first,
 /// folder by folder; step 7 draws the same shape out of the Android project
 /// they already know; steps 8-9 land the two rules that matter.
 class StructureBody extends StatelessWidget {

@@ -31,7 +31,7 @@ const _describedJson = '''
 const _rawJson = '''
 { "id": "wallet", "type": "wallet", "balance": 500000 }''';
 
-/// Slide 38 — `/row-contract` (4 steps, A36). One row of a real screen, and
+/// Slide 39 — `/row-contract` (4 steps, A36). One row of a real screen, and
 /// the two shapes the response behind it can take.
 ///
 /// This replaces three near-identical slides that walked the ordinary row,

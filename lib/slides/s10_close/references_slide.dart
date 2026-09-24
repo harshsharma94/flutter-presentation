@@ -47,7 +47,7 @@ const _groups = [
       ),
       (
         label: 'samnewman.io/patterns/architectural/bff',
-        note: 'slide 38, left-hand shape — day 3',
+        note: 'slide 39, left-hand shape — day 3',
       ),
     ],
   ),
@@ -65,7 +65,7 @@ const _groups = [
       ),
       (
         label: 'medium.com/flutter-community/inherited-widgets-bc3110821969',
-        note: 'the long version of slide 26',
+        note: 'the long version of slide 27',
       ),
     ],
   ),
@@ -82,7 +82,7 @@ const _groups = [
   ),
 ];
 
-/// Slide 40 — `/references` (6 steps).
+/// Slide 41 — `/references` (6 steps).
 class ReferencesBody extends StatelessWidget {
   const ReferencesBody({required this.step, super.key});
 

@@ -18,7 +18,7 @@ ChangeNotifierProvider(
   child: PhotoApp(),
 )''';
 
-/// Slide 29 — `/provider-fusion` (3 steps, A27). Provider is not a new idea:
+/// Slide 30 — `/provider-fusion` (3 steps, A27). Provider is not a new idea:
 /// it is the two they have just spent four slides on, added together.
 ///
 /// The slide is arithmetic, and it is drawn as arithmetic — `A + B = C`, with
@@ -33,7 +33,7 @@ ChangeNotifierProvider(
 /// -> 6" — numbers that appear nowhere else in the deck and that nobody could
 /// check, animated by a `TweenAnimationBuilder` whose begin and end were the
 /// same value, so it did not even animate. It is now the actual wrapper from
-/// slide 27, character for character, against the line that deletes it. The
+/// slide 28, character for character, against the line that deletes it. The
 /// audience read that code twenty minutes ago; they can count it themselves.
 class ProviderFusionBody extends StatelessWidget {
   const ProviderFusionBody({required this.step, super.key});
@@ -215,7 +215,7 @@ class _Operator extends StatelessWidget {
   }
 }
 
-/// Slide 27's wrapper against the line that deletes it. Evidence, not a
+/// Slide 28's wrapper against the line that deletes it. Evidence, not a
 /// claim — this is the same text they read two slides ago.
 class _Receipt extends StatelessWidget {
   const _Receipt();

@@ -28,7 +28,7 @@ runApp(
 // anywhere below, at any depth:
 final repo = context.read<PhotoRepository>();''';
 
-/// Slide 34 — `/di-multiprovider` (5 steps, A31). The spaghetti collapses
+/// Slide 35 — `/di-multiprovider` (5 steps, A31). The spaghetti collapses
 /// into a list. Provider is already in the app for state, so this costs zero
 /// new packages.
 class DiMultiproviderBody extends StatelessWidget {

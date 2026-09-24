@@ -24,7 +24,7 @@ MultiProvider(
   child: const PhotoApp(),
 )''';
 
-/// Slide 35 — `/di-testing` (2 steps, A32). Slide 27's idea, now at the
+/// Slide 36 — `/di-testing` (2 steps, A32). Slide 27's idea, now at the
 /// wiring level: one line, and the entire tree below is under test.
 class DiTestingBody extends StatelessWidget {
   const DiTestingBody({required this.step, super.key});
@@ -46,7 +46,9 @@ class DiTestingBody extends StatelessWidget {
                 code: step >= 2 ? _fake : _real,
                 sizedFor: const [_real, _fake],
                 fileName: step >= 2 ? 'test/widget_test.dart' : 'lib/main.dart',
-                highlightedLines: step >= 2 ? const [4] : const [],
+                // Line 3 is the swapped provider. 4 was the ChangeNotifier
+                // below it — the same off-by-one as slide 17.
+                highlightedLines: step >= 2 ? const [3] : const [],
               ),
             ),
             const SizedBox(height: Tokens.gapMd),
