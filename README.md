@@ -59,6 +59,30 @@ the room; keep it accurate if these ever change.
 Slides 4, 7, 18, 25 and 33 are **live-coding slides** — they are nearly empty on
 purpose. The slide states the goal; the work happens in the editor.
 
+## Reference implementations
+
+`lib/reference/` holds the complete versions of what the state-management slides
+teach, as plain single-file apps with no deck code in them:
+
+| File | Slides | Needs |
+|---|---|---|
+| `inherited_widget_example.dart` | 27–28 | nothing — SDK only |
+| `change_notifier_example.dart` | 29–31 | `provider` |
+
+They are the same photo app, so reading them side by side is the lesson: the
+`PhotoScopeHost` wrapper in the first is exactly what `ChangeNotifierProvider`
+deletes in the second. Run either live in class:
+
+```bash
+fvm flutter run -d chrome -t lib/reference/change_notifier_example.dart
+```
+
+Slides 27–31 carry a **full source** chip, top right, that opens the matching file
+on GitHub in a new tab. It is a click rather than a hover on purpose: on a projector
+the room watches the screen, not your cursor, and a hover popup cannot be scrolled,
+copied from, or seen on a phone. `test/reference/` runs both apps and taps Like, so
+the code the room copies is checked on every deploy.
+
 ## Cutting a slide
 
 Delete one `SlideSpec` from `lib/slides/registry.dart`. That is the whole operation:
@@ -127,11 +151,12 @@ cd build/web && python3 -m http.server 8080
 
 | Path | What lives there |
 |---|---|
-| `lib/slides/registry.dart` | the ordered list of all 51 slides |
+| `lib/slides/registry.dart` | the ordered list of all 42 slides |
 | `lib/slides/slide_spec.dart` | `SlideSpec` + the flutter_deck wrapper |
 | `lib/widgets/step_reveal.dart` | the deck's one animation primitive |
 | `lib/widgets/` | shared diagram pieces — arrows, trees, code panels, layer slabs |
 | `lib/demos/` | the genuinely interactive bits (rebuild counter, notifier, API client) |
+| `lib/reference/` | complete, runnable versions of what §5 teaches — for the room, not the deck |
 | `lib/theme/` | palette and motion tokens |
 
 Two conventions carry the whole deck:

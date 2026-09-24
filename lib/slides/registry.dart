@@ -410,6 +410,7 @@ final List<SlideSpec> slideRegistry = [
   ),
   SlideSpec(
     route: '/inherited-widget',
+    source: 'lib/reference/inherited_widget_example.dart',
     section: '§5 State',
     steps: 9,
     body: (step) => InheritedWidgetBody(step: step),
@@ -423,6 +424,7 @@ final List<SlideSpec> slideRegistry = [
   ),
   SlideSpec(
     route: '/inherited-limits',
+    source: 'lib/reference/inherited_widget_example.dart',
     section: '§5 State',
     steps: 2,
     body: (step) => InheritedLimitsBody(step: step),
@@ -434,6 +436,7 @@ final List<SlideSpec> slideRegistry = [
   ),
   SlideSpec(
     route: '/change-notifier',
+    source: 'lib/reference/change_notifier_example.dart',
     section: '§5 State',
     steps: 7,
     body: (step) => ChangeNotifierBody(step: step),
@@ -454,6 +457,7 @@ final List<SlideSpec> slideRegistry = [
   ),
   SlideSpec(
     route: '/provider-fusion',
+    source: 'lib/reference/change_notifier_example.dart',
     section: '§5 State',
     steps: 3,
     body: (step) => ProviderFusionBody(step: step),
@@ -471,6 +475,7 @@ final List<SlideSpec> slideRegistry = [
   ),
   SlideSpec(
     route: '/watch-read-consumer',
+    source: 'lib/reference/change_notifier_example.dart',
     section: '§5 State',
     body: (step) => WatchReadConsumerBody(step: step),
     speakerNotes:
@@ -589,12 +594,13 @@ final List<SlideSpec> slideRegistry = [
   SlideSpec(
     route: '/assignment',
     section: '§8 Hands-on',
-    steps: 3,
     body: (step) => AssignmentBody(step: step),
     speakerNotes:
-        'Three tasks, in this order — each one depends on the '
-        'last. Tell them item 2 is the one that gets skipped and the one '
-        'that gets asked about tomorrow.',
+        'Say it and move on: tonight\'s homework is reading, '
+        'nothing else. Let the confetti land, then one tap puts the reading '
+        'list on screen. If anyone wants to code anyway, point them at the '
+        'two full-source files in lib/reference/ — the InheritedWidget and '
+        'ChangeNotifier versions of the same app, side by side.',
   ),
 
   // §9 Close
@@ -604,10 +610,15 @@ final List<SlideSpec> slideRegistry = [
     steps: 6,
     body: (step) => ReferencesBody(step: step),
     speakerNotes:
-        'Do not read these out. Tell them the deck is on GitHub '
-        'and point at exactly two: the async-await codelab tonight, and '
-        'the Flutter app-architecture guide this weekend. Everything else '
-        'is for when they hit the problem it solves.',
+        'This IS the homework, so it is worth thirty seconds more than a '
+        'references slide usually gets — but still do not read it out. '
+        'Tell them the deck is live at harshsharma94.github.io/'
+        'flutter-presentation, so every link is one click from there. '
+        'Point at three: the async-await codelab, and the two lib/reference '
+        'files, which are the complete InheritedWidget and ChangeNotifier '
+        'versions of the same app — read them side by side and the '
+        'difference is the lesson. Everything else is for when they hit '
+        'the problem it solves.',
   ),
   SlideSpec(
     route: '/thanks',

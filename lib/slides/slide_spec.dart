@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_deck/flutter_deck.dart';
 import 'package:flutter_bootcamp_deck/widgets/slide_canvas.dart';
+import 'package:flutter_bootcamp_deck/widgets/source_link.dart';
 import 'package:flutter_bootcamp_deck/widgets/step_scope.dart';
 
 /// One slide, described independently of flutter_deck.
@@ -17,6 +18,7 @@ class SlideSpec {
     this.steps = 1,
     this.speakerNotes,
     this.chrome = true,
+    this.source,
   });
 
   final String route;
@@ -32,6 +34,11 @@ class SlideSpec {
   /// header repeating the section name, a footer with the slide number)
   /// would just duplicate what the slide itself already says.
   final bool chrome;
+
+  /// A repository-relative path to a complete, runnable reference file for
+  /// what this slide teaches — shown as a "full source" chip that opens it on
+  /// GitHub. See [SourceLink] for why it is a click and not a hover.
+  final String? source;
 }
 
 /// Wraps a [SlideSpec] as a flutter_deck slide. The section name becomes the
@@ -66,7 +73,15 @@ class DeckSlide extends FlutterDeckSlideWidget {
     builder: (context) => FlutterDeckSlideStepsBuilder(
       builder: (context, step) => StepScope(
         step: step,
-        child: SlideCanvas(child: spec.body(step)),
+        child: Stack(
+          children: [
+            Positioned.fill(child: SlideCanvas(child: spec.body(step))),
+            // Outside the canvas, so it is not magnified with the content
+            // and sits in the same corner on every slide that has one.
+            if (spec.source case final path?)
+              Positioned(top: 8, right: 16, child: SourceLink(path: path)),
+          ],
+        ),
       ),
     ),
   );

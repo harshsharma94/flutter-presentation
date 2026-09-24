@@ -67,6 +67,14 @@ const _groups = [
         label: 'medium.com/flutter-community/inherited-widgets-bc3110821969',
         note: 'the long version of slide 27',
       ),
+      (
+        label: 'lib/reference/inherited_widget_example.dart',
+        note: 'slides 27-28, complete',
+      ),
+      (
+        label: 'lib/reference/change_notifier_example.dart',
+        note: 'slides 29-31, complete',
+      ),
     ],
   ),
   (
